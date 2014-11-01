@@ -25,8 +25,8 @@ SRC_URI[flarmnet.md5sum] = "e84c5c163e8db44f8543c87f90f191ce"
 SRC_URI[flarmnet.sha256sum] = "8c506aeb1b1bbe6fdcbec6ce5ee15556a5e7eb6a6f73065281e86da5c58da6be"
 SRC_URI[airspacede.md5sum] = "02096949c867fde7b7dce6c360e23c69"
 SRC_URI[airspacede.sha256sum] = "bb636d4328576b8f5d1a794689f30e44059828f349c190e4e5209bc6ee307341"
-SRC_URI[airspaceat.md5sum] = "fd57d63d2373aaa631acaebccf4236ff"
-SRC_URI[airspaceat.sha256sum] = "d9866e9a2e392966f0168b13cf35bbc19feefdc5b45a82a18763b47496b6b8e2"
+SRC_URI[airspaceat.md5sum] = "681f6b0d28a10d0bc5b5cb8c305c95f7"
+SRC_URI[airspaceat.sha256sum] = "adff53070b22834d7816c444248cc23d1e07728076f68b814b8949fa40de9880"
 
 addtask do_package_write_ipk after do_package after do_install
 
