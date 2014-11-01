@@ -8,7 +8,7 @@ LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/${LICENSE};md5=c79ff39f19dfec6d
 SECTION = "base/app"
 
 S = "${WORKDIR}"
-PR = "r1"
+PR = "r2"
 
 SRC_URI =	"http://download.xcsoar.org/maps/GER_HighRes.xcm;name=germanmap \
 				http://download.xcsoar.org/maps/ALPS_HighRes.xcm;name=alpsmap \
@@ -21,8 +21,8 @@ SRC_URI[germanmap.md5sum] = "1b3d0345c8970580fdab3778a2568ca7"
 SRC_URI[germanmap.sha256sum] = "54f6320e999a9aadb1af453369ac7f9b608b37063d83c6b33c9bd870c2877fba"
 SRC_URI[alpsmap.md5sum] = "395f93909c1053e4c17bb8c90ff38fbe"
 SRC_URI[alpsmap.sha256sum] = "1a50789146891565415fd0639d3d2ed0874c7b82c4aa5ab1252f982ff982f676"
-SRC_URI[flarmnet.md5sum] = "1682041721e62333e4c72050e9ad0f65"
-SRC_URI[flarmnet.sha256sum] = "5562a7c6f675f56563d523bcfc1b80fdd5986c46b1a1db50d19cdbfeb6c40715"
+SRC_URI[flarmnet.md5sum] = "e84c5c163e8db44f8543c87f90f191ce"
+SRC_URI[flarmnet.sha256sum] = "8c506aeb1b1bbe6fdcbec6ce5ee15556a5e7eb6a6f73065281e86da5c58da6be"
 SRC_URI[airspacede.md5sum] = "02096949c867fde7b7dce6c360e23c69"
 SRC_URI[airspacede.sha256sum] = "bb636d4328576b8f5d1a794689f30e44059828f349c190e4e5209bc6ee307341"
 SRC_URI[airspaceat.md5sum] = "e6826c049e7022a1005db3781f462fa7"
