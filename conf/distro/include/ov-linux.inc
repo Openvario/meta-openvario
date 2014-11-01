@@ -34,7 +34,7 @@ MACHINEOVERRIDES .= ":${@bb.data.getVar('FEED_ARCH', d,1).replace('all','noarch'
 SRC_DIST_LOCAL ?= "symlink"
 
 # Can be "glibc", "eglibc" or "uclibc"
-TCLIBC ?= "eglibc"
+TCLIBC ?= "glibc"
 
 # The things *libc can provide.
 PREFERRED_PROVIDER_eglibc = "eglibc"
