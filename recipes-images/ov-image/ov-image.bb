@@ -24,6 +24,8 @@ IMAGE_INSTALL += "packagegroup-base-extended \
 		bash \
 		vim \
 		nano \
+		connman-ncurses \
+		linux-firmware-ralink \
 "
 
 export IMAGE_BASENAME = "ov-image"
