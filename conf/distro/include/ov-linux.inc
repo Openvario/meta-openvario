@@ -145,6 +145,7 @@ INHERIT += "image-prelink"
 
 #Name the generated images in a sane way
 IMAGE_NAME = "${DISTRO_NAME}-${IMAGE_BASENAME}-${TCLIBC}-${ANGSTROM_PKG_FORMAT}-${DISTRO_VERSION}-${MACHINE}"
+IMAGE_NAME_LINK = "${DISTRO_NAME}-${IMAGE_BASENAME}-${TCLIBC}-${ANGSTROM_PKG_FORMAT}-current-${MACHINE}"
 DEPLOY_DIR_IMAGE = "${DEPLOY_DIR}/images/${MACHINE}"
 
 # Angstrom *always* has some form of release config, so error out if someone thinks he knows better 
