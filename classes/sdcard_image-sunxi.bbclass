@@ -42,6 +42,7 @@ rootfs[depends] += "sunxi-board-fex:do_deploy"
 
 # SD card image name
 SDIMG = "${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.img"
+SDIMG_LINK = "${IMAGE_NAME_LINK}.rootfs.img"
 
 IMAGEDATESTAMP = "${@time.strftime('%Y.%m.%d',time.gmtime())}"
 
@@ -92,8 +93,11 @@ IMAGE_CMD_sunxi-sdimg () {
 
 	#zip ready made image
 	gzip -f ${SDIMG}
+	
+	#create link to new created image
+	ln -sf ${SDIMG}.gz ${SDIMG_LINK}.gz
 
 	#write output filename to file for upload
 	echo ${SDIMG} > ${DEPLOY_DIR_IMAGE}/image_name	
-
+	echo ${SDIMG_LINK} > ${DEPLOY_DIR_IMAGE}/image_link
 }
