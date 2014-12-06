@@ -10,12 +10,19 @@ SECTION = "base/app"
 S = "${WORKDIR}"
 PR = "r2"
 
-SRC_URI =	"http://download.xcsoar.org/maps/GER_HighRes.xcm;name=germanmap \
-				http://download.xcsoar.org/maps/ALPS_HighRes.xcm;name=alpsmap \
-				http://www.flarmnet.org/files/data.fln;name=flarmnet \
-				http://www.daec.de/fileadmin/user_upload/files/2012/fachbereiche/luftraum/20140306OpenAir.txt;name=airspacede \
-				http://www.austrocontrol.at/jart/prj3/austro_control/data/uploads/austria_ATS_2011_openair.txt;name=airspaceat \
+#SRC_URI =	"http://download.xcsoar.org/maps/GER_HighRes.xcm;name=germanmap \
+#				http://download.xcsoar.org/maps/ALPS_HighRes.xcm;name=alpsmap \
+#				http://www.flarmnet.org/files/data.fln;name=flarmnet \
+#				http://www.daec.de/fileadmin/user_upload/files/2012/fachbereiche/luftraum/20140306OpenAir.txt;name=airspacede \
+#				http://www.austrocontrol.at/jart/prj3/austro_control/data/uploads/austria_ATS_2011_openair.txt;name=airspaceat \
+#"
+
+SRC_URI =      "http://download.xcsoar.org/maps/GER_HighRes.xcm;name=germanmap \
+                               http://download.xcsoar.org/maps/ALPS_HighRes.xcm;name=alpsmap \
+                               http://www.flarmnet.org/files/data.fln;name=flarmnet \
+                               http://www.daec.de/fileadmin/user_upload/files/2012/fachbereiche/luftraum/20140306OpenAir.txt;name=airspacede \
 "
+
 
 SRC_URI[germanmap.md5sum] = "1b3d0345c8970580fdab3778a2568ca7"
 SRC_URI[germanmap.sha256sum] = "54f6320e999a9aadb1af453369ac7f9b608b37063d83c6b33c9bd870c2877fba"
@@ -25,8 +32,6 @@ SRC_URI[flarmnet.md5sum] = "e84c5c163e8db44f8543c87f90f191ce"
 SRC_URI[flarmnet.sha256sum] = "8c506aeb1b1bbe6fdcbec6ce5ee15556a5e7eb6a6f73065281e86da5c58da6be"
 SRC_URI[airspacede.md5sum] = "02096949c867fde7b7dce6c360e23c69"
 SRC_URI[airspacede.sha256sum] = "bb636d4328576b8f5d1a794689f30e44059828f349c190e4e5209bc6ee307341"
-SRC_URI[airspaceat.md5sum] = "681f6b0d28a10d0bc5b5cb8c305c95f7"
-SRC_URI[airspaceat.sha256sum] = "adff53070b22834d7816c444248cc23d1e07728076f68b814b8949fa40de9880"
 
 addtask do_package_write_ipk after do_package after do_install
 
