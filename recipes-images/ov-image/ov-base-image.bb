@@ -11,12 +11,34 @@ ROOTFS_PKGMANAGE_PKGS ?= '${@base_conditional("ONLINE_PACKAGE_MANAGEMENT", "none
 CONMANPKGS ?= "connman connman-angstrom-settings connman-plugin-loopback connman-plugin-ethernet connman-plugin-wifi connman-systemd"
 CONMANPKGS_libc-uclibc = ""
 
-IMAGE_INSTALL += " \
+IMAGE_INSTALL += "\
+	packagegroup-base-extended \
 	angstrom-packagegroup-boot \
-	packagegroup-basic \
-	${CONMANPKGS} \
-	${ROOTFS_PKGMANAGE_PKGS} \
-	timestamp-service \
+        packagegroup-basic \
+        ${CONMANPKGS} \
+        ${ROOTFS_PKGMANAGE_PKGS} \
+        timestamp-service \
+        sunxi-mali \
+        xcsoar \
+        ttf-dejavu-common \
+        ttf-dejavu-sans-condensed \
+        ttf-dejavu-sans-mono \
+        ttf-dejavu-sans \
+        ttf-dejavu-serif-condensed \
+        ttf-dejavu-serif \
+        sensord \
+        openvario-modules-conf \
+        openvario-modules-autoload \
+        openvario-autologin \
+        ovmenu-autostart \
+        ovmenu \
+        bash \
+        vim \
+        nano \
+        e2fsprogs \
+        autofs \
+        connman-ncurses \
+        linux-firmware-ralink \
 "
 
 IMAGE_DEV_MANAGER   = "udev"
