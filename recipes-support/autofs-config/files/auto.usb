@@ -1,0 +1,1 @@
+usbstick -fstype=auto,sync :/dev/sda1
