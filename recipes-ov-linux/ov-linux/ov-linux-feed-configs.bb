@@ -7,13 +7,20 @@ PR = "r16"
 PACKAGE_ARCH = "${MACHINE_ARCH}"
 
 OPENVARIO_URI = "http://ftp.openvario.org/opkg"
+USBSTICK_PATH = "file:///usb/usbstick/openvario-repo"
 
 do_compile() {
 	mkdir -p ${S}/${sysconfdir}/opkg
-
-	for feed in all armv7at2hf-vfp-neon cubieboard2 openvario_7lvds openvario_43rgb; do
+	
+	# Create feeds for internet repos
+	for feed in all armv7at2hf-vfp-neon openvario_7lvds openvario_43rgb; do
 		  echo "src/gz ${feed} ${OPENVARIO_URI}/${feed}" > ${S}/${sysconfdir}/opkg/${feed}-feed.conf
 	done
+
+	# Create feeds for USB Stick
+	for feed in all armv7at2hf-vfp-neon openvario_7lvds openvario_43rgb; do
+                  echo "src/gz ${feed}-local ${USBSTICK_PATH}/${feed}" >> ${S}/${sysconfdir}/opkg/usb-local-feed.conf
+        done
 
 }
 
