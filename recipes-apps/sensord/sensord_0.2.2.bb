@@ -7,13 +7,13 @@ LICENSE = "GPL-3.0"
 LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/${LICENSE};md5=c79ff39f19dfec6d293b95dea7b07891"
 SECTION = "base/app"
 DEPENDS = ""
-PR = "r1"
+PR = "r2"
 
 S = "${WORKDIR}/git"
 
 inherit systemd
 
-SRC_URI = "git://www.openvario.org/git-repos/sensord.git;protocol=http;tag=0.2.2;user=guest:Thahh3th \
+SRC_URI = "git://git-ro.openvario.org/sensord.git;protocol=http;tag=0.2.2 \
 			  file://sensord.service \	
 "
 
