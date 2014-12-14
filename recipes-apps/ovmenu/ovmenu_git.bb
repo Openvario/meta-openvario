@@ -12,7 +12,7 @@ PR = "r0"
 
 S = "${WORKDIR}/git"
 
-SRC_URI = "git://www.openvario.org/git-repos/ovmenu.git;protocol=http;rev=master;user=guest:Thahh3th \
+SRC_URI = "git://git-ro.openvario.org/ovmenu.git;protocol=http;rev=master\
 "
 
 do_compile() {
