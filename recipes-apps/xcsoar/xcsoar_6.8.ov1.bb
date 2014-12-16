@@ -9,7 +9,7 @@ SECTION = ""
 DEPENDS = "libgcc"
 PR = "r0"
 
-SRC_URI = "git://www.openvario.org/git-repos/xcsoar.git;protocol=http;user=guest:Thahh3th;tag=ee730eb9db8d34fde75f06dd8589a1824d78519a"
+SRC_URI = "git://git-ro.openvario.org/xcsoar.git;protocol=http;tag=ee730eb9db8d34fde75f06dd8589a1824d78519a"
 
 do_compile() {
 	echo "Making .."

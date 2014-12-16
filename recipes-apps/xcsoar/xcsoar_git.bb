@@ -22,7 +22,7 @@ RDEPENDS_${PN} = "	sunxi-mali \
 S = "${WORKDIR}/git"
 PR = "r1"
 
-SRC_URI = 	"git://www.openvario.org/git-repos/xcsoar.git;protocol=http;rev=master;user=guest:Thahh3th \
+SRC_URI = 	"git://git-ro.openvario.org/xcsoar.git;protocol=http;rev=master \
 				 file://0001-Adapted-Flags-for-compiler-and-linker-for-cross-comp.patch \
 				 file://0001-Adapted-toolchain-prefixes-for-cross-compile.patch \
 				 file://0001-Disable-warnings-as-errors.patch \
