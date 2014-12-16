@@ -1,5 +1,6 @@
 #Angstrom bootstrap image
-require console-base-image.bb
+require ov-base-image.bb
+
 
 DEPENDS += "packagegroup-base-extended \
 	   "
