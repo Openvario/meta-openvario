@@ -30,7 +30,8 @@ IMAGE_INSTALL += "\
         openvario-modules-conf \
         openvario-modules-autoload \
         openvario-autologin \
-        ovmenu-autostart \
+        update-skripts \
+	ovmenu-autostart \
         ovmenu \
         bash \
         vim \
