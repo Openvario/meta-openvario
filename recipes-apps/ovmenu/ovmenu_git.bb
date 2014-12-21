@@ -8,7 +8,7 @@ LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/${LICENSE};md5=c79ff39f19dfec6d
 SECTION = "base/app"
 DEPENDS = "ncurses"
 RDEPENDS_${PN} = "ncurses"
-PR = "r0"
+PR = "r1"
 
 S = "${WORKDIR}/git"
 
