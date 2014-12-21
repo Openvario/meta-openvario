@@ -7,7 +7,7 @@ PR = "r16"
 PACKAGE_ARCH = "${MACHINE_ARCH}"
 
 OPENVARIO_URI = "http://ftp.openvario.org/opkg"
-USBSTICK_PATH = "file:///usb/usbstick/openvario-repo"
+USBSTICK_PATH = "file:///usb/usbstick/openvario/repo"
 
 do_compile() {
 	mkdir -p ${S}/${sysconfdir}/opkg
