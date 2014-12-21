@@ -18,6 +18,7 @@ IMAGE_INSTALL += "\
 	make \
 	git \
 	vim \
+	gcc-symlinks \
 "
 
 export IMAGE_BASENAME = "ov-image-devel"
