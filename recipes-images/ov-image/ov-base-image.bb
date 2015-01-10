@@ -32,7 +32,7 @@ IMAGE_INSTALL += "\
         openvario-autologin \
         update-skripts \
 	ovmenu-autostart \
-        ovmenu \
+        ov-tools \
         bash \
         vim \
         nano \

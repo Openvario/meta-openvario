@@ -25,4 +25,4 @@ do_install() {
 FILES_${PN} += "/home/root/.profile \
 "
 
-RDEPENDS_${PN} = "bash ovmenu"
+RDEPENDS_${PN} = "bash ov-tools"
