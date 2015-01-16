@@ -27,6 +27,8 @@ do_install() {
 	install -m 0755 ${S}/ovmenu/ovmenu ${D}/opt/bin
 	install -m 0755 ${S}/caltool/caltool ${D}/opt/bin
 	install -m 0755 ${S}/caltool/touchscreen.rules.template ${D}/opt/bin
+	install -m 0755 ${S}/caltool/calibrate_landscape.sh ${D}/opt/bin
+	install -m 0755 ${S}/caltool/calibrate_portrait.sh ${D}/opt/bin
 }
 
 PACKAGES = "${PN}"
@@ -34,4 +36,6 @@ FILES_${PN} = "  \
 		/opt/bin/ovmenu \
 		/opt/bin/caltool \
 		/opt/bin/touchscreen.rules.template \
+		/opt/bin/calibrate_landscape.sh \
+		/opt/bin/calibrate_portrait.sh \
 "
