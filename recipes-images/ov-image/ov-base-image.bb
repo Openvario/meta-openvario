@@ -27,7 +27,6 @@ IMAGE_INSTALL += "\
         ttf-dejavu-serif-condensed \
         ttf-dejavu-serif \
         sensord \
-        openvario-modules-conf \
         openvario-modules-autoload \
         openvario-autologin \
         update-skripts \
