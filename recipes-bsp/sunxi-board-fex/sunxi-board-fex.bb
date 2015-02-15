@@ -8,7 +8,9 @@ PV = "1.0"
 PR = "r0"
 
 SRC_URI = "file://sys_config/a20/CB2-43RGB.fex \
-	   file://sys_config/a20/CB2-7LVDS.fex"
+	   file://sys_config/a20/CB2-7LVDS.fex \
+	   file://sys_config/a20/CB2-57LVDS.fex \
+"
 
 # Increase PV with SRCREV change
 #SRCREV = "5e63e3da42254d3c23eb6436a03ed1d32fb11e98"
@@ -16,6 +18,7 @@ SRC_URI = "file://sys_config/a20/CB2-43RGB.fex \
 S = "${WORKDIR}"
 SUNXI_FEX_FILE_openvario-43rgb = "sys_config/a20/CB2-43RGB.fex"
 SUNXI_FEX_FILE_openvario-7lvds = "sys_config/a20/CB2-7LVDS.fex"
+SUNXI_FEX_FILE_openvario-57lvds = "sys_config/a20/CB2-57LVDS.fex"
 
 SUNXI_FEX_BIN_IMAGE = "fex-${MACHINE}-${PV}-${PR}.bin"
 SUNXI_FEX_BIN_IMAGE_SYMLINK = "fex-${MACHINE}.bin"
@@ -48,4 +51,4 @@ do_package_write_rpm[noexec] = "1"
 do_package_write_deb[noexec] = "1"
 do_populate_sysroot[noexec] = "1"
 
-COMPATIBLE_MACHINE = "(openvario-43rgb|openvario-7lvds)"
+COMPATIBLE_MACHINE = "(openvario-43rgb|openvario-7lvds|openvario-57lvds)"

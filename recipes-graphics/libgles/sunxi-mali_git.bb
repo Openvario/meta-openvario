@@ -3,7 +3,7 @@ DESCRIPTION = "libGLES for the A10/A13 Allwinner processor with Mali 400 (X11)"
 LICENSE = "proprietary-binary"
 LIC_FILES_CHKSUM = "file://README;md5=1b81a178e80ee888ee4571772699ab2c"
 
-COMPATIBLE_MACHINE = "(openvario-43rgb|openvario-7lvds)"
+COMPATIBLE_MACHINE = "(openvario-43rgb|openvario-7lvds|openvario-57lvds)"
 
 # These libraries shouldn't get installed in world builds unless something
 # explicitly depends upon them.

@@ -4,7 +4,7 @@ DESCRIPTION = "Linux kernel for Allwinner a10/a20 processors"
 
 KERNEL_IMAGETYPE = "uImage"
 
-COMPATIBLE_MACHINE = "(openvario-43rgb|openvario-7lvds)"
+COMPATIBLE_MACHINE = "(openvario-43rgb|openvario-7lvds|openvario-57lvds)"
 
 PV = "3.4.90"
 PR = "r1"
