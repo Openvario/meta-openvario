@@ -18,6 +18,7 @@ IMAGE_INSTALL += "\
         ${CONMANPKGS} \
         ${ROOTFS_PKGMANAGE_PKGS} \
         timestamp-service \
+	systemd-vconsole-setup \
         sunxi-mali \
         xcsoar \
         ttf-dejavu-common \
