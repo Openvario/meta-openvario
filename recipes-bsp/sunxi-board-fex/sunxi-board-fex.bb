@@ -4,16 +4,17 @@ DESCRIPTION = "Handler for Allwinner's FEX files"
 LICENSE = "CC0-1.0"
 LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/${LICENSE};md5=0ceb3372c9595f0a8067e55da801e4a1"
 DEPENDS = "sunxi-tools-native"
-PV = "1.0"
+PV = "1.1+git${SRCPV}"
 PR = "r0"
 
-SRC_URI = "file://sys_config/a20/CB2-43RGB.fex \
-	   file://sys_config/a20/CB2-7LVDS.fex \
-	   file://sys_config/a20/CB2-57LVDS.fex \
+SRC_URI = "git://github.com/linux-sunxi/sunxi-boards.git;protocol=git \
+			file://sys_config/a20/CB2-43RGB.fex \
+	   		file://sys_config/a20/CB2-7LVDS.fex \
+	   		file://sys_config/a20/CB2-57LVDS.fex \
 "
 
 # Increase PV with SRCREV change
-#SRCREV = "5e63e3da42254d3c23eb6436a03ed1d32fb11e98"
+SRCREV = "bf02cb81d1fe5996758322dc74e66808c1c7ad38"
 
 S = "${WORKDIR}"
 SUNXI_FEX_FILE_openvario-43rgb = "sys_config/a20/CB2-43RGB.fex"

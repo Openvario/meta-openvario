@@ -16,10 +16,10 @@ MACHINE_KERNEL_PR_append = "a"
 SRC_URI += "git://github.com/linux-sunxi/linux-sunxi.git;branch=sunxi-3.4;protocol=git \
         http://archlinuxarm.org/builder/src/0001-cgroup-add-xattr-support-sunxi.patch;name=cgroup-patch \
         file://defconfig \
-		  file://0001-Bugfix-sun4i-ts-exchange-x_y-flag.patch \
-		  file://0001-Added-lcd_swap-parameter-to-display-driver.patch \
-		  file://0001-Added-calibration-support-for-touch.patch \
-        "
+	file://0001-Bugfix-sun4i-ts-exchange-x_y-flag.patch \
+	file://0001-Added-lcd_swap-parameter-to-display-driver.patch \
+	file://0001-Added-calibration-support-for-touch.patch \
+"
 
 SRC_URI[cgroup-patch.md5sum] = "4aa5087e3396f3179b61ccd478e9e604"
 SRC_URI[cgroup-patch.sha256sum] = "f9f9cb55eb6f8abf322830afd7a5f4a090e539add75e0ed1f1016b5351a9b533"
