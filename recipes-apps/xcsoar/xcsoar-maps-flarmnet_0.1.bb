@@ -8,7 +8,7 @@ LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/${LICENSE};md5=c79ff39f19dfec6d
 SECTION = "base/app"
 
 S = "${WORKDIR}"
-PR = "r2"
+PR = "r3"
 
 
 SRC_URI =      " \
@@ -16,8 +16,8 @@ SRC_URI =      " \
 "
 
 
-SRC_URI[flarmnet.md5sum] = "e84c5c163e8db44f8543c87f90f191ce"
-SRC_URI[flarmnet.sha256sum] = "8c506aeb1b1bbe6fdcbec6ce5ee15556a5e7eb6a6f73065281e86da5c58da6be"
+SRC_URI[flarmnet.md5sum] = "e84c5c163e8db44f8543c87f90f191c "
+SRC_URI[flarmnet.sha256sum] = "30abc60cf4072d3acc9baa33295cc7a112bdca109dd21226257ebd044b11ed98"
 
 addtask do_package_write_ipk after do_package after do_install
 
