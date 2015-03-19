@@ -2,8 +2,8 @@
 # Released under the MIT license (see COPYING.MIT for the terms)
 
 DESCRIPTION = "XCSoar glide computer"
-HOMEPAGE = ""
-LICENSE = "GPL-3.0"
+HOMEPAGE = "www.xcsoar.org"
+LICENSE = "GPLv2"
 LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/${LICENSE};md5=c79ff39f19dfec6d293b95dea7b07891"
 SECTION = "base/app"
 DEPENDS = "	libsdl \
