@@ -16,8 +16,8 @@ SRC_URI =      " \
 "
 
 
-SRC_URI[flarmnet.md5sum] = "e84c5c163e8db44f8543c87f90f191c "
-SRC_URI[flarmnet.sha256sum] = "30abc60cf4072d3acc9baa33295cc7a112bdca109dd21226257ebd044b11ed98"
+SRC_URI[flarmnet.md5sum] = "4d6b206d3cb65530aeaf8f0caed1f8d6"
+SRC_URI[flarmnet.sha256sum] = "f3eabe04d6306c83e92e052a27a1a502fc6e13ad7cfee1a8dec7f6e25d8bdb72"
 
 addtask do_package_write_ipk after do_package after do_install
 
