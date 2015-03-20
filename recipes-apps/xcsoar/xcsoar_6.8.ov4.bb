@@ -52,6 +52,7 @@ do_install() {
 }
 
 FILES_${PN} = " \
-	/opt/XCSoar/bin \
+	/opt/XCSoar/bin/xcsoar \
+	/opt/XCSoar/bin/vali-xcs \
 "
 
