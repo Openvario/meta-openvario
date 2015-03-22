@@ -28,7 +28,7 @@ RDEPENDS_${PN} = "	sunxi-mali \
 S = "${WORKDIR}/git"
 PR = "r1"
 
-SRCREV_pn-xcsoar = "2b0733bd07c960750ee13a5f374fe5888bb112ae"
+SRCREV_pn-xcsoar = "${AUTOREV}" 
 
 SRC_URI = 	"git://git-ro.openvario.org/xcsoar.git;protocol=http \
 				 file://0001-Adapted-Flags-for-compiler-and-linker-for-cross-comp.patch \
