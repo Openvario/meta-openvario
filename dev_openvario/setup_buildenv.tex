@@ -1,0 +1,70 @@
+To build the \ov SD Card Image a build environment based on Linux is necessary.
+The prefered and tested distribution is Ubuntu 14.04
+
+There are two ways to come to a own build enivronment:
+
+\begin{itemize}
+	\item Use the preinstalled VDI image provided at \ovwebsite{}
+	\item Install a Linux machine and setup the requirements by your own
+\end{itemize}
+
+\section{Using the preinstalled VDI image}
+
+\subsection{Download the VDI image}
+The provided image was created with VirtualBox\textsuperscript{\textcopyright} \url{http://www.virtualbox.org}. VirtualBox is available for Linux as well as for Windows\textsuperscript{\textcopyright}.
+
+\begin{itemize}
+	\item Download an install VirtualBox\textsuperscript{\textcopyright} from \url{http://www.virtualbox.org}.
+	\item Download the VDI image from \ovwebsite{} \todo{Insert direct link to OV Buildenv site}.
+	\item Import the downloaded VDI image using "Appliance import.." from File menu in VirtualBox Manager.
+	\item Start the newly created VirtualMachine. \\
+		Login with: \\
+			user: \textbf{build} \\
+			password: \textbf{build} \\
+\end{itemize}
+
+
+
+
+\section{Install by your own}
+
+bla bla bla ...
+
+
+\section{Setup Openembedded environment}
+To build the Linux image for the \ovfc the Openembedded Build Environment ist used. This environment is structured in layers and recipes. This layers are setup automatically using the scripts provided by \ovwebsite{}.
+
+\subsection{Get setup scripts}
+
+At the command prompt of your build machine type:
+
+\begin{verbatim*}
+git clone http://git-ro.openvario.org/rootfs.git
+cd rootfs
+git checkout origin/next
+MACHINE=<DEVICE> ./oebb.sh config <DEVICE>
+\end{verbatim*}
+
+At the moment \textbf{\textit{DEVICE}} can be:
+
+\begin{itemize}
+	\item \textbf{openvario-43rgb}: 4,3" TFT Variant
+	\item \textbf{openvario-57lvds}: 5,7" TFT Variant
+	\item \textbf{openvario-7lvds}: 7" TFT Variant
+\end{itemize}
+
+\subsection{Build the image}
+Now building the image is a simple task:
+
+\begin{verbatim*}
+source environment-angstrom-next
+bitbake <TARGET>
+\end{verbatim*}
+
+You have to specifiy what \textbf{\textit{TARGET}} you want to build. Popular targets are:
+\begin{itemize}
+	\item \textbf{ov-image}: The complete SD Card image
+	\item \textbf{ov-image-maps}: The complete SD Card image including the maps
+\end{itemize}
+
+\warning{Build a TARGET the first time can take a long time (up to several hours !) depending on your build machine. So be patient ...}
