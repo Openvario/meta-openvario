@@ -16,6 +16,9 @@ BB_SIGNATURE_HANDLER ?= "OEBasicHash"
 COMMERCIAL_LICENSE = ""
 LICENSE_FLAGS_WHITELIST += "commercial"
 
+# Unbreak multimachine builds
+LICENSE_DIRECTORY = "${DEPLOY_DIR}/licenses/${MACHINE_ARCH}"
+
 # Preset set this or bbappends break
 PRINC ??= "0"
 
@@ -32,7 +35,10 @@ MACHINEOVERRIDES[vardepsexclude] += "SOC_FAMILY"
 # Providers
 
 # opkg
+PREFERRED_PROVIDER_opkg-collateral = "angstrom-feed-configs"
 EXTRA_IMAGE_FEATURES ?= "package-management"
+
+PREFERRED_PROVIDER_os-release = "angstrom-version"
 
 # Prefer libjpeg-turbo
 PREFERRED_PROVIDER_jpeg = "libjpeg-turbo"
