@@ -1,4 +1,4 @@
-SUBDIRS = ug_openvario dev_openvario
+SUBDIRS = ug_openvario dev_openvario release_notes
      
 .PHONY: pdf $(SUBDIRS)
      
