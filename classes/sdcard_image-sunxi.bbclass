@@ -97,7 +97,7 @@ IMAGE_CMD_sunxi-sdimg () {
 	#create link to new created image
 	ln -sf ${SDIMG}.gz ${SDIMG_LINK}.gz
 
-	#write output filename to file for upload
-	echo ${SDIMG} > ${DEPLOY_DIR_IMAGE}/image_name	
+	#writ}e output filename to file for upload
+	echo ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME} > ${DEPLOY_DIR_IMAGE}/image_name	
 	echo ${SDIMG_LINK} > ${DEPLOY_DIR_IMAGE}/image_link
 }
