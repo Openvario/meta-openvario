@@ -8,12 +8,13 @@ LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/${LICENSE};md5=c79ff39f19dfec6d
 SECTION = "base/app"
 
 S = "${WORKDIR}"
-PR = "r1"
+PR = "r2"
 
 RDEPENDS_${PN} = "bash autofs autofs-config"
 
 SRC_URI =      "\
 	file://update-maps.sh \
+	file://download-igc.sh \
 "
 
 
@@ -27,7 +28,9 @@ do_install() {
         echo "Installing ..."
         install -d ${D}/usr/bin
         install -m 0755 ${S}/update-maps.sh ${D}/usr/bin/update-maps.sh
+	install -m 0755 ${S}/download-igc.sh ${D}/usr/bin/download-igc.sh
 }
 
-FILES_${PN} = "/usr/bin/update-maps.sh"
-
+FILES_${PN} = "/usr/bin/update-maps.sh \
+	       /usr/bin/download-igc.sh \
+"
