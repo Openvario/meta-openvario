@@ -13,7 +13,7 @@ RDEPENDS_${PN} = "ncurses \
 		  update-skripts \
 "
 
-PR = "r3"
+PR = "r4"
 
 S = "${WORKDIR}/git"
 
