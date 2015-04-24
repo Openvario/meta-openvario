@@ -1,7 +1,7 @@
 SUMMARY = "Creates configfile for autofs"
 LICENSE = "MIT"
 LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
-PR = "r3"
+PR = "r4"
 
 
 SRC_URI = "\
