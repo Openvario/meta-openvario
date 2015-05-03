@@ -13,11 +13,11 @@ DEFAULT_PREFERENCE_openvario-7lvds="1"
 DEFAULT_PREFERENCE_openvario-43rgb="1"
 DEFAULT_PREFERENCE_openvario-57lvds="1"
 
-UBOOT_MACHINE = "${MACHINE}_defconfig"
+UBOOT_MACHINE = "openvario_defconfig"
 
 SRC_URI = " \
 		git://git.denx.de/u-boot.git;protocol=http \
-		file://openvario-43rgb_defconfig \
+		file://openvario_defconfig \
 		file://0001-Added-RGB-swap-for-RGB-LCD.patch \
 		file://0001-Environment-Openvario.patch \
 "
