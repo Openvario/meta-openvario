@@ -10,10 +10,10 @@ DEPENDS = "ncurses udev libinput"
 RDEPENDS_${PN} = "ncurses \
 		  libudev \
 		  libinput \
-		  update-skripts \
+		  ovmenu-skripts \
 "
 
-PR = "r4"
+PR = "r5"
 
 S = "${WORKDIR}/git"
 

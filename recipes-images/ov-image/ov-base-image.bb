@@ -30,7 +30,7 @@ IMAGE_INSTALL += "\
         sensord \
         openvario-modules-autoload \
         openvario-autologin \
-        update-skripts \
+        ovmenu-skripts \
 	ovmenu-autostart \
         ov-tools \
         bash \
