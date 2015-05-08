@@ -15,24 +15,20 @@ DEPENDS = "	libsdl \
 		ttf-dejavu \
 		sunxi-mali \
 		curlpp \
-		alsa-lib \
 "
 
 RDEPENDS_${PN} = "	sunxi-mali \
 			libinput \
 			libsdl \
 			udev \
-			alsa-lib \
 "
 
 S = "${WORKDIR}/git"
 PR = "r1"
 
-SRCREV_pn-xcsoar = "${AUTOREV}" 
-
-SRC_URI = 	"git://git-ro.openvario.org/xcsoar.git;protocol=http \
-				 file://0002-Adapted-toolchain-prefixes-for-cross-compile.patch \
+SRC_URI = 	"git://git-ro.openvario.org/xcsoar.git;protocol=http;tag=6.8_ov7 \
 				 file://0001-Adapted-Flags-for-compiler-and-linker-for-cross-comp.patch \
+				 file://0002-Adapted-toolchain-prefixes-for-cross-compile.patch \
 				 file://0001-Disable-warnings-as-errors.patch \
 				 file://0001-Override-detection-of-target-hardware.patch \
 "
