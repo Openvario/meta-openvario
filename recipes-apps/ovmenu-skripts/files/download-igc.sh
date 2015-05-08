@@ -11,4 +11,6 @@ else
         done
 fi
 
+read -t 5 -n 1 -p $'Hit any key to continue or wait 5 seconds ...\n'
+
 umount /dev/sda1
