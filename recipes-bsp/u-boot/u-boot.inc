@@ -70,6 +70,11 @@ do_install () {
         install ${S}/${SPL_BINARY} ${D}/boot/${SPL_IMAGE}
         ln -sf ${SPL_IMAGE} ${D}/boot/${SPL_BINARY}
     fi
+
+    if [ -e ${WORKDIR}/ov_recover_l.bmp ] ; then
+	install -m 644 -D ${WORKDIR}/ov_*.bmp ${D}/boot
+    fi
+
 }
 
 FILES_${PN} = "/boot ${sysconfdir}"
@@ -91,6 +96,12 @@ do_deploy () {
         ln -sf ${SPL_IMAGE} ${DEPLOYDIR}/${SPL_BINARY}
         ln -sf ${SPL_IMAGE} ${DEPLOYDIR}/${SPL_SYMLINK}
     fi
+
+    if [ -e ${WORKDIR}/ov_recover_l.bmp ] ; then
+	install -d ${DEPLOYDIR}/pics
+        install -m 644 -D ${WORKDIR}/ov_*.bmp ${DEPLOYDIR}/pics
+    fi
+
 }
 
 addtask deploy before do_build after do_compile

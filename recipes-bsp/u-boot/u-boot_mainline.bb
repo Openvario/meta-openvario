@@ -20,6 +20,8 @@ SRC_URI = " \
 		file://openvario_defconfig \
 		file://0001-Added-RGB-swap-for-RGB-LCD.patch \
 		file://0001-Environment-Openvario.patch \
+		file://ov_recover_l.bmp \
+		file://ov_starting_l.bmp \
 "
 
 PE = "1"
