@@ -16,7 +16,7 @@ DEFAULT_PREFERENCE_openvario-57lvds="1"
 UBOOT_MACHINE = "openvario_defconfig"
 
 SRC_URI = " \
-		git://git.denx.de/u-boot.git;protocol=http \
+		git://git.denx.de/u-boot.git;protocol=http;tag=ace97d26176a3ebc9ec07738450de93eea35975c \
 		file://openvario_defconfig \
 		file://0001-Added-RGB-swap-for-RGB-LCD.patch \
 		file://0001-Environment-Openvario.patch \
@@ -24,7 +24,7 @@ SRC_URI = " \
 
 PE = "1"
 
-SRCREV = "${AUTOREV}"
+#SRCREV = "${AUTOREV}"
 
 S = "${WORKDIR}/git"
 
