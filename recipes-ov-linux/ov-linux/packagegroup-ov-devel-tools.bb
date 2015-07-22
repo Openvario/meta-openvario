@@ -42,4 +42,5 @@ RDEPENDS_${PN} = "\
         vim \
         gcc-symlinks \
 	g++-symlinks \
+	binutils \
 	"
