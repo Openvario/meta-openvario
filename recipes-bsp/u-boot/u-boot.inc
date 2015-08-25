@@ -71,7 +71,7 @@ do_install () {
         ln -sf ${SPL_IMAGE} ${D}/boot/${SPL_BINARY}
     fi
 
-    if [ -e ${WORKDIR}/ov_recover_l.bmp ] ; then
+    if [ -e ${WORKDIR}/ov_recover_0.bmp ] ; then
 	install -m 644 -D ${WORKDIR}/ov_*.bmp ${D}/boot
     fi
 
