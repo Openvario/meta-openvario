@@ -1,0 +1,12 @@
+[Unit]
+Description=Varioapp Daemon for Openvario
+Before=sensord.target
+
+[Service]
+Type=forking
+ExecStart=/opt/bin/varioapp
+Restart=on-abort
+
+[Install]
+WantedBy=multi-user.target
+
