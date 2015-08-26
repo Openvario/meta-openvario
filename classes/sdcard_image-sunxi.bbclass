@@ -78,7 +78,12 @@ IMAGE_CMD_sunxi-sdimg () {
 	then
 		mcopy -i ${WORKDIR}/boot.img -s ${DEPLOY_DIR_IMAGE}/pics/* ::
 	fi
-
+	
+	if [ -e "${DEPLOY_DIR_IMAGE}/config.uEnv" ]
+	then
+		mcopy -i ${WORKDIR}/boot.img -s ${DEPLOY_DIR_IMAGE}/config.uEnv ::
+	fi
+	
 	# Add stamp file
 	echo "${IMAGE_NAME}-${IMAGEDATESTAMP}" > ${WORKDIR}/image-version-info
 	mcopy -i ${WORKDIR}/boot.img -v ${WORKDIR}//image-version-info ::

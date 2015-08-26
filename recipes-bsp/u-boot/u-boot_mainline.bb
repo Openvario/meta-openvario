@@ -24,6 +24,7 @@ SRC_URI = " \
 		file://ov_recover_0.bmp \
 		file://ov_booting_90.bmp \
 		file://ov_booting_0.bmp \
+		file://config.uEnv \
 "
 
 PE = "1"

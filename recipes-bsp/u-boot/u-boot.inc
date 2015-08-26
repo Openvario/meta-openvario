@@ -75,6 +75,10 @@ do_install () {
 	install -m 644 -D ${WORKDIR}/ov_*.bmp ${D}/boot
     fi
 
+    if [ -e ${WORKDIR}/config.uEnv ] ; then
+	install -m 644 -D ${WORKDIR}/config.uEnv ${D}/boot
+    fi
+
 }
 
 FILES_${PN} = "/boot ${sysconfdir}"
@@ -97,10 +101,15 @@ do_deploy () {
         ln -sf ${SPL_IMAGE} ${DEPLOYDIR}/${SPL_SYMLINK}
     fi
 
-    if [ -e ${WORKDIR}/ov_recover_l.bmp ] ; then
+    if [ -e ${WORKDIR}/ov_recover_0.bmp ] ; then
 	install -d ${DEPLOYDIR}/pics
         install -m 644 -D ${WORKDIR}/ov_*.bmp ${DEPLOYDIR}/pics
     fi
+
+    if [ -e ${WORKDIR}/config.uEnv ] ; then
+	install -m 644 -D ${WORKDIR}/config.uEnv ${DEPLOYDIR} 
+    fi
+
 
 }
 
