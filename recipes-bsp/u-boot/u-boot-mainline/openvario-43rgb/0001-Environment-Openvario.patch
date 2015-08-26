@@ -79,7 +79,7 @@ index 365d9a5..2d73283 100644
 +       "bootcmd_mmc0=" \
 +               "echo Try to boot from mmc ...;" \
 +               "run set_bootargs;" \
-+	       "setenv splash ov_${size}_booting_${rotation}.bmp;" \
++	       "setenv splash ov_booting_${rotation}.bmp;" \
 +	       "run splash_display;" \
 +               "load mmc 0:1 0x43000000 script.bin || load mmc 0:1 0x43000000 boot/script.bin;" \
 +               "load mmc 0:1 0x42000000 uImage || load mmc 0:1 0x42000000 uImage;" \
@@ -88,16 +88,16 @@ index 365d9a5..2d73283 100644
 +               "echo Try recoverboot from USB;" \
 +               "if test -e usb 0:1 ${recover_file};" \
 +                       "then echo Recover File ${recover_file} found...;" \
-+		       "setenv splash ov_${size}_recover_${rotation}.bmp;" \
++		       "setenv splash ov_recover_${rotation}.bmp;" \
 +		       "run splash_display;" \
 +                       "run boot_itb_on_usb;" \
 +                       "else echo No Recovery file found ...;" \
 +               "fi\0" \
 +       "bootcmd_env=" \
-+		"echo Try to load uEnv.txt;" \
-+		"if test -e mmc 0:1 uEnv.txt;" \
-+			"then echo Load uEnv.txt ...;" \
-+			"load mmc 0:1 0x43000000 uEnv.txt;" \
++		"echo Try to load config.uEnv;" \
++		"if test -e mmc 0:1 config.uEnv;" \
++			"then echo Load config.uEnv ...;" \
++			"load mmc 0:1 0x43000000 config.uEnv;" \
 +			"env import -r -t 0x43000000 ${filesize};" \
 +		"fi\0"\
 +       "set_bootargs=" \
