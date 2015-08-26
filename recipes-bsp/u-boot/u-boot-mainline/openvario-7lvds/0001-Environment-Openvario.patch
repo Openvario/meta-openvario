@@ -1,5 +1,5 @@
 diff --git a/include/configs/sunxi-common.h b/include/configs/sunxi-common.h
-index 365d9a5..990f396 100644
+index 365d9a5..2d73283 100644
 --- a/include/configs/sunxi-common.h
 +++ b/include/configs/sunxi-common.h
 @@ -50,7 +50,7 @@
@@ -63,23 +63,23 @@ index 365d9a5..990f396 100644
  #else
  #define CONSOLE_STDOUT_SETTINGS \
  	"stdout=serial\0" \
-@@ -398,12 +406,61 @@ extern int soft_i2c_gpio_scl;
+@@ -398,12 +406,73 @@ extern int soft_i2c_gpio_scl;
  	CONSOLE_STDIN_SETTINGS \
  	CONSOLE_STDOUT_SETTINGS
  
 +#define CONFIG_BOOTCOMMAND "run distro_bootcmd"
 +
 +#define BOOTENV \
-+       "adr_splash=0x44000000\0" \
++	"adr_splash=0x44000000\0" \
 +       "recover_file=openvario/ov-recovery.itb\0" \
 +       "distro_bootcmd=" \
 +               "for target in ${boot_targets}; do run bootcmd_${target}; done\0" \
 +       "boot_targets=" \
-+               "usb0 mmc0\0" \
++               "env usb0 mmc0\0" \
 +       "bootcmd_mmc0=" \
 +               "echo Try to boot from mmc ...;" \
-+               "setenv bootargs console=ttyS0,115200 root=/dev/mmcblk0p2 rootwait panic=10;" \
-+	       "setenv splash ov_starting_l.bmp;" \
++               "run set_bootargs;" \
++	       "setenv splash ov_booting_${rotation}.bmp;" \
 +	       "run splash_display;" \
 +               "load mmc 0:1 0x43000000 script.bin || load mmc 0:1 0x43000000 boot/script.bin;" \
 +               "load mmc 0:1 0x42000000 uImage || load mmc 0:1 0x42000000 uImage;" \
@@ -88,11 +88,23 @@ index 365d9a5..990f396 100644
 +               "echo Try recoverboot from USB;" \
 +               "if test -e usb 0:1 ${recover_file};" \
 +                       "then echo Recover File ${recover_file} found...;" \
-+		       "setenv splash ov_recover_l.bmp;" \
++		       "setenv splash ov_recover_${rotation}.bmp;" \
 +		       "run splash_display;" \
 +                       "run boot_itb_on_usb;" \
 +                       "else echo No Recovery file found ...;" \
 +               "fi\0" \
++       "bootcmd_env=" \
++		"echo Try to load config.uEnv;" \
++		"if test -e mmc 0:1 config.uEnv;" \
++			"then echo Load config.uEnv ...;" \
++			"load mmc 0:1 0x43000000 config.uEnv;" \
++			"env import -r -t 0x43000000 ${filesize};" \
++		"fi\0"\
++       "set_bootargs=" \
++		"if test $rotation -eq 90;" \
++			"then setenv bootargs console=ttyS0,115200 root=/dev/mmcblk0p2 rootwait panic=10 fbcon=rotate:1;" \
++			"else setenv bootargs console=ttyS0,115200 root=/dev/mmcblk0p2 rootwait panic=10;" \
++		"fi\0"\
 +       "boot_itb_from_net=" \
 +               "setenv serverip 192.168.0.100;" \
 +                "setenv ipaddr 192.168.0.126;" \
@@ -108,8 +120,8 @@ index 365d9a5..990f396 100644
 +
 +#define CONFIG_EXTRA_USER_ENV_SETTINGS \
 +       "uboot_flash=" \
-+               "setenv serverip 192.168.0.100;" \
-+               "setenv ipaddr 192.168.0.126;" \
++               "setenv serverip 192.168.1.150;" \
++               "setenv ipaddr 192.168.1.126;" \
 +               "mw.b 0x48000000 0x00 0x100000;" \
 +               "tftp 0x48000000 u-boot-sunxi-with-spl.bin;" \
 +               "mmc erase 0x10 0x400;" \
