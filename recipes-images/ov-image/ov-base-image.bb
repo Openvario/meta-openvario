@@ -33,6 +33,7 @@ IMAGE_INSTALL += "\
         ovmenu-skripts \
 	ovmenu-autostart \
         ov-tools \
+	varioapp \
         bash \
         vim \
         nano \
