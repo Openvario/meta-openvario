@@ -102,7 +102,7 @@ index 365d9a5..2d73283 100644
 +		"fi\0"\
 +       "set_bootargs=" \
 +		"if test $rotation -eq 90;" \
-+			"then setenv bootargs console=ttyS0,115200 root=/dev/mmcblk0p2 rootwait panic=10 fbcon=rotate:1;" \
++			"then setenv bootargs console=ttyS0,115200 root=/dev/mmcblk0p2 rootwait panic=10 fbcon=rotate:3;" \
 +			"else setenv bootargs console=ttyS0,115200 root=/dev/mmcblk0p2 rootwait panic=10;" \
 +		"fi\0"\
 +       "boot_itb_from_net=" \
