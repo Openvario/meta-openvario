@@ -15,6 +15,8 @@ dirs755 += "${localstatedir}/cache \
 
 BASEFILESISSUEINSTALL = "do_install_angstromissue"
 
+DISTRO_VERSION[vardeps] += "DATETIME"
+
 do_install_angstromissue () {
     echo ${MACHINE} > ${D}${sysconfdir}/hostname
 
