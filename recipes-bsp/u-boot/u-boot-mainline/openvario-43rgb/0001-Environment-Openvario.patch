@@ -1,5 +1,5 @@
 diff --git a/include/configs/sunxi-common.h b/include/configs/sunxi-common.h
-index 365d9a5..2d73283 100644
+index 365d9a5..ffe71af 100644
 --- a/include/configs/sunxi-common.h
 +++ b/include/configs/sunxi-common.h
 @@ -50,7 +50,7 @@
@@ -63,7 +63,7 @@ index 365d9a5..2d73283 100644
  #else
  #define CONSOLE_STDOUT_SETTINGS \
  	"stdout=serial\0" \
-@@ -398,12 +406,73 @@ extern int soft_i2c_gpio_scl;
+@@ -398,12 +406,76 @@ extern int soft_i2c_gpio_scl;
  	CONSOLE_STDIN_SETTINGS \
  	CONSOLE_STDOUT_SETTINGS
  
@@ -101,11 +101,14 @@ index 365d9a5..2d73283 100644
 +			"env import -r -t 0x43000000 ${filesize};" \
 +		"fi\0"\
 +       "set_bootargs=" \
-+		"if test $rotation -eq 90;" \
-+			"then setenv bootargs console=ttyS0,115200 root=/dev/mmcblk0p2 rootwait panic=10 fbcon=rotate:1;" \
-+			"else setenv bootargs console=ttyS0,115200 root=/dev/mmcblk0p2 rootwait panic=10;" \
-+		"fi\0"\
-+       "boot_itb_from_net=" \
++		"if test -n $rotation;then " \
++			"if test $rotation -eq '1'; then setenv rotation_kernel 3;fi;" \
++			"if test $rotation -eq '3'; then setenv rotation_kernel 1;fi;" \
++			"if test $rotation -eq '0' -o $rotation -eq '2'; then setenv rotation_kernel $rotation;fi;" \
++			"setenv bootargs console=ttyS0,115200 root=/dev/mmcblk0p2 rootwait panic=10 fbcon=rotate:${rotation_kernel};" \
++		"else setenv bootargs console=ttyS0,115200 root=/dev/mmcblk0p2 rootwait panic=10;" \	
++		"fi\0" \
++	"boot_itb_from_net=" \
 +               "setenv serverip 192.168.0.100;" \
 +                "setenv ipaddr 192.168.0.126;" \
 +               "tftp 0x48000000 openvario/ov-recovery.itb;" \
