@@ -33,11 +33,11 @@ MACHINEOVERRIDES .= ":${@bb.data.getVar('FEED_ARCH', d,1).replace('all','noarch'
 #INHERIT += "src_distribute_local"
 SRC_DIST_LOCAL ?= "symlink"
 
-# Can be "glibc", "musl" or "uclibc"
+# Can be "glibc", "eglibc" or "uclibc"
 TCLIBC ?= "glibc"
 
 # The things *libc can provide.
-PREFERRED_PROVIDER_eglibc = "glibc"
+PREFERRED_PROVIDER_eglibc = "eglibc"
 
 PREFERRED_PROVIDER_virtual/gettext ??= "gettext"
 PREFERRED_PROVIDER_linux-libc-headers-nativesdk = "linux-libc-headers-nativesdk"
@@ -47,9 +47,6 @@ require conf/distro/include/angstrom-${TCLIBC}.inc
 # Set some java bits
 require conf/distro/include/angstrom-java.inc
 require conf/distro/include/angstrom-jalimo.conf
-
-# Mesa tweaks
-require conf/distro/include/angstrom-mesa-tweaks.inc
 
 # ARM920T and up can use thumb mode to decrease binary size at the expense of speed
 # (the complete story is a bit more nuanced due to cache starvation)
@@ -162,9 +159,6 @@ DISTRO_FEATURES_BACKFILL_CONSIDERED += "sysvinit"
 VIRTUAL-RUNTIME_init_manager = "systemd"
 # Uncomment to completely disable support for sysv scripts:
 #PACKAGECONFIG_pn-systemd = "xz"
-
-# Enable systemd support in kernels
-KERNEL_ENABLE_CGROUPS = "1"
 
 # USE-flag like features
 DISTRO_FEATURES += "tk"

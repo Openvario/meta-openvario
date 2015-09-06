@@ -8,3 +8,6 @@ BBFILE_COLLECTIONS += "openvario-layer"
 BBFILE_PATTERN_openvario-layer := "^${LAYERDIR}/"
 BBFILE_PRIORITY_openvario-layer = "20"
 
+SIGGEN_EXCLUDERECIPES_ABISAFE += " \
+	angstrom-feed-configs \
+        "

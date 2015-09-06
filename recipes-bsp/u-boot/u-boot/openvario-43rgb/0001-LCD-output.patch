@@ -1,0 +1,54 @@
+diff --git a/include/configs/sunxi-common.h b/include/configs/sunxi-common.h
+index 9576bc1..61ce3d1 100644
+--- a/include/configs/sunxi-common.h
++++ b/include/configs/sunxi-common.h
+@@ -50,7 +50,7 @@
+  */
+ #define CONFIG_DISPLAY_CPUINFO
+ 
+-#define CONFIG_SYS_PROMPT	"sunxi# "
++#define CONFIG_SYS_PROMPT	"openvario# "
+ 
+ /* Serial & console */
+ #define CONFIG_SYS_NS16550
+@@ -280,19 +280,22 @@ extern int soft_i2c_gpio_scl;
+  */
+ #define CONFIG_SUNXI_MAX_FB_SIZE (9 << 20)
+ 
++/* Enable BMP support */
++#define CONFIG_CMD_BMP
++
+ /* Do we want to initialize a simple FB? */
+ #define CONFIG_VIDEO_DT_SIMPLEFB
+ 
+ #define CONFIG_VIDEO_SUNXI
+ 
+ #define CONFIG_CFB_CONSOLE
+-#define CONFIG_VIDEO_SW_CURSOR
+-#define CONFIG_VIDEO_LOGO
++/*#define CONFIG_VIDEO_SW_CURSOR*/
++/*#define CONFIG_VIDEO_LOGO*/
+ #define CONFIG_VIDEO_STD_TIMINGS
+ #define CONFIG_I2C_EDID
+ 
+ /* allow both serial and cfb console. */
+-#define CONFIG_CONSOLE_MUX
++/*#define CONFIG_CONSOLE_MUX*/
+ /* stop x86 thinking in cfbconsole from trying to init a pc keyboard */
+ #define CONFIG_VGA_AS_SINGLE_DEVICE
+ 
+@@ -409,9 +412,12 @@ extern int soft_i2c_gpio_scl;
+ #endif
+ 
+ #ifdef CONFIG_VIDEO
+-#define CONSOLE_STDOUT_SETTINGS \
++/*#define CONSOLE_STDOUT_SETTINGS \
+ 	"stdout=serial,vga\0" \
+-	"stderr=serial,vga\0"
++	"stderr=serial,vga\0"*/
++#define CONSOLE_STDOUT_SETTINGS \
++        "stdout=serial\0" \
++        "stderr=serial\0"
+ #else
+ #define CONSOLE_STDOUT_SETTINGS \
+ 	"stdout=serial\0" \

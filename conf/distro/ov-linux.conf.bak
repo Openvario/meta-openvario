@@ -21,7 +21,7 @@
 
 DISTRO_VERSION = "${@time.strftime('%y%j',time.gmtime())}"
 
-
+OLDEST_KERNEL = "2.6.16"
 
 require conf/distro/include/sane-srcdates.inc
 require conf/distro/include/sane-srcrevs.inc
@@ -52,7 +52,7 @@ IMAGE_LINGUAS = "en-us de-de"
 #FEED_BASEPATH = "feeds/next/${ANGSTROM_PKG_FORMAT}/${TCLIBC}/"
 
 #This is unrelated to the kernel version, but userspace apps (e.g. udev/systemd) require a recent version to build against
-LINUX_LIBC_HEADERS_VERSION                       ?= "3.18%"
+LINUX_LIBC_HEADERS_VERSION                       ?= "3.16%"
 PREFERRED_VERSION_linux-libc-headers              = "${LINUX_LIBC_HEADERS_VERSION}"
 PREFERRED_VERSION_linux-libc-headers-native       = "${LINUX_LIBC_HEADERS_VERSION}"
 PREFERRED_VERSION_nativesdk-linux-libc-headers    = "${LINUX_LIBC_HEADERS_VERSION}"
@@ -66,6 +66,7 @@ ANGSTROM_NATIVE_BINUTILS_VERSION                 ?= "2.24%"
 ANGSTROM_GCC_VERSION_arm                         ?= "linaro-4.9%"
 ANGSTROM_GCC_VERSION_aarch64                     ?= "linaro-4.9%"
 # we use OE-Core for native and nativesdk GCC
+SDKGCCVERSION_arm                                ?= "4.9%"
 ANGSTROM_BINUTILS_VERSION_arm                    ?= "linaro-%"
 ANGSTROM_BINUTILS_VERSION_aarch64                ?= "linaro-%"
 ANGSTROM_GDB_VERSION_arm                         ?= "linaro-%"
@@ -81,9 +82,6 @@ PREFERRED_VERSION_binutils-native                ?= "${ANGSTROM_NATIVE_BINUTILS_
 PREFERRED_VERSION_nativesdk-binutils             ?= "${ANGSTROM_NATIVE_BINUTILS_VERSION}"
 PREFERRED_VERSION_cross-canadian-${TRANSLATED_TARGET_ARCH} ?= "${ANGSTROM_NATIVE_BINUTILS_VERSION}"
 
-# Work around VDSO problem in linux 4.x: http://lists.infradead.org/pipermail/linux-arm-kernel/2015-May/341931.html
-KERNEL_CC_append_pn-linux = " -fuse-ld=bfd"
-
 PREFERRED_VERSION_gdb                            ?= "${ANGSTROM_GDB_VERSION}"
 PREFERRED_VERSION_gdb-cross                      ?= "${ANGSTROM_GDB_VERSION}"
 PREFERRED_VERSION_gdb-cross-canadian             ?= "${ANGSTROM_GDB_VERSION}"
@@ -93,8 +91,6 @@ PREFERRED_VERSION_qemu                            = "${ANGSTROM_QEMU_VERSION}"
 PREFERRED_VERSION_qemu-native                     = "${ANGSTROM_QEMU_VERSION}"
 PREFERRED_VERSION_nativesdk-qemu                  = "${ANGSTROM_QEMU_VERSION}"
 
-PREFERRED_VERSION_libav                           = "10.5"
-
 PREFERRED_PROVIDER_dbus-glib                      = "dbus-glib"
 PREFERRED_PROVIDER-gconf-dbus                     = "gconf"
 PREFERRED_PROVIDER_hotplug                        = "systemd"
@@ -102,7 +98,7 @@ PREFERRED_PROVIDER_opkg                          ?= "opkg"
 PREFERRED_PROVIDER_opkg-native                   ?= "opkg-native"
 
 # Prefer gummiboot over grub
-EFI_PROVIDER                                      = "gummiboot"
+#EFI_PROVIDER                                      = "gummiboot"
 
 # blacklist policy
 
