@@ -21,6 +21,8 @@ IMAGE_INSTALL += "\
 	systemd-vconsole-setup \
         sunxi-mali \
         xcsoar \
+	xcsoar-profiles \
+	xcsoar-menu \
         ttf-dejavu-common \
         ttf-dejavu-sans-condensed \
         ttf-dejavu-sans-mono \
