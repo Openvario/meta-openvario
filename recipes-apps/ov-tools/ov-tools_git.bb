@@ -10,7 +10,6 @@ DEPENDS = "ncurses udev libinput"
 RDEPENDS_${PN} = "ncurses \
 		  libudev \
 		  libinput \
-		  ovmenu-skripts \
 "
 
 PR = "r5"
