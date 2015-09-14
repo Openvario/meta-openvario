@@ -28,7 +28,8 @@ DEFAULT_PREFERENCE_openvario-57lvds="1"
 SRC_URI += " \
 	file://boot.cmd \
 	file://openvario_defconfig \
-	file://0001-LCD-output.patch \
+	file://0001-Environment-Openvario.patch \
+	file://0001-Added-RGB-swap-for-RGB-LCD.patch \
 	file://ov_recover_0.bmp \
 	file://ov_recover_1.bmp \
 	file://ov_recover_2.bmp \
@@ -44,7 +45,7 @@ SRCREV = "33711bdd4a4dce942fb5ae85a68899a8357bdd94"
 
 PV = "v2015.07${SRCPV}"
 
-PE = "3"
+PE = "5"
 
 SPL_BINARY="u-boot-sunxi-with-spl.bin"
 
