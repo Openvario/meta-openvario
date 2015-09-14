@@ -12,7 +12,7 @@ XSERVER = "xserver-xorg \
            xf86-input-mouse \
            xf86-input-keyboard"
 
-PREFERRED_PROVIDER_virtual/kernel ?= "linux"
+PREFERRED_PROVIDER_virtual/kernel ?= "linux-sunxi"
 PREFERRED_PROVIDER_u-boot ?= "u-boot"
 PREFERRED_PROVIDER_virtual/bootloader ?= "u-boot"
 
