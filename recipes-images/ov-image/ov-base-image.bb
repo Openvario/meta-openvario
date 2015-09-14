@@ -30,8 +30,9 @@ IMAGE_INSTALL += "\
         sensord \
         openvario-modules-autoload \
         openvario-autologin \
-        ovmenu-skripts \
-	ovmenu-autostart \
+	ovmenu-ng \
+        ovmenu-ng-skripts \
+	ovmenu-ng-autostart \
         ov-tools \
 	varioapp \
         bash \
