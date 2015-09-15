@@ -42,6 +42,11 @@ IMAGE_INSTALL += "\
         autofs \
         connman-ncurses \
         linux-firmware-ralink \
+	linux-firmware-atheros-license \
+	linux-firmware-ath9k \
+	linux-firmware-ath6k \
+	linux-firmware-rtl-license \
+	linux-firmware-rtl8192cu \
 "
 
 IMAGE_DEV_MANAGER   = "udev"
