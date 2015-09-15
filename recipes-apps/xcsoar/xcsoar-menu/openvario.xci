@@ -1,0 +1,74 @@
+# -------------
+# Define gesture to open Quickmenu without keyboard or remote
+# ("Draw a button on the screen") 
+# -------------
+
+mode=default
+type=gesture
+data=ULDR
+event=QuickMenu
+
+# -------------
+# Define Quickmenu buttons for vario volume control
+# Vario app must be connected as device A
+# -------------
+
+mode=RemoteStick
+type=key
+data=0
+event=Mode Volume
+label=Vario Volume
+location=11
+
+# -------------
+# Define Volume_menu buttons for vario volume control
+# Vario app must be connected as device A
+# -------------
+
+mode=Volume
+type=key
+data=UP
+event=SendNMEAPort1 POV,U
+label=Vario Vol+ (UP)
+location=1
+
+mode=Volume
+type=key
+data=DOWN
+event=SendNMEAPort1 POV,D
+label=Vario Vol- (DOWN)
+location=2
+
+mode=Volume
+type=key
+data=ESCAPE
+event=Mode default
+label=Quit Volume (ESC)
+location=3
+ 
+ 
+mode=Volume
+type=key
+data=LEFT
+event=SendNMEAPort1 POV,M
+label=Toggle ON/OFF (L/R)
+location=4
+
+mode=Volume
+type=key
+data=RIGHT
+event=SendNMEAPort1 POV,M
+label=Toggle ON/OFF (L/R)
+location=4
+
+
+# -------------
+# Define Quickmenu button to quit XCSoar
+# -------------
+mode=RemoteStick
+type=key
+data=0
+event=Exit system
+event=Mode default
+label=Quit
+location=31
