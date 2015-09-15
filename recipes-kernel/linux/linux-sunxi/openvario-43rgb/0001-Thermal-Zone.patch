@@ -1,0 +1,13 @@
+diff --git a/arch/arm/boot/dts/sun7i-a20.dtsi b/arch/arm/boot/dts/sun7i-a20.dtsi
+index 2b4847c..be1888d 100644
+--- a/arch/arm/boot/dts/sun7i-a20.dtsi
++++ b/arch/arm/boot/dts/sun7i-a20.dtsi
+@@ -151,7 +151,7 @@
+ 					/* milliCelsius */
+ 					temperature = <100000>;
+ 					hysteresis = <2000>;
+-					type = "critical";
++					type = "passive";
+ 				};
+ 			};
+ 		};
