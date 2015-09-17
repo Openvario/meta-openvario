@@ -10,7 +10,7 @@ SECTION = "base/app"
 S = "${WORKDIR}"
 PR = "r5"
 
-RDEPENDS_${PN} = "bash xcsoar"
+RDEPENDS_${PN} = "bash"
 
 SRC_URI =      "\
 	file://xcsoar_config.sh \
