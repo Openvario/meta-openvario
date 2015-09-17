@@ -42,6 +42,7 @@ IMAGE_INSTALL += "\
         nano \
         e2fsprogs \
         autofs \
+	autofs-config \
         connman-ncurses \
         linux-firmware-ralink \
 	linux-firmware-atheros-license \

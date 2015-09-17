@@ -10,7 +10,7 @@ SECTION = "base/app"
 S = "${WORKDIR}"
 PR = "r3"
 
-RDEPENDS_${PN} = "bash autofs autofs-config"
+RDEPENDS_${PN} = "bash "
 
 SRC_URI =      "\
 	file://update-maps.sh \
