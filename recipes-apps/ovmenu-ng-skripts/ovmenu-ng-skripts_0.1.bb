@@ -8,7 +8,7 @@ LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/${LICENSE};md5=c79ff39f19dfec6d
 SECTION = "base/app"
 
 S = "${WORKDIR}"
-PR = "r5"
+PR = "r6"
 
 RDEPENDS_${PN} = "bash"
 
@@ -32,9 +32,9 @@ do_install() {
         install -d ${D}/usr/bin
         install -m 0755 ${S}/xcsoar_config.sh ${D}/usr/bin/xcsoar_config.sh
         install -m 0755 ${S}/update-maps.sh ${D}/usr/bin/update-maps.sh
-		install -m 0755 ${S}/update-system.sh ${D}/usr/bin/update-system.sh
-		install -m 0755 ${S}/download-igc.sh ${D}/usr/bin/download-igc.sh
-		install -m 0755 ${S}/download-igc.sh ${D}/usr/bin/upload-all.sh
+	install -m 0755 ${S}/update-system.sh ${D}/usr/bin/update-system.sh
+	install -m 0755 ${S}/download-igc.sh ${D}/usr/bin/download-igc.sh
+	install -m 0755 ${S}/upload-all.sh ${D}/usr/bin/upload-all.sh
 }
 
 FILES_${PN} = "/usr/bin/xcsoar_config.sh \
