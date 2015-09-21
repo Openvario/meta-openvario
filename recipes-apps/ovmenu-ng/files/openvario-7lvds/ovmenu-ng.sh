@@ -93,7 +93,7 @@ function upload_files(){
 }
 
 function start_xcsoar() {
-	/opt/bin/xcsoar_config.sh
+	/usr/bin/xcsoar_config.sh
 	/opt/XCSoar/bin/xcsoar -fly -1024x600
 }
 
@@ -101,6 +101,6 @@ function start_xcsoar() {
 DIALOG_CANCEL=1 dialog --nook --nocancel --pause "Starting XCSoar ..." 10 30 $TIMEOUT 2>&1
 
 case $? in
-	0) echo "Start XCSoar" ;;
+	0) start_xcsoar;;
 	*) main_menu;;
 esac
