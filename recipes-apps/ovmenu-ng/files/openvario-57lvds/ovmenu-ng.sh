@@ -5,7 +5,7 @@ TIMEOUT=3
 INPUT=/tmp/menu.sh.$$
 
 # trap and delete temp files
-trap "rm $INPUT; exit" SIGHUP SIGINT SIGTERM
+trap "rm $INPUT;rm /tmp/tail.$$; exit" SIGHUP SIGINT SIGTERM
 
 main_menu () {
 while true
@@ -13,11 +13,12 @@ do
 	### display main menu ###
 	dialog --clear --nocancel --backtitle "OpenVario" \
 	--title "[ M A I N - M E N U ]" \
-	--menu "You can use the UP/DOWN arrow keys" 15 50 4 \
-	XCSoar   "Displays date and time" \
-	File   "Copys file to and from FC" \
+	--menu "You can use the UP/DOWN arrow keys" 15 50 6 \
+	XCSoar   "Start XCSoar" \
+	File   "Copys file to and from OpenVario" \
 	System   "Update, Settings, ..." \
-	Exit   "Exit to the shell" 2>"${INPUT}"
+	Exit   "Exit to the shell" \
+	Power_OFF "Power OFF" 2>"${INPUT}"
 	 
 	menuitem=$(<"${INPUT}")
  
@@ -27,6 +28,7 @@ case $menuitem in
 	File) submenu_file;;
 	System) submenu_system;;
 	Exit) echo "Bye"; break;;
+	Power_OFF) power_off;;
 esac
 
 done
@@ -39,7 +41,7 @@ function submenu_file() {
 	--title "[ F I L E ]" \
 	--menu "You can use the UP/DOWN arrow keys" 15 50 4 \
 	Download   "Download IGC File to USB" \
-	Upload   "Upload files form USB to FC" \
+	Upload   "Upload files from USB to FC" \
 	Back   "Back to Main" 2>"${INPUT}"
 	
 	menuitem=$(<"${INPUT}")
@@ -54,7 +56,7 @@ esac
 
 function submenu_system() {
 	### display system menu ###
-	dialog --backtitle "OpenVario" \
+	dialog --nocancel --backtitle "OpenVario" \
 	--title "[ S Y S T E M ]" \
 	--menu "You can use the UP/DOWN arrow keys" 15 50 4 \
 	Update_System   "Update system software" \
@@ -67,34 +69,57 @@ function submenu_system() {
 	# make decsion 
 	case $menuitem in
 		Update_System) 
-			out=$(/usr/bin/update-system.sh)
-			dialog --backtitle "OpenVario" --title "Result" --msgbox "$out" 30 60
+			update_system
 			;;
 		Update_Maps) 
-			out=$(/usr/bin/update-maps.sh)
-			dialog --backtitle "OpenVario" --title "Result" --msgbox "$out" 30 60
+			update_maps
 			;;
-		Calibrate_Sensors)  ;;
+		Calibrate_Sensors) 
+			calibrate_sensors
+		;;
 		Exit) ;;
 	esac		
-	
-	
+}
 
+function update_system() {
+	echo "Updating System ..." > /tmp/tail.$$
+	/usr/bin/update-system.sh >> /tmp/tail.$$ &
+	dialog --backtitle "OpenVario" --title "Result" --tailbox /tmp/tail.$$ 30 50
+}
+
+function calibrate_sensors() {
+	echo "Calibrating Sensors ..." >> /tmp/tail.$$
+	systemctl stop sensord
+	/opt/bin/sensorcal -c > /tmp/tail.$$ &
+	dialog --backtitle "OpenVario" --title "Result" --tailbox /tmp/tail.$$ 30 50
+	systemctl start sensord
+}
+
+function update_maps() {
+	echo "Updating Maps ..." > /tmp/tail.$$
+	/usr/bin/update-maps.sh >> /tmp/tail.$$ &
+	dialog --backtitle "OpenVario" --title "Result" --tailbox /tmp/tail.$$ 30 50
 }
 
 function download_files() {
-	out=$(/usr/bin/download-igc.sh)
-	dialog --backtitle "OpenVario" --title "Result" --msgbox "$out" 30 60
+	echo "Downloading files ..." > /tmp/tail.$$
+	/usr/bin/download-igc.sh >> /tmp/tail.$$ &
+	dialog --backtitle "OpenVario" --title "Result" --tailbox /tmp/tail.$$ 30 50
 }
 
 function upload_files(){
-	out=$(/usr/bin/upload-all.sh)
-	dialog --backtitle "OpenVario" --title "Result" --msgbox "$out" 30 60
+	echo "Uploading files ..." > /tmp/tail.$$
+	/usr/bin/upload-all.sh >> /tmp/tail.$$ &
+	dialog --backtitle "OpenVario" --title "Result" --tailbox /tmp/tail.$$ 30 50
 }
 
 function start_xcsoar() {
 	/usr/bin/xcsoar_config.sh
 	/opt/XCSoar/bin/xcsoar -fly -640x480
+}
+
+function power_off() {
+	shutdown -h now
 }
 
 
