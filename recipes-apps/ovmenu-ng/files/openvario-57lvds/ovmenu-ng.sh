@@ -39,6 +39,7 @@ function submenu_file() {
 	### display file menu ###
 	dialog --nocancel --backtitle "OpenVario" \
 	--title "[ F I L E ]" \
+	--begin 3 4 \
 	--menu "You can use the UP/DOWN arrow keys" 15 50 4 \
 	Download   "Download IGC File to USB" \
 	Upload   "Upload files from USB to FC" \
@@ -58,6 +59,7 @@ function submenu_system() {
 	### display system menu ###
 	dialog --nocancel --backtitle "OpenVario" \
 	--title "[ S Y S T E M ]" \
+	--begin 3 4 \
 	--menu "You can use the UP/DOWN arrow keys" 15 50 4 \
 	Update_System   "Update system software" \
 	Update_Maps   "Update Maps files" \
@@ -122,6 +124,7 @@ function power_off() {
 	shutdown -h now
 }
 
+setfont cp866-8x14.psf.gz
 
 DIALOG_CANCEL=1 dialog --nook --nocancel --pause "Starting XCSoar ..." 10 30 $TIMEOUT 2>&1
 
