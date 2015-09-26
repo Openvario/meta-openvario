@@ -126,7 +126,7 @@ function power_off() {
 
 setfont cp866-8x14.psf.gz
 
-DIALOG_CANCEL=1 dialog --nook --nocancel --pause "Starting XCSoar ..." 10 30 $TIMEOUT 2>&1
+DIALOG_CANCEL=1 dialog --nook --nocancel --pause "Starting XCSoar ... \\n Press [ESC] for menu" 10 30 $TIMEOUT 2>&1
 
 case $? in
 	0) start_xcsoar;;

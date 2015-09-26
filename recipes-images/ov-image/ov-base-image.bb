@@ -29,6 +29,7 @@ IMAGE_INSTALL += "\
         ttf-dejavu-sans \
         ttf-dejavu-serif-condensed \
         ttf-dejavu-serif \
+	terminus-font-consolefonts \
         sensord \
         openvario-modules-autoload \
         openvario-autologin \
