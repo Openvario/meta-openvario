@@ -24,7 +24,7 @@ RDEPENDS_${PN} = "	sunxi-mali \
 "
 
 S = "${WORKDIR}/git"
-PR = "r1"
+PR = "r2"
 LC_LOCALE_PATH = "/usr/share/locale"
 
 SRC_URI = 	"git://git-ro.openvario.org/xcsoar.git;protocol=http;tag=6.8_ov10 \
@@ -44,7 +44,7 @@ do_compile() {
 	echo "Making .."
 	echo '${WORKDIR}'
 	cd ${WORKDIR}/git
-	make -j8 DEBUG=n DEBUG_GLIBCXX=n ENABLE_ALSA=y
+	make -j8 DEBUG=n DEBUG_GLIBCXX=n USE_LIBINPUT=y
 }
 
 do_install() {
