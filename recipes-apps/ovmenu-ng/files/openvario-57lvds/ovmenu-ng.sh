@@ -13,6 +13,7 @@ do
 	### display main menu ###
 	dialog --clear --nocancel --backtitle "OpenVario" \
 	--title "[ M A I N - M E N U ]" \
+	--begin 3 4 \
 	--menu "You can use the UP/DOWN arrow keys" 15 50 6 \
 	XCSoar   "Start XCSoar" \
 	File   "Copys file to and from OpenVario" \
