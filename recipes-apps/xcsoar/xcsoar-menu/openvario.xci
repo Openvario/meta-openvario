@@ -28,14 +28,14 @@ location=11
 mode=Volume
 type=key
 data=UP
-event=SendNMEAPort1 POV,U
+event=SendNMEAPort1 POV,C,VU
 label=Vario Vol+ (UP)
 location=1
 
 mode=Volume
 type=key
 data=DOWN
-event=SendNMEAPort1 POV,D
+event=SendNMEAPort1 POV,C,VD
 label=Vario Vol- (DOWN)
 location=2
 
@@ -50,14 +50,14 @@ location=3
 mode=Volume
 type=key
 data=LEFT
-event=SendNMEAPort1 POV,M
+event=SendNMEAPort1 POV,C,VM
 label=Toggle ON/OFF (L/R)
 location=4
 
 mode=Volume
 type=key
 data=RIGHT
-event=SendNMEAPort1 POV,M
+event=SendNMEAPort1 POV,C,VM
 label=Toggle ON/OFF (L/R)
 location=4
 
