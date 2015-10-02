@@ -28,7 +28,7 @@ case $menuitem in
 	XCSoar) start_xcsoar;;
 	File) submenu_file;;
 	System) submenu_system;;
-	Exit) echo "Bye"; break;;
+	Exit) yesno_exit;;
 	Power_OFF) power_off;;
 esac
 
@@ -119,6 +119,19 @@ function upload_files(){
 function start_xcsoar() {
 	/usr/bin/xcsoar_config.sh
 	/opt/XCSoar/bin/xcsoar -fly -480x272
+}
+
+function yesno_exit(){
+	dialog --backtitle "Openvario" --begin 3 4 \
+	--title "Really exit ?" --yesno "Really want to go to console ??" 5 40
+	# Get exit status
+	# 0 means user hit [yes] button.
+	# 1 means user hit [no] button.
+	# 255 means user hit [Esc] key.
+	response=$?
+	case $response in
+		0) echo "Bye";exit 1;;
+	esac
 }
 
 function power_off() {
