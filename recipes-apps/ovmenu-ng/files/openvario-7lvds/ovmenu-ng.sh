@@ -61,10 +61,12 @@ function submenu_system() {
 	dialog --nocancel --backtitle "OpenVario" \
 	--title "[ S Y S T E M ]" \
 	--begin 3 4 \
-	--menu "You can use the UP/DOWN arrow keys" 15 50 4 \
+	--menu "You can use the UP/DOWN arrow keys" 15 50 5 \
 	Update_System   "Update system software" \
 	Update_Maps   "Update Maps files" \
 	Calibrate_Sensors   "Calibrate Sensors" \
+	Settings   "System Settings" \
+	Information "System Info" \
 	Back   "Back to Main" 2>"${INPUT}"
 	
 	menuitem=$(<"${INPUT}")
@@ -79,9 +81,88 @@ function submenu_system() {
 			;;
 		Calibrate_Sensors) 
 			calibrate_sensors
-		;;
+			;;
+		Settings)
+			submenu_settings
+			;;
+		Information)
+			show_info
+			;;
 		Exit) ;;
 	esac		
+}
+
+function show_info() {
+	### collect info of system
+	XCSOAR_VERSION=$(opkg list-installed xcsoar | awk -F' ' '{print $3}')
+	XCSOAR_MAPS_FLARMNET=$(opkg list-installed xcsoar-maps-flarmnet | awk -F' ' '{print $3}')
+	XCSOAR_MAPS_VERSION=$(opkg list-installed | grep "xcsoar-maps" | awk -F' ' '{print $3}')
+	IMAGE_VERSION=$(more /etc/version | awk -F' ' '{print $2}')
+	SENSORD_VERSION=$(opkg list-installed sensord | awk -F' ' '{print $3}')
+	VARIOD_VERSION=$(opkg list-installed varioapp | awk -F' ' '{print $3}')
+	
+	dialog --backtitle "OpenVario" \
+	--title "[ S Y S T E M I N F O ]" \
+	--begin 3 4 \
+	--msgbox " \
+	\n \
+	Image: $IMAGE_VERSION\n \
+	XCSoar: $XCSOAR_VERSION\n \
+	Maps: $XCSOAR_MAPS_VERSION\n \
+	Flarmnet: $XCSOAR_MAPS_FLARMNET\n \
+	sensord: $SENSORD_VERSION\n \
+	variod: $VARIOD_VERSION\n \
+	" 15 50
+	
+}
+
+function submenu_settings() {
+	### display settings menu ###
+	dialog --nocancel --backtitle "OpenVario" \
+	--title "[ S Y S T E M ]" \
+	--begin 3 4 \
+	--menu "You can use the UP/DOWN arrow keys" 15 50 5 \
+	Display_Rotation 	"Set rotation of the display" \
+	Back   "Back to Main" 2>"${INPUT}"
+	
+	menuitem=$(<"${INPUT}")
+
+	# make decsion 
+	case $menuitem in
+		Display_Rotation)
+			submenu_rotation
+			;;
+		Back) ;;
+	esac		
+}
+
+function submenu_rotation() {
+	
+	###mount /dev/mmcblk0p1 /boot 
+	TEMP=$(grep "rotation" config.uEnv)
+	pause 
+	if [ -n $TEMP ]; then
+		ROTATION=${TEMP: -1}
+		dialog --nocancel --backtitle "OpenVario" \
+		--title "[ S Y S T E M ]" \
+		--begin 3 4 \
+		--menu "Actual Setting is $ROTATION \nSelect Rotation:" 15 50 4 \
+		 0 "Landscape 0 deg" \
+		 1 "Portrait 90 deg" \
+		 2 "Landscape 180 deg" \
+		 3 "Portrait 270 deg" 2>"${INPUT}"
+		 
+		 menuitem=$(<"${INPUT}")
+
+		# update config
+		sed -i 's/^rotation=.*/rotation='$menuitem'/' config.uEnv
+		dialog --msgbox "New Setting saved !!\n A Reboot is required !!!" 10 50
+		 
+	else
+		dialog --backtitle "OpenVario" \
+		--title "ERROR" \
+		--msgbox "No Config found !!"
+	fi
 }
 
 function update_system() {
@@ -122,12 +203,11 @@ function start_xcsoar() {
 }
 
 function yesno_exit(){
-	dialog --backtitle "Openvario" --begin 3 4 \
+	dialog --backtitle "Openvario" \
+	--begin 3 4 \
+	--defaultno \
 	--title "Really exit ?" --yesno "Really want to go to console ??" 5 40
-	# Get exit status
-	# 0 means user hit [yes] button.
-	# 1 means user hit [no] button.
-	# 255 means user hit [Esc] key.
+
 	response=$?
 	case $response in
 		0) echo "Bye";exit 1;;
