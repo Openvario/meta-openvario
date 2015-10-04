@@ -19,7 +19,7 @@ do
 	--title "[ M A I N - M E N U ]" \
 	--menu "You can use the UP/DOWN arrow keys" 15 50 6 \
 	Flash_SDCard   "Write image to SD Card" \
-	Exit   "Exit to the shell" \
+	Reboot   "Reboot" \
 	Power_OFF "Power OFF" 2>"${INPUT}"
 	 
 	menuitem=$(<"${INPUT}")
@@ -27,7 +27,7 @@ do
 	# make decsion 
 case $menuitem in
 	Flash_SDCard) select_image;;
-	Exit) echo "Bye"; break;;
+	Reboot) /opt/bin/reboot.sh;;
 	Power_OFF) power_off;;
 esac
 
@@ -65,27 +65,20 @@ function select_image(){
 	fi
 	IMAGEFILE=$(readlink -f $(ls -1 $images |sed -n "$FILE p"))
 	
-		dialog --backtitle "${TITLE}" \
-		--title "Selected image" \
-		--msgbox "${IMAGEFILE}" 10 60
-	
-	
 	# Show Image write options
 	dialog --backtitle "${TITLE}" \
 	--title "Select update method" \
 	--menu "Use [UP/DOWN] keys to move, ENTER to select" \
 	18 60 12 \
-	"UpdateRootFS"	 "Update Filesystem only" \
-	"UpdateuBoot"	 "Update Bootloader only" \
 	"UpdateAll"	 "Update complete SD Card" \
+	"UpdateuBoot"	 "Update Bootloader only" \
 	2>"${INPUT}"
 	
 	menuitem=$(<"${INPUT}")
  
 	# make decsion 
 	case $menuitem in
-		UpdateRootFS) notimplemented;;
-		UpdateuBoot) notimplemented;;
+		UpdateuBoot) updateuboot;;
 		UpdateAll) updateall;;
 	esac
 	
