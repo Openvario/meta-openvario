@@ -155,7 +155,7 @@ DEPLOY_DIR_IMAGE = "${DEPLOY_DIR}/images/${MACHINE}"
 DISTRO_CHECK := "${@bb.data.getVar("DISTRO_VERSION",d,1) or bb.fatal('Remove this line or set a dummy DISTRO_VERSION if you really want to build an unversioned distro')}"
 
 # We want images supporting the following features (for packagegroup(-core)-base)
-DISTRO_FEATURES = "alsa argp bluetooth ext2 ipv4 ipv6 largefile nfs pam pci smbfs systemd usbgadget usbhost vfat wifi xattr zeroconf"
+DISTRO_FEATURES = "alsa argp bluetooth ext2 ipv4 largefile nfs pam pci smbfs systemd usbhost vfat wifi xattr zeroconf"
 
 # Disable sysvinit for recipes with systemd support
 DISTRO_FEATURES_BACKFILL_CONSIDERED += "sysvinit"
