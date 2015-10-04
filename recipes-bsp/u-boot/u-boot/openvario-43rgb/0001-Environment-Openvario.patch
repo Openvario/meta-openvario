@@ -112,7 +112,7 @@ index 9576bc1..5cc2ece 100644
 +               "tftp 0x43000000 openvario/script.bin;\0" \
 +	"boot_itb_on_usb=" \
 +               "fatload usb 0:1 0x48000000 ${recover_file};" \
-+               "fatload usb 0:1 0x43000000 openvario/script.bin;" \
++               "setenv bootargs console=tty0;" \
 +               "bootm 0x48000000\0" \
 +	"splash_display=" \
 +		"fatload mmc0 0:1 ${adr_splash} ${splash};" \
