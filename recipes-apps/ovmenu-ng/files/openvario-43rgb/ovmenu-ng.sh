@@ -172,9 +172,22 @@ function submenu_rotation() {
 }
 
 function update_system() {
+
 	echo "Updating System ..." > /tmp/tail.$$
-	/usr/bin/update-system.sh >> /tmp/tail.$$ &
-	dialog --backtitle "OpenVario" --title "Result" --tailbox /tmp/tail.$$ 30 50
+	opkg update &>/dev/null
+	OPKG_UPDATE=$(opkg list-upgradable)
+	
+	dialog --backtitle "Openvario" \
+	--begin 3 4 \
+	--defaultno \
+	--title "Update" --yesno "$OPKG_UPDATE" 15 40
+	
+	response=$?
+	case $response in
+		0) opkg upgrade &>/tmp/tail.$$
+		dialog --backtitle "OpenVario" --title "Result" --tailbox /tmp/tail.$$ 30 50
+		;;
+	esac
 }
 
 function calibrate_sensors() {
@@ -187,7 +200,7 @@ function calibrate_sensors() {
 
 function update_maps() {
 	echo "Updating Maps ..." > /tmp/tail.$$
-	/usr/bin/update-maps.sh >> /tmp/tail.$$ &
+	/usr/bin/update-maps.sh >> /tmp/tail.$$ 2>/dev/null &
 	dialog --backtitle "OpenVario" --title "Result" --tailbox /tmp/tail.$$ 30 50
 }
 
