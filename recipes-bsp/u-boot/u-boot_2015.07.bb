@@ -45,7 +45,7 @@ SRCREV = "33711bdd4a4dce942fb5ae85a68899a8357bdd94"
 
 PV = "v2015.07${SRCPV}"
 
-PE = "5"
+PE = "6"
 
 SPL_BINARY="u-boot-sunxi-with-spl.bin"
 
