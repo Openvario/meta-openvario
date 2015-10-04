@@ -96,7 +96,7 @@ function show_info() {
 	### collect info of system
 	XCSOAR_VERSION=$(opkg list-installed xcsoar | awk -F' ' '{print $3}')
 	XCSOAR_MAPS_FLARMNET=$(opkg list-installed xcsoar-maps-flarmnet | awk -F' ' '{print $3}')
-	XCSOAR_MAPS_VERSION=$(opkg list-installed | grep "xcsoar-maps" | awk -F' ' '{print $3}')
+	XCSOAR_MAPS_VERSION=$(opkg list-installed | grep "xcsoar-maps-" | awk -F' ' '{print $3}')
 	IMAGE_VERSION=$(more /etc/version | awk -F' ' '{print $2}')
 	SENSORD_VERSION=$(opkg list-installed sensord | awk -F' ' '{print $3}')
 	VARIOD_VERSION=$(opkg list-installed varioapp | awk -F' ' '{print $3}')
@@ -110,7 +110,6 @@ function show_info() {
 	\n \
 	Image: $IMAGE_VERSION\n \
 	XCSoar: $XCSOAR_VERSION\n \
-	Maps: $XCSOAR_MAPS_VERSION\n \
 	Maps: $XCSOAR_MAPS_VERSION\n \
 	Flarmnet: $XCSOAR_MAPS_FLARMNET\n \
 	sensord: $SENSORD_VERSION\n \

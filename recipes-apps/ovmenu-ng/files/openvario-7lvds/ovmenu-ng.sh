@@ -61,7 +61,7 @@ function submenu_system() {
 	dialog --nocancel --backtitle "OpenVario" \
 	--title "[ S Y S T E M ]" \
 	--begin 3 4 \
-	--menu "You can use the UP/DOWN arrow keys" 15 50 5 \
+	--menu "You can use the UP/DOWN arrow keys" 15 50 6 \
 	Update_System   "Update system software" \
 	Update_Maps   "Update Maps files" \
 	Calibrate_Sensors   "Calibrate Sensors" \
@@ -96,10 +96,12 @@ function show_info() {
 	### collect info of system
 	XCSOAR_VERSION=$(opkg list-installed xcsoar | awk -F' ' '{print $3}')
 	XCSOAR_MAPS_FLARMNET=$(opkg list-installed xcsoar-maps-flarmnet | awk -F' ' '{print $3}')
-	XCSOAR_MAPS_VERSION=$(opkg list-installed | grep "xcsoar-maps" | awk -F' ' '{print $3}')
+	XCSOAR_MAPS_VERSION=$(opkg list-installed | grep "xcsoar-maps-" | awk -F' ' '{print $3}')
 	IMAGE_VERSION=$(more /etc/version | awk -F' ' '{print $2}')
 	SENSORD_VERSION=$(opkg list-installed sensord | awk -F' ' '{print $3}')
 	VARIOD_VERSION=$(opkg list-installed varioapp | awk -F' ' '{print $3}')
+	IP_ETH0=$(/sbin/ifconfig eth0 | grep 'inet addr:' | cut -d: -f2 | awk '{ print $1}')
+	IP_WLAN=$(/sbin/ifconfig wlan0 | grep 'inet addr:' | cut -d: -f2 | awk '{ print $1}')
 	
 	dialog --backtitle "OpenVario" \
 	--title "[ S Y S T E M I N F O ]" \
@@ -112,6 +114,8 @@ function show_info() {
 	Flarmnet: $XCSOAR_MAPS_FLARMNET\n \
 	sensord: $SENSORD_VERSION\n \
 	variod: $VARIOD_VERSION\n \
+	IP eth0: $IP_ETH0\n \
+	IP wlan0: $IP_WLAN\n \
 	" 15 50
 	
 }
@@ -138,8 +142,8 @@ function submenu_settings() {
 
 function submenu_rotation() {
 	
-	###mount /dev/mmcblk0p1 /boot 
-	TEMP=$(grep "rotation" config.uEnv)
+	mount /dev/mmcblk0p1 /boot 
+	TEMP=$(grep "rotation" /boot/config.uEnv)
 	pause 
 	if [ -n $TEMP ]; then
 		ROTATION=${TEMP: -1}
@@ -155,7 +159,7 @@ function submenu_rotation() {
 		 menuitem=$(<"${INPUT}")
 
 		# update config
-		sed -i 's/^rotation=.*/rotation='$menuitem'/' config.uEnv
+		sed -i 's/^rotation=.*/rotation='$menuitem'/' /boot/config.uEnv
 		dialog --msgbox "New Setting saved !!\n A Reboot is required !!!" 10 50
 		 
 	else
@@ -163,6 +167,8 @@ function submenu_rotation() {
 		--title "ERROR" \
 		--msgbox "No Config found !!"
 	fi
+	
+	umount /boot
 }
 
 function update_system() {
