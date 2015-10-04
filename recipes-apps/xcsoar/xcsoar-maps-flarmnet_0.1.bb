@@ -12,12 +12,8 @@ PR = "r4"
 
 
 SRC_URI =      " \
-	http://www.flarmnet.org/files/data.fln;name=flarmnet \
+	file://data.fln \
 "
-
-
-SRC_URI[flarmnet.md5sum] = "249add771eb0a6f7a7f7c32f1d917335"
-SRC_URI[flarmnet.sha256sum] = "7cc96e06bc417c42d2437e470524cde2e00b41da58dc354a426bede1738c3d04"
 
 addtask do_package_write_ipk after do_package after do_install
 
