@@ -1,0 +1,12 @@
+[Unit]
+Description=Variod Daemon for Openvario
+Before=sensord.target
+
+[Service]
+Type=forking
+ExecStart=/opt/bin/variod
+Restart=on-abort
+
+[Install]
+WantedBy=multi-user.target
+
