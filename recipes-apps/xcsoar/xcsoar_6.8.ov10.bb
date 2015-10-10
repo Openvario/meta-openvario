@@ -55,8 +55,8 @@ do_install() {
 	
 	install -d ${D}/opt/conf
 	install -d ${D}/opt/conf/default
-	install -m 0755 ${S}/ ${D}/opt/conf/default/ov-xcsoar.conf
-	install -m 0755 ${S}/ ${D}/opt/conf/ov-xcsoar.conf
+	install -m 0755 ${S}/../ov-xcsoar.conf ${D}/opt/conf/default/ov-xcsoar.conf
+	install -m 0755 ${S}/../ov-xcsoar.conf ${D}/opt/conf/ov-xcsoar.conf
 	
 	install -d ${D}${LC_LOCALE_PATH}/de/LC_MESSAGES
 	install -m 0755 ${S}/output/po/de.mo ${D}${LC_LOCALE_PATH}/de/LC_MESSAGES/xcsoar.mo
@@ -114,6 +114,8 @@ do_install() {
 
 FILES_${PN} = " \
 	/opt/XCSoar/bin/* \
+	/opt/conf/default/ov-xcsoar.conf \
+	/opt/conf/ov-xcsoar.conf \
 	${LC_LOCALE_PATH}/de/LC_MESSAGES/xcsoar.mo \	
 	${LC_LOCALE_PATH}/cs/LC_MESSAGES/xcsoar.mo \	
 	${LC_LOCALE_PATH}/da/LC_MESSAGES/xcsoar.mo \	
