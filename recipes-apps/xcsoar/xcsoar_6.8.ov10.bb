@@ -24,7 +24,7 @@ RDEPENDS_${PN} = "	sunxi-mali \
 "
 
 S = "${WORKDIR}/git"
-PR = "r2"
+PR = "r3"
 LC_LOCALE_PATH = "/usr/share/locale"
 
 SRC_URI = 	"git://git-ro.openvario.org/xcsoar.git;protocol=http;tag=6.8_ov10 \
@@ -32,6 +32,7 @@ SRC_URI = 	"git://git-ro.openvario.org/xcsoar.git;protocol=http;tag=6.8_ov10 \
 				 file://0003-Adapted-toolchain-prefixes-for-cross-compile.patch \
 				 file://0001-Disable-warnings-as-errors.patch \
 				 file://0001-Override-detection-of-target-hardware.patch \
+				 file://ov-xcsoar.conf \
 "
 
 
@@ -51,6 +52,11 @@ do_install() {
 	echo "Installing ..."
 	install -d ${D}/opt/XCSoar/bin
 	install -m 0755 ${S}/output/UNIX/bin/* ${D}/opt/XCSoar/bin
+	
+	install -d ${D}/opt/conf
+	install -d ${D}/opt/conf/default
+	install -m 0755 ${S}/ ${D}/opt/conf/default/ov-xcsoar.conf
+	install -m 0755 ${S}/ ${D}/opt/conf/ov-xcsoar.conf
 	
 	install -d ${D}${LC_LOCALE_PATH}/de/LC_MESSAGES
 	install -m 0755 ${S}/output/po/de.mo ${D}${LC_LOCALE_PATH}/de/LC_MESSAGES/xcsoar.mo
@@ -104,8 +110,6 @@ do_install() {
 	install -m 0755 ${S}/output/po/uk.mo ${D}${LC_LOCALE_PATH}/uk/LC_MESSAGES/xcsoar.mo
 	install -d ${D}${LC_LOCALE_PATH}/vi/LC_MESSAGES
 	install -m 0755 ${S}/output/po/vi.mo ${D}${LC_LOCALE_PATH}/vi/LC_MESSAGES/xcsoar.mo
-
-
 }
 
 FILES_${PN} = " \
