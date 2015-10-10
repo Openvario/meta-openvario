@@ -22,6 +22,7 @@ do_compile() {
 
 do_install() {
 	install -d ${D}/opt/bin
+	install -d ${D}/opt/conf
 	install -m 0755 ${S}/caltool/caltool ${D}/opt/bin
 }
 
