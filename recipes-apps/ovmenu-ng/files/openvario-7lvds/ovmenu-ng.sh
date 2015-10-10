@@ -22,6 +22,7 @@ do
 	File   "Copys file to and from OpenVario" \
 	System   "Update, Settings, ..." \
 	Exit   "Exit to the shell" \
+	Restart "Restart" \
 	Power_OFF "Power OFF" 2>"${INPUT}"
 	 
 	menuitem=$(<"${INPUT}")
@@ -32,7 +33,8 @@ case $menuitem in
 	File) submenu_file;;
 	System) submenu_system;;
 	Exit) yesno_exit;;
-	Power_OFF) power_off;;
+	Restart) yesno_restart;;
+	Power_OFF) yesno_power_off;;
 esac
 
 done
@@ -273,8 +275,28 @@ function yesno_exit(){
 	esac
 }
 
-function power_off() {
-	shutdown -h now
+function yesno_restart(){
+	dialog --backtitle "Openvario" \
+	--begin 3 4 \
+	--defaultno \
+	--title "Really restart ?" --yesno "Really want to restart ??" 5 40
+
+	response=$?
+	case $response in
+		0) reboot;;
+	esac
+}
+
+function yesno_power_off(){
+	dialog --backtitle "Openvario" \
+	--begin 3 4 \
+	--defaultno \
+	--title "Really Power-OFF ?" --yesno "Really want to Power-OFF" 5 40
+
+	response=$?
+	case $response in
+		0) shutdown -h now;;
+	esac
 }
 
 setfont ter-124b.psf.gz
