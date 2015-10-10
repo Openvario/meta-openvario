@@ -187,9 +187,17 @@ function submenu_rotation() {
 		 menuitem=$(<"${INPUT}")
 
 		# update config
+		# uboot rotation
 		sed -i 's/^rotation=.*/rotation='$menuitem'/' /boot/config.uEnv
-		dialog --msgbox "New Setting saved !!\n A Reboot is required !!!" 10 50
-		 
+		# touch cal
+		if [ -e /opt/bin/touch.cal ]; then
+			cd /opt/bin
+			./caltool -c -r $menuitem
+			cp ./touchscreen.rules /etc/udev/rules.d/
+			dialog --msgbox "New Setting saved !!\n A Reboot is required !!!" 10 50
+		else
+			dialog --msgbox "New Setting saved, but touch cal not valid !!\n A Reboot is required !!!" 10 50
+		fi
 	else
 		dialog --backtitle "OpenVario" \
 		--title "ERROR" \
