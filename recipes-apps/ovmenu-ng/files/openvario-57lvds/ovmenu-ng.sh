@@ -4,6 +4,8 @@
 TIMEOUT=3
 INPUT=/tmp/menu.sh.$$
 
+TOUCH_CAL=/opt/conf/touch.cal
+
 #get config files
 source /opt/conf/*.conf
 
@@ -70,6 +72,7 @@ function submenu_system() {
 	Update_System   "Update system software" \
 	Update_Maps   "Update Maps files" \
 	Calibrate_Sensors   "Calibrate Sensors" \
+	Calibrate_Touch   "Calibrate Touch" \
 	Settings   "System Settings" \
 	Information "System Info" \
 	Back   "Back to Main" 2>"${INPUT}"
@@ -86,6 +89,9 @@ function submenu_system() {
 			;;
 		Calibrate_Sensors) 
 			calibrate_sensors
+			;;
+		Calibrate_Touch) 
+			calibrate_touch
 			;;
 		Settings)
 			submenu_settings
@@ -192,9 +198,9 @@ function submenu_rotation() {
 		# uboot rotation
 		sed -i 's/^rotation=.*/rotation='$menuitem'/' /boot/config.uEnv
 		# touch cal
-		if [ -e /opt/bin/touch.cal ]; then
+		if [ -e $TOUCH_CAL ]; then
 			cd /opt/bin
-			./caltool -c -r $menuitem
+			./caltool -c $TOUCH_CAL -r $menuitem
 			cp ./touchscreen.rules /etc/udev/rules.d/
 			dialog --msgbox "New Setting saved !!\n A Reboot is required !!!" 10 50
 		else
@@ -234,6 +240,12 @@ function calibrate_sensors() {
 	/opt/bin/sensorcal -c > /tmp/tail.$$ &
 	dialog --backtitle "OpenVario" --title "Result" --tailbox /tmp/tail.$$ 30 50
 	systemctl start sensord
+}
+
+function calibrate_touch() {
+	echo "Calibrating Touch ..." >> /tmp/tail.$$
+	/opt/bin/caltool -c $TOUCH_CAL
+	dialog --msgbox "Please set Display rotation again to apply calibration !!" 10 50
 }
 
 function update_maps() {

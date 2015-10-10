@@ -6,7 +6,7 @@ HOMEPAGE = "www.openvario.org"
 LICENSE = "GPL-3.0"
 LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/${LICENSE};md5=c79ff39f19dfec6d293b95dea7b07891"
 SECTION = "base/app"
-PR = "r1"
+PR = "r2"
 
 S = "${WORKDIR}/git"
 
