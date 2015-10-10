@@ -4,6 +4,9 @@
 TIMEOUT=3
 INPUT=/tmp/menu.sh.$$
 
+#get config files
+source /opt/conf/*.conf
+
 # trap and delete temp files
 trap "rm $INPUT;rm /tmp/tail.$$; exit" SIGHUP SIGINT SIGTERM
 
@@ -127,6 +130,7 @@ function submenu_settings() {
 	--begin 3 4 \
 	--menu "You can use the UP/DOWN arrow keys" 15 50 5 \
 	Display_Rotation 	"Set rotation of the display" \
+	XCSoar_Language 	"Set language used for XCSoar" \
 	Back   "Back to Main" 2>"${INPUT}"
 	
 	menuitem=$(<"${INPUT}")
@@ -136,15 +140,39 @@ function submenu_settings() {
 		Display_Rotation)
 			submenu_rotation
 			;;
+		XCSoar_Language)
+			submenu_xcsoar_lang
+			;;
 		Back) ;;
 	esac		
+}
+
+function submenu_xcsoar_lang() {
+	if [ -n $XCSOAR_LANG ]; then
+		dialog --nocancel --backtitle "OpenVario" \
+		--title "[ S Y S T E M ]" \
+		--begin 3 4 \
+		--menu "Actual Setting is $XCSOAR_LANG \nSelect Language:" 15 50 4 \
+		 system "Default system" \
+		 de_DE.UTF-8 "German" \
+		 2>"${INPUT}"
+		 
+		 menuitem=$(<"${INPUT}")
+
+		# update config
+		sed -i 's/^XCSOAR_LANG=.*/XCSOAR_LANG='$menuitem'/' /opt/conf/ov-xcsoar.conf
+		dialog --msgbox "New Setting saved !!\n A Reboot is required !!!" 10 50	
+	else
+		dialog --backtitle "OpenVario" \
+		--title "ERROR" \
+		--msgbox "No Config found !!"
+	fi
 }
 
 function submenu_rotation() {
 	
 	mount /dev/mmcblk0p1 /boot 
 	TEMP=$(grep "rotation" /boot/config.uEnv)
-	pause 
 	if [ -n $TEMP ]; then
 		ROTATION=${TEMP: -1}
 		dialog --nocancel --backtitle "OpenVario" \
@@ -218,7 +246,11 @@ function upload_files(){
 
 function start_xcsoar() {
 	/usr/bin/xcsoar_config.sh
-	/opt/XCSoar/bin/xcsoar -fly -640x480
+	if [ -z $XCSOAR_LANG ]; then
+		/opt/XCSoar/bin/xcsoar -fly -640x480
+	else
+		LANG=$XCSOAR_LANG /opt/XCSoar/bin/xcsoar -fly -640x480
+	fi
 }
 
 function yesno_exit(){
