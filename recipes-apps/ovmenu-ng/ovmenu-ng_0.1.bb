@@ -8,12 +8,13 @@ LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/${LICENSE};md5=c79ff39f19dfec6d
 SECTION = "base/app"
 
 S = "${WORKDIR}"
-PR = "r7"
+PR = "r9"
 
 RDEPENDS_${PN} = "bash dialog-static"
 
 SRC_URI =      "\
 	file://ovmenu-ng.sh \
+	file://openvario.rc \
 "
 
 
@@ -27,7 +28,10 @@ do_install() {
         echo "Installing ..."
         install -d ${D}/opt/bin
         install -m 0755 ${S}/ovmenu-ng.sh ${D}/opt/bin/ovmenu-ng.sh
+		install -d ${D}/home/root
+		install -m 0755 ${S}/openvario.rc ${D}/home/root/.dialogrc
 }
 
 FILES_${PN} = "/opt/bin/ovmenu-ng.sh \
+				/home/root/.dialogrc \
 "
