@@ -38,7 +38,7 @@ IMAGE_INSTALL += "\
 	ovmenu-ng-autostart \
         ov-tools \
 	caltool \
-	varioapp \
+	variod \
         bash \
         vim \
         nano \
