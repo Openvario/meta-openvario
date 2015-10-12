@@ -4,7 +4,7 @@ After=syslog.target
 
 [Service]
 Type=forking
-ExecStart=/opt/bin/sensord -c /opt/bin/conf/sensord.conf
+ExecStart=/opt/bin/sensord -c /opt/conf/sensord.conf
 Restart=on-abort
 
 [Install]

@@ -7,7 +7,7 @@ LICENSE = "GPL-3.0"
 LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/${LICENSE};md5=c79ff39f19dfec6d293b95dea7b07891"
 SECTION = "base/app"
 DEPENDS = ""
-PR = "r3"
+PR = "r4"
 
 S = "${WORKDIR}/git"
 
@@ -41,8 +41,8 @@ do_install() {
 PACKAGES = "${PN}"
 FILES_${PN} = "/opt/bin/sensord \
 					/opt/bin/sensorcal \
-					/opt/bin/conf/sensord.conf \
-					/opt/bin/conf/default/sensord.conf \
+					/opt/conf/sensord.conf \
+					/opt/conf/default/sensord.conf \
 					${systemd_unitdir}/system/sensord.service \
 "
 
