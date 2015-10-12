@@ -7,7 +7,7 @@ LICENSE = "GPL-3.0"
 LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/${LICENSE};md5=c79ff39f19dfec6d293b95dea7b07891"
 SECTION = "base/app"
 DEPENDS = ""
-PR = "r4"
+PR = "r6"
 
 S = "${WORKDIR}/git"
 
@@ -40,8 +40,8 @@ do_install() {
 
 PACKAGES = "${PN}"
 FILES_${PN} = "/opt/bin/variod \
-					/opt/bin/config/default/variod.conf \
-					/opt/bin/config/variod.conf \
+					/opt/conf/default/variod.conf \
+					/opt/conf/variod.conf \
 					${systemd_unitdir}/system/variod.service \
 "
 
