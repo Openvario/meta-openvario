@@ -24,7 +24,7 @@ RDEPENDS_${PN} = "	sunxi-mali \
 "
 
 S = "${WORKDIR}/git"
-PR = "r1"
+PR = "r3"
 LC_LOCALE_PATH = "/usr/share/locale"
 
 SRCREV_pn-xcsoar-testing = "${AUTOREV}" 
