@@ -10,7 +10,7 @@ IMAGE_ROOTFS_SIZE = "3768320"
 IMAGE_FEATURES += "debug-tweaks"
 
 IMAGE_INSTALL += "\
-    xcsoar \
+	xcsoar-testing \
 	xcsoar-profiles \
 	xcsoar-menu \
 	"
