@@ -15,4 +15,4 @@ IMAGE_INSTALL += "\
 	xcsoar-menu \
 	"
 
-export IMAGE_BASENAME = "ov-image"
+export IMAGE_BASENAME = "ov-image-testing"
