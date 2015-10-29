@@ -28,19 +28,21 @@ RDEPENDS_${PN} = "\
 	perl-module-file-basename \
 	boost \
 	boost-dev \
-        pkgconfig \
+    pkgconfig \
 	imagemagick \
 	libxslt-bin \
 	librsvg \
 	rsvg \
 	gettext \
-        g++ \
-        gcc \
+    g++ \
+    gcc \
 	gdb \
-        make \
-        git \
-        vim \
-        gcc-symlinks \
+    make \
+    git \
+    vim \
+    gcc-symlinks \
 	g++-symlinks \
 	binutils \
+	alsa-lib-dev \
+	alsa-lib \
 	"
