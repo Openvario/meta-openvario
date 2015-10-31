@@ -1,5 +1,7 @@
 #!/bin/bash
 
+DIALOGRC=/opt/bin/openvario.rc
+
 #Config
 TIMEOUT=3
 INPUT=/tmp/menu.sh.$$
@@ -20,7 +22,8 @@ do
 	--menu "You can use the UP/DOWN arrow keys" 15 50 6 \
 	Flash_SDCard   "Write image to SD Card" \
 	Reboot   "Reboot" \
-	Power_OFF "Power OFF" 2>"${INPUT}"
+	Power_OFF "Power OFF" \
+	Exit "Exit to shell" 2>"${INPUT}"
 	 
 	menuitem=$(<"${INPUT}")
  
@@ -29,6 +32,7 @@ case $menuitem in
 	Flash_SDCard) select_image;;
 	Reboot) /opt/bin/reboot.sh;;
 	Power_OFF) power_off;;
+	Exit) ;;
 esac
 
 done
@@ -44,8 +48,9 @@ function select_image(){
 	while read -r line; do # process file by file
 		let i=$i+1
 		files+=($i "$line")
-		temp=`echo ${line##*/}| cut -d'-' -f7`
-		temp="$temp `echo ${line##*/}| cut -d'-' -f9 | cut -d'.' -f1`"
+		temp=$(echo $line | grep -oE '[0-9]{5}')
+		temp2=$(echo $line | grep -o "testing")
+		temp="$temp $temp2"
 		files_nice+=($i "$temp")
 	done < <( ls -1 $images )
 	
@@ -60,7 +65,7 @@ function select_image(){
 	else
 		dialog --backtitle "${TITLE}" \
 		--title "Select image" \
-		--msgbox "\n\n No image file found !!" 10 60
+		--msgbox "\n\n No image file found !!" 10 40
 		return
 	fi
 	IMAGEFILE=$(readlink -f $(ls -1 $images |sed -n "$FILE p"))
