@@ -8,7 +8,7 @@ LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/${LICENSE};md5=c79ff39f19dfec6d
 SECTION = "base/app"
 
 S = "${WORKDIR}"
-PR = "r11"
+PR = "r12"
 
 RDEPENDS_${PN} = "bash dialog-static"
 
