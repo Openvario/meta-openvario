@@ -13,6 +13,7 @@ IMAGE_INSTALL += "\
 	xcsoar-testing \
 	xcsoar-profiles \
 	xcsoar-menu \
+	xcsoar-maps-default \
 	"
 
 export IMAGE_BASENAME = "ov-image-testing"
