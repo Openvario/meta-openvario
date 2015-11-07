@@ -10,13 +10,13 @@ DEPENDS = "dialog"
 RDEPENDS_${PN} = "dialog \
 					bash \
 				"
-PR = "r6"
+PR = "r7"
 
 S = "${WORKDIR}"
 
 SRC_URI = " \
 	file://ovmenu-recovery.sh \
-	file://openvario.rc \	
+	file://dialogrc \	
 "
 
 do_compile() {
@@ -25,12 +25,12 @@ do_compile() {
 do_install() {
 	install -d ${D}/opt/bin
 	install -m 0755 ${S}/ovmenu-recovery.sh ${D}/opt/bin
-	install -m 0755 ${S}/openvario.rc ${D}/opt/bin
+	install -m 0755 ${S}/dialogrc ${D}/etc
 	
 }
 
 PACKAGES = "${PN}"
 FILES_${PN} = " \
 	/opt/bin/ovmenu-recovery.sh \
-	/opt/bin/openvario.rc \
+	/etc/dialogrc \
 "

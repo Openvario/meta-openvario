@@ -32,7 +32,7 @@ case $menuitem in
 	Flash_SDCard) select_image;;
 	Reboot) /opt/bin/reboot.sh;;
 	Power_OFF) power_off;;
-	Exit) ;;
+	Exit) exit;;
 esac
 
 done
