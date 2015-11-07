@@ -1,4 +1,4 @@
-\documentclass[german,a4paper,11pt]{refrep}
+\documentclass[english,a4paper,11pt]{refrep}
 \usepackage[utf8]{inputenc}
 \usepackage[pdftex]{hyperref}
 \hypersetup{linkcolor=blue,%interne Links (ref, cite, etc)
@@ -17,8 +17,8 @@ breaklinks=true%Umbruch von links erlaubt
 \begin{tabular}{l}\hspace*{-4cm}{\em OpenVario Manual  } \vspace*{2pt}\end{tabular}}% Kopfzeile
 %
 %
-\input{../style/ov.sty}       % XCS-Sytelfile hier laden
-\input{../style/title-ov.sty} % XCS Titelseite hier laden
+\input{../style/ov.sty}      
+\input{../style/title-ov.sty} 
 %\input{buttons-de.sty}   % Extras for de laden
 %
 %
@@ -91,7 +91,10 @@ furnishing, performance, or use of this material.
 \input{ch03_usage.tex}
 
 %%%%%%%%%%%%%%%%%%%%%%
-\input{ch04_maintenance.tex}
+\input{ch04_setup.tex}
+
+%%%%%%%%%%%%%%%%%%%%%%
+\input{ch05_update.tex}
 
 %%%%%%%%%%%%%%%%%%%%%%
 \pagestyle{empty}\hypersetup{linkcolor=orange}
@@ -99,6 +102,14 @@ furnishing, performance, or use of this material.
 
 %%%%%%%%%%%%%%%%%%%%%%%
 \appendix
+
+%%%%%%%%%%%%%%%%%%%%%%
+\chapter{Configuration Files}\label{cha:config-files}
+\input{app_A_config_files.tex}
+
+%%%%%%%%%%%%%%%%%%%%%%
+\chapter{OpenVario USB Stick}\label{cha:usb-stick}
+\input{app_B_USB-Stick.tex}
 
 %%%%%%%%%%%%%%%%%%%%%%
 \chapter{GNU General Public License}\label{cha:gnu-general-public}

@@ -1,0 +1,68 @@
+\section{Create an USB Stick}
+
+There are a few requirements to use a USB Stick:
+\begin{itemize}
+	\item The filesystem on the USB Stick must be \textbf{FAT32}
+	\item There has to be a special directory structure on the stick
+\end{itemize}
+
+\subsection{Required directory structure}
+There have to be several directories on the USB Stick the tools expect:
+
+\dirtree{%
+	.1 /.
+	.2 openvario.
+	.3 maps.
+	.3 repo.
+	.3 igc.
+	.3 upload.
+	.3 images.
+}
+
+\subsubsection{maps}
+This directory is used for updating map files. 
+The format of  the map files can either be *.xcm or a compiled ipk for the opkg packet manager.
+The map file will be copied/installed to XCSoar settings directory and can be selected using the XCSoar map settings dialog
+
+\subsubsection{repo}
+This directory is used for software updates of the OV-Linux system on a packet basis.
+The whole repository directory on the FTP server has to be mirrored into this sub-directory for update.
+
+\subsubsection{igc}
+This directory is used for transfering IGC logfile from the \ovfc to the USB Stick. All files matchin "*.igc" will be copied in this directory.
+
+\subsubsection{upload}
+This directory is used for transfering file from the USB Stick to the \ovfc.
+All files residing in this directory will be copied to the XCSoar home directory.
+
+\subsubsection{images}
+This directory holds Software Image Files used for recovery of the whole \ovfc. 
+
+\subsection{Download files for the USB Stick}
+
+All files need for updating the \ovfc can be downloaded at
+
+\begin{quote}
+	\url{ftp://ftp.openvario.org/}
+\end{quote}
+
+
+\subsection{Recovering using USB Stick}
+To recover the whole \ovfc a special file has to be stored in the \textbf{openvario} sub directory.
+
+The file is named 
+
+\hspace{15mm}\textbf{ov-recovery.itb}
+
+and includes a complete linux kernel as well as a initramfs to bootup the \ovfc.
+A user menu shows up after booting which enables the user to write a new image file on the SD Card.
+
+The image file which should be written to SD Card has to reside in the 
+
+\hspace{15mm}\textbf{images}
+
+subdirectory. The file used is exactly the same as used for writting to a SD Card using a PC.
+
+
+
+
