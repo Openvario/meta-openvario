@@ -28,6 +28,7 @@ IMAGE_INSTALL += "\
         ttf-dejavu-serif \
 	terminus-font-consolefonts \
         sensord \
+	i2c-tools \
         openvario-modules-autoload \
         openvario-autologin \
 	ovmenu-ng \
