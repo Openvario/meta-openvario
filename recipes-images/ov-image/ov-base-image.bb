@@ -41,6 +41,7 @@ IMAGE_INSTALL += "\
         nano \
         e2fsprogs \
         autofs \
+	i2c-tools \
         connman-ncurses \
         linux-firmware-ralink \
 "
