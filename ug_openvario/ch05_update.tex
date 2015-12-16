@@ -1,0 +1,75 @@
+\chapter{Update}
+
+\section{Prerequisites}
+
+\begin{itemize}
+	\item \ovusb (see \autoref{cha:usb-stick})
+	\item Accesible USB Port at the \ovfc
+\end{itemize}
+
+\section{Update Maps using USB Stick}\label{cha:upd_maps_usb}
+To update the maps and flarmdata without an internet connection (e.g. if you have no 
+WLAN on your airport) a special USB Stick is needed.
+
+\subsection{Doing the update}
+\begin{itemize}
+	\item Connect the USB Stick to the \ovfc before power-on.
+	\item Power-On the Flight Computer
+	\item Press \keystroke{ESC} if the \ovmenu appears
+	\item Select \textbf{System}
+	\item Select \textbf{Update Maps}
+	\item Wait for update to be done
+\end{itemize}
+
+\warning The maps on the USB Stick will be installed in any case even if the maps 
+are older than the installed ones on the SD Card !!
+
+\section{Update Firmware of \ovfc}\label{cha:upd_fw}
+Sometimes it is necessary to update the firmware on the \ovfc. This can be happen if there are new features or bugfixes.
+
+\subsection{Incremental Firmware update using USB Stick}\label{cha:upd_inc_usb}
+An update can be done just with a \ovusb.
+The update package have to be placed in the \textbf{repo} directory in the USB stick (see \autoref{cha:usb-stick}).
+
+Download the actual repository files from 
+\url{ftp://ftp.openvario.org/opkg}
+
+
+\begin{itemize}
+	\item Power-On the Flight Computer
+	\item Press \keystroke{ESC} if the \ovmenu appears
+	\item Connect the prepared USB Stick to the \ovfc
+	\item Select \textbf{System}
+	\item Select \textbf{Update System}
+	\item The USB Stick will be checked for updates and the available updates will be shown
+	\item Acknowlegde the updates
+	\item Wait for update to be done
+\end{itemize}
+
+\subsection{Complete SD Card Flash}\label{cha:sdcard_flash}
+It is also possible to erase the whole SD Card and flash a new image to the \ovfc.
+
+\warning If something goes wrong during this update procedure you have to remove the SD Card and use a PC a new image.
+The whole process can take up to 15 minutes, so think about available battery capacity and things like this !!
+
+Download the desired image files from 
+
+\url{ftp://ftp.openvario.org/images}
+
+
+\begin{itemize}
+	\item Power-Off the Flight Computer
+	\item Connect the \ovusb to USB Port of \ovfc
+	\item Power-On the Flight Computer
+	\item The boot screen appears and show "!!! Recovery !!!"
+	\item Wait for \ovfc to boot
+	\item Select \textbf{Flash SD Card}
+	\item Select the image version you want to flash
+	
+	\tip If the image you want to flash is not showing up, check if it resides in openvario/images
+	
+	\item Select \textbf{Update All}
+	\item Wait for update to be done and reboot the \ovfc
+\end{itemize}
+
+
