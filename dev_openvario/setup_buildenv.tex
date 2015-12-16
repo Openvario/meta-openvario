@@ -41,7 +41,7 @@ At the command prompt of your build machine type:
 \begin{verbatim*}
 git clone http://git-ro.openvario.org/rootfs.git
 cd rootfs
-git checkout origin/next
+git checkout angstrom-v2014.12-yocto1.7
 MACHINE=<DEVICE> ./oebb.sh config <DEVICE>
 \end{verbatim*}
 
@@ -57,7 +57,7 @@ At the moment \textbf{\textit{DEVICE}} can be:
 Now building the image is a simple task:
 
 \begin{verbatim*}
-source environment-angstrom-next
+source environment-angstrom-v2014.12
 bitbake <TARGET>
 \end{verbatim*}
 
