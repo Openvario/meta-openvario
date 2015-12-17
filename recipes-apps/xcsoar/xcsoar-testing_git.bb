@@ -15,16 +15,20 @@ DEPENDS = "	libsdl \
 		ttf-dejavu \
 		sunxi-mali \
 		curlpp \
+		lua \
+		gdal \
 "
 
 RDEPENDS_${PN} = "	sunxi-mali \
 			libinput \
 			libsdl \
+			lua \
 			udev \
+			gdal\
 "
 
 S = "${WORKDIR}/git"
-PR = "r3"
+PR = "r4"
 LC_LOCALE_PATH = "/usr/share/locale"
 
 SRCREV_pn-xcsoar-testing = "${AUTOREV}" 
@@ -47,7 +51,7 @@ do_compile() {
 	echo "Making .."
 	echo '${WORKDIR}'
 	cd ${WORKDIR}/git
-	make -j8 DEBUG=n DEBUG_GLIBCXX=n USE_LIBINPUT=y
+	make -j8 DEBUG=n DEBUG_GLIBCXX=n USE_LIBINPUT=y GEOTIFF=n
 }
 
 do_install() {
@@ -115,7 +119,8 @@ do_install() {
 }
 
 FILES_${PN} = " \
-	/opt/XCSoar/bin/* \
+	/opt/XCSoar/bin/xcsoar \
+	/opt/XCSoar/bin/vali-xcs \
 	/opt/conf/default/ov-xcsoar.conf \
 	/opt/conf/ov-xcsoar.conf \
 	${LC_LOCALE_PATH}/de/LC_MESSAGES/xcsoar.mo \	
