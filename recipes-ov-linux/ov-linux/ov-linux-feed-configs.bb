@@ -13,12 +13,12 @@ do_compile() {
 	mkdir -p ${S}/${sysconfdir}/opkg
 	
 	# Create feeds for internet repos
-	for feed in all armv7at2hf-vfp-neon armv7ahf-vfp-neon openvario_7lvds openvario_43rgb; do
+	for feed in all armv7at2hf-vfp-neon armv7ahf-vfp-neon openvario_7_CH070 openvario_7_PQ070 openvaior_57lvds openvario_43rgb; do
 		  echo "src/gz ${feed} ${OPENVARIO_URI}/${feed}" > ${S}/${sysconfdir}/opkg/${feed}-feed.conf
 	done
 
 	# Create feeds for USB Stick
-	for feed in all armv7at2hf-vfp-neon armv7ahf-vfp-neon openvario_7lvds openvario_43rgb; do
+	for feed in all armv7at2hf-vfp-neon armv7ahf-vfp-neon openvario_7_CH070 openvario_7_PQ070 openvaior_57lvds openvario_43rgb; do
                   echo "src/gz ${feed}-local ${USBSTICK_PATH}/${feed}" >> ${S}/${sysconfdir}/opkg/usb-local-feed.conf
         done
 

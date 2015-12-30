@@ -9,7 +9,8 @@ PR = "r0"
 
 SRC_URI = "git://github.com/linux-sunxi/sunxi-boards.git;protocol=git \
 			file://sys_config/a20/CB2-43RGB.fex \
-	   		file://sys_config/a20/CB2-7LVDS.fex \
+			file://sys_config/a20/CB2-7-CH070.fex \
+			file://sys_config/a20/CB2-7-PQ070.fex \
 	   		file://sys_config/a20/CB2-57LVDS.fex \
 "
 
@@ -18,7 +19,8 @@ SRCREV = "bf02cb81d1fe5996758322dc74e66808c1c7ad38"
 
 S = "${WORKDIR}"
 SUNXI_FEX_FILE_openvario-43rgb = "sys_config/a20/CB2-43RGB.fex"
-SUNXI_FEX_FILE_openvario-7lvds = "sys_config/a20/CB2-7LVDS.fex"
+SUNXI_FEX_FILE_openvario-7-CH070 = "sys_config/a20/CB2-7-CH070.fex"
+SUNXI_FEX_FILE_openvario-7-PQ070 = "sys_config/a20/CB2-7-PQ070.fex"
 SUNXI_FEX_FILE_openvario-57lvds = "sys_config/a20/CB2-57LVDS.fex"
 
 SUNXI_FEX_BIN_IMAGE = "fex-${MACHINE}-${PV}-${PR}.bin"
@@ -52,4 +54,4 @@ do_package_write_rpm[noexec] = "1"
 do_package_write_deb[noexec] = "1"
 do_populate_sysroot[noexec] = "1"
 
-COMPATIBLE_MACHINE = "(openvario-43rgb|openvario-7lvds|openvario-57lvds)"
+COMPATIBLE_MACHINE = "(openvario-43rgb|openvario-7-PQ070|openvario-7-CH070|openvario-57lvds)"

@@ -2,7 +2,7 @@ require linux.inc
 
 DESCRIPTION = "Linux kernel for Allwinner a10/a20 processors"
 
-COMPATIBLE_MACHINE = "(openvario-43rgb|openvario-7lvds|openvario-57lvds)"
+COMPATIBLE_MACHINE = "(openvario-43rgb|openvario-7-CH070|openvario-7-PQ070|openvario-57lvds)"
 
 PV = "3.4.90"
 PR = "r1"

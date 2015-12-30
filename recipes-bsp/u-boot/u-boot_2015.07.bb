@@ -18,12 +18,12 @@ file://Licenses/lgpl-2.0.txt;md5=5f30f0716dfdd0d91eb439ebec522ec2 \
 file://Licenses/lgpl-2.1.txt;md5=4fbd65380cdd255951079008b364516c \
 file://Licenses/x11.txt;md5=b46f176c847b8742db02126fb8af92e2 \
 "
-COMPATIBLE_MACHINE = "(openvario-43rgb|openvario-7lvds|openvario-57lvds)"
+COMPATIBLE_MACHINE = "(openvario-43rgb|openvario-7-CH070|openvario-7-PQ070|openvario-57lvds)"
 
-DEFAULT_PREFERENCE_openvario-7lvds="1"
 DEFAULT_PREFERENCE_openvario-43rgb="1"
 DEFAULT_PREFERENCE_openvario-57lvds="1"
-
+DEFAULT_PREFERENCE_openvario-7-CH070="1"
+DEFAULT_PREFERENCE_openvario-7-PQ070="1"
 
 SRC_URI += " \
 	file://boot.cmd \
