@@ -28,4 +28,7 @@ sleep 5
 mount /dev/sda1 /mnt
 
 /opt/bin/ovmenu-recovery.sh
+
+#Unmount USB Stick if exited to shell
+umount /dev/sda1
 /bin/bash
