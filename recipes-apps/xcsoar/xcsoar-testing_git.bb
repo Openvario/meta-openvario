@@ -38,6 +38,7 @@ SRC_URI = 	"git://git-ro.openvario.org/xcsoar.git;protocol=http;branch=testing \
 				 file://0001-Adapted-Flags-for-compiler-and-linker-for-cross-comp.patch \
 				 file://0001-Disable-warnings-as-errors.patch \
 				 file://0001-Override-detection-of-target-hardware.patch \
+				 file://0001-Workaround-for-lua-detection.patch \
 				 file://ov-xcsoar.conf \
 "
 
