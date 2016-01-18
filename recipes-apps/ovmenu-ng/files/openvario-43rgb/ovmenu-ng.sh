@@ -49,8 +49,8 @@ function submenu_file() {
 	--title "[ F I L E ]" \
 	--begin 3 4 \
 	--menu "You can use the UP/DOWN arrow keys" 15 50 4 \
-	Download   "Download IGC File to USB" \
-	Upload   "Upload files from USB to FC" \
+	Download   "Download XCSoar to USB" \
+	Upload   "Upload files from USB to XCSoar" \
 	Back   "Back to Main" 2>"${INPUT}"
 	
 	menuitem=$(<"${INPUT}")
@@ -284,13 +284,13 @@ function update_maps() {
 
 function download_files() {
 	echo "Downloading files ..." > /tmp/tail.$$
-	/usr/bin/download-igc.sh >> /tmp/tail.$$ &
+	/usr/bin/download-xcsoar.sh >> /tmp/tail.$$ &
 	dialog --backtitle "OpenVario" --title "Result" --tailbox /tmp/tail.$$ 30 50
 }
 
 function upload_files(){
 	echo "Uploading files ..." > /tmp/tail.$$
-	/usr/bin/upload-all.sh >> /tmp/tail.$$ &
+	/usr/bin/upload-xcsoar.sh >> /tmp/tail.$$ &
 	dialog --backtitle "OpenVario" --title "Result" --tailbox /tmp/tail.$$ 30 50
 }
 
