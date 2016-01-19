@@ -18,6 +18,7 @@ DEPENDS += " \
 		ovmenu-recovery \
 		bash \
 		udev \
+		cfgmgr \
 		"
 
 PACKAGE_INSTALL = " \
@@ -30,6 +31,7 @@ PACKAGE_INSTALL = " \
 		ovmenu-recovery \
 		bash \
 		udev \
+		cfgmgr \
 		"
 
 IMAGE_DEV_MANAGER   = "udev"
