@@ -7,11 +7,17 @@ LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/${LICENSE};md5=c79ff39f19dfec6d
 SECTION = "base/app"
 
 S = "${WORKDIR}/git"
-PR = "r2"
+PR = "r4"
 
 SRCREV_pn-cfgmgr = "${AUTOREV}"
 
-RDEPENDS_${PN} = "python"
+RDEPENDS_${PN} = " \
+				python \
+				python-argparse \
+				python-configparser \
+				python-shell \
+				python-compression \
+"
 
 SRC_URI = "\
 		git://git-ro.openvario.org/cfgmgr.git;protocol=http \
