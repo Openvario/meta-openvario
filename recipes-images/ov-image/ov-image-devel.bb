@@ -1,5 +1,5 @@
 #Angstrom bootstrap image
-require console-base-image.bb
+require ov-base-image.bb
 
 DEPENDS += "packagegroup-base-extended \
 	   "
@@ -14,6 +14,7 @@ IMAGE_INSTALL += "\
 	pkgconfig \	
 	g++ \
 	gcc \
+	gdb \
 	make \
 	git \
 	vim \
