@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/${LICENSE};md5=c79ff39f19dfec6d
 SECTION = "base/app"
 
 S = "${WORKDIR}/git"
-PR = "r4"
+PR = "r5"
 
 SRCREV_pn-cfgmgr = "${AUTOREV}"
 
@@ -21,6 +21,8 @@ RDEPENDS_${PN} = " \
 
 SRC_URI = "\
 		git://git-ro.openvario.org/cfgmgr.git;protocol=http \
+		file://save_config.sh \
+		file://restore_config.sh \
 "
 
 
@@ -34,9 +36,14 @@ do_install() {
         echo "Installing ..."
         install -d ${D}/opt/bin
         install -m 0755 ${S}/cfgmgr.py ${D}/opt/bin/cfgmgr.py
+		install -m 0755 ${S}/save_config.sh ${D}/opt/bin
+		install -m 0755 ${S}/restore_config.sh ${D}/opt/bin
 		install -m 0755 ${S}/ConfigFile.py ${D}/opt/bin/ConfigFile.py
 }
 
-FILES_${PN} = "/opt/bin/cfgmgr.py \
+FILES_${PN} = "	\
+				/opt/bin/cfgmgr.py \
 				/opt/bin/ConfigFile.py \
+				/opt/bin/save_config.sh \
+				/opt/bin/restore_config.sh \
 "
