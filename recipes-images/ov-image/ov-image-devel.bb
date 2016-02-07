@@ -26,6 +26,10 @@ IMAGE_INSTALL += "\
 	vim \
 	gcc-symlinks \
 	g++-symlinks \
+	xcsoar-testing \
+        xcsoar-profiles \
+        xcsoar-menu \
+        xcsoar-maps-default \
 "
 
 export IMAGE_BASENAME = "ov-image-devel"
