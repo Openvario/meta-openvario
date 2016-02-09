@@ -25,16 +25,23 @@ The provided image was created with VirtualBox\textsuperscript{\textcopyright} \
 
 
 
+\section{Build on Debian Linux} 
 
-\section{Install by your own}
-
-bla bla bla ...
-
-
-\section{Setup Openembedded environment}
+\subsection{Setup Openembedded environment}
 To build the Linux image for the \ovfc the Openembedded Build Environment ist used. This environment is structured in layers and recipes. This layers are setup automatically using the scripts provided by \ovwebsite{}.
 
-\subsection{Get setup scripts}
+\subsection{Install required Packages} 
+On Debian Jessie 8.3: 
+
+You need the following packages: 
+\begin{verbatim*}
+    apt-get install build-essential \
+		    texi2html \
+		    chrpath \
+		    git 
+\end{verbatim*}
+
+\subsection{Checkout setup scripts}
 
 At the command prompt of your build machine type:
 
