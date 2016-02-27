@@ -27,9 +27,10 @@ IMAGE_INSTALL += "\
 	gcc-symlinks \
 	g++-symlinks \
 	xcsoar-testing \
-        xcsoar-profiles \
-        xcsoar-menu \
-        xcsoar-maps-default \
+    xcsoar-profiles \
+    xcsoar-menu \
+    xcsoar-maps-default \
+	variod-testing \
 "
 
 export IMAGE_BASENAME = "ov-image-devel"

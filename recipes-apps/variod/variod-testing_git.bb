@@ -11,7 +11,7 @@ PR = "r8"
 
 S = "${WORKDIR}/git"
 
-SRCREV_pn-variod = "${AUTOREV}" 
+SRCREV_pn-variod-testing = "${AUTOREV}" 
 
 inherit systemd
 
