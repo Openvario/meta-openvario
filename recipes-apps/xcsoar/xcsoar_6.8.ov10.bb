@@ -24,7 +24,7 @@ RDEPENDS_${PN} = "	sunxi-mali \
 "
 
 S = "${WORKDIR}/git"
-PR = "r3"
+PR = "r4"
 LC_LOCALE_PATH = "/usr/share/locale"
 
 SRC_URI = 	"git://git-ro.openvario.org/xcsoar.git;protocol=http;tag=6.8_ov10 \
@@ -32,6 +32,7 @@ SRC_URI = 	"git://git-ro.openvario.org/xcsoar.git;protocol=http;tag=6.8_ov10 \
 				 file://0003-Adapted-toolchain-prefixes-for-cross-compile.patch \
 				 file://0001-Disable-warnings-as-errors.patch \
 				 file://0001-Override-detection-of-target-hardware.patch \
+				 file://0001-Workaround-for-Shutdown-bug.patch \
 				 file://ov-xcsoar.conf \
 "
 

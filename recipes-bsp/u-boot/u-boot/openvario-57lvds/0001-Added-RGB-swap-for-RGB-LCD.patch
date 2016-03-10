@@ -1,35 +1,50 @@
-From d77d1ad7709230482cd9c8ae727cc2bd2f3be577 Mon Sep 17 00:00:00 2001
+From 43a09883deb443226efecfafecf7004f1d58bf97 Mon Sep 17 00:00:00 2001
 From: Timo Bruderek <timo.bruderek@gmx.de>
-Date: Sun, 3 May 2015 15:44:43 +0200
+Date: Thu, 10 Mar 2016 21:38:02 +0100
 Subject: [PATCH] Added RGB swap for RGB LCD
 
-Signed-off-by: Timo Bruderek <timo.bruderek@gmx.de>
 ---
  arch/arm/include/asm/arch-sunxi/display.h | 1 +
- drivers/video/sunxi_display.c             | 1 +
- 2 files changed, 2 insertions(+)
+ drivers/video/Kconfig                     | 5 +++++
+ drivers/video/sunxi_display.c             | 3 +++
+ 3 files changed, 9 insertions(+)
 
 diff --git a/arch/arm/include/asm/arch-sunxi/display.h b/arch/arm/include/asm/arch-sunxi/display.h
-index 5e94253..591aca6 100644
+index ae95417..68ef346 100644
 --- a/arch/arm/include/asm/arch-sunxi/display.h
 +++ b/arch/arm/include/asm/arch-sunxi/display.h
 @@ -357,6 +357,7 @@ struct sunxi_tve_reg {
  #define SUNXI_LCDC_TCON0_FRM_TAB3		0x7f7f7777
  #define SUNXI_LCDC_TCON0_CTRL_CLK_DELAY(n)	(((n) & 0x1f) << 4)
  #define SUNXI_LCDC_TCON0_CTRL_ENABLE		(1 << 31)
-+#define SUNXI_LCDC_TCON0_CTRL_RG_SWAP		(1 << 23)
++#define SUNXI_LCDC_TCON0_CTRL_RG_SWAP           (1 << 23)
  #define SUNXI_LCDC_TCON0_DCLK_DIV(n)		((n) << 0)
  #define SUNXI_LCDC_TCON0_DCLK_ENABLE		(0xf << 28)
  #define SUNXI_LCDC_TCON0_TIMING_H_BP(n)		(((n) - 1) << 0)
+diff --git a/drivers/video/Kconfig b/drivers/video/Kconfig
+index 9ae23e8..e20a243 100644
+--- a/drivers/video/Kconfig
++++ b/drivers/video/Kconfig
+@@ -240,3 +240,8 @@ config VIDEO_TEGRA124
+ 	   HDMI. At present only eDP is supported by U-Boot. This option
+ 	   enables this support which can be used on devices which
+ 	   have an eDP display connected.
++
++config SUNXI_VIDEO_LCD_RG_SWAP
++	bool "SUNXI: Enable RG swap on lcd"
++	help
++	  Swap R and G on sunxi LCD interface.
 diff --git a/drivers/video/sunxi_display.c b/drivers/video/sunxi_display.c
-index d2341b0..3490219 100644
+index 269083b..f632825 100644
 --- a/drivers/video/sunxi_display.c
 +++ b/drivers/video/sunxi_display.c
-@@ -679,6 +679,7 @@ static void sunxi_lcdc_tcon0_mode_set(const struct ctfb_res_modes *mode,
+@@ -694,6 +694,9 @@ static void sunxi_lcdc_tcon0_mode_set(const struct ctfb_res_modes *mode,
  
  	clk_delay = sunxi_lcdc_get_clk_delay(mode);
  	writel(SUNXI_LCDC_TCON0_CTRL_ENABLE |
++#ifdef CONFIG_SUNXI_VIDEO_LCD_RG_SWAP
 +	       SUNXI_LCDC_TCON0_CTRL_RG_SWAP |
++#endif
  	       SUNXI_LCDC_TCON0_CTRL_CLK_DELAY(clk_delay), &lcdc->tcon0_ctrl);
  
  	writel(SUNXI_LCDC_TCON0_DCLK_ENABLE |
