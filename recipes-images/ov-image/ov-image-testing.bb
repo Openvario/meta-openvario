@@ -15,6 +15,7 @@ IMAGE_INSTALL += "\
 	xcsoar-menu \
 	xcsoar-maps-default \
 	variod \
+	sensord-testing \
 	"
 
 export IMAGE_BASENAME = "ov-image-testing"
