@@ -1,8 +1,0 @@
-[MODULE]
-name = sensord
-
-[ConfigFile]
-type = file
-file = sensord.conf
-path = /opt/conf
-default-path = /opt/conf/default
