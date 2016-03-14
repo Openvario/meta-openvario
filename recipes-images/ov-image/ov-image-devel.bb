@@ -14,6 +14,7 @@ IMAGE_INSTALL += "\
 	libpng \
 	libc6-dev \
 	libgcc-dev \
+	gcc-dev \
 	libstdc++-dev \
 	alsa-lib-dev \
 	pkgconfig \	
@@ -27,9 +28,9 @@ IMAGE_INSTALL += "\
 	gcc-symlinks \
 	g++-symlinks \
 	xcsoar-testing \
-    xcsoar-profiles \
-    xcsoar-menu \
-    xcsoar-maps-default \
+    	xcsoar-profiles \
+    	xcsoar-menu \
+    	xcsoar-maps-default \
 	variod-testing \
 "
 
