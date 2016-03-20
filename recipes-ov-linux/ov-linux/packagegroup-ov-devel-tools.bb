@@ -14,13 +14,19 @@ inherit packagegroup
 
 
 RDEPENDS_${PN} = "\	
-        i2c-tools \
-        devmem2 \
-        sunxi-mali \
+    i2c-tools \
+    devmem2 \
+	memtester \
+    sunxi-mali \
+	jpeg \
 	libpng \
 	libcurl \
 	libcurl-dev \
 	libpng-dev \
+	libc6-dev \
+	libgcc-dev \
+	gcc-dev \
+	libstdc++-dev \
 	sunxi-mali-dev \
 	perl-module-data-dumper \
 	perl-module-bytes \
@@ -39,10 +45,17 @@ RDEPENDS_${PN} = "\
 	gdb \
     make \
     git \
+	binutils \
     vim \
     gcc-symlinks \
 	g++-symlinks \
 	binutils \
 	alsa-lib-dev \
 	alsa-lib \
+	xcsoar-testing \
+    xcsoar-profiles \
+    xcsoar-menu \
+    xcsoar-maps-default \
+	variod-testing \
+	sensord-testing \
 	"
