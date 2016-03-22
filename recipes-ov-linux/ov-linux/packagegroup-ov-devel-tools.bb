@@ -52,10 +52,4 @@ RDEPENDS_${PN} = "\
 	binutils \
 	alsa-lib-dev \
 	alsa-lib \
-	xcsoar-testing \
-    xcsoar-profiles \
-    xcsoar-menu \
-    xcsoar-maps-default \
-	variod-testing \
-	sensord-testing \
 	"
