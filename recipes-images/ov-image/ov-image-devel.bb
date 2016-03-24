@@ -14,7 +14,6 @@ IMAGE_INSTALL += "\
 	variod-testing \
 	sensord-testing \	
 	packagegroup-ov-devel-tools \
-	
 "
 
 export IMAGE_BASENAME = "ov-image-devel"
