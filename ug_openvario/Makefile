@@ -16,8 +16,8 @@ NAME:=$(strip $(NAME))
 # ===== PHONY COMMANDS =====
 .PHONY: pdf clean help
 default : help
-pdf : $(NAME).pdf
-clean : ; rm -f *~ *aux *backup *log *toc *bbl *blg *lot *lof
+pdf : $(OUTPUT_DIR)/$(NAME).pdf
+clean : ; rm -rf *~ *aux *backup *log *toc *bbl *blg *lot *lof output/
 superclean : clean
 	rm -f $(NAME).pdf $(NAME).dvi $(NAME).dvi.pdf
 	#rm -f $(SVG2PDF) $(foreach x,$(EPSs),$(IMG)/$(x).pdf) # remove generated pdf images
@@ -40,7 +40,7 @@ SVG2EPS=$(foreach x,$(SVGs),$(x).eps) # "img/svg1.eps img/svg2.eps ", if SVGs="s
 	@convert $< $@ 
 	
 # ===== .tex -> .pdf =====
-$(NAME).pdf : $(NAME).tex $(SVG2PDF)
+$(OUTPUT_DIR)/$(NAME).pdf : $(NAME).tex $(SVG2PDF)
 	mkdir -p $(OUTPUT_DIR)
 	$(TEX) $(NAME).tex
 		
