@@ -1,6 +1,6 @@
 #!/bin/bash
 
-USB_PATH="/usb/usbstick/openvario/upload"
+USB_PATH="/usb/usbstick/openvario/upload/xcsoar"
 UPLOAD_PATH="/home/root/.xcsoar"
 if [ -z "$(ls $USB_PATH/* 2>/dev/null)" ]; then
         echo "No files found !!!"
