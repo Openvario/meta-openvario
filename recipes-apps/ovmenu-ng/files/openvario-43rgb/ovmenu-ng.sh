@@ -272,8 +272,19 @@ function calibrate_sensors() {
 
 function calibrate_touch() {
 	echo "Calibrating Touch ..." >> /tmp/tail.$$
+	# reset touch calibration
+	# uboot rotation
+	mount /dev/mmcblk0p1 /boot
+	sed -i 's/^rotation=.*/rotation=0/' /boot/config.uEnv
+	umount /dev/mmcblk0p1
+	
+	rm /opt/conf/touch.cal
+	cp /opt/bin/touchscreen.rules.template /etc/udev/rules.d/touchscreen.rules
+	udevadm control --reload-rules
+	udevadm trigger
+	sleep 2
 	/opt/bin/caltool -c $TOUCH_CAL
-	dialog --msgbox "Please set Display rotation again to apply calibration !!" 10 50
+	dialog --msgbox "Display rotation is RESET !!\nPlease set Display rotation again to apply calibration !!" 10 50
 }
 
 function update_maps() {
@@ -298,8 +309,10 @@ function start_xcsoar() {
 	/usr/bin/xcsoar_config.sh
 	if [ -z $XCSOAR_LANG ]; then
 		/opt/XCSoar/bin/xcsoar -fly -480x272
+		openvt -f -c 1 /bin/echo; exit
 	else
 		LANG=$XCSOAR_LANG /opt/XCSoar/bin/xcsoar -fly -480x272
+		openvt -f -c 1 /bin/echo; exit
 	fi
 }
 
