@@ -110,7 +110,7 @@ function show_info() {
 	XCSOAR_MAPS_VERSION=$(opkg list-installed | grep "xcsoar-maps-" | awk -F' ' '{print $3}')
 	IMAGE_VERSION=$(more /etc/version | awk -F' ' '{print $2}')
 	SENSORD_VERSION=$(opkg list-installed sensord | awk -F' ' '{print $3}')
-	VARIOD_VERSION=$(opkg list-installed varioapp | awk -F' ' '{print $3}')
+	VARIOD_VERSION=$(opkg list-installed variod | awk -F' ' '{print $3}')
 	IP_ETH0=$(/sbin/ifconfig eth0 | grep 'inet addr:' | cut -d: -f2 | awk '{ print $1}')
 	IP_WLAN=$(/sbin/ifconfig wlan0 | grep 'inet addr:' | cut -d: -f2 | awk '{ print $1}')
 	
