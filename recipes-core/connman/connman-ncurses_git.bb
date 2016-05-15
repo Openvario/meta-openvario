@@ -10,7 +10,9 @@ RDEPENDS_${PN} = "dbus ncurses connman json-c"
 LICENSE = "GPLv2"
 LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/GPL-2.0;md5=801f80980d171dd6425610833a22dbe6"
 
-SRC_URI = "git://github.com/eurogiciel-oss/connman-json-client.git;rev=b0947d7bc892994bda75c3502fe2aa5d4bd364e7"
+SRCREV_pn-${PN} = "${AUTOREV}"
+
+SRC_URI = "git://github.com/eurogiciel-oss/connman-json-client.git"
 
 inherit autotools
 
