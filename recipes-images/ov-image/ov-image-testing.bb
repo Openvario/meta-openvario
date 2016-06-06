@@ -16,6 +16,7 @@ IMAGE_INSTALL += "\
 	xcsoar-maps-default \
 	variod \
 	sensord-testing \
+	dhcp-client \
 	"
 
 export IMAGE_BASENAME = "ov-image-testing"
