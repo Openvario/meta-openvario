@@ -28,7 +28,7 @@ RDEPENDS_${PN} = "	sunxi-mali \
 "
 
 S = "${WORKDIR}/git"
-PR = "r9"
+PR = "r10"
 LC_LOCALE_PATH = "/usr/share/locale"
 
 SRCREV_pn-xcsoar-testing = "${AUTOREV}" 
@@ -38,7 +38,6 @@ SRC_URI = 	"git://git-ro.openvario.org/xcsoar.git;protocol=http;branch=testing \
 				 file://0001-Adapted-Flags-for-compiler-and-linker-for-cross-comp.patch \
 				 file://0001-Disable-warnings-as-errors.patch \
 				 file://0001-Override-detection-of-target-hardware.patch \
-				 file://0001-Increase-refresh-intervall.patch \
 				 file://ov-xcsoar.conf \
 "
 
