@@ -21,23 +21,21 @@ ONLINE_PACKAGE_MANAGEMENT = "full"
 #Alphabetically sorted
 
 FEED_ARCH ?= "${TUNE_PKGARCH}"
+TUNE_ARMPKGARCH = "${ARMPKGARCH}${ARMPKGSFX_DSP}${ARMPKGSFX_EABI}${ARMPKGSFX_ENDIAN}${ARMPKGSFX_FPU}"
+FEED_ARCHS ?= "${TUNE_PKGARCH} ${TUNE_ARMPKGARCH}"
 
 #blackfin machines
 FEED_ARCH_bfin          = "blackfin"
-
-# Add FEED_ARCH to machine overrides so we get access to e.g. 'armv7a' and 'sh4'
-# Hopefully we'll never see a machine or arch with 'all' as substring
-MACHINEOVERRIDES .= ":${@bb.data.getVar('FEED_ARCH', d,1).replace('all','noarch')}"
 
 # Put links to sources in deploy/sources to make it easier for people to be GPL compliant
 #INHERIT += "src_distribute_local"
 SRC_DIST_LOCAL ?= "symlink"
 
-# Can be "glibc", "eglibc" or "uclibc"
+# Can be "glibc", "musl" or "uclibc"
 TCLIBC ?= "glibc"
 
 # The things *libc can provide.
-PREFERRED_PROVIDER_eglibc = "eglibc"
+PREFERRED_PROVIDER_eglibc = "glibc"
 
 PREFERRED_PROVIDER_virtual/gettext ??= "gettext"
 PREFERRED_PROVIDER_linux-libc-headers-nativesdk = "linux-libc-headers-nativesdk"
@@ -148,17 +146,23 @@ IMAGE_NAME = "${DISTRO_NAME}-${IMAGE_BASENAME}-${TCLIBC}-${ANGSTROM_PKG_FORMAT}-
 IMAGE_NAME_LINK = "${DISTRO_NAME}-${IMAGE_BASENAME}-${TCLIBC}-${ANGSTROM_PKG_FORMAT}-current-${MACHINE}"
 DEPLOY_DIR_IMAGE = "${DEPLOY_DIR}/images/${MACHINE}"
 
+# Prefer ext4 images where possible
+SDIMG_ROOTFS_TYPE = "ext4"
+
 # Angstrom *always* has some form of release config, so error out if someone thinks he knows better 
 DISTRO_CHECK := "${@bb.data.getVar("DISTRO_VERSION",d,1) or bb.fatal('Remove this line or set a dummy DISTRO_VERSION if you really want to build an unversioned distro')}"
 
 # We want images supporting the following features (for packagegroup(-core)-base)
-DISTRO_FEATURES = "alsa argp bluetooth ext2 ipv4 ipv6 largefile nfs pam pci smbfs systemd usbgadget usbhost vfat wifi xattr zeroconf"
+DISTRO_FEATURES = "alsa argp bluetooth ext2 ipv4 ipv6 irda largefile nfs pam pci pcmcia ppp smbfs systemd usbgadget usbhost vfat wifi xattr zeroconf"
 
 # Disable sysvinit for recipes with systemd support
 DISTRO_FEATURES_BACKFILL_CONSIDERED += "sysvinit"
 VIRTUAL-RUNTIME_init_manager = "systemd"
 # Uncomment to completely disable support for sysv scripts:
 #PACKAGECONFIG_pn-systemd = "xz"
+
+# Enable systemd support in kernels
+KERNEL_ENABLE_CGROUPS = "1"
 
 # USE-flag like features
 DISTRO_FEATURES += "tk"
@@ -168,7 +172,10 @@ DISTRO_FEATURES += "pulseaudio"
 
 # OpenGL support
 DISTRO_FEATURES += "opengl"
-PREFERRED_PROVIDER_virtual/libgl ?= "mesa-gl"
+
+# Enable wayland
+DISTRO_FEATURES += "wayland"
+
 
 # Inherit the default LIBC features superset from OE-core
 DISTRO_FEATURES += "${DISTRO_FEATURES_LIBC}"

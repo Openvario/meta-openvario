@@ -1,0 +1,136 @@
+From 15d91ef25234ff402f4288273989693f2d402d9d Mon Sep 17 00:00:00 2001
+From: Raoul Hecky <raoul.hecky@gmail.com>
+Date: Fri, 10 Jan 2014 14:44:53 +0100
+Subject: [PATCH] Add missing GLchar definition, some gl/gles apps needs that
+ to compile correctly
+
+Build pkg-config files for gles and egl and install them
+
+Fix .pc creation
+
+add correct driver version in .pc
+---
+ .gitignore          |  1 +
+ Makefile            |  1 +
+ Makefile.pc         | 21 +++++++++++++++++++++
+ egl.pc.in           | 11 +++++++++++
+ gles_cm.pc.in       | 11 +++++++++++
+ glesv2.pc.in        | 11 +++++++++++
+ include/GLES/gl.h   |  1 +
+ include/GLES2/gl2.h |  1 +
+ 8 files changed, 58 insertions(+)
+ create mode 100644 Makefile.pc
+ create mode 100644 egl.pc.in
+ create mode 100644 gles_cm.pc.in
+ create mode 100644 glesv2.pc.in
+
+diff --git a/.gitignore b/.gitignore
+index 6865abf..e8a3713 100644
+--- a/.gitignore
++++ b/.gitignore
+@@ -1,2 +1,3 @@
+ config.mk
+ *~
++*.pc
+diff --git a/Makefile b/Makefile
+index 60d4a0f..94845ea 100644
+--- a/Makefile
++++ b/Makefile
+@@ -21,6 +21,7 @@ clean:
+ install: config.mk
+ 	$(MAKE) -C lib install
+ 	$(MAKE) -C include install
++	$(MAKE) -f Makefile.pc
+ 
+ test: config.mk
+ 	$(MAKE) -C test test
+diff --git a/Makefile.pc b/Makefile.pc
+new file mode 100644
+index 0000000..01097fd
+--- /dev/null
++++ b/Makefile.pc
+@@ -0,0 +1,21 @@
++include Makefile.setup
++include config.mk
++
++all:
++	echo "prefix=$(prefix)" > egl.pc
++	cat egl.pc.in >> egl.pc
++	sed -i "s/MVERSION/$MALI_VERSION/g" egl.pc
++	echo "prefix=$(prefix)" > gles_cm.pc
++	cat gles_cm.pc.in >> gles_cm.pc
++	sed -i "s/MVERSION/$MALI_VERSION/g" gles_cm.pc
++	echo "prefix=$(prefix)" > glesv2.pc
++	cat glesv2.pc.in >> glesv2.pc
++	sed -i "s/MVERSION/$MALI_VERSION/g" glesv2.pc
++
++install: egl.pc gles_cm.pc glesv2.pc
++	$(MKDIR) $(libdir)/pkgconfig
++	$(INSTALL_DATA) $^ $(libdir)/pkgconfig
++
++clean:
++	$(RM) egl.pc gles_cm.pc glesv2.pc
++
+diff --git a/egl.pc.in b/egl.pc.in
+new file mode 100644
+index 0000000..0697183
+--- /dev/null
++++ b/egl.pc.in
+@@ -0,0 +1,11 @@
++exec_prefix=${prefix}
++libdir=${prefix}/lib
++includedir=${prefix}/include
++
++Name: egl
++Description: Mali EGL library
++Requires.private:
++Version: MVERSION
++Libs: -L${libdir} -lEGL
++Libs.private: -lm -lpthread -ldl
++Cflags: -I${includedir}
+diff --git a/gles_cm.pc.in b/gles_cm.pc.in
+new file mode 100644
+index 0000000..22bc348
+--- /dev/null
++++ b/gles_cm.pc.in
+@@ -0,0 +1,11 @@
++exec_prefix=${prefix}
++libdir=${prefix}/lib
++includedir=${prefix}/include
++
++Name: gles_cm
++Description: Mali OpenGL ES 1.1 CM library
++Requires.private:
++Version: MVERSION
++Libs: -L${libdir} -lGLES_CM
++Libs.private: -lm -lpthread -ldl
++Cflags: -I${includedir}
+diff --git a/glesv2.pc.in b/glesv2.pc.in
+new file mode 100644
+index 0000000..efef2ed
+--- /dev/null
++++ b/glesv2.pc.in
+@@ -0,0 +1,11 @@
++exec_prefix=${prefix}
++libdir=${prefix}/lib
++includedir=${prefix}/include
++
++Name: glesv2
++Description: Mali OpenGL ES 2.0 library
++Requires.private:
++Version: MVERSION
++Libs: -L${libdir} -lGLESv2
++Libs.private: -lm -lpthread -ldl
++Cflags: -I${includedir}
+diff --git a/include/GLES/gl.h b/include/GLES/gl.h
+index 858f394..a6bb591 100644
+--- a/include/GLES/gl.h
++++ b/include/GLES/gl.h
+@@ -29,6 +29,7 @@ typedef float  GLfloat;
+ typedef float  GLclampf;
+ typedef signed int  GLfixed;
+ typedef signed int  GLclampx;
++typedef char GLchar;
+ 
+ typedef int * GLintptr;
+ typedef int *  GLsizeiptr;

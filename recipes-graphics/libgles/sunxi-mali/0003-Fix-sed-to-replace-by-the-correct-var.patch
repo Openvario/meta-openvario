@@ -1,0 +1,30 @@
+From 95bbd40135f96b473d4c713317e485d0049580cd Mon Sep 17 00:00:00 2001
+From: Raoul Hecky <raoul.hecky@gmail.com>
+Date: Tue, 8 Apr 2014 08:10:12 +0200
+Subject: [PATCH] Fix sed to replace by the correct var
+
+---
+ Makefile.pc | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/Makefile.pc b/Makefile.pc
+index 01097fd..c51d18c 100644
+--- a/Makefile.pc
++++ b/Makefile.pc
+@@ -4,13 +4,13 @@ include config.mk
+ all:
+ 	echo "prefix=$(prefix)" > egl.pc
+ 	cat egl.pc.in >> egl.pc
+-	sed -i "s/MVERSION/$MALI_VERSION/g" egl.pc
++	sed -i "s/MVERSION/${MALI_VERSION}/g" egl.pc
+ 	echo "prefix=$(prefix)" > gles_cm.pc
+ 	cat gles_cm.pc.in >> gles_cm.pc
+-	sed -i "s/MVERSION/$MALI_VERSION/g" gles_cm.pc
++	sed -i "s/MVERSION/${MALI_VERSION}/g" gles_cm.pc
+ 	echo "prefix=$(prefix)" > glesv2.pc
+ 	cat glesv2.pc.in >> glesv2.pc
+-	sed -i "s/MVERSION/$MALI_VERSION/g" glesv2.pc
++	sed -i "s/MVERSION/${MALI_VERSION}/g" glesv2.pc
+ 
+ install: egl.pc gles_cm.pc glesv2.pc
+ 	$(MKDIR) $(libdir)/pkgconfig

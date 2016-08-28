@@ -1,0 +1,1 @@
+COMPATIBLE_MACHINE = "(openvario-7-PQ070)"

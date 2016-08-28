@@ -1,1 +1,0 @@
-INHERIT += "package_deb"

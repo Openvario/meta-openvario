@@ -1,4 +1,4 @@
-#Angstrom image to test systemd
+SUMMARY = "OpenVario Flight Computer Core Image"
 
 LICENSE = "MIT"
 LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=4d92cd373abda3937c2bc47fbc49d690"
@@ -8,42 +8,44 @@ IMAGE_PREPROCESS_COMMAND = "rootfs_update_timestamp ;"
 DISTRO_UPDATE_ALTERNATIVES ??= ""
 ROOTFS_PKGMANAGE_PKGS ?= '${@base_conditional("ONLINE_PACKAGE_MANAGEMENT", "none", "", "${ROOTFS_PKGMANAGE} ${DISTRO_UPDATE_ALTERNATIVES}", d)}'
 
-CONMANPKGS ?= "connman connman-angstrom-settings connman-plugin-loopback connman-plugin-ethernet connman-plugin-wifi connman-systemd"
+CONMANPKGS ?= "connman connman-client connman-angstrom-settings connman-plugin-loopback connman-plugin-ethernet connman-plugin-wifi connman-systemd"
 CONMANPKGS_libc-uclibc = ""
 
 IMAGE_INSTALL += "\
-	packagegroup-base-extended \
-	angstrom-packagegroup-boot \
+		angstrom-packagegroup-boot \
         packagegroup-basic \
         ${CONMANPKGS} \
         ${ROOTFS_PKGMANAGE_PKGS} \
         timestamp-service \
 	systemd-vconsole-setup \
-        sunxi-mali \
-        xcsoar \
-	xcsoar-profiles \
-	xcsoar-menu \
         ttf-dejavu-common \
         ttf-dejavu-sans-condensed \
         ttf-dejavu-sans-mono \
         ttf-dejavu-sans \
         ttf-dejavu-serif-condensed \
         ttf-dejavu-serif \
-        sensord \
+	terminus-font-consolefonts \
+	i2c-tools \
         openvario-modules-autoload \
         openvario-autologin \
-        ovmenu-skripts \
-	ovmenu-autostart \
+	ovmenu-ng \
+        ovmenu-ng-skripts \
+	ovmenu-ng-autostart \
         ov-tools \
-	varioapp \
         bash \
         vim \
         nano \
         e2fsprogs \
         autofs \
-	i2c-tools \
+	autofs-config \
         connman-ncurses \
+		sunxi-mali \
         linux-firmware-ralink \
+	linux-firmware-atheros-license \
+	linux-firmware-ath9k \
+	linux-firmware-ath6k \
+	linux-firmware-rtl-license \
+	linux-firmware-rtl8192cu \
 "
 
 IMAGE_DEV_MANAGER   = "udev"

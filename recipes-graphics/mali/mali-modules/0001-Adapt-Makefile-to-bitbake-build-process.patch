@@ -1,0 +1,29 @@
+diff --git a/Makefile b/Makefile
+index fb9d012..5d9067e 100644
+--- a/Makefile
++++ b/Makefile
+@@ -76,7 +76,11 @@ endif
+ # Define host system directory
+ KDIR-$(shell uname -m):=/lib/modules/$(shell uname -r)/build
+ 
+-include $(KDIR)/.config
++ifeq ($(O),)
++	include $(KDIR)/.config
++else
++	include $(O)/.config
++endif
+ 
+ ifeq ($(ARCH), arm)
+ # when compiling for ARM we're cross compiling
+@@ -120,8 +124,10 @@ ifneq ($(BUILD),release)
+ export CONFIG_MALI400_DEBUG=y
+ endif
+ 
++EXTRA_DEFINES += -Wno-error=date-time
++
+ all: $(UMP_SYMVERS_FILE)
+-	$(MAKE) ARCH=$(ARCH) -C $(KDIR) M=$(CURDIR) modules
++	$(MAKE) ARCH=$(ARCH) -C $(KDIR) M=$(CURDIR) O=$(O) modules
+ 	@rm $(FILES_PREFIX)__malidrv_build_info.c $(FILES_PREFIX)__malidrv_build_info.o
+ 
+ clean:

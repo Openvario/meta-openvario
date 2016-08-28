@@ -8,7 +8,7 @@ LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/${LICENSE};md5=c79ff39f19dfec6d
 SECTION = "base/app"
 
 S = "${WORKDIR}"
-PR = "r2"
+PR = "r3"
 
 BB_STRICT_CHECKSUM = "0"
 
@@ -17,9 +17,8 @@ SRC_URI =	"\
 	http://www.austrocontrol.at/jart/prj3/austro_control/data/uploads/austria_ATS_2011_openair.txt;name=airspaceat \
 "
 
-
-SRC_URI[alpsmap.md5sum] = "395f93909c1053e4c17bb8c90ff38fbe"
-SRC_URI[alpsmap.sha256sum] = "1a50789146891565415fd0639d3d2ed0874c7b82c4aa5ab1252f982ff982f676"
+SRC_URI[alpsmap.md5sum] = "1216ad8222dad27024f77e799ceb9b67"
+SRC_URI[alpsmap.sha256sum] = "851ec5a90fb4b32b991b79293faaf087419c0d790c44aa202cb12a726fbf9c8f"
 
 addtask do_package_write_ipk after do_package after do_install
 

@@ -8,15 +8,11 @@ INC_PR = "r0"
 inherit kernel siteinfo
 
 # Enable OABI compat for people stuck with obsolete userspace
-ARM_KEEP_OABI ?= "1"
-
-# Quirk for udev greater or equal 141
-UDEV_GE_141 ?= "1"
+ARM_KEEP_OABI ?= "0"
 
 # Set the verbosity of kernel messages during runtime
 # You can define CMDLINE_DEBUG in your local.conf or distro.conf to override this behaviour
-CMDLINE_DEBUG ?= '${@base_conditional("DISTRO_TYPE", "release", "quiet", "debug", d)}'
-CMDLINE_append = " ${CMDLINE_DEBUG}"
+CMDLINE_DEBUG ?= "loglevel=3"
 
 # Kernel bootlogo is distro-specific (default is OE logo).
 # Logo resolution (qvga, vga, ...) is machine-specific.
@@ -118,7 +114,10 @@ do_configure_prepend() {
     sed -e "${CONF_SED_SCRIPT}" \
     < '${WORKDIR}/defconfig' >>'${B}/.config'
 
+	
     yes '' | oe_runmake -C ${S} O=${B} oldconfig
+	
+    #cp ${B}/.config ${STAGING_KERNEL_DIR}
 }
 
 do_configure_append() {

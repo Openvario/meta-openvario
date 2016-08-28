@@ -14,13 +14,16 @@ inherit packagegroup
 
 
 RDEPENDS_${PN} = "\	
-        i2c-tools \
-        devmem2 \
-        sunxi-mali \
+    	i2c-tools \
+    	devmem2 \
+	memtester \
+	jpeg \
 	libpng \
-	libcurl \
-	libcurl-dev \
 	libpng-dev \
+	libc6-dev \
+	libgcc-dev \
+	gcc-dev \
+	libstdc++-dev \
 	sunxi-mali-dev \
 	perl-module-data-dumper \
 	perl-module-bytes \
@@ -28,19 +31,22 @@ RDEPENDS_${PN} = "\
 	perl-module-file-basename \
 	boost \
 	boost-dev \
-        pkgconfig \
+	pkgconfig \
 	imagemagick \
 	libxslt-bin \
 	librsvg \
 	rsvg \
 	gettext \
-        g++ \
-        gcc \
+    	g++ \
+	gcc \
 	gdb \
-        make \
-        git \
-        vim \
-        gcc-symlinks \
+	make \
+    	git \
+	binutils \
+	vim \
+	gcc-symlinks \
 	g++-symlinks \
 	binutils \
+	alsa-lib-dev \
+	alsa-lib \
 	"

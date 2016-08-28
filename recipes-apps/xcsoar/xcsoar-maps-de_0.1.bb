@@ -8,7 +8,7 @@ LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/${LICENSE};md5=c79ff39f19dfec6d
 SECTION = "base/app"
 
 S = "${WORKDIR}"
-PR = "r2"
+PR = "r3"
 
 SRC_URI =      "\
 	http://download.xcsoar.org/maps/GER_HighRes.xcm;name=germanmap \
@@ -16,8 +16,8 @@ SRC_URI =      "\
 "
 
 
-SRC_URI[germanmap.md5sum] = "1b3d0345c8970580fdab3778a2568ca7"
-SRC_URI[germanmap.sha256sum] = "54f6320e999a9aadb1af453369ac7f9b608b37063d83c6b33c9bd870c2877fba"
+SRC_URI[germanmap.md5sum] = "50d27f4a1ecc94a3923c3ee24cc4b37c"
+SRC_URI[germanmap.sha256sum] = "2d6b02261e9e1aeb658eaef8975772120256147cb1620895246508e49e30159b"
 SRC_URI[airspacede.md5sum] = "02096949c867fde7b7dce6c360e23c69"
 SRC_URI[airspacede.sha256sum] = "bb636d4328576b8f5d1a794689f30e44059828f349c190e4e5209bc6ee307341"
 
