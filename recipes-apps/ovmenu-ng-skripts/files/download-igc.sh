@@ -2,6 +2,8 @@
 
 USB_PATH="/usb/usbstick/openvario/igc"
 IGC_PATH="/home/root/.xcsoar/logs"
+mkdir -p $USB_PATH
+
 if [ -z "$(ls $IGC_PATH/*.igc 2>/dev/null)" ]; then
         echo "No files found !!!"
 else
