@@ -366,3 +366,4 @@ case $? in
 	0) start_xcsoar;;
 	*) main_menu;;
 esac
+main_menu
