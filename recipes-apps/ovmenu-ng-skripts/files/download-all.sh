@@ -1,6 +1,6 @@
 #!/bin/bash
 
-USB_PATH="/usb/usbstick/openvario/download/xcsoar"
+USB_PATH="/usb/usbstick/openvario/download"
 DOWNLOAD_PATH="/home/root/.xcsoar"
 if [ ! -d "$USB_PATH" ]; then
 	mkdir "$USB_PATH"

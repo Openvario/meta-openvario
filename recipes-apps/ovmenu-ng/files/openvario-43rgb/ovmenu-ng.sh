@@ -297,7 +297,7 @@ function update_maps() {
 
 function download_files() {
 	echo "Downloading files ..." > /tmp/tail.$$
-	/usr/bin/download-xcsoar.sh >> /tmp/tail.$$ &
+	/usr/bin/download-all.sh >> /tmp/tail.$$ &
 	dialog --backtitle "OpenVario" --title "Result" --tailbox /tmp/tail.$$ 30 50
 }
 

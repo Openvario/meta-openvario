@@ -289,24 +289,30 @@ function calibrate_touch() {
 	dialog --msgbox "Display rotation is RESET !!\nPlease set Display rotation again to apply calibration !!" 10 50
 }
 
+# Copy /usb/usbstick/openvario/maps to /home/root/.xcsoar
+# Copy only xcsoar-maps*.ipk and *.xcm files
 function update_maps() {
 	echo "Updating Maps ..." > /tmp/tail.$$
 	/usr/bin/update-maps.sh >> /tmp/tail.$$ 2>/dev/null &
 	dialog --backtitle "OpenVario" --title "Result" --tailbox /tmp/tail.$$ 30 50
 }
 
+# Copy /home/root/.xcsoar to /usb/usbstick/openvario/download/xcsoar
 function download_files() {
 	echo "Downloading files ..." > /tmp/tail.$$
-	/usr/bin/download-xcsoar.sh >> /tmp/tail.$$ &
+	/usr/bin/download-all.sh >> /tmp/tail.$$ &
 	dialog --backtitle "OpenVario" --title "Result" --tailbox /tmp/tail.$$ 30 50
 }
 
+# Copy /home/root/.xcsoar/logs to /usb/usbstick/openvario/igc
+# Copy only *.igc files
 function download_igc_files() {
 	echo "Downloading IGC files ..." > /tmp/tail.$$
 	/usr/bin/download-igc.sh >> /tmp/tail.$$ &
 	dialog --backtitle "OpenVario" --title "Result" --tailbox /tmp/tail.$$ 30 50
 }
 
+# Copy /usb/usbstick/openvario/upload to /home/root/.xcsoar
 function upload_files(){
 	echo "Uploading files ..." > /tmp/tail.$$
 	/usr/bin/upload-xcsoar.sh >> /tmp/tail.$$ &
