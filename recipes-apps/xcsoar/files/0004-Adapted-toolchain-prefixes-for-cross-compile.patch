@@ -1,0 +1,57 @@
+From ae1866075d3cb2af32bb7d3f1d18e3d2ca948ca6 Mon Sep 17 00:00:00 2001
+From: Timo Bruderek <timo.bruderek@gmx.de>
+Date: Tue, 1 Nov 2016 11:47:35 +0100
+Subject: [PATCH 1/1] blub
+
+---
+ build/compile.mk | 33 ---------------------------------
+ 1 file changed, 33 deletions(-)
+
+diff --git a/build/compile.mk b/build/compile.mk
+index 8acc53e..c4bae6b 100644
+--- a/build/compile.mk
++++ b/build/compile.mk
+@@ -6,40 +6,7 @@ ifeq ($(USE_CCACHE),y)
+ endif
+ 
+ EXE := $(findstring .exe,$(MAKE))
+-AR = $(TCPREFIX)ar$(EXE)
+-RANLIB = $(TCPREFIX)ranlib$(EXE)
+-
+-ifneq ($(ANALYZER),y)
+-  ifeq ($(CLANG),y)
+-    CXX = $(LLVM_PREFIX)clang++$(LLVM_SUFFIX)$(EXE)
+-    CC = $(LLVM_PREFIX)clang$(LLVM_SUFFIX)$(EXE)
+-  else
+-    CXX = $(TCPREFIX)g++$(TCSUFFIX)$(EXE)
+-    CC = $(TCPREFIX)gcc$(TCSUFFIX)$(EXE)
+-  endif
+-endif
+-
+-ifeq ($(CLANG),y)
+-  AS = $(CC)
+-  ASFLAGS += -c -xassembler
+-  ifneq ($(LLVM_TARGET),)
+-    ASFLAGS += -target $(LLVM_TARGET)
+-  else
+-    ASFLAGS += $(TARGET_ARCH)
+-  endif
+-
+-  ifeq ($(call bool_or,$(MIPS),$(MIPS64)),y)
+-    # work around "Fatal error: invalid -march= option: `mips32'"
+-    ASFLAGS += -integrated-as
+-  endif
+-else
+-  AS = $(TCPREFIX)as$(EXE)
+-endif
+-
+-LD = $(TCPREFIX)ld$(EXE)
+ DLLTOOL = $(TCPREFIX)dlltool$(EXE)
+-SIZE = $(TCPREFIX)size$(EXE)
+-STRIP = $(TCPREFIX)strip$(EXE)
+ WINDRES = $(TCPREFIX)windres$(EXE)
+ ARFLAGS = -rcs
+ 
+-- 
+1.9.1
+

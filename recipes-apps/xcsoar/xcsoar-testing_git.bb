@@ -34,13 +34,14 @@ LC_LOCALE_PATH = "/usr/share/locale"
 SRCREV_pn-xcsoar-testing = "${AUTOREV}" 
 
 SRC_URI = 	"git://git-ro.openvario.org/xcsoar.git;protocol=http;branch=testing \
-				 file://0003-Adapted-toolchain-prefixes-for-cross-compile.patch \
 				 file://0001-Adapted-Flags-for-compiler-and-linker-for-cross-comp.patch \
 				 file://0001-Disable-warnings-as-errors.patch \
 				 file://0001-Override-detection-of-target-hardware.patch \
 				 file://ov-xcsoar.conf \
+				 file://0004-Adapted-toolchain-prefixes-for-cross-compile.patch \
 "
 
+#file://0003-Adapted-toolchain-prefixes-for-cross-compile.patch 
 
 
 addtask do_package_write_ipk after do_package after do_install
