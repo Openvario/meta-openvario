@@ -317,10 +317,8 @@ function start_xcsoar() {
 	/usr/bin/xcsoar_config.sh
 	if [ -z $XCSOAR_LANG ]; then
 		/opt/XCSoar/bin/xcsoar -fly -640x480
-		openvt -f -c 1 /bin/echo; exit
 	else
 		LANG=$XCSOAR_LANG /opt/XCSoar/bin/xcsoar -fly -640x480
-		openvt -f -c 1 /bin/echo; exit
 	fi
 }
 
