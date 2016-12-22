@@ -10,7 +10,12 @@ SECTION = "base/app"
 S = "${WORKDIR}"
 PR = "r14"
 
-RDEPENDS_${PN} = "bash dialog-static"
+RDEPENDS_${PN} = " \
+	bash \
+	dialog-static \
+	ovmenu-ng-skripts \
+        ovmenu-ng-autostart \
+"
 
 SRC_URI =      "\
 	file://ovmenu-ng.sh \

@@ -16,6 +16,7 @@ IMAGE_INSTALL += "\
 	xcsoar-maps-default \
 	variod \
 	sensord \
+	ovmenu-ng \
 	"
 
 export IMAGE_BASENAME = "ov-image"

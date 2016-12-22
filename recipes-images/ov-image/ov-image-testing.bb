@@ -17,6 +17,7 @@ IMAGE_INSTALL += "\
 	variod \
 	sensord-testing \
 	dhcp-client \
+	ovmenu-ng \
 	"
 
 export IMAGE_BASENAME = "ov-image-testing"

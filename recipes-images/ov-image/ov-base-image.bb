@@ -30,9 +30,6 @@ IMAGE_INSTALL += "\
 	i2c-tools \
         openvario-modules-autoload \
         openvario-autologin \
-	ovmenu-ng \
-        ovmenu-ng-skripts \
-	ovmenu-ng-autostart \
         ov-tools \
 	caltool \
         bash \

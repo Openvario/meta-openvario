@@ -12,7 +12,8 @@ IMAGE_INSTALL += "\
     	xcsoar-menu \
     	xcsoar-maps-default \
 	variod-testing \
-	sensord-testing \	
+	sensord-testing \
+	ovmenu-ng \	
 	packagegroup-ov-devel-tools \
 "
 
