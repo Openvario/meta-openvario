@@ -1,0 +1,9 @@
+Supported machines are:
+    openvario-7-PQ070
+    openvario-7-CH070
+    openvario-43RGB
+    openvario-57LVDS
+
+Common targets are:
+    ov-image
+    ov-image-testing
