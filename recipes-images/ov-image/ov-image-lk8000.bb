@@ -13,6 +13,7 @@ IMAGE_INSTALL += "\
         lk8000 \
 	variod \
 	sensord \
+	ovmenu-ng-lk8000 \
 	"
 
 export IMAGE_BASENAME = "ov-image"
