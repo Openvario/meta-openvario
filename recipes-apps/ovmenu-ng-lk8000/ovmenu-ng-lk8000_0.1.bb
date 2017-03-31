@@ -47,7 +47,6 @@ do_install() {
 }
 
 FILES_${PN} = "/opt/bin/ovmenu-ng-lk8000.sh \
-		/home/root/.dialogrc \
 		/opt/conf/screen.conf\
 		/usr/bin/update-maps-lk8000.sh \
 		/usr/bin/download-igc-lk8000.sh \

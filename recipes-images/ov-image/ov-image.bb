@@ -10,13 +10,15 @@ IMAGE_ROOTFS_SIZE = "3768320"
 IMAGE_FEATURES += "debug-tweaks"
 
 IMAGE_INSTALL += "\
-    xcsoar \
+    	xcsoar \
 	xcsoar-profiles \
 	xcsoar-menu \
 	xcsoar-maps-default \
 	variod \
 	sensord \
 	ovmenu-ng \
+	lk8000 \
+	ovmenu-ng-lk8000 \
 	"
 
 export IMAGE_BASENAME = "ov-image"

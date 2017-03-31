@@ -10,7 +10,7 @@ IMAGE_ROOTFS_SIZE = "3768320"
 IMAGE_FEATURES += "debug-tweaks"
 
 IMAGE_INSTALL += "\
-	xcsoar-testing \
+	xcsoar-devel \
 	xcsoar-profiles \
 	xcsoar-menu \
 	xcsoar-maps-default \
@@ -18,6 +18,8 @@ IMAGE_INSTALL += "\
 	sensord-testing \
 	dhcp-client \
 	ovmenu-ng \
+	lk8000 \
+	ovmenu-ng-lk8000 \
 	"
 
 export IMAGE_BASENAME = "ov-image-testing"
