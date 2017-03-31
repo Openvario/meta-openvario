@@ -32,7 +32,7 @@ RDEPENDS_${PN} = "	sunxi-mali \
 "
 
 S = "${WORKDIR}/git"
-PR = "r0"
+PR = "r2"
 
 SRC_URI = 	"git://github.com/brunotl/LK8000.git;protocol=http;branch=OpenVario;tag=OpenVario"
 
