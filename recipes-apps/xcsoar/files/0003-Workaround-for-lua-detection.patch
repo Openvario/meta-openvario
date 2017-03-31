@@ -1,0 +1,33 @@
+From 39de06748bb61878c04320144924f4e0bee42c09 Mon Sep 17 00:00:00 2001
+From: Timo Bruderek <timo.bruderek@gmx.de>
+Date: Thu, 30 Mar 2017 16:31:00 +0200
+Subject: [PATCH 1/1] Workaround for lua libs
+
+---
+ build/lua.mk | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/build/lua.mk b/build/lua.mk
+index 43ffdee..f31ec6d 100644
+--- a/build/lua.mk
++++ b/build/lua.mk
+@@ -2,12 +2,12 @@ LUA = y
+ 
+ ifeq ($(LUA),y)
+ 
+-ifeq ($(USE_THIRDPARTY_LIBS),y)
++#ifeq ($(USE_THIRDPARTY_LIBS),y)
+ LIBLUA_LDLIBS = -llua
+ LIBLUA_CPPFLAGS =
+-else
+-$(eval $(call pkg-config-library,LIBLUA,lua5.2))
+-endif
++#else
++#$(eval $(call pkg-config-library,LIBLUA,lua5.2))
++#endif
+ 
+ LUA_SOURCES = \
+ 	$(SRC)/Lua/Ptr.cpp \
+-- 
+1.9.1
+
