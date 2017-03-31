@@ -165,6 +165,12 @@ function submenu_xcsoar_lang() {
 		--menu "Actual Setting is $XCSOAR_LANG \nSelect Language:" 15 50 4 \
 		 system "Default system" \
 		 de_DE.UTF-8 "German" \
+		 fr_FR.UTF-8 "France" \
+		 it_IT.UTF-8 "Italian" \
+		 hu_HU.UTF-8 "Hungary" \
+		 pl_PL.UTF-8 "Poland" \
+		 cs_CZ.UTF-8 "Czech" \
+	 	 sk_SK.UTF-8 "Slowak" \
 		 2>"${INPUT}"
 		 
 		 menuitem=$(<"${INPUT}")
