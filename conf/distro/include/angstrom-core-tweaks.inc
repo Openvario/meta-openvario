@@ -44,7 +44,7 @@ ARM_INSTRUCTION_SET_pn-gcc_armeb = "arm"
 # Providers
 
 # opkg
-PREFERRED_PROVIDER_opkg-collateral = "angstrom-feed-configs"
+#PREFERRED_PROVIDER_opkg-collateral = "angstrom-feed-configs"
 EXTRA_IMAGE_FEATURES ?= "package-management"
 
 PREFERRED_PROVIDER_os-release = "angstrom-version"
