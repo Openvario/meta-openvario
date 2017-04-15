@@ -1,0 +1,26 @@
+From ffeb3b1378047ec98678254f942df65ee8a5982e Mon Sep 17 00:00:00 2001
+From: Timo Bruderek <timo.bruderek@gmx.de>
+Date: Wed, 12 Apr 2017 21:17:00 +0200
+Subject: [PATCH] Switch on HasTouchScreen
+
+---
+ src/Asset.cpp | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/src/Asset.cpp b/src/Asset.cpp
+index e2db743..967db9b 100644
+--- a/src/Asset.cpp
++++ b/src/Asset.cpp
+@@ -54,7 +54,8 @@ HasPointer()
+ bool
+ HasTouchScreen()
+ {
+-  return event_queue->HasTouchScreen();
++  //return event_queue->HasTouchScreen();
++  return true;
+ }
+ 
+ bool
+-- 
+1.9.1
+

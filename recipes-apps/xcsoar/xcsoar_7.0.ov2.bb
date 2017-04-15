@@ -30,7 +30,7 @@ RDEPENDS_${PN} = "	sunxi-mali \
 "
 
 S = "${WORKDIR}/git"
-PR = "r1"
+PR = "r2"
 LC_LOCALE_PATH = "/usr/share/locale"
 
 SRC_URI = 	"git://git-ro.openvario.org/xcsoar.git;protocol=http;tag=7.0_ov2 \
@@ -40,6 +40,7 @@ SRC_URI = 	"git://git-ro.openvario.org/xcsoar.git;protocol=http;tag=7.0_ov2 \
 				 file://ov-xcsoar.conf \
 				 file://0004-Adapted-toolchain-prefixes-for-cross-compile.patch \
 				 file://0003-Workaround-for-lua-detection.patch \
+				 file://0001-Switch-on-HasTouchScreen.patch \
 "
 
 
@@ -52,7 +53,7 @@ do_compile() {
 	echo "Making .."
 	echo '${WORKDIR}'
 	cd ${WORKDIR}/git
-	make -j8 DEBUG=n DEBUG_GLIBCXX=n USE_LIBINPUT=y GEOTIFF=n ENABLE_ALSA=y
+	make  DEBUG=n DEBUG_GLIBCXX=n USE_LIBINPUT=y GEOTIFF=n ENABLE_ALSA=y
 }
 
 do_install() {
