@@ -9,6 +9,9 @@ SECTION = "base/app"
 DEPENDS = ""
 PR = "r1"
 
+
+INSANE_SKIP_${PN} += "ldflags"
+
 S = "${WORKDIR}/git"
 
 inherit systemd
@@ -21,7 +24,7 @@ do_compile() {
 	echo "Making .."
 	echo '${WORKDIR}'
 	cd ${WORKDIR}/git
-	make
+	make ${LDFLAGS}
 }
 
 do_install() {

@@ -10,6 +10,8 @@ PR = "r2"
 
 S = "${WORKDIR}/git"
 
+INSANE_SKIP_${PN} += "ldflags"
+
 inherit systemd
 
 DEPENDS = " \

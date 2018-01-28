@@ -8,9 +8,11 @@ LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/${LICENSE};md5=c79ff39f19dfec6d
 SECTION = "base/app"
 PR = "r2"
 
-DEPENDS_${PN} = " \
+DEPENDS = " \
 				libinput \
 "
+
+INSANE_SKIP_${PN} = "ldflags"
 
 S = "${WORKDIR}/git"
 
@@ -31,5 +33,7 @@ do_install() {
 }
 
 PACKAGES = "${PN}"
+INHIBIT_PACKAGE_DEBUG_SPLIT = '1'
 FILES_${PN} = "/opt/bin/caltool \
+               /opt/conf/ \
 "

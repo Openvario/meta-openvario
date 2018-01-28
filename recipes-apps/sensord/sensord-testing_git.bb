@@ -7,7 +7,7 @@ LICENSE = "GPL-3.0"
 LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/${LICENSE};md5=c79ff39f19dfec6d293b95dea7b07891"
 SECTION = "base/app"
 DEPENDS = ""
-PR = "r7"
+PR = "r8"
 
 S = "${WORKDIR}/git"
 
@@ -18,6 +18,10 @@ SRC_URI = "git://git-ro.openvario.org/sensord.git;protocol=http \
 			file://sensord.service \
 			file://sensord.cfgmgr \			  
 "
+
+INSANE_SKIP_${PN} = "ldflags"
+
+SYSTEMD_SERVICE_${PN} = "sensord.service"
 
 do_compile() {
 	echo "Making .."
