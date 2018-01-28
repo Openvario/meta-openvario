@@ -165,6 +165,12 @@ function submenu_xcsoar_lang() {
 		--menu "Actual Setting is $XCSOAR_LANG \nSelect Language:" 15 50 4 \
 		 system "Default system" \
 		 de_DE.UTF-8 "German" \
+		 fr_FR.UTF-8 "France" \
+		 it_IT.UTF-8 "Italian" \
+		 hu_HU.UTF-8 "Hungary" \
+		 pl_PL.UTF-8 "Poland" \
+		 cs_CZ.UTF-8 "Czech" \
+	 	 sk_SK.UTF-8 "Slowak" \
 		 2>"${INPUT}"
 		 
 		 menuitem=$(<"${INPUT}")
@@ -289,24 +295,30 @@ function calibrate_touch() {
 	dialog --msgbox "Display rotation is RESET !!\nPlease set Display rotation again to apply calibration !!" 10 50
 }
 
+# Copy /usb/usbstick/openvario/maps to /home/root/.xcsoar
+# Copy only xcsoar-maps*.ipk and *.xcm files
 function update_maps() {
 	echo "Updating Maps ..." > /tmp/tail.$$
 	/usr/bin/update-maps.sh >> /tmp/tail.$$ 2>/dev/null &
 	dialog --backtitle "OpenVario" --title "Result" --tailbox /tmp/tail.$$ 30 50
 }
 
+# Copy /home/root/.xcsoar to /usb/usbstick/openvario/download/xcsoar
 function download_files() {
 	echo "Downloading files ..." > /tmp/tail.$$
-	/usr/bin/download-xcsoar.sh >> /tmp/tail.$$ &
+	/usr/bin/download-all.sh >> /tmp/tail.$$ &
 	dialog --backtitle "OpenVario" --title "Result" --tailbox /tmp/tail.$$ 30 50
 }
 
+# Copy /home/root/.xcsoar/logs to /usb/usbstick/openvario/igc
+# Copy only *.igc files
 function download_igc_files() {
 	echo "Downloading IGC files ..." > /tmp/tail.$$
 	/usr/bin/download-igc.sh >> /tmp/tail.$$ &
 	dialog --backtitle "OpenVario" --title "Result" --tailbox /tmp/tail.$$ 30 50
 }
 
+# Copy /usb/usbstick/openvario/upload to /home/root/.xcsoar
 function upload_files(){
 	echo "Uploading files ..." > /tmp/tail.$$
 	/usr/bin/upload-xcsoar.sh >> /tmp/tail.$$ &
@@ -317,10 +329,8 @@ function start_xcsoar() {
 	/usr/bin/xcsoar_config.sh
 	if [ -z $XCSOAR_LANG ]; then
 		/opt/XCSoar/bin/xcsoar -fly -640x480
-		openvt -f -c 1 /bin/echo; exit
 	else
 		LANG=$XCSOAR_LANG /opt/XCSoar/bin/xcsoar -fly -640x480
-		openvt -f -c 1 /bin/echo; exit
 	fi
 }
 
@@ -368,3 +378,4 @@ case $? in
 	0) start_xcsoar;;
 	*) main_menu;;
 esac
+main_menu
