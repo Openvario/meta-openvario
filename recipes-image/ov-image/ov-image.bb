@@ -2,6 +2,8 @@
 #require console-base-image.bb
 require ov-base-image.bb
 
+inherit core-image
+
 #IMAGE_ROOTFS_SIZE = "3768320"
 
 #IMAGE_FEATURES += "debug-tweaks"
