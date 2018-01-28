@@ -7,6 +7,8 @@ LICENSE = "GPL-2.0"
 LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/${LICENSE};md5=801f80980d171dd6425610833a22dbe6"
 SECTION = "base/app"
 DEPENDS = "	libsdl \
+		gcc \
+		libinput \
 		jpeg \
 		freetype \
 		libpng \
@@ -16,6 +18,10 @@ DEPENDS = "	libsdl \
 		sunxi-mali \
 		curlpp \
 		lua \
+		pkgconfig \
+		libxslt-native \
+		librsvg-native \
+		imagemagick-native \
 "
 
 RDEPENDS_${PN} = "	\
@@ -37,15 +43,22 @@ SRC_URI = 	"git://git-ro.openvario.org/xcsoar.git;protocol=http;branch=testing \
 		 file://0001-Adapted-Flags-for-compiler-and-linker-for-cross-comp.patch \
 		 file://0001-Disable-warnings-as-errors.patch \
 		 file://0001-Override-detection-of-target-hardware.patch \
+		 file://0001-Added-missing-lib-dl.patch \
 		 file://ov-xcsoar.conf \
 "
-
+inherit pkgconfig update-alternatives
 
 addtask do_package_write_ipk after do_package after do_install
 
 do_compile() {
 	echo $CC
 	$CC --version
+	echo "Create missing symlinks ..."
+	echo '${STAGING_DIR_TARGET}'
+	echo '${PATH}'
+	export PATH=$PATH:/usr/bin
+	echo '${PATH}'
+	#ln -s ${STAGING_DIR_TARGET}/usr/bin/convert.im7 ${STAGING_DIR_TARGET}/usr/bin/convert
 	echo "Making .."
 	echo '${WORKDIR}'
 	cd ${WORKDIR}/git
@@ -55,7 +68,8 @@ do_compile() {
 do_install() {
 	echo "Installing ..."
 	install -d ${D}/opt/XCSoar/bin
-	install -m 0755 ${S}/output/UNIX/bin/* ${D}/opt/XCSoar/bin
+	install -m 0755 ${S}/output/UNIX/bin/xcsoar ${D}/opt/XCSoar/bin
+	install -m 0755 ${S}/output/UNIX/bin/vali-xcs ${D}/opt/XCSoar/bin
 	
 	install -d ${D}/opt/conf
 	install -d ${D}/opt/conf/default
