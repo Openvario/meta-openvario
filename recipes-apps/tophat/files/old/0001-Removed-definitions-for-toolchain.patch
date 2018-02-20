@@ -1,0 +1,39 @@
+From 42b812ffbec13cae8611512cc3f1ae164b10eb72 Mon Sep 17 00:00:00 2001
+From: Timo Bruderek <timo.bruderek@gmx.de>
+Date: Wed, 27 Aug 2014 20:57:17 +0200
+Subject: [PATCH] Removed definitions for toolchain
+
+---
+ build/compile.mk | 14 +-------------
+ 1 file changed, 1 insertion(+), 13 deletions(-)
+
+diff --git a/build/compile.mk b/build/compile.mk
+index 8ec80bb..9b34d27 100644
+--- a/build/compile.mk
++++ b/build/compile.mk
+@@ -6,21 +6,9 @@ ifeq ($(USE_CCACHE),y)
+ endif
+ 
+ EXE := $(findstring .exe,$(MAKE))
+-AR = $(TCPREFIX)ar$(EXE)
+-AS = $(TCPREFIX)as$(EXE)
+-ifneq ($(ANALYZER),y)
+-  ifeq ($(CLANG),y)
+-    CXX = $(LLVM_PREFIX)clang++$(LLVM_SUFFIX)$(EXE)
+-    CC = $(LLVM_PREFIX)clang$(LLVM_SUFFIX)$(EXE)
+-  else
+-    CXX = $(TCPREFIX)g++$(TCSUFFIX)$(EXE)
+-    CC = $(TCPREFIX)gcc$(TCSUFFIX)$(EXE)
+-  endif
+-endif
+-LD = $(TCPREFIX)ld$(EXE)
++
+ DLLTOOL = $(TCPREFIX)dlltool$(EXE)
+ SIZE = $(TCPREFIX)size$(EXE)
+-STRIP = $(TCPREFIX)strip$(EXE)
+ WINDRES = $(TCPREFIX)windres$(EXE)
+ ARFLAGS = -rcs
+ 
+-- 
+1.9.1
+

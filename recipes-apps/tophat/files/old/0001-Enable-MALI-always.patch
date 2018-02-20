@@ -1,0 +1,26 @@
+From 6126d32e559cf87a9228f2d8a9834830d14a2d49 Mon Sep 17 00:00:00 2001
+From: Timo Bruderek <timo.bruderek@gmx.de>
+Date: Thu, 28 Aug 2014 07:31:45 +0200
+Subject: [PATCH] Enable MALI always
+
+---
+ build/detect.mk | 6 +-----
+ 1 file changed, 1 insertion(+), 5 deletions(-)
+
+diff --git a/build/detect.mk b/build/detect.mk
+index 0a5953e..d5f5a70 100644
+--- a/build/detect.mk
++++ b/build/detect.mk
+@@ -30,8 +30,4 @@ else
+ HOST_IS_PI := n
+ endif
+ 
+-ifeq ($(HOST_IS_LINUX)$(HOST_IS_ARMV7),yy)
+-HOST_HAS_MALI := $(call string_equals,$(shell test -c /dev/mali && echo y),y)
+-else
+-HOST_HAS_MALI := n
+-endif
++HOST_HAS_MALI := y
+-- 
+1.9.1
+

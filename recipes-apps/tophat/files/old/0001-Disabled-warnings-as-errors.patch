@@ -1,0 +1,27 @@
+From b90673e20962c42f8e17e19a45f9a7dc75412e75 Mon Sep 17 00:00:00 2001
+From: Timo Bruderek <timo.bruderek@gmx.de>
+Date: Wed, 27 Aug 2014 20:32:16 +0200
+Subject: [PATCH] Disabled warnings as errors
+
+---
+ build/warnings.mk | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/build/warnings.mk b/build/warnings.mk
+index c4aa673..8ac5314 100644
+--- a/build/warnings.mk
++++ b/build/warnings.mk
+@@ -25,8 +25,8 @@ WERROR ?= $(DEBUG)
+ endif
+ 
+ ifeq ($(WERROR),y)
+-CXXFLAGS += -Werror
+-CFLAGS += -Werror
++#CXXFLAGS += -Werror
++#CFLAGS += -Werror
+ endif
+ 
+ #CXXFLAGS += -pedantic
+-- 
+1.9.1
+

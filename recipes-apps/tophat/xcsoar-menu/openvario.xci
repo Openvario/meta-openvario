@@ -1,0 +1,133 @@
+# -------------
+# Define gesture to open Quickmenu without keyboard or remote
+# ("Draw a button on the screen") 
+# -------------
+
+mode=default
+type=gesture
+data=ULDR
+event=QuickMenu
+
+# -------------
+# Define Quickmenu buttons for vario menu and quit
+# -------------
+
+mode=RemoteStick
+type=key
+data=0
+event=Mode Vario_menu
+label=Vario
+location=13
+
+mode=RemoteStick
+type=key
+data=0
+event=Exit system
+event=Mode default
+label=Quit
+location=31
+
+
+# -------------
+# Define Vario_menu buttons for 
+# Vario app must be connected as device A
+# -------------
+
+mode=Vario_menu
+type=key
+data=UP
+event=SendNMEAPort1 POV,C,VU
+label=VOLUME+ (UP)
+location=1
+
+mode=Vario_menu
+type=key
+data=DOWN
+event=SendNMEAPort1 POV,C,VD
+label=VOLUME- (DOWN)
+location=2
+
+mode=Vario_menu
+type=key
+data=RETURN
+event=SendNMEAPort1 POV,C,VM
+label=VOLUME ON/OFF (ENT)
+location=3
+
+mode=Vario_menu
+type=key
+data=S
+event=SendNMEAPort1 POV,C,STF
+event=StatusMessage Speed to Fly Mode
+label=STF
+location=5
+
+mode=Vario_menu
+type=key
+data=V
+event=SendNMEAPort1 POV,C,VAR
+event=StatusMessage Vario Mode
+label=VARIO
+location=6
+
+mode=Vario_menu
+type=key
+data=LEFT
+event=MacCready down
+label=MC- (LEFT)
+location=7
+
+mode=Vario_menu
+type=key
+data=RIGHT
+event=MacCready up
+label=MC+ (RIGHT)
+location=8
+
+mode=Vario_menu
+type=key
+data=ESCAPE
+event=Mode default
+label=BACK (ESC)
+location=9
+
+
+# -------------
+# Define automatic vario / speed to fly switch
+# Uncomment the following lines if you want to use automatic switching
+# Vario app must be connected as device A
+# -------------
+
+# mode=default
+# type=gce
+# data=FLIGHTMODE_CLIMB
+# event=SendNMEAPort1 POV,C,VAR
+# event=StatusMessage Vario Mode
+
+# mode=default
+# type=gce
+# data=FLIGHTMODE_CRUISE
+# event=SendNMEAPort1 POV,C,STF
+# event=StatusMessage Speed to Fly Mode
+
+# -------------
+# Define vario / speed to fly with switch on remote stick
+# Remote sends V for vario, S for STF and M for Vario_menu
+# -------------
+
+mode=default
+type=key
+data=V
+event=SendNMEAPort1 POV,C,VAR
+event=StatusMessage Vario Mode
+
+mode=default
+type=key
+data=S
+event=SendNMEAPort1 POV,C,STF 
+event=StatusMessage Speed to Fly Mode
+
+mode=default RemoteStick
+type=key
+data=M
+event=Mode Vario_menu 
