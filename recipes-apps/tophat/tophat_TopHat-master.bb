@@ -36,6 +36,7 @@ SRC_URI = 	"git://github.com/rdunning0823/tophat.git;protocol=https;branch=TopHa
 				 file://0001-Workaround-for-Shutdown-bug.patch \
 				 file://0001-Increase-refresh-intervall.patch \
 				 file://no_libpulse.patch \
+				 file://001_alway_parse_resolution.patch \
 "
 
 addtask do_package_write_ipk after do_package after do_install

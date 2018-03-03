@@ -1,0 +1,24 @@
+diff --git a/src/CommandLine.cpp b/src/CommandLine.cpp
+index 672c299..c59c9b2 100644
+--- a/src/CommandLine.cpp
++++ b/src/CommandLine.cpp
+@@ -93,9 +93,9 @@ CommandLine::Parse(Args &args)
+       global_simulator_flag=false;
+       sim_set_in_cmd_line_flag=true;
+ #endif
++#if !defined(_WIN32_WCE)
+     } else if (StringIsEqualIgnoreCase(s, "-quick")) {
+       show_dialog_setup_quick = false;
+-#if defined(HAVE_CMDLINE_FULLSCREEN)
+     } else if (isdigit(s[1])) {
+       char *p;
+       width = ParseUnsigned(s + 1, &p);
+@@ -114,6 +114,8 @@ CommandLine::Parse(Args &args)
+     } else if (StringIsEqual(s, "-small")) {
+       width = 320;
+       height = 240;
++#endif
++#if defined(HAVE_CMDLINE_FULLSCREEN)
+     } else if (StringIsEqual(s, "-fullscreen")) {
+       full_screen = true;
+ #endif
