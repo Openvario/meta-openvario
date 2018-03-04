@@ -1,0 +1,65 @@
+diff --git a/Makefile b/Makefile
+index b02cef5..efa1bb9 100644
+--- a/Makefile
++++ b/Makefile
+@@ -79,6 +79,7 @@ include $(topdir)/build/options.mk
+ include $(topdir)/build/debug.mk
+ include $(topdir)/build/coverage.mk
+ include $(topdir)/build/libintl.mk
++include $(topdir)/build/sound.mk
+ 
+ ifeq ($(HEADLESS),y)
+ else
+@@ -192,6 +193,10 @@ ifeq ($(TARGET),ANDROID)
+ OUTPUTS += $(ANDROID_BIN)/XCSoar-debug.apk
+ endif
+ 
++ifeq ($(TARGET),UNIX)
++OUTPUTS += $(SOUND_FILES)
++endif
++
+ ifeq ($(HAVE_WIN32),y)
+ OUTPUTS += $(LAUNCH_XCSOAR_BIN)
+ endif
+diff --git a/build/kobo.mk b/build/kobo.mk
+index 7bce9ee..b0fa381 100644
+--- a/build/kobo.mk
++++ b/build/kobo.mk
+@@ -126,17 +126,6 @@ UIMAGE: $(UIMAGE_BASE_DIR)/COPYING
+ FORCE_UIMAGE:
+ 	touch $(TARGET_OUTPUT_DIR)/force_uimage
+ 
+-AVCONF = avconv -y
+-
+-RAW_DIR = $(TARGET_OUTPUT_DIR)/resources/raw
+-
+-SOUNDS = fail insert remove beep_bweep beep_clear beep_drip traffic_low traffic_important traffic_urgent above below one_oclock two_oclock three_oclock four_oclock five_oclock six_oclock seven_oclock eight_oclock nine_oclock ten_oclock eleven_oclock twelve_oclock airspace
+-SOUND_FILES = $(patsubst %,$(RAW_DIR)/%.raw,$(SOUNDS))
+-
+-$(SOUND_FILES): $(RAW_DIR)/%.raw: Data/sound/%.wav | $(RAW_DIR)/dirstamp
+-	@$(NQ)echo "  AVCONF  $@"
+-	$(AVCONF) -i $< -f s16le -ar 16000 $@
+-
+ # from Debian package libgcc1-armhf-cross
+ KOBO_SYS_LIB_NAMES += libgcc_s.so.1
+ ALSA_DIR=/opt/tophat/share/alsa-lib
+diff --git a/build/sound.mk b/build/sound.mk
+new file mode 100644
+index 0000000..8620e46
+--- /dev/null
++++ b/build/sound.mk
+@@ -0,0 +1,14 @@
++AVCONF = avconv -y
++
++RAW_DIR = $(TARGET_OUTPUT_DIR)/resources/raw
++
++SOUNDS = fail insert remove beep_bweep beep_clear beep_drip traffic_low traffic_important traffic_urgent above below one_oclock two_oclock three_oclock four_oclock five_oclock six_oclock seven_oclock eight_oclock nine_oclock ten_oclock eleven_oclock twelve_oclock airspace
++SOUND_FILES = $(patsubst %,$(RAW_DIR)/%.raw,$(SOUNDS))
++
++$(SOUND_FILES): $(RAW_DIR)/%.raw: Data/sound/%.wav | $(RAW_DIR)/dirstamp
++	@$(NQ)echo "  convert  $@"
++ifeq ($(shell which avconv),/usr/bin/avconv)
++	$(AVCONF) -i $< -f s16le -ar 16000 $@
++else
++	sox -r 16k -b 16 $< $@
++endif
