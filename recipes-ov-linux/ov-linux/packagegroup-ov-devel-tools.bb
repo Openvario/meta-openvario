@@ -4,7 +4,7 @@ LICENSE = "GPL-3.0"
 LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/${LICENSE};md5=c79ff39f19dfec6d293b95dea7b07891"
 
 #PV = "${DISTRO_VERSION}"
-PR = "r1"
+PR = "r2"
 PACKAGE_ARCH = "${MACHINE_ARCH}"
 
 inherit packagegroup
@@ -52,4 +52,8 @@ RDEPENDS_${PN} = "\
 	binutils \
 	alsa-lib-dev \
 	alsa-lib \
+	libinput \
+	libinput-dev \
+	libudev \
+	libudev-dev \
 	"
