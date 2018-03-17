@@ -20,6 +20,11 @@ RDEPENDS_${PN} = " \
 SRC_URI =      "\
 	file://ovmenu-ng.sh \
 	file://openvario.rc \
+	file://screen.conf \
+	file://update-maps-lk8000.sh \
+	file://download-igc-lk8000.sh \
+	file://upload-lk8000.sh \
+	file://download-lk8000.sh \
 "
 
 
@@ -33,11 +38,23 @@ do_install() {
         echo "Installing ..."
         install -d ${D}/opt/bin
         install -m 0755 ${S}/ovmenu-ng.sh ${D}/opt/bin/ovmenu-ng.sh
-		install -d ${D}/home/root
-		install -m 0755 ${S}/openvario.rc ${D}/home/root/.dialogrc
+	install -d ${D}/home/root
+	install -m 0755 ${S}/openvario.rc ${D}/home/root/.dialogrc
+	install -d ${D}/opt/conf
+	install -m 0755 ${S}/screen.conf ${D}/opt/conf/screen.conf
+
+        install -d ${D}/usr/bin
+        install -m 0755 ${S}/update-maps-lk8000.sh ${D}/usr/bin/update-maps-lk8000.sh
+	install -m 0755 ${S}/download-igc-lk8000.sh ${D}/usr/bin/download-igc-lk8000.sh
+	install -m 0755 ${S}/download-lk8000.sh ${D}/usr/bin/download-lk8000.sh
+	install -m 0755 ${S}/upload-lk8000.sh ${D}/usr/bin/upload-lk8000.sh
 }
 
 FILES_${PN} = "/opt/bin/ovmenu-ng.sh \
 				/home/root/.dialogrc \
 	/opt/conf/screen.conf \
+	/usr/bin/update-maps-lk8000.sh \
+	/usr/bin/download-igc-lk8000.sh \
+	/usr/bin/download-lk8000.sh \
+	/usr/bin/upload-lk8000.sh \
 "

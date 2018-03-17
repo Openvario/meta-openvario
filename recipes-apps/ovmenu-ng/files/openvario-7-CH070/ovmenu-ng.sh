@@ -24,9 +24,10 @@ do
 	--title "[ M A I N - M E N U ]" \
 	--begin 3 4 \
 	--default-item ${GLIDE_COMPUTER} \
-	--menu "You can use the UP/DOWN arrow keys" 15 50 6 \
+	--menu "You can use the UP/DOWN arrow keys" 15 50 8 \
 	XCSoar   "Start XCSoar" \
 	TopHat   "Start TopHat" \
+	LK8000   "Start LK8000" \
 	File   "Copys file to and from OpenVario" \
 	System   "Update, Settings, ..." \
 	Exit   "Exit to the shell" \
@@ -37,7 +38,7 @@ do
  
 	# make decsion 
 case $menuitem in
-	XCSoar|TopHat)
+	XCSoar|TopHat|LK8000)
 		GLIDE_COMPUTER=${menuitem}
 		echo "GLIDE_COMPUTER=${GLIDE_COMPUTER}" \
 		    >/opt/conf/glide_conputer.conf
@@ -356,8 +357,6 @@ function TopHat() {
 
 function start_lk8000() {
 	/opt/LK8000/bin/LK8000-OPENVARIO
-	#temporary fix for exit bug...
-	openvt -f -c 1 /bin/echo; exit
 }
 
 function yesno_exit(){
