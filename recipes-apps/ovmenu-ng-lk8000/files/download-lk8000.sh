@@ -1,7 +1,7 @@
 #!/bin/bash
 
 USB_PATH="/usb/usbstick/openvario/download/LK8000"
-DOWNLOAD_PATH="/LK8000"
+DOWNLOAD_PATH="/home/root/LK8000"
 if [ ! -d "$USB_PATH" ]; then
 	mkdir "$USB_PATH"
 fi

@@ -1,7 +1,7 @@
 #!/bin/bash
 
 USB_PATH="/usb/usbstick/openvario/igc"
-IGC_PATH="/LK8000/_Logger"
+IGC_PATH="/home/root/LK8000/_Logger"
 mkdir -p $USB_PATH
 
 if [ -z "$(ls $IGC_PATH/*.igc 2>/dev/null)" ]; then

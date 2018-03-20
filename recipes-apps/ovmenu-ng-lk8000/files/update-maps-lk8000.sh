@@ -1,6 +1,6 @@
 #!/bin/bash
 MAP_PATH="/usb/usbstick/openvario/maps"
-LK8000_MAP_PATH="/LK8000/_Maps"
+LK8000_MAP_PATH="/home/root/LK8000/_Maps"
 
 if [ -z "$(ls $MAP_PATH/*.LKM 2>/dev/null)" || -z "$(ls $MAP_PATH/*.DEM 2>/dev/null)" ]; then
         echo "No files for update found !!!"

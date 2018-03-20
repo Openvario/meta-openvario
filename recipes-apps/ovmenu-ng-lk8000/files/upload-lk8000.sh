@@ -1,7 +1,7 @@
 #!/bin/bash
 
 USB_PATH="/usb/usbstick/openvario/upload/LK8000"
-UPLOAD_PATH="/LK8000"
+UPLOAD_PATH="/home/root/LK8000"
 if [ -z "$(ls $USB_PATH/* 2>/dev/null)" ]; then
         echo "No files found !!!"
 else

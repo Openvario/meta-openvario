@@ -354,6 +354,12 @@ function TopHat() {
 	fi
 }
 
+function start_lk8000() {
+	/opt/LK8000/bin/LK8000-OPENVARIO
+	#temporary fix for exit bug...
+	openvt -f -c 1 /bin/echo; exit
+}
+
 function yesno_exit(){
 	dialog --backtitle "Openvario" \
 	--begin 3 4 \

@@ -266,9 +266,9 @@ function upload_files(){
 }
 
 function start_LK8000() {
-	/LK8000/LK8000-OPENVARIO -x=${SCREEN_WIDTH} -y=${SCREEN_HEIGHT}
-        #temporary fix for exit bug, smae as alredy fixed in xcsaor, and we have same problem ...
-        openvt -f -c 1 /bin/echo; exit
+	/opt/LK8000/bin/LK8000-OPENVARIO
+	#temporary fix for exit bug...
+	openvt -f -c 1 /bin/echo; exit
 }
 
 function yesno_exit(){
