@@ -103,7 +103,7 @@ index d48bdac..f5b77cc 100644
 +               "setenv bootargs console=tty0;" \
 +               "bootm 0x48000000\0" \
 +	"splash_display=" \
-+		"fatload mmc0 0:1 ${adr_splash} ${splash};" \
++		"fatload mmc 0:1 ${adr_splash} ${splash};" \
 +		"bmp display ${adr_splash};\0"
 +
 +
