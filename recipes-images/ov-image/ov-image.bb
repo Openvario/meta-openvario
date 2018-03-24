@@ -11,6 +11,7 @@ IMAGE_FEATURES += "debug-tweaks"
 
 IMAGE_INSTALL += "\
     	xcsoar \
+    	tophat \
 	xcsoar-profiles \
 	xcsoar-menu \
 	xcsoar-maps-default \

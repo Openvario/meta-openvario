@@ -1,3 +1,3 @@
-PREFERRED_VERSION_xcsoar = "6.8.ov11"
-#PREFERRED_VERSION_u-boot = "mainline"
+PREFERRED_VERSION_xcsoar = "6.8.ov10"
+PREFERRED_VERSION_tophat = "TopHat-master"
 

@@ -1,0 +1,13 @@
+diff --git a/build/targets.mk b/build/targets.mk
+index 8f1e275..815253c 100644
+--- a/build/targets.mk
++++ b/build/targets.mk
+@@ -751,7 +751,7 @@ ifneq ($(TARGET),ANDROID)
+     ifeq ($(TARGET_IS_KOBO),y)
+       TARGET_LDLIBS += $(topdir)/lib/alsa-lib/src/.libs/libasound.a
+     else ifeq ($(TARGET),UNIX)
+-      TARGET_LDLIBS += -lpulse-simple -lpulse -lasound
++      TARGET_LDLIBS += -lasound
+     endif
+     TARGET_LDLIBS += -ldl
+   endif
