@@ -12,6 +12,10 @@ source /opt/conf/*.conf
 # trap and delete temp files
 trap "rm $INPUT;rm /tmp/tail.$$; exit" SIGHUP SIGINT SIGTERM
 
+if [ -z "${GLIDE_COMPUTER}" ]; then
+    GLIDE_COMPUTER=TopHat
+fi
+
 main_menu () {
 while true
 do
@@ -19,6 +23,7 @@ do
 	dialog --clear --nocancel --backtitle "OpenVario" \
 	--title "[ M A I N - M E N U ]" \
 	--begin 3 4 \
+	--default-item ${GLIDE_COMPUTER} \
 	--menu "You can use the UP/DOWN arrow keys" 15 50 7 \
 	XCSoar   "Start XCSoar" \
 	TopHat   "Start TopHat" \
@@ -32,8 +37,12 @@ do
  
 	# make decsion 
 case $menuitem in
-	XCSoar) start_xcsoar;;
-	TopHat) start_tophat;;
+	XCSoar|TopHat)
+		GLIDE_COMPUTER=${menuitem}
+		echo "GLIDE_COMPUTER=${GLIDE_COMPUTER}" \
+		    >/opt/conf/glide_conputer.conf
+		${GLIDE_COMPUTER}
+		;;
 	File) submenu_file;;
 	System) submenu_system;;
 	Exit) yesno_exit;;
@@ -327,7 +336,7 @@ function upload_files(){
 	dialog --backtitle "OpenVario" --title "Result" --tailbox /tmp/tail.$$ 30 50
 }
 
-function start_xcsoar() {
+function XCSoar() {
 	/usr/bin/xcsoar_config.sh
 	if [ -z $XCSOAR_LANG ]; then
 		/opt/XCSoar/bin/xcsoar -fly -640x480
@@ -336,7 +345,7 @@ function start_xcsoar() {
 	fi
 }
 
-function start_tophat() {
+function TopHat() {
 	/usr/bin/xcsoar_config.sh
 	if [ -z $XCSOAR_LANG ]; then
 		/opt/tophat/bin/tophat -fly -640x480
