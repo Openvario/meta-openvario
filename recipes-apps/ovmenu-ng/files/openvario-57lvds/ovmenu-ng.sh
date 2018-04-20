@@ -8,12 +8,16 @@ TOUCH_CAL=/opt/conf/touch.cal
 
 #get config files
 source /opt/conf/*.conf
+source /opt/conf/screen.conf # *.conf does not work
+source /opt/conf/glide_computer.conf
 
 # trap and delete temp files
 trap "rm $INPUT;rm /tmp/tail.$$; exit" SIGHUP SIGINT SIGTERM
 
+RESOLUTION=${SCREEN_WIDTH}x${SCREEN_HEIGHT}
+
 if [ -z "${GLIDE_COMPUTER}" ]; then
-    GLIDE_COMPUTER=TopHat
+    GLIDE_COMPUTER=XCSoar
 fi
 
 main_menu () {
@@ -40,7 +44,7 @@ case $menuitem in
 	XCSoar|TopHat)
 		GLIDE_COMPUTER=${menuitem}
 		echo "GLIDE_COMPUTER=${GLIDE_COMPUTER}" \
-		    >/opt/conf/glide_conputer.conf
+		    >/opt/conf/glide_computer.conf
 		${GLIDE_COMPUTER}
 		;;
 	File) submenu_file;;
@@ -339,18 +343,18 @@ function upload_files(){
 function XCSoar() {
 	/usr/bin/xcsoar_config.sh
 	if [ -z $XCSOAR_LANG ]; then
-		/opt/XCSoar/bin/xcsoar -fly -640x480
+		/opt/XCSoar/bin/xcsoar -fly -${RESOLUTION}
 	else
-		LANG=$XCSOAR_LANG /opt/XCSoar/bin/xcsoar -fly -640x480
+		LANG=$XCSOAR_LANG /opt/XCSoar/bin/xcsoar -fly -${RESOLUTION}
 	fi
 }
 
 function TopHat() {
 	/usr/bin/xcsoar_config.sh
 	if [ -z $XCSOAR_LANG ]; then
-		/opt/tophat/bin/tophat -fly -640x480
+		/opt/tophat/bin/tophat -fly -${RESOLUTION}
 	else
-		LANG=$XCSOAR_LANG /opt/tophat/bin/tophat -fly -640x480
+		LANG=$XCSOAR_LANG /opt/tophat/bin/tophat -fly -${RESOLUTION}
 	fi
 }
 

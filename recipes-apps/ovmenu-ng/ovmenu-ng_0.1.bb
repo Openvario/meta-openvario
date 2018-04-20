@@ -39,4 +39,5 @@ do_install() {
 
 FILES_${PN} = "/opt/bin/ovmenu-ng.sh \
 				/home/root/.dialogrc \
+	/opt/conf/screen.conf \
 "
