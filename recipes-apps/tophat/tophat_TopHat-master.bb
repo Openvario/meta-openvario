@@ -38,6 +38,7 @@ SRC_URI = 	"git://github.com/rdunning0823/tophat.git;protocol=https;branch=TopHa
 				 file://no_libpulse.patch \
 				 file://001_alway_parse_resolution.patch \
 				 file://001create_raw_files.patch \
+				 file://default.top \
 "
 
 addtask do_package_write_ipk after do_package after do_install
@@ -58,10 +59,13 @@ do_install() {
 	rm -rf ${D}/opt/tophat/bin/.debug
 	install -d ${D}/opt/tophat/share/sounds
 	install -m 0755 ${S}/output/UNIX/resources/raw/* ${D}/opt/tophat/share/sounds
+	install -d ${D}/home/root/.xcsoar
+	install -m 0644 ${WORKDIR}/default.top ${D}/home/root/.xcsoar
 }
 
 FILES_${PN} = " \
 	/opt/tophat/bin/* \
 	/opt/tophat/share/sounds/* \
+	/home/root/.xcsoar/* \
 "
 

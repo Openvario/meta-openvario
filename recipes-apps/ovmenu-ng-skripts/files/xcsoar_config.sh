@@ -27,6 +27,7 @@ function display_rotation () {
 
         echo "Replacing ... XCSOAR_ROTATION="$XCSOAR_ROTATION
 		sed -i 's/^DisplayOrientation=.*/DisplayOrientation="'$XCSOAR_ROTATION'"/' $XCSOAR_CONFDIR/*.prf
+		sed -i 's/^DisplayOrientation=.*/DisplayOrientation="'$XCSOAR_ROTATION'"/' $XCSOAR_CONFDIR/default.top
 fi
 }
 
