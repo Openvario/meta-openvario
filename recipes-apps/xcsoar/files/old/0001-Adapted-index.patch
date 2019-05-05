@@ -1,0 +1,25 @@
+From a795e5248e7414536d455961a94c458379e46ba9 Mon Sep 17 00:00:00 2001
+From: Timo Bruderek <timo.bruderek@gmx.de>
+Date: Wed, 27 Aug 2014 20:02:25 +0200
+Subject: [PATCH] Adapted index
+
+---
+ src/Look/MapLook.hpp | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/Look/MapLook.hpp b/src/Look/MapLook.hpp
+index 0c10834..9929e17 100644
+--- a/src/Look/MapLook.hpp
++++ b/src/Look/MapLook.hpp
+@@ -74,7 +74,7 @@ struct MapLook {
+ 
+   Pen track_line_pen;
+ 
+-  Pen contest_pens[3];
++  Pen contest_pens[10];
+ 
+   MaskedIcon thermal_source_icon;
+ 
+-- 
+1.9.1
+

@@ -1,0 +1,25 @@
+From 624c048dcd5188015d99d0220d664eec642fbc28 Mon Sep 17 00:00:00 2001
+From: Timo Bruderek <openvario@timoshome.org>
+Date: Mon, 4 Dec 2017 08:00:04 +0000
+Subject: [PATCH] Added missing lib - dl
+
+---
+ build/lua.mk | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/build/lua.mk b/build/lua.mk
+index f5c1b40..d4b1256 100644
+--- a/build/lua.mk
++++ b/build/lua.mk
+@@ -2,7 +2,7 @@ LUA = y
+ 
+ ifeq ($(LUA),y)
+ 
+-LIBLUA_LDLIBS = -llua
++LIBLUA_LDLIBS = -llua -ldl
+ LIBLUA_CPPFLAGS =
+ 
+ LUA_SOURCES = \
+-- 
+1.8.3.1
+

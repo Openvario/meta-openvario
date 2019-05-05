@@ -1,0 +1,72 @@
+From f6620cdd60d059172a66e19cfe52294cef22ccea Mon Sep 17 00:00:00 2001
+From: ToLuSe <tobias@toluse.de>
+Date: Mon, 22 Oct 2018 11:15:28 +0000
+Subject: Enable MMC2 and config LEDs for Cubieboard2 Dual Card
+
+---
+ arch/arm/boot/dts/sun7i-a20-cubieboard2.dts | 23 +++++++++++++++++++--
+ 1 file changed, 21 insertions(+), 2 deletions(-)
+
+diff --git a/arch/arm/boot/dts/sun7i-a20-cubieboard2.dts b/arch/arm/boot/dts/sun7i-a20-cubieboard2.dts
+index 5ebe95df..f7ffe6c3 100644
+--- a/arch/arm/boot/dts/sun7i-a20-cubieboard2.dts
++++ b/arch/arm/boot/dts/sun7i-a20-cubieboard2.dts
+@@ -48,6 +48,7 @@
+ 
+ #include <dt-bindings/gpio/gpio.h>
+ #include <dt-bindings/interrupt-controller/irq.h>
++#include <dt-bindings/pinctrl/sun4i-a10.h>
+ 
+ / {
+ 	model = "Cubietech Cubieboard2";
+@@ -78,13 +79,15 @@
+ 		pinctrl-0 = <&led_pins_cubieboard2>;
+ 
+ 		blue {
+-			label = "cubieboard2:blue:usr";
++			label = "cubieboard2:blue:mmc0";
+ 			gpios = <&pio 7 21 GPIO_ACTIVE_HIGH>;
++			linux,default-trigger="mmc0";
+ 		};
+ 
+ 		green {
+-			label = "cubieboard2:green:usr";
++			label = "cubieboard2:green:mmc2";
+ 			gpios = <&pio 7 20 GPIO_ACTIVE_HIGH>;
++			linux,default-trigger="mmc2";
+ 		};
+ 	};
+ };
+@@ -181,6 +184,16 @@
+ 	status = "okay";
+ };
+ 
++&mmc2 {
++	pinctrl-names = "default";
++	pinctrl-0 = <&mmc2_pins_a>, <&mmc2_cd_pin>;
++	vmmc-supply = <&reg_vcc3v3>;
++	bus-width = <4>;
++	cd-gpios = <&pio 7 0 GPIO_ACTIVE_HIGH>; /* PH0 */
++	cd-inverted;
++	status = "okay";
++};
++
+ &ohci0 {
+ 	status = "okay";
+ };
+@@ -210,6 +223,12 @@
+ 		function = "irq";
+ 		bias-pull-up;
+ 	};
++
++	mmc2_cd_pin: mmc2_cd_pin@0 {
++		pins = "PH0";
++		function = "gpio_in";
++		bias-pull-up;
++	};
+ };
+ 
+ &reg_ahci_5v {
+-- 
+2.19.1
+

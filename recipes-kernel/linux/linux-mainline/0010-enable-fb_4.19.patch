@@ -1,0 +1,31 @@
+diff --git a/arch/arm/boot/dts/sun7i-a20.dtsi b/arch/arm/boot/dts/sun7i-a20.dtsi
+index af6c2ad..8666a35 100644
+--- a/arch/arm/boot/dts/sun7i-a20.dtsi
++++ b/arch/arm/boot/dts/sun7i-a20.dtsi
+@@ -70,7 +70,7 @@
+ 				 <&ccu CLK_AHB_DE_BE0>, <&ccu CLK_DE_BE0>,
+ 				 <&ccu CLK_TCON0_CH1>, <&ccu CLK_DRAM_DE_BE0>,
+ 				 <&ccu CLK_HDMI>;
+-			status = "disabled";
++			status = "okay";
+ 		};
+ 
+ 		framebuffer@1 {
+@@ -80,7 +80,7 @@
+ 			clocks = <&ccu CLK_AHB_LCD0>, <&ccu CLK_AHB_DE_BE0>,
+ 				 <&ccu CLK_DE_BE0>, <&ccu CLK_TCON0_CH0>,
+ 				 <&ccu CLK_DRAM_DE_BE0>;
+-			status = "disabled";
++			status = "okay";
+ 		};
+ 
+ 		framebuffer@2 {
+@@ -91,7 +91,7 @@
+ 				 <&ccu CLK_AHB_DE_BE0>,
+ 				 <&ccu CLK_DE_BE0>, <&ccu CLK_TCON0_CH1>,
+ 				 <&ccu CLK_DRAM_TVE0>, <&ccu CLK_DRAM_DE_BE0>;
+-			status = "disabled";
++			status = "okay";
+ 		};
+ 	};
+ 

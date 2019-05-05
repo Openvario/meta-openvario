@@ -1,0 +1,28 @@
+From 61dd5948b01b34bc345fcaa471dc32cca5e8cda8 Mon Sep 17 00:00:00 2001
+From: Timo Bruderek <timo.bruderek@gmx.de>
+Date: Sun, 28 Feb 2016 08:18:11 +0100
+Subject: [PATCH] Workaround for Shutdown bug
+
+---
+ src/XCSoar.cpp | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/src/XCSoar.cpp b/src/XCSoar.cpp
+index 2189134..bf8380e 100644
+--- a/src/XCSoar.cpp
++++ b/src/XCSoar.cpp
+@@ -153,6 +153,11 @@ WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
+   int ret = EXIT_FAILURE;
+   if (Startup())
+     ret = CommonInterface::main_window->RunEventLoop();
++  
++  if (CommonInterface::main_window != nullptr) {
++	CommonInterface::main_window->Destroy();
++  	delete CommonInterface::main_window;
++  }
+ 
+   Shutdown();
+ 
+-- 
+1.9.1
+

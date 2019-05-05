@@ -1,0 +1,32 @@
+From 29955d86fb1944928a30ab33169e89406c66e825 Mon Sep 17 00:00:00 2001
+From: ToLuSe <tobias@toluse.de>
+Date: Mon, 22 Oct 2018 11:15:29 +0000
+Subject: Set maximum clock frequency for Allwinner A20 (Still necessary on Kernel 4.19 ?!)
+
+---
+ arch/arm/boot/dts/sun7i-a20.dtsi | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/arch/arm/boot/dts/sun7i-a20.dtsi b/arch/arm/boot/dts/sun7i-a20.dtsi
+index b4a9ee50..4d63191c 100644
+--- a/arch/arm/boot/dts/sun7i-a20.dtsi
++++ b/arch/arm/boot/dts/sun7i-a20.dtsi
+@@ -103,6 +103,7 @@
+ 			compatible = "arm,cortex-a7";
+ 			device_type = "cpu";
+ 			reg = <0>;
++			clock-frequency = <912000000>;
+ 			clocks = <&ccu CLK_CPU>;
+ 			clock-latency = <244144>; /* 8 32k periods */
+ 			operating-points = <
+@@ -122,6 +123,7 @@
+ 			compatible = "arm,cortex-a7";
+ 			device_type = "cpu";
+ 			reg = <1>;
++			clock-frequency = <912000000>;
+ 			clocks = <&ccu CLK_CPU>;
+ 			clock-latency = <244144>; /* 8 32k periods */
+ 			operating-points = <
+-- 
+2.19.1
+

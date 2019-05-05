@@ -1,0 +1,105 @@
+From 410bd96502f608920ad4d1e629a61a50ec496912 Mon Sep 17 00:00:00 2001
+From: ToLuSe <tobias@toluse.de>
+Date: Mon, 22 Oct 2018 11:15:29 +0000
+Subject: Enable Cubiescreen LCD
+
+---
+ arch/arm/boot/dts/sun7i-a20-cubieboard2.dts | 50 +++++++++++++++++++++
+ arch/arm/boot/dts/sun7i-a20.dtsi            |  6 +++
+ 2 files changed, 56 insertions(+)
+
+diff --git a/arch/arm/boot/dts/sun7i-a20-cubieboard2.dts b/arch/arm/boot/dts/sun7i-a20-cubieboard2.dts
+index f7ffe6c3..e1f07acb 100644
+--- a/arch/arm/boot/dts/sun7i-a20-cubieboard2.dts
++++ b/arch/arm/boot/dts/sun7i-a20-cubieboard2.dts
+@@ -62,6 +62,37 @@
+ 		stdout-path = "serial0:115200n8";
+ 	};
+ 
++	backlight_display: backlight_display {
++		compatible = "pwm-backlight";
++		pwms = <&pwm 0 10000000 0>;
++		power-supply = <&reg_vcc5v0>;
++
++		brightness-levels = <0 64 93 122 151 180 209 240>;
++		default-brightness-level = <7>;
++	};
++
++	panel: panel {
++		compatible = "cubiescreen,lcd-cubiescreen";
++		backlight = <&backlight_display>;
++		power-supply = <&reg_vcc5v0>;
++
++		pinctrl-names = "default";
++		pinctrl-0 = <&lcd_enable_pin &lcd_rgb888_pins>;
++		enable-gpios = <&pio 1 10 GPIO_ACTIVE_HIGH>; /* PB10 */
++
++		#address-cells = <1>;
++		#size-cells = <0>;
++
++		port {
++			#address-cells = <1>;
++			#size-cells = <0>;
++
++			panel_input: endpoint {
++				remote-endpoint = <&tcon0_out_panel>;
++			};
++		};
++	};
++
+ 	hdmi-connector {
+ 		compatible = "hdmi-connector";
+ 		type = "a";
+@@ -92,6 +123,12 @@
+ 	};
+ };
+ 
++&pwm {
++	pinctrl-names = "default";
++	pinctrl-0 = <&pwm0_pins_a>;
++	status = "okay";
++};
++
+ &ahci {
+ 	target-supply = <&reg_ahci_5v>;
+ 	status = "okay";
+@@ -229,6 +266,19 @@
+ 		function = "gpio_in";
+ 		bias-pull-up;
+ 	};
++
++	lcd_enable_pin: lcd_enable_pin@0 {
++		pins = "PB10";
++		function = "gpio_out";
++	};
++
++	lcd_rgb888_pins: lcd_rgb888_pins@0 {
++		pins = "PD0",   "PD1",  "PD2",  "PD3",  "PD4",  "PD5",  "PD6",  "PD7",
++		       "PD8",   "PD9", "PD10", "PD11", "PD12", "PD13", "PD14", "PD15",
++		       "PD16", "PD17", "PD18", "PD19", "PD20", "PD21", "PD22", "PD23",
++		       "PD24", "PD25", "PD26", "PD27";
++		function = "lcd0";
++	};
+ };
+ 
+ &reg_ahci_5v {
+diff --git a/arch/arm/boot/dts/sun7i-a20.dtsi b/arch/arm/boot/dts/sun7i-a20.dtsi
+index d6834e91..b4a9ee50 100644
+--- a/arch/arm/boot/dts/sun7i-a20.dtsi
++++ b/arch/arm/boot/dts/sun7i-a20.dtsi
+@@ -421,6 +421,12 @@
+ 					#size-cells = <0>;
+ 					reg = <1>;
+ 
++					tcon0_out_panel: endpoint@0 {
++						reg = <0>;
++						remote-endpoint = <&panel_input>;
++						allwinner,tcon-channel = <0>;
++					};
++
+ 					tcon0_out_hdmi: endpoint@1 {
+ 						reg = <1>;
+ 						remote-endpoint = <&hdmi_in_tcon0>;
+-- 
+2.19.1
+
