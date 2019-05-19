@@ -55,10 +55,8 @@ FILES_${PN} = "/opt/bin/sensord \
 					/opt/conf/sensord.conf \
 					/opt/conf/default/sensord.conf \
 					/etc/cfgmgr.d/sensord.cfgmgr \
-					${systemd_unitdir}/system/sensord.service \
 "
 
 FILES_${PN}-dev = "/usr/src/debug/sensord-testing/git-r7/git/*"
 
-SYSTEMD_PACKAGES = "${PN}"
 SYSTEMD_SERVICE_${PN} = "sensord.service"
