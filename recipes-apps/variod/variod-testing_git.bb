@@ -56,8 +56,6 @@ FILES_${PN} = "/opt/bin/variod \
 					/opt/conf/default/variod.conf \
 					/opt/conf/variod.conf \
 					/etc/cfgmgr.d/variod.cfgmgr \
-					${systemd_unitdir}/system/variod.service \
 "
 
-SYSTEMD_PACKAGES = "${PN}"
 SYSTEMD_SERVICE_${PN} = "variod.service"
