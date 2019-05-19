@@ -26,6 +26,9 @@ DEPENDS = "	\
 		libpng \
 "
 
+RDEPENDS_${PN} = "\
+		ttf-dejavu-sans-condensed \
+"
 
 S = "${WORKDIR}/git"
 
