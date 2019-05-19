@@ -1,44 +1,35 @@
-From d8bce33105dd82b1054999840ed782b6f938d5fb Mon Sep 17 00:00:00 2001
+From 74ae8499d7ab0a25f7617686e03ae6dec6decb6c Mon Sep 17 00:00:00 2001
 From: Timo Bruderek <openvario@timoshome.org>
-Date: Wed, 7 Mar 2018 19:54:03 +0000
-Subject: [PATCH 1/1] Enivronment Openvario
+Date: Sun, 12 May 2019 12:15:15 +0000
+Subject: [PATCH 1/1] Environment-Openvario-mainline
 
 ---
- include/configs/sunxi-common.h | 80 +++++++++++++++++++++++++++++++++++++++---
- 1 file changed, 75 insertions(+), 5 deletions(-)
+ include/configs/sunxi-common.h | 68 +++++++++++++++++++++++++++++++++++++++---
+ 1 file changed, 64 insertions(+), 4 deletions(-)
 
 diff --git a/include/configs/sunxi-common.h b/include/configs/sunxi-common.h
-index d48bdac..f5b77cc 100644
+index 9819d99..76e7a83 100644
 --- a/include/configs/sunxi-common.h
 +++ b/include/configs/sunxi-common.h
-@@ -280,12 +280,15 @@ extern int soft_i2c_gpio_scl;
+@@ -277,7 +277,7 @@ extern int soft_i2c_gpio_scl;
   */
  #define CONFIG_SUNXI_MAX_FB_SIZE (16 << 20)
  
-+/* Enable BMP support */
-+#define CONFIG_CMD_BMP
-+
- /* Do we want to initialize a simple FB? */
- #define CONFIG_VIDEO_DT_SIMPLEFB
- 
- #define CONFIG_VIDEO_SUNXI
- 
 -#define CONFIG_VIDEO_LOGO
-+/*define CONFIG_VIDEO_LOGO*/
++/*#define CONFIG_VIDEO_LOGO*/
  #define CONFIG_VIDEO_STD_TIMINGS
  #define CONFIG_I2C_EDID
  #define VIDEO_LINE_LEN (pGD->plnSizeX)
-@@ -461,7 +464,8 @@ extern int soft_i2c_gpio_scl;
+@@ -435,7 +435,7 @@ extern int soft_i2c_gpio_scl;
  #define BOOTCMD_SUNXI_COMPAT
  #endif
  
 -#include <config_distro_bootcmd.h>
 +/*#include <config_distro_bootcmd.h>*/
-+#define CONFIG_BOOTCOMMAND "run distro_bootcmd"
  
  #ifdef CONFIG_USB_KEYBOARD
  #define CONSOLE_STDIN_SETTINGS \
-@@ -474,8 +478,8 @@ extern int soft_i2c_gpio_scl;
+@@ -448,8 +448,8 @@ extern int soft_i2c_gpio_scl;
  
  #ifdef CONFIG_VIDEO
  #define CONSOLE_STDOUT_SETTINGS \
@@ -46,91 +37,76 @@ index d48bdac..f5b77cc 100644
 -	"stderr=serial,vga\0"
 +	"stdout=serial\0" \
 +	"stderr=serial\0"
- #else
+ #elif CONFIG_DM_VIDEO
+ #define CONFIG_SYS_WHITE_ON_BLACK
  #define CONSOLE_STDOUT_SETTINGS \
- 	"stdout=serial\0" \
-@@ -486,6 +490,71 @@ extern int soft_i2c_gpio_scl;
- 	CONSOLE_STDIN_SETTINGS \
- 	CONSOLE_STDOUT_SETTINGS
+@@ -499,6 +499,66 @@ extern int soft_i2c_gpio_scl;
+ #define FDTFILE CONFIG_DEFAULT_DEVICE_TREE ".dtb"
+ #endif
  
-+
 +#define BOOTENV \
 +	"adr_splash=0x44000000\0" \
-+       "recover_file=openvario/ov-recovery.itb\0" \
-+       "distro_bootcmd=" \
-+               "for target in ${boot_targets}; do run bootcmd_${target}; done\0" \
-+       "boot_targets=" \
-+               "env usb0 mmc0\0" \
-+       "bootcmd_mmc0=" \
-+               "echo Try to boot from mmc ...;" \
-+               "run set_bootargs;" \
-+	        "setenv splash ov_booting_${rotation}.bmp;" \
-+               "run splash_display;" \
-+               "load mmc 0:1 ${fdt_addr_r} ${fdtfile};" \
-+               "load mmc 0:1 ${kernel_addr_r} uImage;" \
-+               "bootm ${kernel_addr_r} - ${fdt_addr_r} \0" \
-+       "bootcmd_usb0=" \
-+               "echo Try recoverboot from USB;" \
-+               "if test -e usb 0:1 ${recover_file};" \
-+                       "then echo Recover File ${recover_file} found...;" \
-+		       "setenv splash ov_recover_${rotation}.bmp;" \
-+		       "run splash_display;" \
-+                       "run boot_itb_on_usb;" \
-+                       "else echo No Recovery file found ...;" \
-+               "fi\0" \
-+       "bootcmd_env=" \
++	"recover_file=openvario/ov-recovery.itb\0" \
++	"distro_bootcmd=" \
++		"for target in ${boot_targets}; do run bootcmd_${target}; done\0" \
++	"boot_targets=" \
++		"env usb0 mmc0\0" \
++	"bootcmd_mmc0=" \
++		"echo Try to boot from mmc ...;" \
++		"run set_bootargs;" \
++		"setenv splash ov_booting_${rotation}.bmp;" \
++		"run splash_display;" \
++		"load mmc 0:1 ${fdt_addr_r} ${fdtfile};" \
++		"load mmc 0:1 ${kernel_addr_r} uImage;" \
++		"bootm ${kernel_addr_r} - ${fdt_addr_r}\0" \
++	"bootcmd_usb0=" \
++		"echo Try recoverboot from USB;" \
++		"if test -e usb 0:1 ${recover_file};" \
++        	"then echo Recover File ${recover_file} found...;" \
++			"setenv splash ov_recover_${rotation}.bmp;" \
++			"run splash_display;" \
++         	"run boot_itb_on_usb;" \
++		"else echo No Recovery file found ...;" \
++ 		"fi\0" \
++	"bootcmd_env=" \
 +		"echo Try to load config.uEnv;" \
 +		"if test -e mmc 0:1 config.uEnv;" \
 +			"then echo Load config.uEnv ...;" \
 +			"load mmc 0:1 0x43000000 config.uEnv;" \
 +			"env import -r -t 0x43000000 ${filesize};" \
 +		"fi\0"\
-+       "set_bootargs=" \
++	"set_bootargs=" \
 +		"if test -n $rotation;then " \
 +			"if test $rotation -eq '1'; then setenv rotation_kernel 3;fi;" \
 +			"if test $rotation -eq '3'; then setenv rotation_kernel 1;fi;" \
 +			"if test $rotation -eq '0' -o $rotation -eq '2'; then setenv rotation_kernel $rotation;fi;" \
 +			"setenv bootargs console=ttyS0,115200 root=/dev/mmcblk0p2 rootwait panic=10 fbcon=rotate:${rotation_kernel};" \
 +		"else setenv bootargs console=ttyS0,115200 root=/dev/mmcblk0p2 rootwait panic=10;" \
-+		"fi\0" \
++	"fi\0" \
 +	"boot_itb_from_net=" \
-+              "setenv serverip 192.168.0.100;" \
-+                "setenv ipaddr 192.168.0.126;" \
-+               "tftp 0x48000000 openvario/ov-recovery.itb;" \
-+               "tftp 0x43000000 openvario/script.bin;\0" \
++		"setenv serverip 192.168.0.100;" \
++		"setenv ipaddr 192.168.0.126;" \
++		"tftp 0x48000000 openvario/ov-recovery.itb;" \
++		"tftp 0x43000000 openvario/script.bin;\0" \
 +	"boot_itb_on_usb=" \
-+               "fatload usb 0:1 0x48000000 ${recover_file};" \
-+               "setenv bootargs console=tty0;" \
-+               "bootm 0x48000000\0" \
++		"fatload usb 0:1 0x48000000 ${recover_file};" \
++		"setenv bootargs console=tty0;" \
++		"bootm 0x48000000\0" \
++	"uboot_flash=" \
++    	"setenv serverip 192.168.1.150;" \
++        "setenv ipaddr 192.168.1.126;" \
++        "mw.b 0x48000000 0x00 0x100000;" \
++        "tftp 0x48000000 u-boot-sunxi-with-spl.bin;" \
++        "mmc erase 0x10 0x400;" \
++        "mmc write 0x48000000 0x10 0x400\0" \
 +	"splash_display=" \
 +		"fatload mmc 0:1 ${adr_splash} ${splash};" \
 +		"bmp display ${adr_splash};\0"
-+
-+
-+
-+#define CONFIG_EXTRA_USER_ENV_SETTINGS \
-+       "uboot_flash=" \
-+               "setenv serverip 192.168.1.213;" \
-+               "setenv ipaddr 192.168.1.126;" \
-+               "mw.b 0x48000000 0x00 0x100000;" \
-+               "tftp 0x48000000 u-boot-sunxi-with-spl.bin;" \
-+               "mmc erase 0x10 0x400;" \
-+               "mmc write 0x48000000 0x10 0x400\0"
-+
++       
 +
  #define CONFIG_EXTRA_ENV_SETTINGS \
  	CONSOLE_ENV_SETTINGS \
  	MEM_LAYOUT_ENV_SETTINGS \
-@@ -493,7 +562,8 @@ extern int soft_i2c_gpio_scl;
- 	"fdtfile=" CONFIG_DEFAULT_DEVICE_TREE ".dtb\0" \
- 	"console=ttyS0,115200\0" \
- 	BOOTCMD_SUNXI_COMPAT \
--	BOOTENV
-+	BOOTENV \
-+	CONFIG_EXTRA_USER_ENV_SETTINGS
- 
- #else /* ifndef CONFIG_SPL_BUILD */
- #define CONFIG_EXTRA_ENV_SETTINGS
 -- 
 1.8.3.1
 
