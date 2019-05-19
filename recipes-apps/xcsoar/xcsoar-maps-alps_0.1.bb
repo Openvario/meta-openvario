@@ -19,6 +19,8 @@ SRC_URI =	"\
 
 SRC_URI[alpsmap.md5sum] = "1216ad8222dad27024f77e799ceb9b67"
 SRC_URI[alpsmap.sha256sum] = "851ec5a90fb4b32b991b79293faaf087419c0d790c44aa202cb12a726fbf9c8f"
+SRC_URI[airspaceat.md5sum] = "8963def8118f0b92da5f0cac862e6cf3"
+SRC_URI[airspaceat.sha256sum] = "f5e79df3e89cc982b47e3e0e1c9c59b419556d1747878a830040f0e083f00bc2"
 
 addtask do_package_write_ipk after do_package after do_install
 
