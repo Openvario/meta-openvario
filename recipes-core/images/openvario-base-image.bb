@@ -13,8 +13,6 @@ IMAGE_LINGUAS = " "
 
 LICENSE = "MIT"
 
-#DISTRO_FEATURES += "directfb"
-
 inherit core-image
 
 #IMAGE_ROOTFS_SIZE ?= "8192"
