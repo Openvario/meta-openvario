@@ -1,19 +1,19 @@
-From 43a09883deb443226efecfafecf7004f1d58bf97 Mon Sep 17 00:00:00 2001
-From: Timo Bruderek <timo.bruderek@gmx.de>
-Date: Thu, 10 Mar 2016 21:38:02 +0100
-Subject: [PATCH] Added RGB swap for RGB LCD
+From dce89bc524b3564de6308e1994a0f3da61df0b6f Mon Sep 17 00:00:00 2001
+From: Timo Bruderek <openvario@timoshome.org>
+Date: Sun, 26 May 2019 06:30:46 +0000
+Subject: [PATCH 1/1] Added RGB swap for RGB LCD
 
 ---
- arch/arm/include/asm/arch-sunxi/display.h | 1 +
- drivers/video/Kconfig                     | 5 +++++
- drivers/video/sunxi_display.c             | 3 +++
+ arch/arm/include/asm/arch-sunxi/lcdc.h | 1 +
+ drivers/video/Kconfig                  | 5 +++++
+ drivers/video/sunxi/lcdc.c             | 3 +++
  3 files changed, 9 insertions(+)
 
-diff --git a/arch/arm/include/asm/arch-sunxi/display.h b/arch/arm/include/asm/arch-sunxi/display.h
-index ae95417..68ef346 100644
---- a/arch/arm/include/asm/arch-sunxi/display.h
-+++ b/arch/arm/include/asm/arch-sunxi/display.h
-@@ -357,6 +357,7 @@ struct sunxi_tve_reg {
+diff --git a/arch/arm/include/asm/arch-sunxi/lcdc.h b/arch/arm/include/asm/arch-sunxi/lcdc.h
+index 90216bc..2007b5f 100644
+--- a/arch/arm/include/asm/arch-sunxi/lcdc.h
++++ b/arch/arm/include/asm/arch-sunxi/lcdc.h
+@@ -77,6 +77,7 @@ struct sunxi_lcdc_reg {
  #define SUNXI_LCDC_TCON0_FRM_TAB3		0x7f7f7777
  #define SUNXI_LCDC_TCON0_CTRL_CLK_DELAY(n)	(((n) & 0x1f) << 4)
  #define SUNXI_LCDC_TCON0_CTRL_ENABLE		(1 << 31)
@@ -22,25 +22,28 @@ index ae95417..68ef346 100644
  #define SUNXI_LCDC_TCON0_DCLK_ENABLE		(0xf << 28)
  #define SUNXI_LCDC_TCON0_TIMING_H_BP(n)		(((n) - 1) << 0)
 diff --git a/drivers/video/Kconfig b/drivers/video/Kconfig
-index 9ae23e8..e20a243 100644
+index 2eac4b6..e78a195 100644
 --- a/drivers/video/Kconfig
 +++ b/drivers/video/Kconfig
-@@ -240,3 +240,8 @@ config VIDEO_TEGRA124
- 	   HDMI. At present only eDP is supported by U-Boot. This option
+@@ -536,6 +536,11 @@ config VIDEO_TEGRA124
  	   enables this support which can be used on devices which
  	   have an eDP display connected.
-+
+ 
 +config SUNXI_VIDEO_LCD_RG_SWAP
 +	bool "SUNXI: Enable RG swap on lcd"
 +	help
 +	  Swap R and G on sunxi LCD interface.
-diff --git a/drivers/video/sunxi_display.c b/drivers/video/sunxi_display.c
-index 269083b..f632825 100644
---- a/drivers/video/sunxi_display.c
-+++ b/drivers/video/sunxi_display.c
-@@ -694,6 +694,9 @@ static void sunxi_lcdc_tcon0_mode_set(const struct ctfb_res_modes *mode,
++
+ source "drivers/video/bridge/Kconfig"
  
- 	clk_delay = sunxi_lcdc_get_clk_delay(mode);
+ config VIDEO
+diff --git a/drivers/video/sunxi/lcdc.c b/drivers/video/sunxi/lcdc.c
+index 4cf3a0e..a9aa860 100644
+--- a/drivers/video/sunxi/lcdc.c
++++ b/drivers/video/sunxi/lcdc.c
+@@ -82,6 +82,9 @@ void lcdc_tcon0_mode_set(struct sunxi_lcdc_reg * const lcdc,
+ 
+ 	clk_delay = lcdc_get_clk_delay(mode, 0);
  	writel(SUNXI_LCDC_TCON0_CTRL_ENABLE |
 +#ifdef CONFIG_SUNXI_VIDEO_LCD_RG_SWAP
 +	       SUNXI_LCDC_TCON0_CTRL_RG_SWAP |
@@ -49,5 +52,5 @@ index 269083b..f632825 100644
  
  	writel(SUNXI_LCDC_TCON0_DCLK_ENABLE |
 -- 
-1.9.1
+1.8.3.1
 

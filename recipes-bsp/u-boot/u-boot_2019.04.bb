@@ -24,6 +24,7 @@ SRC_URI = "git://git.denx.de/u-boot.git;branch=master \
 	       file://ov_booting_2.bmp \
 	       file://ov_booting_3.bmp \
 	       file://0001-Added-openvario.dts-to-Makefile.patch \
+		   file://0001-Added-RGB-swap-for-RGB-LCD.patch \
 	       file://0001-Environment-Openvario-mainline.patch \
 	       file://config.uEnv \
            "
