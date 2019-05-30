@@ -170,17 +170,17 @@
 	pinctrl-0 = <&i2c1_pins_a>;
 	status = "okay";
 
-	cubiets@5c {
-		compatible = "cubiets";
-		pinctrl-names = "default";
-		pinctrl-0 = <&cubiets_int_pin>;
-		reg = <0x5c>;
-		x-size = <800>;
-		y-size = <480>;
-		interrupt-parent = <&pio>;
-		interrupts = <7 7 IRQ_TYPE_EDGE_RISING>; /* PH7 / EINT7 */
-		interrupt-names = "Touchscreen";
-	};
+cubiets@5c {
+	compatible = "cubiets";
+	pinctrl-names = "default";
+	pinctrl-0 = <&cubiets_int_pin>;
+	reg = <0x5c>;
+	x-size = <800>;
+	y-size = <480>;
+	interrupt-parent = <&pio>;
+	interrupts = <7 7 IRQ_TYPE_EDGE_RISING>; /* PH7 / EINT7 */
+	interrupt-names = "Touchscreen";
+};
 };
 
 &ir0 {
@@ -195,16 +195,6 @@
 	vmmc-supply = <&reg_vcc3v3>;
 	bus-width = <4>;
 	cd-gpios = <&pio 7 1 GPIO_ACTIVE_LOW>; /* PH1 */
-	status = "okay";
-};
-
-&mmc2 {
-	pinctrl-names = "default";
-	pinctrl-0 = <&mmc2_pins_a>, <&mmc2_cd_pin>;
-	vmmc-supply = <&reg_vcc3v3>;
-	bus-width = <4>;
-	cd-gpios = <&pio 7 0 GPIO_ACTIVE_HIGH>; /* PH0 */
-	cd-inverted;
 	status = "okay";
 };
 
@@ -226,22 +216,22 @@
 		function = "gpio_out";
 	};
 
-	usb0_id_detect_pin: usb0_id_detect_pin@0 {
-		pins = "PH4";
-		function = "gpio_in";
-		bias-pull-up;
-	};
+usb0_id_detect_pin: usb0_id_detect_pin@0 {
+	pins = "PH4";
+	function = "gpio_in";
+	bias-pull-up;
+};
 
-	cubiets_int_pin:cubiets_int_pin@0 {
-		pins = "PH7";
-		function = "irq";
-		bias-pull-up;
-	};
+cubiets_int_pin:cubiets_int_pin@0 {
+	pins = "PH7";
+	function = "irq";
+	bias-pull-up;
+};
 
-	mmc2_cd_pin: mmc2_cd_pin@0 {
-		pins = "PH0";
-		function = "gpio_in";
-		bias-pull-up;
+mmc2_cd_pin: mmc2_cd_pin@0 {
+	pins = "PH0";
+	function = "gpio_in";
+	bias-pull-up;
 	};
 };
 
@@ -293,6 +283,29 @@
 	pinctrl-0 = <&uart0_pins_a>;
 	status = "okay";
 };
+
+&uart1 {
+	status = "okay";
+};
+
+&uart2 {
+	pinctrl-names = "default";
+	pinctrl-2 = <&uart2_pins_a>;
+	status = "okay";
+};
+
+&uart3 {
+	pinctrl-names = "default";
+	pinctrl-2 = <&uart3_pins_a>;
+	status = "okay";
+};
+
+&uart4 {
+	pinctrl-names = "default";
+	pinctrl-2 = <&uart4_pins_a>;
+	status = "okay";
+};
+
 
 &usb_otg {
 	dr_mode = "otg";
