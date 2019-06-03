@@ -17,6 +17,7 @@ RDEPENDS_${PN} = " \
 				python-configparser \
 				python-shell \
 				python-compression \
+				bash \
 "
 
 SRC_URI = "\
@@ -36,8 +37,8 @@ do_install() {
         echo "Installing ..."
         install -d ${D}/opt/bin
         install -m 0755 ${S}/cfgmgr.py ${D}/opt/bin/cfgmgr.py
-		install -m 0755 ${S}/save_config.sh ${D}/opt/bin
-		install -m 0755 ${S}/restore_config.sh ${D}/opt/bin
+		install -m 0755 ${S}/../save_config.sh ${D}/opt/bin
+		install -m 0755 ${S}/../restore_config.sh ${D}/opt/bin
 		install -m 0755 ${S}/ConfigFile.py ${D}/opt/bin/ConfigFile.py
 }
 

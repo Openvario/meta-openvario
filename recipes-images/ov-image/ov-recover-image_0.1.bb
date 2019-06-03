@@ -14,7 +14,8 @@ SRC_URI = "\
         "
 
 DEPENDS = "\
-        dtc \
+        dtc-native \
+        u-boot-mkimage-native \
         ov-recover-initramfs \
 	"
 
@@ -35,7 +36,7 @@ do_compile () {
 }
 
 do_mkimage () {
-	mkimage -A arm -f ${MACHINE}-recovery.its ov-recovery.itb
+	mkimage -A arm -f ${S}/${MACHINE}-recovery.its ov-recovery.itb
 } 
 
 addtask mkimage after do_compile before do_install

@@ -23,7 +23,7 @@ do_compile() {
 }
 
 do_install() {
-	install -d ${D}/opt/bin
+	install -d ${D}/opt/bin ${D}/etc
 	install -m 0755 ${S}/ovmenu-recovery.sh ${D}/opt/bin
 	install -m 0755 ${S}/dialogrc ${D}/etc
 	
