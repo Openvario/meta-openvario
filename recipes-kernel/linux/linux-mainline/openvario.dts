@@ -320,3 +320,9 @@ mmc2_cd_pin: mmc2_cd_pin@0 {
 	usb2_vbus-supply = <&reg_usb2_vbus>;
 	status = "okay";
 };
+
+&rtp {
+	allwinner,ts-attached;
+	allwinner,tp-sensitive-adjust = <0>;
+	allwinner,filter-type = <3>;
+};
