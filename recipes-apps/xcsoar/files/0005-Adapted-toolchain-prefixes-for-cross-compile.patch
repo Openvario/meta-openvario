@@ -1,0 +1,41 @@
+diff --git a/build/compile.mk b/build/compile.mk
+index ba5e2f148e..b21895a401 100644
+--- a/build/compile.mk
++++ b/build/compile.mk
+@@ -6,36 +6,8 @@ ifeq ($(USE_CCACHE),y)
+ endif
+ 
+ EXE := $(findstring .exe,$(MAKE))
+-AR = $(TCPREFIX)ar$(EXE)
+-RANLIB = $(TCPREFIX)ranlib$(EXE)
+-
+-ifneq ($(ANALYZER),y)
+-  ifeq ($(CLANG),y)
+-    CXX = $(LLVM_PREFIX)clang++$(LLVM_SUFFIX)$(EXE)
+-    CC = $(LLVM_PREFIX)clang$(LLVM_SUFFIX)$(EXE)
+-  else
+-    CXX = $(TCPREFIX)g++$(TCSUFFIX)$(EXE)
+-    CC = $(TCPREFIX)gcc$(TCSUFFIX)$(EXE)
+-  endif
+-endif
+-
+-ifeq ($(CLANG),y)
+-  AS = $(CC)
+-  ASFLAGS += -c -xassembler
+-  ifneq ($(LLVM_TARGET),)
+-    ASFLAGS += -target $(LLVM_TARGET)
+-  else
+-    ASFLAGS += $(TARGET_ARCH)
+-  endif
+-
+-else
+-  AS = $(TCPREFIX)as$(EXE)
+-endif
+ 
+-LD = $(TCPREFIX)ld$(EXE)
+ DLLTOOL = $(TCPREFIX)dlltool$(EXE)
+-SIZE = $(TCPREFIX)size$(EXE)
+-STRIP = $(TCPREFIX)strip$(EXE)
+ WINDRES = $(TCPREFIX)windres$(EXE)
+ ARFLAGS = rcs
+ 

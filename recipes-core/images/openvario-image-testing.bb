@@ -4,7 +4,7 @@ require openvario-base-image.bb
 IMAGE_ROOTFS_SIZE ?= "1048576"
 
 IMAGE_INSTALL += "\
-    xcsoar-testing-fb \
+    xcsoar-7.0-preview14 \
     xcsoar-menu \
     xcsoar-profiles \
     xcsoar-maps-alps \
