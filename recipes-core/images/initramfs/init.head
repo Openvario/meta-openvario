@@ -1,0 +1,34 @@
+#!/bin/sh
+
+echo "Running !!!"
+
+# temporarily mount proc and sys
+mkdir -p /proc
+mkdir -p /sys
+mount -t proc proc /proc
+mount -t sysfs sysfs /sys
+mount -t devtmpfs none /dev
+
+mkdir -p /run
+mkdir -p /var/run
+
+/sbin/udevd --daemon
+udevadm trigger --action=add
+
+# Fix path
+export PATH=/bin:/usr/bin:/sbin:/usr/sbin:
+
+# Fix initramfs reboot
+ln -sf /opt/bin/reboot.sh /sbin/reboot 
+
+#Create Mountpoint and mount USB Stick
+mkdir /mnt
+
+sleep 5
+mount /dev/sda1 /mnt
+
+/opt/bin/ovmenu-recovery.sh
+
+#Unmount USB Stick if exited to shell
+umount /dev/sda1
+/bin/bash
