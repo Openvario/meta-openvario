@@ -38,7 +38,8 @@ do_image_openvario_sdimg[depends] += " \
 			"
 
 # SD card image name
-SDIMG = "${IMGDEPLOYDIR}/${IMAGE_NAME}.rootfs.openvario.img"
+SDIMG = "${IMGDEPLOYDIR}/${IMAGE_NAME}.rootfs.img"
+SDIMG_LINK = "${IMAGE_NAME_LINK}.rootfs.img"
 
 IMAGE_CMD_openvario-sdimg () {
 
@@ -134,4 +135,14 @@ IMAGE_CMD_openvario-sdimg () {
 	# write u-boot-spl at the begining of sdcard in one shot
 	SPL_FILE=$(basename ${SPL_BINARY})
 	dd if=${DEPLOY_DIR_IMAGE}/${SPL_FILE} of=${SDIMG} bs=1024 seek=8 conv=notrunc
+
+	#zip ready made image
+	gzip -f ${SDIMG}
+
+	#create link to new created image
+	ln -sf ${SDIMG}.gz ${SDIMG_LINK}.gz
+
+	#writ}e output filename to file for upload
+	echo ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME} > ${DEPLOY_DIR_IMAGE}/image_name	
+	echo ${SDIMG_LINK} > ${DEPLOY_DIR_IMAGE}/image_link
 }
