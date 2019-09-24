@@ -40,6 +40,7 @@ SRC_URI = " \
 	file://0001-Adapted-Flags-for-compiler-and-linker-for-cross-comp.patch \
 	file://0001-Disable-warnings-as-errors.patch \
 	file://0001_no_version_lua.patch \
+	file://0001-avoid-tail-cut.patch \
 	file://ov-xcsoar.conf \
 "
 
