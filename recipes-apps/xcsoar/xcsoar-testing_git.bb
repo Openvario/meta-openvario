@@ -16,7 +16,6 @@ DEPENDS = "	\
 		libxslt-native \
 		librsvg-native \
 		imagemagick-native \
-		mali400-new \
 		libinput \
 		libsdl \
 		lua \
@@ -27,6 +26,9 @@ DEPENDS = "	\
 		libpng \
 "
 
+RDEPENDS_${PN} = "\
+		ttf-dejavu-sans-condensed \
+"
 
 S = "${WORKDIR}/git"
 
@@ -34,14 +36,18 @@ LC_LOCALE_PATH = "/usr/share/locale"
 
 SRCREV_pn-xcsoar-testing = "${AUTOREV}" 
 
-SRC_URI = 	"git://git-ro.openvario.org/xcsoar.git;protocol=http;branch=testing \
-		 file://0004-Adapted-toolchain-prefixes-for-cross-compile.patch \
-		 file://0001-Adapted-Flags-for-compiler-and-linker-for-cross-comp.patch \
-		 file://0001-Disable-warnings-as-errors.patch \
-		 file://0001-Override-detection-of-target-hardware.patch \
-		 file://0001-Added-missing-lib-dl.patch \
-		 file://0001-Adapt-EGL-variables-to-new-Mali-driver.patch \													 
-		 file://ov-xcsoar.conf \
+SRC_URI = " \
+	git://github.com/XCSoar/XCSoar.git;protocol=git;branch=master \
+	file://0005-Adapted-toolchain-prefixes-for-cross-compile.patch \
+	file://0001-Adapted-Flags-for-compiler-and-linker-for-cross-comp.patch \
+	file://0001-Disable-warnings-as-errors.patch \
+	file://0001_no_version_lua.patch \
+	file://0001-avoid-tail-cut.patch \
+	file://ov-xcsoar.conf \
+	file://0001-Driver-OpenVario-Add-POV-V-NMEA-sentence.patch \
+	file://0001-Driver-OpenVario-Send-MacCready-setting-back-to-Open.patch \
+	file://0001-Driver-OpenVario-Send-Bugs-and-Balast-to-hardware.patch \
+	file://0001-Driver-OpenVario-Send-glider-polar-to-OpenVario-hard.patch \
 "
 
 inherit pkgconfig update-alternatives
@@ -57,10 +63,11 @@ do_compile() {
 	export PATH=$PATH:/usr/bin
 	echo '${PATH}'
 	#ln -s ${STAGING_DIR_TARGET}/usr/bin/convert.im7 ${STAGING_DIR_TARGET}/usr/bin/convert
+	export FONTCONFIG_PATH=/etc/fonts
 	echo "Making .."
 	echo '${WORKDIR}'
 	cd ${WORKDIR}/git
-	make -j8 DEBUG=n DEBUG_GLIBCXX=n USE_LIBINPUT=y GEOTIFF=n
+	make -j$(nproc) DEBUG=n DEBUG_GLIBCXX=n USE_LIBINPUT=y GEOTIFF=n USE_FB=y OPENGL=n EGL=n
 }
 
 do_install() {
@@ -68,12 +75,12 @@ do_install() {
 	install -d ${D}/opt/XCSoar/bin
 	install -m 0755 ${S}/output/UNIX/bin/xcsoar ${D}/opt/XCSoar/bin
 	install -m 0755 ${S}/output/UNIX/bin/vali-xcs ${D}/opt/XCSoar/bin
-	
+
 	install -d ${D}/opt/conf
 	install -d ${D}/opt/conf/default
 	install -m 0755 ${S}/../ov-xcsoar.conf ${D}/opt/conf/default/ov-xcsoar.conf
 	install -m 0755 ${S}/../ov-xcsoar.conf ${D}/opt/conf/ov-xcsoar.conf
-	
+
 	install -d ${D}${LC_LOCALE_PATH}/de/LC_MESSAGES
 	install -m 0755 ${S}/output/po/de.mo ${D}${LC_LOCALE_PATH}/de/LC_MESSAGES/xcsoar.mo
 	install -d ${D}${LC_LOCALE_PATH}/cs/LC_MESSAGES
@@ -133,31 +140,31 @@ FILES_${PN} = " \
 	/opt/XCSoar/bin/vali-xcs \
 	/opt/conf/default/ov-xcsoar.conf \
 	/opt/conf/ov-xcsoar.conf \
-	${LC_LOCALE_PATH}/de/LC_MESSAGES/xcsoar.mo \	
-	${LC_LOCALE_PATH}/cs/LC_MESSAGES/xcsoar.mo \	
-	${LC_LOCALE_PATH}/da/LC_MESSAGES/xcsoar.mo \	
-	${LC_LOCALE_PATH}/el/LC_MESSAGES/xcsoar.mo \	
-	${LC_LOCALE_PATH}/es/LC_MESSAGES/xcsoar.mo \	
-	${LC_LOCALE_PATH}/fr/LC_MESSAGES/xcsoar.mo \	
-	${LC_LOCALE_PATH}/he/LC_MESSAGES/xcsoar.mo \	
-	${LC_LOCALE_PATH}/hr/LC_MESSAGES/xcsoar.mo \	
-	${LC_LOCALE_PATH}/hu/LC_MESSAGES/xcsoar.mo \	
-	${LC_LOCALE_PATH}/it/LC_MESSAGES/xcsoar.mo \	
-	${LC_LOCALE_PATH}/ja/LC_MESSAGES/xcsoar.mo \	
-	${LC_LOCALE_PATH}/ko/LC_MESSAGES/xcsoar.mo \	
-	${LC_LOCALE_PATH}/lt/LC_MESSAGES/xcsoar.mo \	
-	${LC_LOCALE_PATH}/nb/LC_MESSAGES/xcsoar.mo \	
-	${LC_LOCALE_PATH}/nl/LC_MESSAGES/xcsoar.mo \	
-	${LC_LOCALE_PATH}/pl/LC_MESSAGES/xcsoar.mo \	
-	${LC_LOCALE_PATH}/pt/LC_MESSAGES/xcsoar.mo \	
-	${LC_LOCALE_PATH}/ro/LC_MESSAGES/xcsoar.mo \	
-	${LC_LOCALE_PATH}/ru/LC_MESSAGES/xcsoar.mo \	
-	${LC_LOCALE_PATH}/sk/LC_MESSAGES/xcsoar.mo \	
-	${LC_LOCALE_PATH}/sl/LC_MESSAGES/xcsoar.mo \	
-	${LC_LOCALE_PATH}/sr/LC_MESSAGES/xcsoar.mo \	
-	${LC_LOCALE_PATH}/sv/LC_MESSAGES/xcsoar.mo \	
-	${LC_LOCALE_PATH}/tr/LC_MESSAGES/xcsoar.mo \	
-	${LC_LOCALE_PATH}/uk/LC_MESSAGES/xcsoar.mo \	
-	${LC_LOCALE_PATH}/vi/LC_MESSAGES/xcsoar.mo \	
+	${LC_LOCALE_PATH}/de/LC_MESSAGES/xcsoar.mo \
+	${LC_LOCALE_PATH}/cs/LC_MESSAGES/xcsoar.mo \
+	${LC_LOCALE_PATH}/da/LC_MESSAGES/xcsoar.mo \
+	${LC_LOCALE_PATH}/el/LC_MESSAGES/xcsoar.mo \
+	${LC_LOCALE_PATH}/es/LC_MESSAGES/xcsoar.mo \
+	${LC_LOCALE_PATH}/fr/LC_MESSAGES/xcsoar.mo \
+	${LC_LOCALE_PATH}/he/LC_MESSAGES/xcsoar.mo \
+	${LC_LOCALE_PATH}/hr/LC_MESSAGES/xcsoar.mo \
+	${LC_LOCALE_PATH}/hu/LC_MESSAGES/xcsoar.mo \
+	${LC_LOCALE_PATH}/it/LC_MESSAGES/xcsoar.mo \
+	${LC_LOCALE_PATH}/ja/LC_MESSAGES/xcsoar.mo \
+	${LC_LOCALE_PATH}/ko/LC_MESSAGES/xcsoar.mo \
+	${LC_LOCALE_PATH}/lt/LC_MESSAGES/xcsoar.mo \
+	${LC_LOCALE_PATH}/nb/LC_MESSAGES/xcsoar.mo \
+	${LC_LOCALE_PATH}/nl/LC_MESSAGES/xcsoar.mo \
+	${LC_LOCALE_PATH}/pl/LC_MESSAGES/xcsoar.mo \
+	${LC_LOCALE_PATH}/pt/LC_MESSAGES/xcsoar.mo \
+	${LC_LOCALE_PATH}/ro/LC_MESSAGES/xcsoar.mo \
+	${LC_LOCALE_PATH}/ru/LC_MESSAGES/xcsoar.mo \
+	${LC_LOCALE_PATH}/sk/LC_MESSAGES/xcsoar.mo \
+	${LC_LOCALE_PATH}/sl/LC_MESSAGES/xcsoar.mo \
+	${LC_LOCALE_PATH}/sr/LC_MESSAGES/xcsoar.mo \
+	${LC_LOCALE_PATH}/sv/LC_MESSAGES/xcsoar.mo \
+	${LC_LOCALE_PATH}/tr/LC_MESSAGES/xcsoar.mo \
+	${LC_LOCALE_PATH}/uk/LC_MESSAGES/xcsoar.mo \
+	${LC_LOCALE_PATH}/vi/LC_MESSAGES/xcsoar.mo \
 "
 
