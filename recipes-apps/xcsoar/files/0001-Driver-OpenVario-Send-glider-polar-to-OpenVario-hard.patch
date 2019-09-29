@@ -1,0 +1,63 @@
+From 3fc0bb0a30fba32b7455fb35f969a355148cc34c Mon Sep 17 00:00:00 2001
+From: Timo Bruderek <openvario@timoshome.org>
+Date: Sat, 28 Sep 2019 12:42:47 +0000
+Subject: [PATCH] Driver OpenVario: Send glider polar to OpenVario hardware
+
+---
+ src/Device/Driver/OpenVario.cpp | 28 ++++++++++++++++++++++++++++
+ 1 file changed, 28 insertions(+)
+
+diff --git a/src/Device/Driver/OpenVario.cpp b/src/Device/Driver/OpenVario.cpp
+index d639bb0..e0a637a 100644
+--- a/src/Device/Driver/OpenVario.cpp
++++ b/src/Device/Driver/OpenVario.cpp
+@@ -26,8 +26,11 @@ Copyright_License {
+ #include "Device/Util/NMEAWriter.hpp"
+ #include "NMEA/Checksum.hpp"
+ #include "NMEA/Info.hpp"
++#include "NMEA/Derived.hpp"
+ #include "NMEA/InputLine.hpp"
+ #include "Units/System.hpp"
++#include "Operation/Operation.hpp"
++#include "LogFile.hpp"
+ 
+ class OpenVarioDevice : public AbstractDevice {
+   Port &port;
+@@ -41,9 +44,34 @@ public:
+   bool PutBallast(double fraction, double overload,
+                   OperationEnvironment &env) override;
+   bool PutBugs(double bugs, OperationEnvironment &env) override;
++  void OnCalculatedUpdate(const MoreData &basic,
++                  const DerivedInfo &calculated) override;
+   static bool POV(NMEAInputLine &line, NMEAInfo &info);
+ };
+ 
++void
++OpenVarioDevice::OnCalculatedUpdate(const MoreData &basic, 
++    const DerivedInfo &calculated)
++{
++  PolarCoefficients polar_ideal;
++  PolarCoefficients polar_real;
++  NullOperationEnvironment env;
++  
++  // Get polar
++  polar_ideal = calculated.glide_polar_safety.GetCoefficients();
++  polar_real = calculated.glide_polar_safety.GetRealCoefficients();
++  
++  char buffer[50];
++  
++  // Compose Real Polar String
++  sprintf(buffer,"POV,C,RPO,%f,%f,%f", polar_real.a, polar_real.b, polar_real.c);
++  PortWriteNMEA(port, buffer, env);
++
++  // Compose ideal polar String
++  sprintf(buffer,"POV,C,IPO,%f,%f,%f", polar_ideal.a, polar_ideal.b, polar_ideal.c);
++  PortWriteNMEA(port, buffer, env);
++}
++
+ bool
+ OpenVarioDevice::PutMacCready(double mc, OperationEnvironment &env)
+ {
+-- 
+1.8.3.1
+

@@ -1,0 +1,57 @@
+From cf2be0005c18f234d5873e613541b4b850fe12f9 Mon Sep 17 00:00:00 2001
+From: Timo Bruderek <openvario@timoshome.org>
+Date: Sat, 28 Sep 2019 12:36:29 +0000
+Subject: [PATCH] Driver OpenVario: Send Bugs and Balast to hardware
+
+---
+ src/Device/Driver/OpenVario.cpp | 27 +++++++++++++++++++++++++++
+ 1 file changed, 27 insertions(+)
+
+diff --git a/src/Device/Driver/OpenVario.cpp b/src/Device/Driver/OpenVario.cpp
+index 5df547e..d639bb0 100644
+--- a/src/Device/Driver/OpenVario.cpp
++++ b/src/Device/Driver/OpenVario.cpp
+@@ -38,6 +38,9 @@ public:
+   /* virtual methods from class Device */
+   bool ParseNMEA(const char *line, NMEAInfo &info) override;
+   bool PutMacCready(double mc, OperationEnvironment &env) override;
++  bool PutBallast(double fraction, double overload,
++                  OperationEnvironment &env) override;
++  bool PutBugs(double bugs, OperationEnvironment &env) override;
+   static bool POV(NMEAInputLine &line, NMEAInfo &info);
+ };
+ 
+@@ -53,6 +56,30 @@ OpenVarioDevice::PutMacCready(double mc, OperationEnvironment &env)
+ }
+ 
+ bool
++OpenVarioDevice::PutBallast(double fraction, double overload, OperationEnvironment &env)
++{
++  if (!EnableNMEA(env))
++    return false;
++  
++  char buffer[15];
++  sprintf(buffer,"POV,C,WL,%3.0f", overload);
++  return PortWriteNMEA(port, buffer, env);
++}
++
++bool
++OpenVarioDevice::PutBugs(double bugs, OperationEnvironment &env)
++{
++  if (!EnableNMEA(env))
++    return false;
++ 
++  double _bugs = (double)(bugs);
++
++  char buffer[32];
++  sprintf(buffer, "POV,C,BU,%0.2f\r", _bugs);
++  return PortWriteNMEA(port, buffer, env);
++}
++
++bool
+ OpenVarioDevice::ParseNMEA(const char *_line, NMEAInfo &info)
+ {
+   if (!VerifyNMEAChecksum(_line))
+-- 
+1.8.3.1
+
