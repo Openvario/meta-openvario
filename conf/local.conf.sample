@@ -18,7 +18,7 @@
 # of emulated machines available which can boot and run in the QEMU emulator:
 #
 
-MACHINE ??= "openvario"
+MACHINE ??= "openvario-7-PQ070"
 
 #
 # Where to place downloads
