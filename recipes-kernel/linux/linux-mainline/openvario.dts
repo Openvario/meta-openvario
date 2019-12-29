@@ -48,7 +48,7 @@
 
 #include <dt-bindings/gpio/gpio.h>
 #include <dt-bindings/interrupt-controller/irq.h>
-#include <dt-bindings/pinctrl/sun4i-a10.h>
+//#include <dt-bindings/pinctrl/sun4i-a10.h>
 
 / {
 	model = "Cubietech Cubieboard2";
@@ -99,19 +99,15 @@
 
 	leds {
 		compatible = "gpio-leds";
-		pinctrl-names = "default";
-		pinctrl-0 = <&led_pins_cubieboard2>;
 
 		blue {
-			label = "cubieboard2:blue:mmc0";
+			label = "cubieboard2:blue:usr";
 			gpios = <&pio 7 21 GPIO_ACTIVE_HIGH>;
-			linux,default-trigger="mmc0";
 		};
 
 		green {
-			label = "cubieboard2:green:mmc2";
+			label = "cubieboard2:green:usr";
 			gpios = <&pio 7 20 GPIO_ACTIVE_HIGH>;
-			linux,default-trigger="mmc2";
 		};
 	};
 };
@@ -143,7 +139,7 @@
 
 &gmac {
 	pinctrl-names = "default";
-	pinctrl-0 = <&gmac_pins_mii_a>;
+	pinctrl-0 = <&gmac_mii_pins>;
 	phy = <&phy1>;
 	phy-mode = "mii";
 	status = "okay";
@@ -154,8 +150,6 @@
 };
 
 &i2c0 {
-	pinctrl-names = "default";
-	pinctrl-0 = <&i2c0_pins_a>;
 	status = "okay";
 
 	axp209: pmic@34 {
@@ -166,8 +160,6 @@
 };
 
 &i2c1 {
-	pinctrl-names = "default";
-	pinctrl-0 = <&i2c1_pins_a>;
 	status = "okay";
 
 cubiets@5c {
@@ -185,13 +177,11 @@ cubiets@5c {
 
 &ir0 {
 	pinctrl-names = "default";
-	pinctrl-0 = <&ir0_rx_pins_a>;
+	pinctrl-0 = <&ir0_rx_pin>;
 	status = "okay";
 };
 
 &mmc0 {
-	pinctrl-names = "default";
-	pinctrl-0 = <&mmc0_pins_a>;
 	vmmc-supply = <&reg_vcc3v3>;
 	bus-width = <4>;
 	cd-gpios = <&pio 7 1 GPIO_ACTIVE_LOW>; /* PH1 */
@@ -280,32 +270,28 @@ mmc2_cd_pin: mmc2_cd_pin@0 {
 
 &uart0 {
 	pinctrl-names = "default";
-	pinctrl-0 = <&uart0_pins_a>;
+	pinctrl-0 = <&uart0_pb_pins>;
 	status = "okay";
 };
 
-&uart1 {
+
+// UART2 on Schematic
+&uart5 {
+	pinctrl-2 = <&uart5_ph_pins>;
 	status = "okay";
 };
 
-&uart2 {
-	pinctrl-names = "default";
-	pinctrl-2 = <&uart2_pins_a>;
-	status = "okay";
-};
-
+// UART? on Schematic
 &uart3 {
-	pinctrl-names = "default";
-	pinctrl-2 = <&uart3_pins_a>;
+	pinctrl-2 = <&uart3_pg_pins>;
 	status = "okay";
 };
 
+// UART? on Schematic
 &uart4 {
-	pinctrl-names = "default";
-	pinctrl-2 = <&uart4_pins_a>;
+	pinctrl-2 = <&uart4_pg_pins>;
 	status = "okay";
 };
-
 
 &usb_otg {
 	dr_mode = "otg";
@@ -313,9 +299,7 @@ mmc2_cd_pin: mmc2_cd_pin@0 {
 };
 
 &usbphy {
-	pinctrl-names = "default";
-	pinctrl-0 = <&usb0_id_detect_pin>;
-	usb0_id_det-gpio = <&pio 7 4 GPIO_ACTIVE_HIGH>; /* PH4 */
+	usb0_id_det-gpios = <&pio 7 4 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>; /* PH4 */
 	usb1_vbus-supply = <&reg_usb1_vbus>;
 	usb2_vbus-supply = <&reg_usb2_vbus>;
 	status = "okay";
