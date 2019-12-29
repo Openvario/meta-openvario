@@ -277,19 +277,22 @@ mmc2_cd_pin: mmc2_cd_pin@0 {
 
 // UART2 on Schematic
 &uart5 {
-	pinctrl-2 = <&uart5_ph_pins>;
+	pinctrl-names = "default";
+	pinctrl-0 = <&uart5_ph_pins>;
 	status = "okay";
 };
 
 // UART? on Schematic
 &uart3 {
-	pinctrl-2 = <&uart3_pg_pins>;
+	pinctrl-names = "default";
+	pinctrl-0 = <&uart3_pg_pins>;
 	status = "okay";
 };
 
 // UART? on Schematic
 &uart4 {
-	pinctrl-2 = <&uart4_pg_pins>;
+	pinctrl-names = "default";
+	pinctrl-0 = <&uart4_pg_pins>;
 	status = "okay";
 };
 
