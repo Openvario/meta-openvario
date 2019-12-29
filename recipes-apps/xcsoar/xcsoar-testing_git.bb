@@ -44,10 +44,6 @@ SRC_URI = " \
 	file://0001_no_version_lua.patch \
 	file://0001-avoid-tail-cut.patch \
 	file://ov-xcsoar.conf \
-	file://0001-Driver-OpenVario-Add-POV-V-NMEA-sentence.patch \
-	file://0001-Driver-OpenVario-Send-MacCready-setting-back-to-Open.patch \
-	file://0001-Driver-OpenVario-Send-Bugs-and-Balast-to-hardware.patch \
-	file://0001-Driver-OpenVario-Send-glider-polar-to-OpenVario-hard.patch \
 "
 
 inherit pkgconfig update-alternatives
