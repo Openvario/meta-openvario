@@ -1,0 +1,40 @@
+# meta-openvario
+
+This is a layer for OpenEmbedded to support the Openvario hardware
+
+## How to build an image
+
+### Prerequisites
+
+ - Linux installation 
+ - Installed Docker (https://docs.docker.com/install/)
+ - Installed repo command (https://gerrit.googlesource.com/git-repo/+/refs/heads/master/README.md)
+ 
+### Fetching sources
+
+```
+mkdir wokrdir
+repo init -u git://github.com/Openvario/ovlinux-manifest.git -b warrior
+repo sync
+```
+
+This will fetch the manifest file for the warrior branch.
+
+### Starting the containerd build environment
+
+```
+docker run -it --rm -v $(pwd):/workdir linuxianer99/ovbuild --workdir=/workdir
+cd poky
+```
+
+### Configuring the build (only necessary once after fetching the repos)
+
+```
+TEMPLATECONF=meta-openvario/conf source oe-init-build-env
+```
+
+### Starting the build
+
+```
+bitbake openvario-image-testing
+```
