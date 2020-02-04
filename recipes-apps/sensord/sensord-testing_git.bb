@@ -14,7 +14,7 @@ S = "${WORKDIR}/git"
 inherit systemd
 SRCREV_pn-sensord-testing = "${AUTOREV}"
 
-SRC_URI = "git://git-ro.openvario.org/sensord.git;protocol=http \
+SRC_URI = "git://github.com/Openvario/sensord.git;protocol=git;branch=master \
 			file://sensord.service \
 			file://sensord.cfgmgr \			  
 "

@@ -16,7 +16,7 @@ S = "${WORKDIR}/git"
 
 inherit systemd
 
-SRC_URI = "git://git-ro.openvario.org/sensord.git;protocol=http;tag=0.3.3 \
+SRC_URI = "git://github.com/Openvario/sensord.git;protocol=git;tag=0.3.3 \
 			file://sensord.service \			  
 "
 

@@ -19,7 +19,7 @@ DEPENDS = " \
 	libgcc \
 	"
 
-SRC_URI = "git://git-ro.openvario.org/varioapp.git;protocol=http;tag=0.2.2 \
+SRC_URI = "git://github.com/Openvario/variod.git;protocol=git;tag=0.2.2 \
 			  file://variod.service \
 			  file://variod.cfgmgr \
 "

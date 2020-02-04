@@ -22,7 +22,7 @@ INSANE_SKIP_${PN}-dev = "ldflags"
 
 inherit systemd
 
-SRC_URI = "git://git-ro.openvario.org/varioapp.git;protocol=http \
+SRC_URI = "git://github.com/Openvario/variod.git;protocol=git \
 			  file://variod.service \
 			  file://variod.cfgmgr \
 "
