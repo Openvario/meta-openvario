@@ -97,6 +97,35 @@
 		};
 	};
 
+    panel {
+        compatible = "openvario,lvds57", "panel-lvds";
+        width-mm = <261>;
+        height-mm = <163>;
+        pinctrl-names = "default";
+        pinctrl-0 = <&lcd_lvds0_pins>;
+        enable-gpios = <&pio 7 9 GPIO_ACTIVE_HIGH>; /* PH9 */
+        data-mapping = "jeida-18";
+        #address-cells = <1>;
+        #size-cells = <0>;
+        panel-timing {
+            /* 640x480 @60Hz */
+            clock-frequency = <25000000>;
+            hactive = <640>;
+            vactive = <480>;
+            hsync-len = <1>;
+            hfront-porch = <2>;
+            hback-porch = <157>;
+            vsync-len = <1>;
+            vfront-porch = <2>;
+            vback-porch = <42>;
+        };
+        port {
+            lvds_panel_in: endpoint {
+                remote-endpoint = <&display_out_rgb>;
+            };
+        };
+    };
+
 	leds {
 		compatible = "gpio-leds";
 
@@ -206,6 +235,12 @@ cubiets@5c {
 		function = "gpio_out";
 	};
 
+	lcd_lvds0_pins: lcd-lvds0-pins@0 {
+		pins = "PD0", "PD1", "PD2", "PD3", "PD4",
+		       "PD5", "PD6", "PD7", "PD8", "PD9";
+		function = "lvds0";
+	};
+
 usb0_id_detect_pin: usb0_id_detect_pin@0 {
 	pins = "PH4";
 	function = "gpio_in";
@@ -312,4 +347,19 @@ mmc2_cd_pin: mmc2_cd_pin@0 {
 	allwinner,ts-attached;
 	allwinner,tp-sensitive-adjust = <0>;
 	allwinner,filter-type = <3>;
+};
+
+
+&tcon0 {
+    resets = <&ccu RST_TCON0>, <&ccu RST_LVDS>;
+    reset-names = "lcd", "lvds";
+    ports {
+        tcon0_out: port@1 {
+            display_out_rgb: endpoint@0 {
+                reg = <0>;
+                remote-endpoint = <&lvds_panel_in>;
+                allwinner,tcon-channel = <0>;
+            };
+        };
+    };
 };
