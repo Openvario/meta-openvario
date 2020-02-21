@@ -1,0 +1,34 @@
+From 56e9ec0d943923502ac76fcb86673d73c65a1cbe Mon Sep 17 00:00:00 2001
+From: Andrey Lebedev <andrey@lebedev.lt>
+Date: Fri, 21 Feb 2020 21:31:05 +0000
+Subject: [PATCH] Disable fast-math optimization
+
+XCSoar compiled with OpenGL support and running under lima drivers
+renders a black screen if fast-math optimizations are enabled.
+---
+ build/debug.mk | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/build/debug.mk b/build/debug.mk
+index f9159f1b1c..d50a7e59de 100644
+--- a/build/debug.mk
++++ b/build/debug.mk
+@@ -24,13 +24,13 @@ endif
+ # IEEE/ISO semantics, for example it is not interested in "errno" or
+ # the difference between -0 and +0.  This allows using non-conforming
+ # vector units on some platforms, e.g. ARM NEON.
+-OPTIMIZE += -ffast-math
++# OPTIMIZE += -ffast-math
+ 
+ ifeq ($(CLANG)$(DEBUG),nn)
+ # Enable gcc auto-vectorisation on some architectures (e.g. ARM NEON).
+ # This requires -ffast-math, because some vector units don't conform
+ # stricly with IEEE/ISO (see above).
+-OPTIMIZE += -ftree-vectorize
++# OPTIMIZE += -ftree-vectorize
+ 
+ OPTIMIZE += -funsafe-loop-optimizations
+ endif
+-- 
+2.20.1
+
