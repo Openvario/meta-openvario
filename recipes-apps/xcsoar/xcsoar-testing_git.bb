@@ -17,13 +17,18 @@ DEPENDS = "	\
 		librsvg-native \
 		imagemagick-native \
 		libinput \
-		libsdl \
 		lua \
 		udev \
 		ttf-dejavu \
 		jpeg \
 		freetype \
 		libpng \
+		glm \
+		virtual/egl \
+		virtual/mesa \
+		virtual/libgles1 \
+		virtual/libgles2 \
+		alsa-lib \
 "
 
 RDEPENDS_${PN} = "\
@@ -43,6 +48,7 @@ SRC_URI = " \
 	file://0001-Disable-warnings-as-errors.patch \
 	file://0001_no_version_lua.patch \
 	file://0001-avoid-tail-cut.patch \
+	file://0001-Disable-fast-math-optimization.patch \
 	file://ov-xcsoar.conf \
 "
 
@@ -63,7 +69,7 @@ do_compile() {
 	echo "Making .."
 	echo '${WORKDIR}'
 	cd ${WORKDIR}/git
-	make -j$(nproc) DEBUG=n DEBUG_GLIBCXX=n USE_LIBINPUT=y GEOTIFF=n USE_FB=y OPENGL=n EGL=n
+	make -j$(nproc) DEBUG=n DEBUG_GLIBCXX=n ENABLE_MESA_KMS=y GEOTIFF=n
 }
 
 do_install() {
