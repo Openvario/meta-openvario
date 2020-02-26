@@ -8,6 +8,7 @@ IMAGE_INSTALL += "\
     xcsoar-menu \
     xcsoar-profiles \
     xcsoar-maps-alps \
+    xcsoar-maps-default \
     caltool \
     sensord-testing\
     variod-testing \

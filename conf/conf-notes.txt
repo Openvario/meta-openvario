@@ -4,5 +4,6 @@
 You can now run 'bitbake <target>'
 
 Common targets are:
+    openvario-image
     openvario-image-testing
 
