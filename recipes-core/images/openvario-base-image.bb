@@ -21,6 +21,8 @@ COMMON_WIFI_FIRMWARE_PACKAGES = " \
 
 IMAGE_INSTALL = " \
     packagegroup-base \
+    distro-feed-configs \
+    wget \    
     ${COMMON_WIFI_FIRMWARE_PACKAGES} \
 "
 
