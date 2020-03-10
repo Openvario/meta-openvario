@@ -23,6 +23,8 @@ IMAGE_INSTALL = " \
     packagegroup-base \
     distro-feed-configs \
     wget \    
+    autofs \
+    autofs-config \
     ${COMMON_WIFI_FIRMWARE_PACKAGES} \
 "
 

@@ -1,0 +1,14 @@
+diff --git a/samples/autofs.service.in b/samples/autofs.service.in
+index 175a806..26f4db3 100644
+--- a/samples/autofs.service.in
++++ b/samples/autofs.service.in
+@@ -1,7 +1,7 @@
+ [Unit]
+ Description=Automounts filesystems on demand
+-After=network.target ypbind.service sssd.service network-online.target remote-fs.target rpc-statd.service rpcbind.service
+-Wants=network-online.target rpc-statd.service rpcbind.service
++After=ypbind.service sssd.service
++Wants=
+ 
+ [Service]
+ Type=notify
