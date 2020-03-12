@@ -25,6 +25,7 @@ IMAGE_INSTALL = " \
     wget \    
     autofs \
     autofs-config \
+    nano \
     ${COMMON_WIFI_FIRMWARE_PACKAGES} \
 "
 
