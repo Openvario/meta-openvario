@@ -25,6 +25,8 @@ IMAGE_INSTALL = " \
     wget \    
     autofs \
     autofs-config \
+    nano \
+    openssh-sftp-server \
     ${COMMON_WIFI_FIRMWARE_PACKAGES} \
 "
 
