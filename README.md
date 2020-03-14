@@ -13,7 +13,7 @@ This is a layer for OpenEmbedded to support the Openvario hardware
 ### Fetching sources
 
 ```
-mkdir wokrdir
+mkdir workdir
 repo init -u git://github.com/Openvario/ovlinux-manifest.git -b warrior
 repo sync
 ```
