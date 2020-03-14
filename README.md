@@ -33,6 +33,18 @@ cd poky
 TEMPLATECONF=meta-openvario/conf source oe-init-build-env
 ```
 
+### Setting the machine
+
+```
+export MACHINE=openvario-7-CH070
+```
+
+Available machines are:
+- openvario-7-PQ070
+- openvario-7-CH070
+- openvario-57-lvds
+- openvario-43-rgb
+
 ### Starting the build
 
 ```
