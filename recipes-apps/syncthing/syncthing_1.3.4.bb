@@ -16,6 +16,9 @@ FILES_${PN}-dev = ""
 
 SYSTEMD_SERVICE_${PN} = "syncthing.service"
 
+SYNCTHING_LDFLAGS = "-ldflags=' \
+    -X github.com/syncthing/syncthing/lib/build.Version=v${PV} \
+'"
 
 # Go creates read-only files for downloaded modules. To be able to clean them,
 # make them writable explicitly
@@ -29,8 +32,8 @@ python do_clean_prepend () {
 do_compile() {
     cd src/${GO_IMPORT}
     GO111MODULE=on ${GO} generate ${GOBUILDFLAGS} ${GO_IMPORT}/lib/auto ${GO_IMPORT}/cmd/strelaypoolsrv/auto
-    GO111MODULE=on ${GO} build ${GOBUILDFLAGS} ${GO_IMPORT}/cmd/syncthing
-    GO111MODULE=on ${GO} build ${GOBUILDFLAGS} ${GO_IMPORT}/cmd/stcli
+    GO111MODULE=on ${GO} build ${GOBUILDFLAGS} ${SYNCTHING_LDFLAGS} ${GO_IMPORT}/cmd/syncthing
+    GO111MODULE=on ${GO} build ${GOBUILDFLAGS} ${SYNCTHING_LDFLAGS} ${GO_IMPORT}/cmd/stcli
     chmod u+w -R ${WORKDIR}
 }
 
