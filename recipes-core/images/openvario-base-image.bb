@@ -2,6 +2,7 @@ SUMMARY = "A small image just capable of allowing a device to boot."
 
 IMAGE_FEATURES += "splash ssh-server-dropbear package-management"
 DEPENDS += "linux-firmware \
+    syncthing \
     "
 
 # Include common WIFI firmware packages into the image. All linux-firmware
