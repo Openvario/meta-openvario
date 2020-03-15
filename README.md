@@ -13,7 +13,7 @@ This is a layer for OpenEmbedded to support the Openvario hardware
 ### Fetching sources
 
 ```
-mkdir wokrdir
+mkdir workdir
 repo init -u git://github.com/Openvario/ovlinux-manifest.git -b warrior
 repo sync
 ```
@@ -32,6 +32,18 @@ cd poky
 ```
 TEMPLATECONF=meta-openvario/conf source oe-init-build-env
 ```
+
+### Setting the machine
+
+```
+export MACHINE=openvario-7-CH070
+```
+
+Available machines are:
+- openvario-7-PQ070
+- openvario-7-CH070
+- openvario-57-lvds
+- openvario-43-rgb
 
 ### Starting the build
 
