@@ -1,0 +1,24 @@
+From baf61024b3dd90f0007a2f0002a69e52ce523d3d Mon Sep 17 00:00:00 2001
+From: Andrey Lebedev <andrey@lebedev.lt>
+Date: Mon, 16 Mar 2020 22:38:24 +0000
+Subject: [PATCH] Include header containing errno for 6.8
+
+---
+ src/Event/Poll/Linux/Input.cpp | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/src/Event/Poll/Linux/Input.cpp b/src/Event/Poll/Linux/Input.cpp
+index 438a67e050..284acb5ff1 100644
+--- a/src/Event/Poll/Linux/Input.cpp
++++ b/src/Event/Poll/Linux/Input.cpp
+@@ -33,6 +33,7 @@ Copyright_License {
+ 
+ #include <termios.h>
+ #include <sys/ioctl.h>
++#include <cerrno>
+ 
+ template<typename T>
+ static constexpr unsigned
+-- 
+2.20.1
+

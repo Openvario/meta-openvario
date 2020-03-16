@@ -6,7 +6,8 @@ HOMEPAGE = "www.xcsoar.org"
 LICENSE = "GPL-2.0"
 LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/${LICENSE};md5=801f80980d171dd6425610833a22dbe6"
 SECTION = "base/app"
-PR = "r10"
+PR="r0"
+RCONFLICTS_${PN}="xcsoar-testing"
 
 DEPENDS = " \
         gcc \
@@ -29,7 +30,6 @@ DEPENDS = " \
         virtual/libgles1 \
         virtual/libgles2 \
         alsa-lib \
-        curlpp \
 "
 
 RDEPENDS_${PN} = "\
@@ -43,13 +43,13 @@ LC_LOCALE_PATH = "/usr/share/locale"
 SRCREV_pn-xcsoar-testing = "${AUTOREV}"
 
 SRC_URI = " \
-    git://github.com/XCSoar/XCSoar.git;protocol=git;tag=v7.0_preview12 \
-    file://0005-Adapted-toolchain-prefixes-for-cross-compile_7.0-preview12.patch \
+    git://github.com/XCSoar/XCSoar.git;protocol=git;tag=v${PV} \
+    file://0005-Adapted-toolchain-prefixes-for-cross-compile_6.8.patch \
     file://0001-Adapted-Flags-for-compiler-and-linker-for-cross-comp.patch \
     file://0001-Disable-warnings-as-errors.patch \
-    file://0001_no_version_lua.patch \
     file://0001-avoid-tail-cut.patch \
     file://0001-Disable-fast-math-optimization.patch \
+    file://0006-Include-header-containing-errno-for-6.8.patch \
     file://ov-xcsoar.conf \
 "
 
