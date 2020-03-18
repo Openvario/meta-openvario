@@ -22,3 +22,4 @@ fi
 
 
 umount /dev/sda1
+echo "Done !!"
