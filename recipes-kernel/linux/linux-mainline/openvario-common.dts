@@ -102,6 +102,7 @@
 		pinctrl-names = "default";
 		pinctrl-0 = <&lcd_lvds0_pins>;
 		enable-gpios = <&pio 7 9 GPIO_ACTIVE_HIGH>; /* PH9 */
+		backlight = <&backlight>;
 		#address-cells = <1>;
 		#size-cells = <0>;
 
@@ -110,6 +111,14 @@
 				remote-endpoint = <&display_out_rgb>;
 			};
 		};
+	};
+
+	backlight: lcd {
+		compatible = "pwm-backlight";
+		pinctrl-names = "default";
+		pwms = <&pwm 0 5000000 0>;
+		brightness-levels = <0 8 16 32 64 128 255 384 512 768 1024>;
+		default-brightness-level = <10>;
 	};
 
 	leds {
@@ -244,6 +253,12 @@ cubiets@5c {
 		function = "gpio_in";
 		bias-pull-up;
 	};
+};
+
+&pwm {
+	pinctrl-names = "default";
+	pinctrl-0 = <&pwm0_pin>;
+	status = "okay";
 };
 
 &reg_ahci_5v {
