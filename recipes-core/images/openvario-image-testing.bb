@@ -14,6 +14,7 @@ IMAGE_INSTALL += "\
     variod-testing \
     ovmenu-ng \
     openvario-autologin \
+    pulseaudio-server \
 "
 
 export IMAGE_BASENAME = "openvario-image-testing"
