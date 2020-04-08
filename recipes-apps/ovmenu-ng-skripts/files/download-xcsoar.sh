@@ -2,7 +2,7 @@
 
 USB_PATH="/usb/usbstick/openvario/download/xcsoar"
 DOWNLOAD_PATH="/home/root/.xcsoar"
-SAVE_FILE="${USB_PATH}/xcs-`date +'%Y-%m-%d'`.tgz"
+
 if [ ! -d "$USB_PATH" ]; then
 	mkdir "$USB_PATH"
 fi
@@ -10,11 +10,9 @@ fi
 if [ -z "$(ls $DOWNLOAD_PATH/* 2>/dev/null)" ]; then
         echo "No files found !!!"
 else
-	cd ${DOWNLOAD_PATH}
-	tar czf "${SAVE_FILE}" .
+        cp -rv "$SDOWNLOAD_PATH" "$USB_PATH"
 fi
 
-ls -l "${SAVE_FILE}"
 echo "Umount Stick ..."
 umount /dev/sda1
 echo "Done !!"
