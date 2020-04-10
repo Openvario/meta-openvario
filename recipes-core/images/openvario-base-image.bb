@@ -29,6 +29,8 @@ LOCALE_PACKAGES = " \
     locale-base-pl-pl \
     locale-base-cs-cz \
     locale-base-sk-sk \
+    locale-base-ru-ru \
+    locale-base-lt-lt \
 "
 
 IMAGE_INSTALL = " \
