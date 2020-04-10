@@ -1,0 +1,11 @@
+[Unit]
+Description=Pulseaudio sound server
+
+[Service]
+Type=forking
+ExecStart=pulseaudio --daemonize=yes --system --realtime
+Restart=on-failure
+ExecReload=/bin/kill -HUP $MAINPID
+
+[Install]
+WantedBy=default.target

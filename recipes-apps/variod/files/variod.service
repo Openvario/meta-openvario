@@ -1,6 +1,8 @@
 [Unit]
 Description=Variod Daemon for Openvario
 Before=sensord.target
+Requires=pulseaudio.service
+After=pulseaudio.service
 
 [Service]
 Type=forking
