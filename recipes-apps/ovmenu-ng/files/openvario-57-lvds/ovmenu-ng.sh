@@ -162,7 +162,7 @@ function submenu_xcsoar_lang() {
 		dialog --nocancel --backtitle "OpenVario" \
 		--title "[ S Y S T E M ]" \
 		--begin 3 4 \
-		--menu "Actual Setting is $XCSOAR_LANG \nSelect Language:" 15 50 4 \
+		--menu "Actual Setting is $XCSOAR_LANG \nSelect Language:" 15 50 12 \
 		 system "Default system" \
 		 de_DE.UTF-8 "German" \
 		 fr_FR.UTF-8 "France" \
@@ -170,7 +170,9 @@ function submenu_xcsoar_lang() {
 		 hu_HU.UTF-8 "Hungary" \
 		 pl_PL.UTF-8 "Poland" \
 		 cs_CZ.UTF-8 "Czech" \
-	 	 sk_SK.UTF-8 "Slowak" \
+		 sk_SK.UTF-8 "Slowak" \
+		 lt_LT.UTF-8 "Lithuanian" \
+		 ru_RU.UTF-8 "Russian" \
 		 2>"${INPUT}"
 		 
 		 menuitem=$(<"${INPUT}")

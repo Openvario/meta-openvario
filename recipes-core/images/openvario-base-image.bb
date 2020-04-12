@@ -19,6 +19,20 @@ COMMON_WIFI_FIRMWARE_PACKAGES = " \
     linux-firmware-rtl8821 \
 "
 
+LOCALE_PACKAGES = " \
+    locale-base-en-us \
+    locale-base-de-de \
+    locale-base-es-es \
+    locale-base-fr-fr \
+    locale-base-it-it \
+    locale-base-hu-hu \
+    locale-base-pl-pl \
+    locale-base-cs-cz \
+    locale-base-sk-sk \
+    locale-base-ru-ru \
+    locale-base-lt-lt \
+"
+
 IMAGE_INSTALL = " \
     packagegroup-base \
     distro-feed-configs \
@@ -28,6 +42,7 @@ IMAGE_INSTALL = " \
     nano \
     openssh-sftp-server \
     ${COMMON_WIFI_FIRMWARE_PACKAGES} \
+    ${LOCALE_PACKAGES} \
 "
 
 #                    packagegroup-base packagegroup-core-ssh-openssh 
