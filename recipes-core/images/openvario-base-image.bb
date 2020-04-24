@@ -41,6 +41,7 @@ IMAGE_INSTALL = " \
     autofs-config \
     nano \
     openssh-sftp-server \
+    pulseaudio-server \
     ${COMMON_WIFI_FIRMWARE_PACKAGES} \
     ${LOCALE_PACKAGES} \
 "
