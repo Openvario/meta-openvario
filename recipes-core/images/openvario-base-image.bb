@@ -2,7 +2,8 @@ SUMMARY = "A small image just capable of allowing a device to boot."
 
 IMAGE_FEATURES += "splash ssh-server-dropbear package-management"
 DEPENDS += "linux-firmware \
-    "
+    git \
+"
 
 # Include common WIFI firmware packages into the image. All linux-firmware
 # packages take almost 500MB of space uncompressed, so we don't want to ship
