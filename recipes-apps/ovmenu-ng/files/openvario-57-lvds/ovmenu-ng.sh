@@ -315,10 +315,9 @@ function download_files() {
 # Copy /home/root/.xcsoar/logs to /usb/usbstick/openvario/igc
 # Copy only *.igc files
 function download_igc_files() {
-	echo "Downloading IGC files ..." > /tmp/tail.$$
-	/usr/bin/download-igc.sh >> /tmp/tail.$$ &
-	dialog --backtitle "OpenVario" --title "Result" --tailbox /tmp/tail.$$ 30 50
+	/usr/bin/download-igc.sh
 }
+
 
 # Copy /usb/usbstick/openvario/upload to /home/root/.xcsoar
 function upload_files(){
