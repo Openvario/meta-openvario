@@ -5,7 +5,7 @@ SRC_URI += " \
     file://openvario-common.dts \
     file://${KERNEL_DEVICETREE_SOURCE}"
 
-PR = "r1"
+PR = "r2"
 
 # Create /etc/modprobe.d/lima.conf file
 # Make sure lima loads after drm modules, so that /dev/dri/card0 would be
