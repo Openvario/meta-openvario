@@ -6,7 +6,7 @@ HOMEPAGE = "www.xcsoar.org"
 LICENSE = "GPL-2.0"
 LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/${LICENSE};md5=801f80980d171dd6425610833a22dbe6"
 SECTION = "base/app"
-PR = "r11"
+PR = "r12"
 RCONFLICTS_${PN}="xcsoar"
 
 DEPENDS = "	\
@@ -49,7 +49,6 @@ SRC_URI = " \
 	file://0001-Disable-warnings-as-errors.patch \
 	file://0001_no_version_lua.patch \
 	file://0001-avoid-tail-cut.patch \
-	file://0007-Fix-software-display-rotation.patch \
 	file://ov-xcsoar.conf \
 "
 
