@@ -6,6 +6,8 @@ INC_PR = "r0"
 
 inherit kernel kernel-yocto siteinfo
 
+DEPENDS += "rsync-native"
+
 # Enable OABI compat for people stuck with obsolete userspace
 ARM_KEEP_OABI ?= "0"
 

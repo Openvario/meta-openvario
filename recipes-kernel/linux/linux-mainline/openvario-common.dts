@@ -230,12 +230,6 @@ cubiets@5c {
 		function = "gpio_out";
 	};
 
-	lcd_lvds0_pins: lcd-lvds0-pins@0 {
-		pins = "PD0", "PD1", "PD2", "PD3", "PD4",
-			   "PD5", "PD6", "PD7", "PD8", "PD9";
-		function = "lvds0";
-	};
-
 	usb0_id_detect_pin: usb0_id_detect_pin@0 {
 		pins = "PH4";
 		function = "gpio_in";
