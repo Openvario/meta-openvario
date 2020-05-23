@@ -43,6 +43,13 @@ IMAGE_INSTALL = " \
     nano \
     openssh-sftp-server \
     pulseaudio-server \
+    tslib \
+    tslib-tests \
+    tslib-uinput \
+    tslib-conf \
+    tslib-calibrate \
+    touch-udev-rules \
+    ts-uinput-service \
     ${COMMON_WIFI_FIRMWARE_PACKAGES} \
     ${LOCALE_PACKAGES} \
 "
