@@ -205,15 +205,7 @@ function submenu_rotation() {
 		# update config
 		# uboot rotation
 		sed -i 's/^rotation=.*/rotation='$menuitem'/' /boot/config.uEnv
-		# touch cal
-		if [ -e $TOUCH_CAL ]; then
-			cd /opt/bin
-			./caltool -c $TOUCH_CAL -r $menuitem
-			cp ./touchscreen.rules /etc/udev/rules.d/
-			dialog --msgbox "New Setting saved !!\n A Reboot is required !!!" 10 50
-		else
-			dialog --msgbox "New Setting saved, but touch cal not valid !!\n A Reboot is required !!!" 10 50
-		fi
+		dialog --msgbox "New Setting saved !!\n Touch recalibration required !!\n A Reboot is required !!!" 10 50
 	else
 		dialog --backtitle "OpenVario" \
 		--title "ERROR" \
@@ -282,17 +274,8 @@ function calibrate_touch() {
 	echo "Calibrating Touch ..." >> /tmp/tail.$$
 	# reset touch calibration
 	# uboot rotation
-	mount /dev/mmcblk0p1 /boot
-	sed -i 's/^rotation=.*/rotation=0/' /boot/config.uEnv
-	umount /dev/mmcblk0p1
-	
-	rm /opt/conf/touch.cal
-	cp /opt/bin/touchscreen.rules.template /etc/udev/rules.d/touchscreen.rules
-	udevadm control --reload-rules
-	udevadm trigger
-	sleep 2
-	/opt/bin/caltool -c $TOUCH_CAL
-	dialog --msgbox "Display rotation is RESET !!\nPlease set Display rotation again to apply calibration !!" 10 50
+	ts_calibrate -r $(cat /sys/class/graphics/fbcon/rotate)
+	dialog --msgbox "Calibration OK !!\nPlease reboot to apply !!" 10 50
 }
 
 # Copy /usb/usbstick/openvario/maps to /home/root/.xcsoar
