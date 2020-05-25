@@ -6,7 +6,7 @@ HOMEPAGE = "www.xcsoar.org"
 LICENSE = "GPL-2.0"
 LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/${LICENSE};md5=801f80980d171dd6425610833a22dbe6"
 SECTION = "base/app"
-PR = "r12"
+PR = "r13"
 RCONFLICTS_${PN}="xcsoar"
 
 DEPENDS = "	\
@@ -30,6 +30,7 @@ DEPENDS = "	\
 		virtual/libgles1 \
 		virtual/libgles2 \
 		alsa-lib \
+		libsodium \
 "
 
 RDEPENDS_${PN} = "\
