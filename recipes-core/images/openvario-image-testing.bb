@@ -9,7 +9,6 @@ IMAGE_INSTALL += "\
     xcsoar-profiles \
     xcsoar-maps-alps \
     xcsoar-maps-default \
-    caltool \
     sensord-testing\
     variod-testing \
     ovmenu-ng \

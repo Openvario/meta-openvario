@@ -7,6 +7,8 @@ fi
 # path set by /etc/profile
 # export PATH
 
+export TSLIB_TSDEVICE=/dev/input/event5
+
 if ! [ "$(pidof ovmenu-ng.sh)" ]
 then
   /opt/bin/ovmenu-ng.sh
