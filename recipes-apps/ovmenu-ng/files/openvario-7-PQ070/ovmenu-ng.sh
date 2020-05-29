@@ -138,6 +138,7 @@ function submenu_settings() {
 	--begin 3 4 \
 	--menu "You can use the UP/DOWN arrow keys" 15 50 5 \
 	Display_Rotation 	"Set rotation of the display" \
+	LCD_Brightness		"Set display brightness" \
 	XCSoar_Language 	"Set language used for XCSoar" \
 	Back   "Back to Main" 2>"${INPUT}"
 	
@@ -147,6 +148,9 @@ function submenu_settings() {
 	case $menuitem in
 		Display_Rotation)
 			submenu_rotation
+			;;
+		LCD_Brightness)
+			submenu_lcd_brightness
 			;;
 		XCSoar_Language)
 			submenu_xcsoar_lang
@@ -183,6 +187,32 @@ function submenu_xcsoar_lang() {
 		--title "ERROR" \
 		--msgbox "No Config found !!"
 	fi
+}
+
+function submenu_lcd_brightness() {
+while [ $? -eq 0 ]
+do
+	menuitem=$(</sys/class/backlight/lcd/brightness)
+	dialog --backtitle "OpenVario" \
+	--title "LCD brightness" \
+	--cancel-label Back \
+	--ok-label Set \
+	--default-item "${menuitem}" \
+	--menu "Brightness value" \
+	17 50 10 \
+	1 "Dark" \
+	2 "" \
+	3 "" \
+	4 "" \
+	5 "Medium" \
+	6 "" \
+	7 "" \
+	8 "" \
+	9 "" \
+	10 "Bright" \
+	2>/sys/class/backlight/lcd/brightness
+done
+	submenu_settings
 }
 
 function submenu_rotation() {
