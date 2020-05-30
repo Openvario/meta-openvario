@@ -18,3 +18,8 @@
         vback-porch = <42>;
     };
 };
+
+&uart5_ph_pins {
+	pins = "PI10", "PH7";
+	function = "uart5";
+};
