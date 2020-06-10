@@ -19,6 +19,11 @@
     };
 };
 
+&touchscreen {
+    x-size = <640>;
+    y-size = <480>;
+};
+
 &uart5_ph_pins {
 	pins = "PI10", "PH7";
 	function = "uart5";
