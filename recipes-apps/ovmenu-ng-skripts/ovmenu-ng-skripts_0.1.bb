@@ -20,6 +20,7 @@ SRC_URI =      "\
 	file://upload-all.sh \
 	file://upload-xcsoar.sh \
 	file://download-all.sh \
+	file://ov-calibrate-ts.sh \
 "
 
 
@@ -39,6 +40,7 @@ do_install() {
 		install -m 0755 ${S}/upload-all.sh ${D}/usr/bin/upload-all.sh
 		install -m 0755 ${S}/upload-xcsoar.sh ${D}/usr/bin/upload-xcsoar.sh
 		install -m 0755 ${S}/download-all.sh ${D}/usr/bin/download-all.sh
+		install -m 0755 ${S}/ov-calibrate-ts.sh ${D}/usr/bin/ov-calibrate-ts.sh
 }
 
 FILES_${PN} = "/usr/bin/xcsoar_config.sh \
@@ -48,4 +50,5 @@ FILES_${PN} = "/usr/bin/xcsoar_config.sh \
 				/usr/bin/upload-all.sh \
 				/usr/bin/download-all.sh \
 				/usr/bin/upload-xcsoar.sh \
+				/usr/bin/ov-calibrate-ts.sh \
 "
