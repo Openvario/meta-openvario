@@ -302,10 +302,8 @@ function calibrate_sensors() {
 
 function calibrate_touch() {
 	echo "Calibrating Touch ..." >> /tmp/tail.$$
-	# reset touch calibration
-	# uboot rotation
-	ts_calibrate -r $(cat /sys/class/graphics/fbcon/rotate)
-	dialog --msgbox "Calibration OK !!\nPlease reboot to apply !!" 10 50
+	/usr/bin/ov-calibrate-ts.sh >> /tmp/tail.$$
+	dialog --msgbox "Calibration OK!" 10 50
 }
 
 # Copy /usb/usbstick/openvario/maps to /home/root/.xcsoar

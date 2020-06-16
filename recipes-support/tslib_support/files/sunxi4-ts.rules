@@ -1,1 +1,1 @@
-ACTION=="add|change", KERNEL=="event[0-9]*", ENV{ID_PATH_TAG}=="platform-1c25000_rtp", ENV{LIBINPUT_IGNORE_DEVICE}="1"
+ACTION=="add|change", KERNEL=="event[0-9]*", ENV{ID_PATH_TAG}=="platform-1c25000_rtp", ENV{LIBINPUT_IGNORE_DEVICE}="1" ENV{SYSTEMD_WANTS}+="ts_uinput.service" SYMLINK+="input/touchscreen0" TAG+="systemd"
