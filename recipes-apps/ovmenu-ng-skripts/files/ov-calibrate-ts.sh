@@ -18,3 +18,5 @@ udevadm trigger
 
 echo Restart ts_uinput
 systemctl restart ts_uinput
+
+sync
