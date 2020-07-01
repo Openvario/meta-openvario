@@ -11,5 +11,6 @@ else
         done
 fi
 echo "Umount Stick ..."
+sync
 umount /dev/sda1
 echo "Done !!"

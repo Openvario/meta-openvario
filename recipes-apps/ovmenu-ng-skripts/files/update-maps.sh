@@ -20,6 +20,6 @@ else
         done
 fi
 
-
+sync
 umount /dev/sda1
 echo "Done !!"

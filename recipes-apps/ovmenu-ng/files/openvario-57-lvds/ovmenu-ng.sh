@@ -181,6 +181,7 @@ function submenu_xcsoar_lang() {
 
 		# update config
 		sed -i 's/^XCSOAR_LANG=.*/XCSOAR_LANG='$menuitem'/' /opt/conf/ov-xcsoar.conf
+		sync
 		dialog --msgbox "New Setting saved !!\n A Reboot is required !!!" 10 50	
 	else
 		dialog --backtitle "OpenVario" \
@@ -259,6 +260,7 @@ function update_system() {
 	response=$?
 	case $response in
 		0) opkg upgrade &>/tmp/tail.$$
+		sync
 		dialog --backtitle "OpenVario" --title "Result" --tailbox /tmp/tail.$$ 30 50
 		;;
 	esac
@@ -296,6 +298,7 @@ function calibrate_sensors() {
 		esac
 		echo "Please run sensorcal again !!!" > /tmp/tail.$$
 	fi
+	sync
 	dialog --backtitle "OpenVario" --title "Result" --tailbox /tmp/tail.$$ 30 50
 	systemctl start sensord
 }
@@ -342,6 +345,7 @@ function start_xcsoar() {
 	else
 		LANG=$XCSOAR_LANG /opt/XCSoar/bin/xcsoar -fly -640x480
 	fi
+	sync
 }
 
 function yesno_exit(){
