@@ -40,8 +40,6 @@ S = "${WORKDIR}/git"
 
 LC_LOCALE_PATH = "/usr/share/locale"
 
-SRCREV_pn-xcsoar-testing = "${AUTOREV}"
-
 SRC_URI = " \
     git://github.com/XCSoar/XCSoar.git;protocol=git;tag=v${PV} \
     file://0005-Adapted-toolchain-prefixes-for-cross-compile_6.8.patch \
