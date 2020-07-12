@@ -1,0 +1,50 @@
+From 5736eb25cb3462c8cfb75b9dac5384ef605e63bf Mon Sep 17 00:00:00 2001
+From: Andrey Lebedev <andrey@lebedev.lt>
+Date: Fri, 10 Jul 2020 00:02:30 +0300
+Subject: [PATCH 10/10] Autodetect display orientation for DRM/KMS mode
+
+When XCSoar is running in KMS mode, assume that linux console is
+oriented the same way as physical display.
+---
+ src/Hardware/DisplayGlue.cpp | 20 +++++++++++++++++++-
+ 1 file changed, 19 insertions(+), 1 deletion(-)
+
+diff --git a/src/Hardware/DisplayGlue.cpp b/src/Hardware/DisplayGlue.cpp
+index 618d0ee1da..986df97438 100644
+--- a/src/Hardware/DisplayGlue.cpp
++++ b/src/Hardware/DisplayGlue.cpp
+@@ -27,6 +27,8 @@ Copyright_License {
+ #include "LogFile.hpp"
+ #include "Interface.hpp"
+ #include "MainWindow.hpp"
++#include "OS/Path.hpp"
++#include "OS/FileUtil.hpp"
+ 
+ #ifdef USE_POLL_EVENT
+ #include "Event/Globals.hpp"
+@@ -92,5 +94,21 @@ Display::RestoreOrientation()
+ DisplayOrientation
+ Display::DetectInitialOrientation()
+ {
+-  return DisplayOrientation::DEFAULT;
++  auto orientation = DisplayOrientation::DEFAULT;
++
++#ifdef MESA_KMS
++  // When running in DRM/KMS mode, infer the display orientation from the linux
++  // console rotation.
++  char buf[3];
++  auto rotatepath = Path("/sys/class/graphics/fbcon/rotate");
++  if (File::ReadString(rotatepath, buf, sizeof(buf))) {
++    switch (*buf) {
++    case '0': orientation = DisplayOrientation::LANDSCAPE; break;
++    case '3': orientation = DisplayOrientation::PORTRAIT; break;
++    case '2': orientation = DisplayOrientation::REVERSE_LANDSCAPE; break;
++    case '1': orientation = DisplayOrientation::REVERSE_PORTRAIT; break;
++    }
++  }
++#endif
++  return orientation;
+ }
+-- 
+2.25.1
+

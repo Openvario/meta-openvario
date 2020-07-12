@@ -1,0 +1,137 @@
+From 7c553a182da7088f2da88c87d14741890f814ff1 Mon Sep 17 00:00:00 2001
+From: Andrey Lebedev <andrey@lebedev.lt>
+Date: Thu, 9 Jul 2020 23:58:41 +0300
+Subject: [PATCH 09/10] Add ability to set orientation of initial screens
+
+The problem: currently the display orientation (aka rotation) is set in
+the profile. XCSoar will rotate the screen according to
+"DisplayOrientation" setting soon as profile is loaded. However, there are
+several UIs that are shown before the profile is read. Notably, the
+initial "Fly/Simulator" screen and the actual profile selector UI. XCSoar
+would always render these screens in default "landscape" orientation.
+This causes problems for some devices with fixed installation (such as
+Openvario), on which these initial screens might appear "sideways".
+
+The solution: add ability to detect the display orientation from the
+OS environment and apply it before the first window is displayed.
+---
+ src/Hardware/DisplayGlue.cpp    |  7 +++++++
+ src/Hardware/DisplayGlue.hpp    |  3 +++
+ src/Screen/Custom/TopWindow.cpp |  3 +++
+ src/Screen/TopWindow.hpp        | 14 +++++++++++++-
+ src/Startup.cpp                 |  4 ++++
+ 5 files changed, 30 insertions(+), 1 deletion(-)
+
+diff --git a/src/Hardware/DisplayGlue.cpp b/src/Hardware/DisplayGlue.cpp
+index 6d6da8a6ee..618d0ee1da 100644
+--- a/src/Hardware/DisplayGlue.cpp
++++ b/src/Hardware/DisplayGlue.cpp
+@@ -43,6 +43,7 @@ Display::LoadOrientation(VerboseOperationEnvironment &env)
+ 
+   DisplayOrientation orientation =
+     CommonInterface::GetUISettings().display.orientation;
++
+ #ifdef KOBO
+   /* on the Kobo, the display orientation must be loaded explicitly
+      (portrait), because the hardware default is landscape */
+@@ -87,3 +88,9 @@ Display::RestoreOrientation()
+   event_queue->SetDisplayOrientation(DisplayOrientation::DEFAULT);
+ #endif
+ }
++
++DisplayOrientation
++Display::DetectInitialOrientation()
++{
++  return DisplayOrientation::DEFAULT;
++}
+diff --git a/src/Hardware/DisplayGlue.hpp b/src/Hardware/DisplayGlue.hpp
+index 8b7af122fe..8e9a98829f 100644
+--- a/src/Hardware/DisplayGlue.hpp
++++ b/src/Hardware/DisplayGlue.hpp
+@@ -24,12 +24,15 @@ Copyright_License {
+ #ifndef XCSOAR_HARDWARE_DISPLAY_GLUE_H
+ #define XCSOAR_HARDWARE_DISPLAY_GLUE_H
+ 
++#include "DisplayOrientation.hpp"
++
+ class VerboseOperationEnvironment;
+ 
+ namespace Display
+ {
+   void LoadOrientation(VerboseOperationEnvironment &env);
+   void RestoreOrientation();
++  DisplayOrientation DetectInitialOrientation();
+ }
+ 
+ #endif
+diff --git a/src/Screen/Custom/TopWindow.cpp b/src/Screen/Custom/TopWindow.cpp
+index b607061f38..fa34b0c69f 100644
+--- a/src/Screen/Custom/TopWindow.cpp
++++ b/src/Screen/Custom/TopWindow.cpp
+@@ -65,6 +65,9 @@ TopWindow::Create(const TCHAR *text, PixelSize size,
+     return;
+   }
+ 
++#ifdef SOFTWARE_ROTATE_DISPLAY
++  screen->SetDisplayOrientation(style.GetInitialOrientation());
++#endif
+   ContainerWindow::Create(nullptr, screen->GetRect(), style);
+ }
+ 
+diff --git a/src/Screen/TopWindow.hpp b/src/Screen/TopWindow.hpp
+index ba9f35e597..e1c592ffdd 100644
+--- a/src/Screen/TopWindow.hpp
++++ b/src/Screen/TopWindow.hpp
+@@ -50,7 +50,7 @@ struct SDL_Window;
+ #include <tchar.h>
+ 
+ #ifdef SOFTWARE_ROTATE_DISPLAY
+-enum class DisplayOrientation : uint8_t;
++#include "DisplayOrientation.hpp"
+ #endif
+ 
+ #ifndef USE_WINUSER
+@@ -81,6 +81,9 @@ class TopWindowStyle : public WindowStyle {
+ #ifdef ENABLE_SDL
+   bool resizable = false;
+ #endif
++#ifdef SOFTWARE_ROTATE_DISPLAY
++  DisplayOrientation initial_orientation = DisplayOrientation::DEFAULT;
++#endif
+ 
+ public:
+   TopWindowStyle()
+@@ -124,6 +127,15 @@ public:
+     return false;
+ #endif
+   }
++#ifdef SOFTWARE_ROTATE_DISPLAY
++  void InitialOrientation(DisplayOrientation orientation) {
++    initial_orientation = orientation;
++  }
++
++  DisplayOrientation GetInitialOrientation() const {
++    return initial_orientation;
++  }
++#endif
+ };
+ 
+ /**
+diff --git a/src/Startup.cpp b/src/Startup.cpp
+index 59915dc7e8..6d80981c54 100644
+--- a/src/Startup.cpp
++++ b/src/Startup.cpp
+@@ -191,6 +191,10 @@ Startup()
+ 
+   style.Resizable();
+ 
++#ifdef SOFTWARE_ROTATE_DISPLAY
++  style.InitialOrientation(Display::DetectInitialOrientation());
++#endif
++
+   MainWindow *const main_window = CommonInterface::main_window =
+     new MainWindow();
+   main_window->Create(SystemWindowSize(), style);
+-- 
+2.25.1
+
