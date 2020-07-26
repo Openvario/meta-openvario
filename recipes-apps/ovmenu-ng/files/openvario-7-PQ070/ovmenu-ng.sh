@@ -175,6 +175,7 @@ function submenu_xcsoar_lang() {
 		 sk_SK.UTF-8 "Slowak" \
 		 lt_LT.UTF-8 "Lithuanian" \
 		 ru_RU.UTF-8 "Russian" \
+		 es_ES.UTF-8 "Espanol" \
 		 2>"${INPUT}"
 		 
 		 menuitem=$(<"${INPUT}")
