@@ -6,7 +6,7 @@ HOMEPAGE = "www.xcsoar.org"
 LICENSE = "GPL-2.0"
 LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/${LICENSE};md5=801f80980d171dd6425610833a22dbe6"
 SECTION = "base/app"
-PR="r0"
+PR="r1"
 RCONFLICTS_${PN}="xcsoar-testing"
 
 DEPENDS = " \
@@ -68,7 +68,7 @@ do_compile() {
     echo '${WORKDIR}'
     cd ${WORKDIR}/git
     # export CPATH=${D}/usr/include
-    make -j$(nproc) DEBUG=n DEBUG_GLIBCXX=n ENABLE_MESA_KMS=y GEOTIFF=n
+    make -j$(nproc) DEBUG=n DEBUG_GLIBCXX=n ENABLE_MESA_KMS=y USE_LIBINPUT=y GEOTIFF=n
 }
 
 do_install() {
