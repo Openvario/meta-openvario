@@ -5,6 +5,7 @@ SRC_URI += " \
     file://${KERNEL_DEVICETREE_SOURCE} \
     file://lima.conf \
     file://0001-drm-lima-Expose-job_hang_limit-module-parameter.patch \
+    file://0002-Allow-to-set-duty-cycle-before-turning-off-the-PWM.patch \
 "
 
 PR = "r0"
