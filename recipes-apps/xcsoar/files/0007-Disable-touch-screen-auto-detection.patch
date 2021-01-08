@@ -9,13 +9,13 @@ even on machines with no touch screen is installed: it is easier to
 click larger controls with the stick control and labels acually fit the
 buttons with the larger font sizes.
 ---
- src/event/poll/libinput/LibInputHandler.hpp | 2 +-
+ src/ui/event/poll/libinput/LibInputHandler.hpp | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/src/event/poll/libinput/LibInputHandler.hpp b/src/event/poll/libinput/LibInputHandler.hpp
+diff --git a/src/ui/event/poll/libinput/LibInputHandler.hpp b/src/ui/event/poll/libinput/LibInputHandler.hpp
 index 0ca1d8f512..b9eeb3e724 100644
---- a/src/event/poll/libinput/LibInputHandler.hpp
-+++ b/src/event/poll/libinput/LibInputHandler.hpp
+--- a/src/ui/event/poll/libinput/LibInputHandler.hpp
++++ b/src/ui/event/poll/libinput/LibInputHandler.hpp
 @@ -53,7 +53,7 @@ class LibInputHandler final {
    /**
     * The number of pointer input devices, touch screens ans keyboards.
