@@ -46,7 +46,7 @@ SRC_URI = " \
     file://0001-Adapted-Flags-for-compiler-and-linker-for-cross-comp.patch \
     file://0001-Disable-warnings-as-errors.patch \
     file://0001-avoid-tail-cut.patch \
-    file://0007-Disable-touch-screen-auto-detection.patch \
+    file://0007-Disable-touch-screen-auto-detection-6.8.patch \
     file://ov-xcsoar.conf \
 "
 
