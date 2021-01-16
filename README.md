@@ -49,5 +49,9 @@ Available machines are:
 ### Starting the build
 
 ```
+bitbake openvario-image
+```
+or
+```
 bitbake openvario-image-testing
 ```
