@@ -45,6 +45,7 @@ Available machines are:
 - openvario-7-AM070
 - openvario-57-lvds
 - openvario-43-rgb
+- openvario-7-AMPI
 
 ### Starting the build
 
