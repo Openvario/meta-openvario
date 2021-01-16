@@ -23,7 +23,7 @@ This will fetch the manifest file for the warrior branch.
 ### Starting the containerd build environment
 
 ```
-docker run -it --rm -v $(pwd):/workdir linuxianer99/ovbuild --workdir=/workdir
+sudo docker run -it --rm -v $(pwd):/workdir linuxianer99/ovbuild --workdir=/workdir
 cd poky
 ```
 
@@ -42,6 +42,7 @@ export MACHINE=openvario-7-CH070
 Available machines are:
 - openvario-7-PQ070
 - openvario-7-CH070
+- openvario-7-AM070
 - openvario-57-lvds
 - openvario-43-rgb
 
