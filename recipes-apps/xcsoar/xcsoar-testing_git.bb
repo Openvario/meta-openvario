@@ -31,6 +31,7 @@ DEPENDS = "	\
 		virtual/libgles2 \
 		alsa-lib \
 		libsodium \
+		c-ares \
 "
 
 RDEPENDS_${PN} = "\

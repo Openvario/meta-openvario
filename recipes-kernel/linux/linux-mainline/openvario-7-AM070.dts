@@ -1,0 +1,29 @@
+#include "openvario-common.dts"
+
+&panel {
+    compatible = "panel-lvds";
+    width-mm = <150>;
+    height-mm = <93>;
+    data-mapping = "jeida-24";
+    panel-timing {
+        clock-frequency = <68200000>;
+        hactive = <1280>;
+        vactive = <800>;
+        hsync-len = <1>;
+        hfront-porch = <64>;
+        hback-porch = <5>;
+        vsync-len = <1>;
+        vfront-porch = <40>;
+        vback-porch = <2>;
+    };
+};
+
+&touchscreen {
+    x-size = <1280>;
+    y-size = <800>;
+};
+
+&uart5_ph_pins {
+	pins = "PI10", "PH7";
+	function = "uart5";
+};
