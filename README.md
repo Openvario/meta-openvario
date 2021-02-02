@@ -42,7 +42,6 @@ export MACHINE=openvario-7-CH070
 Available machines for the OpenVario with the original adapter board are:
 - openvario-7-PQ070
 - openvario-7-CH070
-- openvario-7-AM070
 - openvario-57-lvds
 - openvario-43-rgb
 
