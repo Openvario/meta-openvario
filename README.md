@@ -39,12 +39,16 @@ TEMPLATECONF=meta-openvario/conf source oe-init-build-env
 export MACHINE=openvario-7-CH070
 ```
 
-Available machines are:
+Available machines for the OpenVario with the original adapter board are:
 - openvario-7-PQ070
 - openvario-7-CH070
-- openvario-7-AM070
 - openvario-57-lvds
 - openvario-43-rgb
+
+Available machines for the OpenVario with the new adapter board DS2 are:
+- openvario-7-CH070_DS2
+- openvario-7-AM070_DS2
+- openvario-57-lvds_DS2
 
 ### Starting the build
 
