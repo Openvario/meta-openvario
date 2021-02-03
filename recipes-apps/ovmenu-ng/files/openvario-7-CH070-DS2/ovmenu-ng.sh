@@ -175,6 +175,7 @@ function submenu_xcsoar_lang() {
 		 sk_SK.UTF-8 "Slowak" \
 		 lt_LT.UTF-8 "Lithuanian" \
 		 ru_RU.UTF-8 "Russian" \
+		 es_ES.UTF-8 "Espanol" \
 		 2>"${INPUT}"
 		 
 		 menuitem=$(<"${INPUT}")
@@ -340,9 +341,9 @@ function upload_files(){
 function start_xcsoar() {
 	/usr/bin/xcsoar_config.sh
 	if [ -z $XCSOAR_LANG ]; then
-		/opt/XCSoar/bin/xcsoar -fly -1280x800
+		/opt/XCSoar/bin/xcsoar -fly -800x480
 	else
-		LANG=$XCSOAR_LANG /opt/XCSoar/bin/xcsoar -fly -1280x800
+		LANG=$XCSOAR_LANG /opt/XCSoar/bin/xcsoar -fly -800x480
 	fi
 	sync
 }
