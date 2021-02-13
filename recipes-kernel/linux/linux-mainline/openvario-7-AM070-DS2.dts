@@ -1,10 +1,10 @@
 #include "openvario-common.dts"
 
 &panel {
-    compatible = "panel-lvds";
     width-mm = <150>;
     height-mm = <93>;
     data-mapping = "jeida-24";
+    
     panel-timing {
         clock-frequency = <68200000>;
         hactive = <1280>;
@@ -23,7 +23,14 @@
     y-size = <800>;
 };
 
-&uart5_ph_pins {
-	pins = "PI10", "PH7";
-	function = "uart5";
+// UART5 on Schematic
+&uart5 {
+    pinctrl-0 = <&uart5_pi_pins>;
+};
+
+// UART6 on Schematic
+&uart6 {
+    pinctrl-names = "default";
+    pinctrl-0 = <&uart6_pi_pins>;
+    status = "okay";
 };
