@@ -384,7 +384,7 @@ function yesno_power_off(){
 	esac
 }
 
-setfont ter-124b.psf.gz
+setfont LatGrkCyr-12x22.psfu.gz
 
 DIALOG_CANCEL=1 dialog --nook --nocancel --pause "Starting XCSoar ... \\n Press [ESC] for menu" 10 30 $TIMEOUT 2>&1
 
