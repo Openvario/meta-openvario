@@ -27,10 +27,3 @@
 &uart5 {
     pinctrl-0 = <&uart5_pi_pins>;
 };
-
-// UART6 on Schematic
-&uart6 {
-    pinctrl-names = "default";
-    pinctrl-0 = <&uart6_pi_pins>;
-    status = "okay";
-};
