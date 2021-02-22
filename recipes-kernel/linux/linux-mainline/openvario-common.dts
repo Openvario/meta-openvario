@@ -101,6 +101,13 @@
 	status = "okay";
 };
 
+// UART6 on Schematic - enabling this removes SPI functionality in order to enable 4th IGC port usage
+&uart6 {
+    pinctrl-names = "default";
+    pinctrl-0 = <&uart6_pi_pins>;
+    status = "okay";
+};
+
 &rtp {
 	allwinner,ts-attached;
 	allwinner,tp-sensitive-adjust = <0>;
