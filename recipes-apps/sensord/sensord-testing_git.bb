@@ -36,6 +36,7 @@ do_install() {
 	install -d ${D}/opt/conf/default
 	install -d ${D}/etc/cfgmgr.d
 	install -m 0755 ${S}/sensord ${D}/opt/bin
+	install -m 0755 ${S}/compdata ${D}/opt/bin
 	install -m 0755 ${S}/sensorcal ${D}/opt/bin
 	install -m 0755 ${S}/sensord.conf ${D}/opt/conf/default/sensord.conf
 	install -m 0755 ${S}/sensord.conf ${D}/opt/conf/sensord.conf
@@ -51,6 +52,7 @@ PACKAGES = "${PN}"
 INHIBIT_PACKAGE_DEBUG_SPLIT = '1'
 
 FILES_${PN} = "/opt/bin/sensord \
+					/opt/bin/compdata \
 					/opt/bin/sensorcal \
 					/opt/conf/default/sensord.conf \
 					/etc/cfgmgr.d/sensord.cfgmgr \
