@@ -16,7 +16,7 @@ diff --git a/src/ui/event/poll/libinput/LibInputHandler.hpp b/src/ui/event/poll/
 index 0ca1d8f512..b9eeb3e724 100644
 --- a/src/ui/event/poll/libinput/LibInputHandler.hpp
 +++ b/src/ui/event/poll/libinput/LibInputHandler.hpp
-@@ -53,7 +53,7 @@ class LibInputHandler final {
+@@ -57,7 +57,7 @@ class LibInputHandler final {
    /**
     * The number of pointer input devices, touch screens ans keyboards.
     */
@@ -24,7 +24,7 @@ index 0ca1d8f512..b9eeb3e724 100644
 +  unsigned n_pointers = 0, n_touch_screens = 1, n_keyboards = 0;
  
  public:
-   explicit LibInputHandler(boost::asio::io_context &io_context,
+   explicit LibInputHandler(EventQueue &_queue) noexcept;
 -- 
 2.25.1
 

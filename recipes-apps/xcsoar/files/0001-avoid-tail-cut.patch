@@ -2,8 +2,8 @@ diff --git a/src/Dialogs/dlgCredits.cpp b/src/Dialogs/dlgCredits.cpp
 index d6e4d330be..7c56d50645 100644
 --- a/src/Dialogs/dlgCredits.cpp
 +++ b/src/Dialogs/dlgCredits.cpp
-@@ -67,7 +67,7 @@ LogoPageWindow::OnPaint(Canvas &canvas)
-   y += title_size.cy + Layout::FastScale(20);
+@@ -68,7 +68,7 @@ LogoPageWindow::OnPaint(Canvas &canvas)
+   y += title_size.height + Layout::FastScale(20);
  
    Font font;
 -  font.Load(FontDescription(Layout::FontScale(16)));

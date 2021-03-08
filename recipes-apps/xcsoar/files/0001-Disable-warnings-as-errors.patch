@@ -11,8 +11,8 @@ diff --git a/build/warnings.mk b/build/warnings.mk
 index c4aa673..8ac5314 100644
 --- a/build/warnings.mk
 +++ b/build/warnings.mk
-@@ -25,8 +25,8 @@ WERROR ?= $(DEBUG)
- endif
+@@ -23,8 +23,8 @@ WERROR ?= $(DEBUG)
+ WERROR ?= $(DEBUG)
  
  ifeq ($(WERROR),y)
 -CXXFLAGS += -Werror
