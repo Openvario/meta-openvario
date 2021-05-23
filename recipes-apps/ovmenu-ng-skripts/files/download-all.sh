@@ -4,7 +4,7 @@ USB_PATH="/usb/usbstick/openvario/download/xcsoar"
 DOWNLOAD_PATH="/home/root/.xcsoar"
 
 if [ ! -d "$USB_PATH" ]; then
-	mkdir "$USB_PATH"
+	mkdir -p "$USB_PATH"
 fi
 
 if [ -z "$(ls $DOWNLOAD_PATH/* 2>/dev/null)" ]; then
