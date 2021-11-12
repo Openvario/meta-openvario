@@ -14,7 +14,7 @@ SRC_URI =      "\
 	file://openvario_default.xcm \
 "
 
-addtask do_package_write_ipk after do_package after do_install
+addtask do_package_write_ipk after do_package
 
 do_compile() {
         :
