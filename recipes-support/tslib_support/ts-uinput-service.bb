@@ -3,18 +3,18 @@
 
 DESCRIPTION = "Systemd service for ts_uinput"
 HOMEPAGE = "www.openvario.org"
-LICENSE = "GPL-3.0"
+LICENSE = "GPL-3.0-only"
 LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/${LICENSE};md5=c79ff39f19dfec6d293b95dea7b07891"
 SECTION = "base/app"
 DEPENDS = "tslib"
-PR = "r1"
+PR = "r2"
 
 S = "${WORKDIR}"
 
 inherit systemd
 
 SRC_URI = "	file://ts_uinput.service \
-			file://ts.env \		  
+			file://ts.env \
 "
 
 do_install() {	
