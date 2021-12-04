@@ -4,7 +4,7 @@
 DESCRIPTION = "XCSoar glide computer"
 HOMEPAGE = "www.xcsoar.org"
 LICENSE = "GPL-2.0-only"
-LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/${LICENSE};md5=801f80980d171dd6425610833a22dbe6"
+LIC_FILES_CHKSUM = "file://COPYING;md5=393a5ca445f6965873eca0259a17f833"
 SECTION = "base/app"
 PR="r0"
 RCONFLICTS_${PN}="xcsoar-testing"
@@ -45,8 +45,6 @@ LC_LOCALE_PATH = "/usr/share/locale"
 SRC_URI = " \
     git://github.com/XCSoar/XCSoar.git;protocol=git;tag=v${PV} \
     file://0005-Adapted-toolchain-prefixes-for-cross-compile.patch \
-    file://0001-Adapted-Flags-for-compiler-and-linker-for-cross-comp.patch \
-    file://0001-Disable-warnings-as-errors.patch \
     file://0001_no_version_lua.patch \
     file://0001-avoid-tail-cut.patch \
     file://0007-Disable-touch-screen-auto-detection.patch \

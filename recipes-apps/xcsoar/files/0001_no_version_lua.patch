@@ -6,7 +6,7 @@ index 12451fd824..3a26b3e72a 100644
  LIBLUA_LDLIBS = -llua
  LIBLUA_CPPFLAGS =
  else
--$(eval $(call pkg-config-library,LIBLUA,lua5.2))
+-$(eval $(call pkg-config-library,LIBLUA,lua5.4))
 +$(eval $(call pkg-config-library,LIBLUA,lua))
  endif
  
