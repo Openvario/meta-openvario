@@ -16,11 +16,11 @@ This is a layer for OpenEmbedded to support the Openvario hardware
 
 ```
 mkdir workdir
-repo init -u git://github.com/Openvario/ovlinux-manifest.git -b warrior
+repo init -u git://github.com/Openvario/ovlinux-manifest.git -b hardknott
 repo sync
 ```
 
-This will fetch the manifest file for the warrior branch.
+This will fetch the manifest file for the Hardknott branch.
 
 ### Starting the containerd build environment
 
