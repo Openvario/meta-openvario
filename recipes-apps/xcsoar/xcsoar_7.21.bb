@@ -48,7 +48,6 @@ SRC_URI = " \
     file://0001_no_version_lua.patch \
     file://0001-avoid-tail-cut.patch \
     file://0007-Disable-touch-screen-auto-detection.patch \
-    file://0001-FreeVario.patch \
     file://ov-xcsoar.conf \
 "
 
