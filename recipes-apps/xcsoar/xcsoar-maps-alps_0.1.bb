@@ -3,12 +3,12 @@
 
 DESCRIPTION = "XCSoar Maps ALPS"
 HOMEPAGE = ""
-LICENSE = "GPL-3.0"
+LICENSE = "GPL-3.0-only"
 LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/${LICENSE};md5=c79ff39f19dfec6d293b95dea7b07891"
 SECTION = "base/app"
 
 S = "${WORKDIR}"
-PR = "r4"
+PR = "r5"
 
 BB_STRICT_CHECKSUM = "0"
 
@@ -17,12 +17,15 @@ SRC_URI =	"\
 	http://www.austrocontrol.at/jart/prj3/austro_control/data/uploads/austria_ATS_2011_openair.txt;name=airspaceat \
 "
 
-SRC_URI[alpsmap.md5sum] = "3135fe5e632a5e0c0e084652be8b14b6"
-SRC_URI[alpsmap.sha256sum] = "90987f93f6ee4f1c4c89a827c21782b06abba8b644534fa8161e283d17ba99ac"
+# Last change on 2021-11-22: md5=4d12760efda52fd96ab6386eca040ca2 
+SRC_URI[alpsmap.md5sum] = "4d12760efda52fd96ab6386eca040ca2"
+SRC_URI[alpsmap.sha256sum] = "2bee6fbb407668e38c46fb33878b857e7b140b385947536ea7dd0e1d442e7bdb"
+
+# Last change on 2011(!): md5=8963def8118f0b92da5f0cac862e6cf3 
 SRC_URI[airspaceat.md5sum] = "8963def8118f0b92da5f0cac862e6cf3"
 SRC_URI[airspaceat.sha256sum] = "f5e79df3e89cc982b47e3e0e1c9c59b419556d1747878a830040f0e083f00bc2"
 
-addtask do_package_write_ipk after do_package after do_install
+addtask do_package_write_ipk after do_package
 
 do_compile() {
         :

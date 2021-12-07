@@ -11,7 +11,7 @@ diff --git a/include/configs/sunxi-common.h b/include/configs/sunxi-common.h
 index 9819d99..76e7a83 100644
 --- a/include/configs/sunxi-common.h
 +++ b/include/configs/sunxi-common.h
-@@ -277,7 +277,7 @@ extern int soft_i2c_gpio_scl;
+@@ -258,7 +258,7 @@ extern int soft_i2c_gpio_scl;
   */
  #define CONFIG_SUNXI_MAX_FB_SIZE (16 << 20)
  
@@ -20,7 +20,7 @@ index 9819d99..76e7a83 100644
  #define CONFIG_VIDEO_STD_TIMINGS
  #define CONFIG_I2C_EDID
  #define VIDEO_LINE_LEN (pGD->plnSizeX)
-@@ -435,7 +435,7 @@ extern int soft_i2c_gpio_scl;
+@@ -419,7 +419,7 @@ extern int soft_i2c_gpio_scl;
  #define BOOTCMD_SUNXI_COMPAT
  #endif
  
@@ -29,7 +29,7 @@ index 9819d99..76e7a83 100644
  
  #ifdef CONFIG_USB_KEYBOARD
  #define CONSOLE_STDIN_SETTINGS \
-@@ -448,8 +448,8 @@ extern int soft_i2c_gpio_scl;
+@@ -431,8 +431,8 @@ extern int soft_i2c_gpio_scl;
  
  #ifdef CONFIG_VIDEO
  #define CONSOLE_STDOUT_SETTINGS \
@@ -38,9 +38,9 @@ index 9819d99..76e7a83 100644
 +	"stdout=serial\0" \
 +	"stderr=serial\0"
  #elif CONFIG_DM_VIDEO
- #define CONFIG_SYS_WHITE_ON_BLACK
  #define CONSOLE_STDOUT_SETTINGS \
-@@ -499,6 +499,66 @@ extern int soft_i2c_gpio_scl;
+ 	"stdout=serial,vidconsole\0" \
+@@ -481,6 +481,66 @@ extern int soft_i2c_gpio_scl;
  #define FDTFILE CONFIG_DEFAULT_DEVICE_TREE ".dtb"
  #endif
  

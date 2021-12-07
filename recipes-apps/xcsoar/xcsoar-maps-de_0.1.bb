@@ -3,12 +3,12 @@
 
 DESCRIPTION = "XCSoar Maps DE"
 HOMEPAGE = ""
-LICENSE = "GPL-3.0"
+LICENSE = "GPL-3.0-only"
 LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/${LICENSE};md5=c79ff39f19dfec6d293b95dea7b07891"
 SECTION = "base/app"
 
 S = "${WORKDIR}"
-PR = "r3"
+PR = "r4"
 
 SRC_URI =      "\
 	http://download.xcsoar.org/maps/GER_HighRes.xcm;name=germanmap \
@@ -21,7 +21,7 @@ SRC_URI[germanmap.sha256sum] = "2d6b02261e9e1aeb658eaef8975772120256147cb1620895
 SRC_URI[airspacede.md5sum] = "02096949c867fde7b7dce6c360e23c69"
 SRC_URI[airspacede.sha256sum] = "bb636d4328576b8f5d1a794689f30e44059828f349c190e4e5209bc6ee307341"
 
-addtask do_package_write_ipk after do_package after do_install
+addtask do_package_write_ipk after do_package
 
 do_compile() {
         :

@@ -17,4 +17,4 @@ index 9a9968a..cd861e8 100644
 +# /net	-hosts
  #
  # Include /etc/auto.master.d/*.autofs
- # The included files must conform to the format of this file.
+ # To add an extra map using this mechanism you will need to add
