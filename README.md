@@ -24,8 +24,17 @@ This will fetch the manifest file for the warrior branch.
 
 ### Starting the containerd build environment
 
+The "old" Ubuntu 18.04 build container (for warrior branch):
+
 ```
 sudo docker run -it --rm -v $(pwd):/workdir linuxianer99/ovbuild --workdir=/workdir
+cd poky
+```
+
+The "new" Debian 11 build container (for hardknott branch):
+
+```
+sudo docker run -it --rm -v $(pwd):/workdir ghcr.io/openvario/ovbuild-container:main --workdir=/workdir
 cd poky
 ```
 
