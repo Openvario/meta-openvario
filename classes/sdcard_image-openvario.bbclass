@@ -15,10 +15,38 @@ inherit image_types
 
 # This image depends on the rootfs image
 IMAGE_TYPEDEP_openvario-sdimg = "${SDIMG_ROOTFS_TYPE}"
-
-# Boot partition volume id, not longer then 11 character
-BOOTDD_VOLUME_ID ?= "${MACHINE#*-}"
-
+# Boot partition sdcard volume id (not longer then 11 characters!)
+IMAGE_CMD_prepend () {
+	case ${MACHINE} in
+	  "openvario-7-CH070")
+	    BOOTDD_VOLUME_ID="OV-CH070"
+	    ;;
+	  "openvario-7-CH070-DS2")
+	    BOOTDD_VOLUME_ID="OV-CH070DS2"
+	    ;;
+	  "openvario-7-AM070")
+	    BOOTDD_VOLUME_ID="OV-AM070"
+	    ;;
+	  "openvario-7-AM070-DS2")
+	    BOOTDD_VOLUME_ID="OV-AM070DS2"
+	    ;;
+	  "openvario-7-PQ070")
+	    BOOTDD_VOLUME_ID="OV-PQ070"
+	    ;;
+	  "openvario-57-lvds")
+	    BOOTDD_VOLUME_ID="OV-CH057"
+	    ;;  
+	  "openvario-57-lvds-DS2")
+	    BOOTDD_VOLUME_ID="OV-CH057DS2"
+	    ;;   
+	  "openvario-43-rgb")
+	    BOOTDD_VOLUME_ID="OV-RGB43"
+	    ;;
+	  *)
+	    BOOTDD_VOLUME_ID="OV-Unknown"
+	    ;;
+	esac
+}
 
 # Boot partition size [in KiB]
 BOOT_SPACE ?= "40960"
