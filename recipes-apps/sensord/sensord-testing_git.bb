@@ -9,6 +9,9 @@ SECTION = "base/app"
 DEPENDS = ""
 PR = "r10"
 
+
+INSANE_SKIP_${PN} += "ldflags"
+
 S = "${WORKDIR}/git"
 
 inherit systemd
@@ -18,10 +21,6 @@ SRC_URI = "git://github.com/Openvario/sensord.git;protocol=git;branch=master \
 			file://sensord.service \
 			file://sensord.cfgmgr \			  
 "
-
-INSANE_SKIP_${PN} = "ldflags"
-
-SYSTEMD_SERVICE_${PN} = "sensord.service"
 
 do_compile() {
 	echo "Making .."
