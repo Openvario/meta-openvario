@@ -44,9 +44,9 @@ LC_LOCALE_PATH = "/usr/share/locale"
 
 SRC_URI = " \
     git://github.com/XCSoar/XCSoar.git;protocol=git;tag=v${PV} \
-    file://0005-Adapted-toolchain-prefixes-for-cross-compile.patch \
     file://0001_no_version_lua.patch \
     file://0001-avoid-tail-cut.patch \
+    file://0005-Adapted-toolchain-prefixes-for-cross-compile.patch \
     file://0007-Disable-touch-screen-auto-detection.patch \
     file://ov-xcsoar.conf \
 "
