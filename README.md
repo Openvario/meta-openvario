@@ -15,7 +15,6 @@ This is a layer for OpenEmbedded to support the Openvario hardware
 ### Fetching sources
 
 ```
-mkdir workdir
 repo init -u git://github.com/Openvario/ovlinux-manifest.git -b hardknott
 repo sync
 ```
@@ -23,16 +22,6 @@ repo sync
 This will fetch the manifest file for the Hardknott branch.
 
 ### Starting the containerd build environment
-
-The "old" Ubuntu 18.04 build container (for warrior branch):
-
-```
-sudo docker run -it --rm -v $(pwd):/workdir linuxianer99/ovbuild --workdir=/workdir
-cd poky
-```
-
-The "new" Debian 11 build container (for hardknott branch):
-
 ```
 sudo docker run -it --rm -v $(pwd):/workdir ghcr.io/openvario/ovbuild-container:main --workdir=/workdir
 cd poky
@@ -64,5 +53,5 @@ Available machines for the OpenVario with the new adapter board DS2 are:
 ### Starting the build
 
 ```
-bitbake openvario-image-testing
+bitbake openvario-image
 ```
