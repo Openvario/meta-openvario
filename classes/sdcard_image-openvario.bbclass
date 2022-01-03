@@ -16,9 +16,8 @@ inherit image_types
 # This image depends on the rootfs image
 IMAGE_TYPEDEP_openvario-sdimg = "${SDIMG_ROOTFS_TYPE}"
 
-# Boot partition volume id, not longer then 11 character
-BOOTDD_VOLUME_ID ?= "${MACHINE#*-}"
-
+# Boot partition sdcard volume id (not longer then 11 characters!)
+BOOTDD_VOLUME_ID ?= "OV-${SHORT_OV_MACHINE}"
 
 # Boot partition size [in KiB]
 BOOT_SPACE ?= "40960"
