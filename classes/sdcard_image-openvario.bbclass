@@ -138,10 +138,10 @@ IMAGE_CMD_openvario-sdimg () {
 	#zip ready made image
 	gzip -f ${SDIMG}
 
-	# create link to new created image
+	# create a relative link to new created image
 	ln -sfr ${SDIMG}.gz ${SDIMG_LINK}.gz
 
-	#writ}e output filename to file for upload
+	# write output filename to file for upload
 	echo ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME} > ${DEPLOY_DIR_IMAGE}/image_name	
 	echo ${SDIMG_LINK} > ${DEPLOY_DIR_IMAGE}/image_link
 }
