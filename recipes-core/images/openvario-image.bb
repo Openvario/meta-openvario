@@ -7,10 +7,9 @@ IMAGE_INSTALL += "\
     xcsoar \
     xcsoar-menu \
     xcsoar-profiles \
-    xcsoar-maps-alps \
     xcsoar-maps-default \
     caltool \
-    sensord\
+    sensord \
     variod \
     ovmenu-ng \
     openvario-autologin \

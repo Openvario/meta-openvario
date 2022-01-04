@@ -7,7 +7,6 @@ IMAGE_INSTALL += "\
     xcsoar-testing \
     xcsoar-menu \
     xcsoar-profiles \
-    xcsoar-maps-alps \
     xcsoar-maps-default \
     sensord-testing\
     variod-testing \
