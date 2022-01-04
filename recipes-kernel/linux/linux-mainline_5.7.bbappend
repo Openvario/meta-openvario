@@ -1,12 +1,12 @@
 FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}:"
 
-SRC_URI += " \
+SRC_URI_append = " \
     file://openvario-common.dts \
     file://${KERNEL_DEVICETREE_SOURCE} \
-    file://lima.conf \
-    file://0001-drm-lima-Expose-job_hang_limit-module-parameter.patch \
-    file://0002-Allow-to-set-duty-cycle-before-turning-off-the-PWM.patch \
 "
+
+SRC_URI_append = " file://lima.conf"
+SRC_URI_append = " file://0002-Allow-to-set-duty-cycle-before-turning-off-the-PWM.patch"
 
 PR = "r0"
 
@@ -16,6 +16,7 @@ do_configure_prepend() {
 }
 
 do_install_append() {
+    # without this driver XCSoar crashes!
     install -d ${D}/etc/modprobe.d
     install -m 0644 ${WORKDIR}/lima.conf ${D}/etc/modprobe.d/lima.conf
 }
