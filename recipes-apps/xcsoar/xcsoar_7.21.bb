@@ -45,9 +45,9 @@ LC_LOCALE_PATH = "/usr/share/locale"
 SRC_URI = "git://github.com/XCSoar/XCSoar.git;protocol=git;tag=v${PV} \
            file://ov-xcsoar.conf"
 
-SRC_URI_append = "file://0001-avoid-tail-cut.patch"
-SRC_URI_append = "file://0005-Adapted-toolchain-prefixes-for-cross-compile.patch"
-SRC_URI_append = "file://0007-Disable-touch-screen-auto-detection.patch"
+SRC_URI_append = " file://0001-avoid-tail-cut.patch"
+SRC_URI_append = " file://0005-Adapted-toolchain-prefixes-for-cross-compile.patch"
+SRC_URI_append = " file://0007-Disable-touch-screen-auto-detection.patch"
 
 inherit pkgconfig update-alternatives
 
