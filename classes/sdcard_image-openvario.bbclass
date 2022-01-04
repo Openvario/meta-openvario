@@ -16,7 +16,7 @@ inherit image_types
 # This image depends on the rootfs image
 IMAGE_TYPEDEP_openvario-sdimg = "${SDIMG_ROOTFS_TYPE}"
 # Boot partition sdcard volume id (not longer then 11 characters!)
-BOOTDD_VOLUME_ID ?= "OpenVario"
+BOOTDD_VOLUME_ID ?= "OV-${SHORT_OV_MACHINE}"
 
 # Boot partition size [in KiB]
 BOOT_SPACE ?= "40960"
@@ -138,8 +138,8 @@ IMAGE_CMD_openvario-sdimg () {
 	#zip ready made image
 	gzip -f ${SDIMG}
 
-	#create link to new created image
-	ln -sf ${SDIMG}.gz ${SDIMG_LINK}.gz
+	# create link to new created image
+	ln -sfr ${SDIMG}.gz ${SDIMG_LINK}.gz
 
 	#writ}e output filename to file for upload
 	echo ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME} > ${DEPLOY_DIR_IMAGE}/image_name	
