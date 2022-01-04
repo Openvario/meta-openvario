@@ -46,11 +46,10 @@ SRCREV_pn-xcsoar-testing = "${AUTOREV}"
 
 SRC_URI = " \
 	git://github.com/XCSoar/XCSoar.git;protocol=git;branch=master \
-	file://0005-Adapted-toolchain-prefixes-for-cross-compile.patch \
 	file://0001_no_version_lua.patch \
 	file://0001-avoid-tail-cut.patch \
+	file://0005-Adapted-toolchain-prefixes-for-cross-compile.patch \
 	file://0007-Disable-touch-screen-auto-detection.patch \
-	file://0001-FreeVario.patch \
 	file://ov-xcsoar.conf \
 "
 
