@@ -6,7 +6,6 @@ HOMEPAGE = "www.openvario.org"
 LICENSE = "GPL-3.0-only"
 LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/${LICENSE};md5=c79ff39f19dfec6d293b95dea7b07891"
 SECTION = "base/app"
-PR = "r1"
 
 S = "${WORKDIR}/git"
 
@@ -19,10 +18,8 @@ DEPENDS = " \
 	libgcc \
 	"
 
-SRC_URI = "git://github.com/Openvario/variod.git;protocol=git;tag=${PV} \
-			  file://variod.service \
-			  file://variod.cfgmgr \
-"
+SRC_URI = "file://variod.service \
+           file://variod.cfgmgr "
 
 do_compile() {
 	echo "Making .."
@@ -39,10 +36,10 @@ do_install() {
 	install -m 0755 ${S}/variod ${D}/opt/bin
 	install -m 0755 ${S}/variod.conf ${D}/opt/conf/default
 	install -m 0755 ${S}/variod.conf ${D}/opt/conf
-
+	
 	install -d ${D}/etc/cfgmgr.d
 	install -m 0755 ${WORKDIR}/variod.cfgmgr ${D}/etc/cfgmgr.d/variod.cfgmgr
-
+	
 	install -d ${D}${systemd_unitdir}/system
 	install -m 0644 ${WORKDIR}/variod.service ${D}${systemd_unitdir}/system
 }
