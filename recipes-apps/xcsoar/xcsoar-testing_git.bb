@@ -50,6 +50,7 @@ SRC_URI = "git://github.com/XCSoar/XCSoar.git;protocol=git;branch=master \
 SRC_URI_append = " file://0001-avoid-tail-cut.patch"
 SRC_URI_append = " file://0005-Adapted-toolchain-prefixes-for-cross-compile.patch"
 SRC_URI_append = " file://0007-Disable-touch-screen-auto-detection.patch"
+SRC_URI_append = " file://0001-HasNoPointer.patch"
 
 inherit pkgconfig update-alternatives
 
