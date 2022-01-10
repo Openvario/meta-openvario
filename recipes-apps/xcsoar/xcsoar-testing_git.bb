@@ -12,7 +12,7 @@ RCONFLICTS_${PN}="xcsoar"
 DEPENDS = "	\
 		gcc \
 		boost \
-		curlpp \
+		curl \
 		pkgconfig \
 		libxslt-native \
 		librsvg-native \
