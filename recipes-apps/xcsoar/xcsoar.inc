@@ -35,7 +35,7 @@ RDEPENDS_${PN} = "\
 
 S = "${WORKDIR}/git"
 
-LC_LOCALE_PATH = "/usr/share/locale"
+LC_LOCALE_PATH = "${datadir}/locale"
 
 SRC_URI_append = " file://0001-avoid-tail-cut.patch"
 SRC_URI_append = " file://0005-Adapted-toolchain-prefixes-for-cross-compile.patch"
