@@ -6,7 +6,7 @@ SECTION = "base/app"
 
 DEPENDS = "	\
 		curl \
-		pkgconfig \
+		pkgconfig-native \
 		libxslt-native \
 		librsvg-native \
 		imagemagick-native \
