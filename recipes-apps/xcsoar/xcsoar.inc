@@ -37,7 +37,6 @@ S = "${WORKDIR}/git"
 LC_LOCALE_PATH = "${datadir}/locale"
 
 SRC_URI_append = " file://0001-avoid-tail-cut.patch"
-SRC_URI_append = " file://0005-Adapted-toolchain-prefixes-for-cross-compile.patch"
 SRC_URI_append = " file://0007-Disable-touch-screen-auto-detection.patch"
 SRC_URI_append = " file://0001-HasNoPointer.patch"
 
@@ -46,6 +45,17 @@ inherit pkgconfig
 addtask do_package_write_ipk after do_package
 
 EXTRA_OEMAKE = " \
+	HOSTCC='${BUILD_CC}' \
+	HOSTCXX='${BUILD_CXX}' \
+	AR='${AR}' \
+	RANLIB='${RANLIB}' \
+	CXX='${CXX}' \
+	CC='${CC}' \
+	AS='${AS}' \
+	LD='${LD}' \
+	STRIP='${STRIP}' \
+	CCACHE='' \
+	\
 	DEBUG=n DEBUG_GLIBCXX=n \
 	ENABLE_MESA_KMS=y GLES2=y \
 	GEOTIFF=n \
