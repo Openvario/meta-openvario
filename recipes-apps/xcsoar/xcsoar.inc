@@ -62,7 +62,7 @@ EXTRA_OEMAKE = " \
 
 do_compile() {
 	export PATH=$PATH:/usr/bin
-	#ln -s ${STAGING_DIR_TARGET}/usr/bin/convert.im7 ${STAGING_DIR_TARGET}/usr/bin/convert
+	ln -sf convert.im7 ${STAGING_DIR_NATIVE}/usr/bin/convert
 	export FONTCONFIG_PATH=/etc/fonts
 	oe_runmake
 }
