@@ -61,23 +61,13 @@ EXTRA_OEMAKE = " \
 "
 
 do_compile() {
-	echo $CC
-	$CC --version
-	echo "Create missing symlinks ..."
-	echo '${STAGING_DIR_TARGET}'
-	echo '${PATH}'
 	export PATH=$PATH:/usr/bin
-	echo '${PATH}'
 	#ln -s ${STAGING_DIR_TARGET}/usr/bin/convert.im7 ${STAGING_DIR_TARGET}/usr/bin/convert
 	export FONTCONFIG_PATH=/etc/fonts
-	echo "Making .."
-	echo '${WORKDIR}'
-	cd ${WORKDIR}/git
 	oe_runmake
 }
 
 do_install() {
-	echo "Installing ..."
 	install -d ${D}/opt/conf
 	install -d ${D}/opt/conf/default
 	install -m 0755 ${S}/../ov-xcsoar.conf ${D}/opt/conf/default/ov-xcsoar.conf
