@@ -199,7 +199,7 @@ function update_system() {
 
 #function start_xcsoar() {
 #	/usr/bin/xcsoar_config.sh
-#	/opt/XCSoar/bin/xcsoar -fly -480x272
+#	/usr/bin/xcsoar -fly -480x272
 #}
 
 #function power_off() {

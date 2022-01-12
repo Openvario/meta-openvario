@@ -78,21 +78,17 @@ do_compile() {
 
 do_install() {
 	echo "Installing ..."
-	install -d ${D}/opt/XCSoar/bin
-	install -m 0755 ${S}/output/UNIX/bin/xcsoar ${D}/opt/XCSoar/bin
-	install -m 0755 ${S}/output/UNIX/bin/vali-xcs ${D}/opt/XCSoar/bin
-
 	install -d ${D}/opt/conf
 	install -d ${D}/opt/conf/default
 	install -m 0755 ${S}/../ov-xcsoar.conf ${D}/opt/conf/default/ov-xcsoar.conf
 	install -m 0755 ${S}/../ov-xcsoar.conf ${D}/opt/conf/ov-xcsoar.conf
 
-	oe_runmake install-mo DESTDIR=${D}
+	oe_runmake install-bin install-mo DESTDIR=${D}
 }
 
 FILES_${PN} = " \
-	/opt/XCSoar/bin/xcsoar \
-	/opt/XCSoar/bin/vali-xcs \
+	${bindir}/xcsoar \
+	${bindir}/vali-xcs \
 	/opt/conf/default/ov-xcsoar.conf \
 	/opt/conf/ov-xcsoar.conf \
 	${LC_LOCALE_PATH}/*/LC_MESSAGES/xcsoar.mo \
