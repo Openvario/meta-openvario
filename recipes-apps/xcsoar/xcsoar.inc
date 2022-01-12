@@ -6,7 +6,6 @@ SECTION = "base/app"
 
 DEPENDS = "	\
 		gcc \
-		boost \
 		curl \
 		pkgconfig \
 		libxslt-native \
