@@ -5,7 +5,6 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=393a5ca445f6965873eca0259a17f833"
 SECTION = "base/app"
 
 DEPENDS = "	\
-		gcc \
 		curl \
 		pkgconfig \
 		libxslt-native \
