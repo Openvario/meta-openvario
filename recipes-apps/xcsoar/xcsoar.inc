@@ -41,7 +41,7 @@ SRC_URI_append = " file://0005-Adapted-toolchain-prefixes-for-cross-compile.patc
 SRC_URI_append = " file://0007-Disable-touch-screen-auto-detection.patch"
 SRC_URI_append = " file://0001-HasNoPointer.patch"
 
-inherit pkgconfig update-alternatives
+inherit pkgconfig
 
 addtask do_package_write_ipk after do_package
 
