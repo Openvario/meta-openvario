@@ -46,6 +46,12 @@ inherit pkgconfig update-alternatives
 
 addtask do_package_write_ipk after do_package
 
+EXTRA_OEMAKE = " \
+	DEBUG=n DEBUG_GLIBCXX=n \
+	ENABLE_MESA_KMS=y GLES2=y \
+	GEOTIFF=n \
+"
+
 do_compile() {
 	echo $CC
 	$CC --version
@@ -59,7 +65,7 @@ do_compile() {
 	echo "Making .."
 	echo '${WORKDIR}'
 	cd ${WORKDIR}/git
-	make -j$(nproc) DEBUG=n DEBUG_GLIBCXX=n ENABLE_MESA_KMS=y GLES2=y GEOTIFF=n
+	oe_runmake
 }
 
 do_install() {
