@@ -18,6 +18,10 @@ DEPENDS = " \
 	libgcc \
 	"
 
+RDEPENDS_${PN} = " \
+	pulseaudio-server \
+"
+
 SRC_URI = "file://variod.service \
            file://variod.cfgmgr "
 

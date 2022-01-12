@@ -41,7 +41,6 @@ IMAGE_INSTALL = " \
     autofs-config \
     nano \
     openssh-sftp-server \
-    pulseaudio-server \
     tslib \
     tslib-tests \
     tslib-uinput \
