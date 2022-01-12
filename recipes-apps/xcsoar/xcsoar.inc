@@ -138,30 +138,5 @@ FILES_${PN} = " \
 	/opt/XCSoar/bin/vali-xcs \
 	/opt/conf/default/ov-xcsoar.conf \
 	/opt/conf/ov-xcsoar.conf \
-	${LC_LOCALE_PATH}/de/LC_MESSAGES/xcsoar.mo \
-	${LC_LOCALE_PATH}/cs/LC_MESSAGES/xcsoar.mo \
-	${LC_LOCALE_PATH}/da/LC_MESSAGES/xcsoar.mo \
-	${LC_LOCALE_PATH}/el/LC_MESSAGES/xcsoar.mo \
-	${LC_LOCALE_PATH}/es/LC_MESSAGES/xcsoar.mo \
-	${LC_LOCALE_PATH}/fr/LC_MESSAGES/xcsoar.mo \
-	${LC_LOCALE_PATH}/he/LC_MESSAGES/xcsoar.mo \
-	${LC_LOCALE_PATH}/hr/LC_MESSAGES/xcsoar.mo \
-	${LC_LOCALE_PATH}/hu/LC_MESSAGES/xcsoar.mo \
-	${LC_LOCALE_PATH}/it/LC_MESSAGES/xcsoar.mo \
-	${LC_LOCALE_PATH}/ja/LC_MESSAGES/xcsoar.mo \
-	${LC_LOCALE_PATH}/ko/LC_MESSAGES/xcsoar.mo \
-	${LC_LOCALE_PATH}/lt/LC_MESSAGES/xcsoar.mo \
-	${LC_LOCALE_PATH}/nb/LC_MESSAGES/xcsoar.mo \
-	${LC_LOCALE_PATH}/nl/LC_MESSAGES/xcsoar.mo \
-	${LC_LOCALE_PATH}/pl/LC_MESSAGES/xcsoar.mo \
-	${LC_LOCALE_PATH}/pt/LC_MESSAGES/xcsoar.mo \
-	${LC_LOCALE_PATH}/ro/LC_MESSAGES/xcsoar.mo \
-	${LC_LOCALE_PATH}/ru/LC_MESSAGES/xcsoar.mo \
-	${LC_LOCALE_PATH}/sk/LC_MESSAGES/xcsoar.mo \
-	${LC_LOCALE_PATH}/sl/LC_MESSAGES/xcsoar.mo \
-	${LC_LOCALE_PATH}/sr/LC_MESSAGES/xcsoar.mo \
-	${LC_LOCALE_PATH}/sv/LC_MESSAGES/xcsoar.mo \
-	${LC_LOCALE_PATH}/tr/LC_MESSAGES/xcsoar.mo \
-	${LC_LOCALE_PATH}/uk/LC_MESSAGES/xcsoar.mo \
-	${LC_LOCALE_PATH}/vi/LC_MESSAGES/xcsoar.mo \
+	${LC_LOCALE_PATH}/*/LC_MESSAGES/xcsoar.mo \
 "
