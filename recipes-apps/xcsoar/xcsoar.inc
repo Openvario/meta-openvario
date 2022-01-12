@@ -20,7 +20,6 @@ DEPENDS = "	\
 		glm \
 		virtual/egl \
 		virtual/mesa \
-		virtual/libgles1 \
 		virtual/libgles2 \
 		alsa-lib \
 		libsodium \
