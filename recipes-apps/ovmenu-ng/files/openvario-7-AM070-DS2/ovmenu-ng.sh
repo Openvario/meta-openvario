@@ -340,9 +340,9 @@ function upload_files(){
 function start_xcsoar() {
 	/usr/bin/xcsoar_config.sh
 	if [ -z $XCSOAR_LANG ]; then
-		/opt/XCSoar/bin/xcsoar -fly -1280x800
+		/usr/bin/xcsoar -fly -1280x800
 	else
-		LANG=$XCSOAR_LANG /opt/XCSoar/bin/xcsoar -fly -1280x800
+		LANG=$XCSOAR_LANG /usr/bin/xcsoar -fly -1280x800
 	fi
 	sync
 }
