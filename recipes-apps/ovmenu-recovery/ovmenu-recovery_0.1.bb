@@ -12,6 +12,8 @@ RDEPENDS_${PN} = "dialog \
 				"
 PR = "r9"
 
+inherit allarch
+
 S = "${WORKDIR}"
 
 SRC_URI = " \

@@ -10,6 +10,8 @@ SECTION = "base/app"
 S = "${WORKDIR}"
 PR = "r15"
 
+inherit allarch
+
 RDEPENDS_${PN} = " \
 	bash \
 	dialog \
