@@ -21,9 +21,9 @@ do_compile() {
 
 do_install() {
         echo "Installing ..."
-        install -d ${D}/home/root/.xcsoar
-        install -m 0755 ${S}/*.prf ${D}/home/root/.xcsoar/
+        install -d ${D}${ROOT_HOME}/.xcsoar
+        install -m 0755 ${S}/*.prf ${D}${ROOT_HOME}/.xcsoar/
 }
 
-FILES_${PN} = "/home/root/.xcsoar/openvario.prf"
+FILES_${PN} = "${ROOT_HOME}/.xcsoar/openvario.prf"
 

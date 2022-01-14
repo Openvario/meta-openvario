@@ -33,10 +33,10 @@ do_install() {
         echo "Installing ..."
         install -d ${D}/opt/bin
         install -m 0755 ${S}/ovmenu-ng.sh ${D}/opt/bin/ovmenu-ng.sh
-		install -d ${D}/home/root
-		install -m 0755 ${S}/openvario.rc ${D}/home/root/.dialogrc
+	install -d ${D}${ROOT_HOME}
+	install -m 0755 ${S}/openvario.rc ${D}${ROOT_HOME}/.dialogrc
 }
 
 FILES_${PN} = "/opt/bin/ovmenu-ng.sh \
-				/home/root/.dialogrc \
+	${ROOT_HOME}/.dialogrc \
 "

@@ -16,13 +16,13 @@ do_compile() {
 
 do_install() {
         #install files in root home directory
-        install -d ${D}/home/root
-        install -m 0644 ${WORKDIR}/.profile ${D}/home/root/
+        install -d ${D}${ROOT_HOME}
+        install -m 0644 ${WORKDIR}/.profile ${D}${ROOT_HOME}/
 
 }
 
 
-FILES_${PN} += "/home/root/.profile \
+FILES_${PN} += "${ROOT_HOME}/.profile \
 "
 
 RDEPENDS_${PN} = "bash ov-tools ovmenu-ng-skripts"
