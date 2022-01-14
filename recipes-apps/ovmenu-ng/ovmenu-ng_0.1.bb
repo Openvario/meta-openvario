@@ -19,6 +19,7 @@ RDEPENDS_${PN} = " \
 
 SRC_URI =      "\
 	file://ovmenu-ng.sh \
+	file://machine.conf \
 	file://openvario.rc \
 "
 
@@ -31,12 +32,14 @@ do_compile() {
 
 do_install() {
         echo "Installing ..."
-        install -d ${D}/opt/bin
+        install -d ${D}/opt/bin ${D}/opt/conf
         install -m 0755 ${S}/ovmenu-ng.sh ${D}/opt/bin/ovmenu-ng.sh
+        install -m 0755 ${S}/machine.conf ${D}/opt/conf/
 	install -d ${D}${ROOT_HOME}
 	install -m 0755 ${S}/openvario.rc ${D}${ROOT_HOME}/.dialogrc
 }
 
 FILES_${PN} = "/opt/bin/ovmenu-ng.sh \
+	/opt/conf/machine.conf \
 	${ROOT_HOME}/.dialogrc \
 "

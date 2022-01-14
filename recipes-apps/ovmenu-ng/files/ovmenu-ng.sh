@@ -6,6 +6,9 @@ INPUT=/tmp/menu.sh.$$
 
 TOUCH_CAL=/opt/conf/touch.cal
 
+unset XCSOAR_OPTIONS
+unset CONSOLE_FONT
+
 #get config files
 source /opt/conf/*.conf
 
@@ -342,9 +345,9 @@ function upload_files(){
 function start_xcsoar() {
 	/usr/bin/xcsoar_config.sh
 	if [ -z $XCSOAR_LANG ]; then
-		/usr/bin/xcsoar -fly -1024x600; 
+		/usr/bin/xcsoar -fly $XCSOAR_OPTIONS
 	else
-		LANG=$XCSOAR_LANG /usr/bin/xcsoar -fly -1024x600; 
+		LANG=$XCSOAR_LANG /usr/bin/xcsoar -fly $XCSOAR_OPTIONS
 	fi
 	sync
 }
@@ -385,7 +388,7 @@ function yesno_power_off(){
 	esac
 }
 
-setfont ter-124b.psf.gz
+test -z "$CONSOLE_FONT" || setfont "$CONSOLE_FONT"
 
 DIALOG_CANCEL=1 dialog --nook --nocancel --pause "Starting XCSoar ... \\n Press [ESC] for menu" 10 30 $TIMEOUT 2>&1
 
