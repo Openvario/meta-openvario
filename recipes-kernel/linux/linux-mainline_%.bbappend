@@ -10,6 +10,7 @@ SRC_URI_append = " \
 	file://openvario-7-CH070.dts \
 	file://openvario-7-PQ070.dts \
 	file://openvario-common.dts \
+        file://openvario.cfg \
 "
 
 SRC_URI_append = " file://lima.conf"
