@@ -11,6 +11,11 @@ SRC_URI_append = " \
 	file://openvario-7-PQ070.dts \
 	file://openvario-common.dts \
         file://openvario.cfg \
+        file://networking.cfg \
+        file://netdev.cfg \
+        file://usbnet.cfg \
+        file://usbserial.cfg \
+        file://filesystems.cfg \
 "
 
 SRC_URI_append = " file://lima.conf"
