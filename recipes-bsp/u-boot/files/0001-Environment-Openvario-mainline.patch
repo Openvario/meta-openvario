@@ -3,6 +3,10 @@ From: Timo Bruderek <openvario@timoshome.org>
 Date: Sun, 12 May 2019 12:15:15 +0000
 Subject: [PATCH 1/1] Environment-Openvario-mainline
 
+The "lima.job_hang_limit=10" module parameter solves a XCSoar freeze
+problem by putting an upper bound on the time userspace waits for the
+GPU driver (https://github.com/Openvario/meta-openvario/issues/71).
+
 ---
  include/configs/sunxi-common.h | 68 +++++++++++++++++++++++++++++++++++++++---
  1 file changed, 64 insertions(+), 4 deletions(-)
@@ -80,8 +84,8 @@ index 9819d99..76e7a83 100644
 +			"if test $rotation -eq '1'; then setenv rotation_kernel 3;fi;" \
 +			"if test $rotation -eq '3'; then setenv rotation_kernel 1;fi;" \
 +			"if test $rotation -eq '0' -o $rotation -eq '2'; then setenv rotation_kernel $rotation;fi;" \
-+			"setenv bootargs console=ttyS0,115200 root=/dev/mmcblk0p2 rootwait panic=10 fbcon=rotate:${rotation_kernel};" \
-+		"else setenv bootargs console=ttyS0,115200 root=/dev/mmcblk0p2 rootwait panic=10;" \
++			"setenv bootargs console=ttyS0,115200 root=/dev/mmcblk0p2 rootwait panic=10 lima.job_hang_limit=10 fbcon=rotate:${rotation_kernel};" \
++		"else setenv bootargs console=ttyS0,115200 root=/dev/mmcblk0p2 rootwait panic=10 lima.job_hang_limit=10;" \
 +	"fi\0" \
 +	"boot_itb_from_net=" \
 +		"setenv serverip 192.168.0.100;" \
