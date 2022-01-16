@@ -17,6 +17,7 @@ SRC_URI_append = " \
         file://usbnet.cfg \
         file://usbserial.cfg \
         file://filesystems.cfg \
+	file://graphics.cfg \
 "
 
 SRC_URI_append = " file://lima.conf"
