@@ -23,6 +23,11 @@ SRC_URI_append = " file://0002-Allow-to-set-duty-cycle-before-turning-off-the-PW
 
 PR = "r0"
 
+# This kludge works around a failure to create
+# "linux-*/meta/cfg/invalid.txt" because the "meta" directory does not
+# exist.
+KMETA = ".kernel-meta"
+
 do_configure_prepend() {
     if test -n "${KERNEL_DEVICETREE_SOURCE}"; then
         cp ${WORKDIR}/openvario-common.dts ${S}/arch/arm/boot/dts/openvario-common.dts
