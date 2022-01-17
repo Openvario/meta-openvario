@@ -40,6 +40,7 @@ FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
 
 SRC_URI_append = " \
         file://openvario_defconfig \
+        file://per_machine.cfg \
         file://openvario.dts \
         file://config.uEnv \
         file://ov_recover_0.bmp \
