@@ -11,6 +11,7 @@ SRC_URI_append = " \
 	file://openvario-7-PQ070.dts \
 	file://openvario-common.dts \
 	file://debloat.cfg \
+	file://no_debug.cfg \
         file://openvario.cfg \
         file://networking.cfg \
         file://netdev.cfg \
