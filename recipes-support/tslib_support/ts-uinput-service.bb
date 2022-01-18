@@ -11,7 +11,7 @@ PR = "r2"
 
 S = "${WORKDIR}"
 
-inherit systemd
+inherit allarch systemd
 
 SRC_URI = "	file://ts_uinput.service \
 			file://ts.env \

@@ -7,6 +7,8 @@ SRC_URI = "file://sunxi4-ts.rules"
 
 S = "${WORKDIR}"
 
+inherit allarch
+
 do_install () {
     install -d ${D}${sysconfdir}/udev/rules.d/
     install -m 0666 ${WORKDIR}/sunxi4-ts.rules  ${D}${sysconfdir}/udev/rules.d/

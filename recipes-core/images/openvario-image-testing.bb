@@ -11,7 +11,6 @@ IMAGE_INSTALL += "\
     sensord-testing\
     variod-testing \
     ovmenu-ng \
-    openvario-autologin \
 "
 
 export IMAGE_BASENAME = "openvario-image-testing"

@@ -10,6 +10,8 @@ SECTION = "base/app"
 S = "${WORKDIR}"
 PR = "r10"
 
+inherit allarch
+
 RDEPENDS_${PN} = "bash"
 
 SRC_URI =      "\

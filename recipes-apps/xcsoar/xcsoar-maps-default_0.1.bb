@@ -22,9 +22,9 @@ do_compile() {
 
 do_install() {
         echo "Installing ..."
-        install -d ${D}/home/root/.xcsoar
-        install -m 0755 ${S}/*.xcm ${D}/home/root/.xcsoar/
+        install -d ${D}${ROOT_HOME}/.xcsoar
+        install -m 0755 ${S}/*.xcm ${D}${ROOT_HOME}/.xcsoar/
 }
 
-FILES_${PN} = "/home/root/.xcsoar/*"
+FILES_${PN} = "${ROOT_HOME}/.xcsoar/*"
 
