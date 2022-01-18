@@ -22,6 +22,10 @@ SRC_URI_append = " \
 	file://graphics.cfg \
 "
 
+SRC_URI_append_sunxi = " \
+	file://sunxi.cfg \
+"
+
 SRC_URI_append = " file://0002-Allow-to-set-duty-cycle-before-turning-off-the-PWM.patch"
 
 PR = "r0"
