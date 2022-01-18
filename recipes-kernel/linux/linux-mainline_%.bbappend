@@ -13,6 +13,7 @@ SRC_URI_append = " \
 	file://debloat.cfg \
 	file://no_debug.cfg \
         file://openvario.cfg \
+	file://cpufreq.cfg \
         file://networking.cfg \
         file://netdev.cfg \
         file://usbnet.cfg \
