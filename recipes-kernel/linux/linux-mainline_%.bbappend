@@ -10,18 +10,26 @@ SRC_URI_append = " \
 	file://openvario-7-CH070.dts \
 	file://openvario-7-PQ070.dts \
 	file://openvario-common.dts \
+	file://debloat.cfg \
+	file://no_debug.cfg \
         file://openvario.cfg \
         file://networking.cfg \
         file://netdev.cfg \
         file://usbnet.cfg \
         file://usbserial.cfg \
         file://filesystems.cfg \
+	file://graphics.cfg \
 "
 
 SRC_URI_append = " file://lima.conf"
 SRC_URI_append = " file://0002-Allow-to-set-duty-cycle-before-turning-off-the-PWM.patch"
 
 PR = "r0"
+
+# This kludge works around a failure to create
+# "linux-*/meta/cfg/invalid.txt" because the "meta" directory does not
+# exist.
+KMETA = ".kernel-meta"
 
 do_configure_prepend() {
     if test -n "${KERNEL_DEVICETREE_SOURCE}"; then
