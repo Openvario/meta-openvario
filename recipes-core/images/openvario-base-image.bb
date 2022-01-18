@@ -36,7 +36,6 @@ IMAGE_INSTALL = " \
     packagegroup-base \
     distro-feed-configs \
     wget \    
-    autofs \
     autofs-config \
     nano \
     openssh-sftp-server \
