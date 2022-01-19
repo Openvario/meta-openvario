@@ -41,5 +41,7 @@ SendSIGHUP=yes
 
 StandardInput=tty
 
+Slice=user.slice
+
 [Install]
 WantedBy=getty.target
