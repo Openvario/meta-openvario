@@ -34,8 +34,10 @@ S = "${WORKDIR}/git"
 
 LC_LOCALE_PATH = "${datadir}/locale"
 
-SRC_URI_append = " file://0001-avoid-tail-cut.patch"
-SRC_URI_append = " file://0007-Disable-touch-screen-auto-detection.patch"
+SRC_URI += " \
+	file://0001-avoid-tail-cut.patch \
+	file://0007-Disable-touch-screen-auto-detection.patch \
+"
 
 inherit pkgconfig
 
