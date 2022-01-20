@@ -38,7 +38,7 @@ do_compile_append() {
 # Add the files folder to the saerch path:
 FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
 
-SRC_URI_append = " \
+SRC_URI_append_cubieboard2 = " \
         file://openvario_defconfig \
         file://per_machine.cfg \
         file://openvario.dts \
@@ -58,12 +58,12 @@ SRC_URI_append = " \
         file://0001-Environment-Openvario-mainline.patch \
     "
 
-do_configure_prepend() {
+do_configure_prepend_cubieboard2() {
     cp ${WORKDIR}/openvario_defconfig ${S}/configs/openvario_defconfig
     cp ${WORKDIR}/openvario.dts ${S}/arch/arm/dts/openvario.dts
 }
 
-do_install_append() {
+do_install_append_cubieboard2() {
     if [ -e ${WORKDIR}/ov_recover_0.bmp ] ; then
     install -m 644 -D ${WORKDIR}/ov_*.bmp ${D}/boot
     fi
@@ -73,7 +73,7 @@ do_install_append() {
     fi
 }
 
-do_deploy_append() {
+do_deploy_append_cubieboard2() {
     if [ -e ${WORKDIR}/ov_recover_0.bmp ] ; then
     install -d ${DEPLOYDIR}/pics
         install -m 644 -D ${WORKDIR}/ov_*.bmp ${DEPLOYDIR}/pics
