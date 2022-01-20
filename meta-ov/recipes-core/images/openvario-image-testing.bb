@@ -10,7 +10,7 @@ IMAGE_INSTALL += "\
     xcsoar-maps-default \
     sensord-testing\
     variod-testing \
-    ovmenu-ng \
+    ovmenu-x \
 "
 
 export IMAGE_BASENAME = "openvario-image-testing"
