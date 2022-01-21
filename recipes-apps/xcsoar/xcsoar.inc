@@ -34,8 +34,11 @@ S = "${WORKDIR}/git"
 
 LC_LOCALE_PATH = "${datadir}/locale"
 
-SRC_URI_append = " file://0001-avoid-tail-cut.patch"
-SRC_URI_append = " file://0007-Disable-touch-screen-auto-detection.patch"
+SRC_URI += " \
+	file://0001-avoid-tail-cut.patch \
+	file://0007-Disable-touch-screen-auto-detection.patch \
+	https://boostorg.jfrog.io/artifactory/main/release/1.78.0/source/boost_1_78_0.tar.bz2;sha256sum=8681f175d4bdb26c52222665793eef08490d7758529330f98d3b29dd0735bccc;unpack=0 \
+"
 
 inherit pkgconfig
 
@@ -57,6 +60,12 @@ EXTRA_OEMAKE = " \
 	ENABLE_MESA_KMS=y GLES2=y \
 	GEOTIFF=n \
 "
+
+do_configure() {
+	install -d ${B}/output/download
+	cp ${WORKDIR}/boost_1_78_0.tar.bz2 ${B}/output/download/
+	oe_runmake boost
+}
 
 do_compile() {
 	export PATH=$PATH:/usr/bin
