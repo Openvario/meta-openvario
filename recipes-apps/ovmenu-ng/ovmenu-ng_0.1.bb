@@ -10,7 +10,7 @@ SECTION = "base/app"
 S = "${WORKDIR}"
 PR = "r15"
 
-inherit allarch
+PACKAGE_ARCH = "${MACHINE_ARCH}"
 
 RDEPENDS_${PN} = " \
 	bash \
