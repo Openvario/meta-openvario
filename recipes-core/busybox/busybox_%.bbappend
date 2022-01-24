@@ -4,7 +4,10 @@ SRC_URI += " \
 	file://systemd.cfg \
 	file://networking.cfg \
 	file://no_swap.cfg \
+	file://openssl.cfg \
 "
+
+DEPENDS_append = " openssl"
 
 # This works around "do_package" failure "Didn't find service unit
 # 'busybox-syslog.service', specified in
