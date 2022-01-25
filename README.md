@@ -10,27 +10,27 @@ This is a layer for OpenEmbedded to support the Openvario hardware
 
  - Linux installation 
  - Installed Docker (https://docs.docker.com/install/)
- - Installed repo command (https://gerrit.googlesource.com/git-repo/+/refs/heads/master/README.md)
  
 ### Fetching sources
 
 ```
-repo init -u git://github.com/Openvario/ovlinux-manifest.git -b hardknott
-repo sync
+git clone https://github.com/Openvario/meta-openvario.git
+cd meta-openvario
+git submodule init
+git submodule update
 ```
 
-This will fetch the manifest file for the Hardknott branch.
+This will fetch the sources including all submodules.
 
 ### Starting the containerd build environment
 ```
-sudo docker run -it --rm -v $(pwd):/workdir ghcr.io/openvario/ovbuild-container:main --workdir=/workdir
-cd poky
+docker run -it --rm -v $(pwd):/workdir ghcr.io/openvario/ovbuild-container:main --workdir=/workdir
 ```
 
 ### Configuring the build (only necessary once after fetching the repos)
 
 ```
-TEMPLATECONF=meta-openvario/conf source oe-init-build-env
+source openembedded-core/oe-init-build-env .
 ```
 
 ### Setting the machine
