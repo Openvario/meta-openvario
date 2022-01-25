@@ -360,7 +360,17 @@ function yesno_exit(){
 
 	response=$?
 	case $response in
-		0) echo "Bye";exit 1;;
+		0)
+			clear
+			cd
+			if test -x /bin/bash; then
+				/bin/bash --login
+			elif test -x /bin/ash; then
+				/bin/ash -i
+			else
+				/bin/sh
+			fi
+			;;
 	esac
 }
 
