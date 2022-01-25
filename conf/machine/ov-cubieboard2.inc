@@ -12,6 +12,8 @@ MACHINEOVERRIDES .= ":use-mailine-graphics"
 require conf/machine/cubieboard2.conf
 MACHINEOVERRIDES =. "cubieboard2:"
 
+MACHINE_FEATURES_remove = "apm"
+
 IMAGE_CLASSES += "sdcard_image-openvario"
 IMAGE_FSTYPES = "openvario-sdimg"
 
