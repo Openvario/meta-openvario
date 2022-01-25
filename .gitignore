@@ -1,2 +1,7 @@
 *~
+*.log
 .DS_Store
+cache/
+downloads/
+sstate-cache/
+tmp/
