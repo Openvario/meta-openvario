@@ -13,6 +13,9 @@ inherit image_types
 #
 #
 
+# Use an uncompressed ext4 by default as rootfs
+SDIMG_ROOTFS_TYPE ?= "ext4"
+
 # This image depends on the rootfs image
 IMAGE_TYPEDEP:openvario-sdimg = "${SDIMG_ROOTFS_TYPE}"
 
@@ -25,8 +28,6 @@ BOOT_SPACE ?= "40960"
 # First partition begin at sector 2048 : 2048*1024 = 2097152
 IMAGE_ROOTFS_ALIGNMENT = "2048"
 
-# Use an uncompressed ext4 by default as rootfs
-SDIMG_ROOTFS_TYPE ?= "ext4"
 SDIMG_ROOTFS = "${IMGDEPLOYDIR}/${IMAGE_NAME}.rootfs.${SDIMG_ROOTFS_TYPE}"
 
 do_image_openvario_sdimg[depends] += " \
