@@ -12,7 +12,7 @@ PR = "r15"
 
 PACKAGE_ARCH = "${MACHINE_ARCH}"
 
-RDEPENDS_${PN} = " \
+RDEPENDS:${PN} = " \
 	bash \
 	dialog \
 	ovmenu-ng-skripts \
@@ -41,7 +41,7 @@ do_install() {
 	install -m 0755 ${S}/openvario.rc ${D}${ROOT_HOME}/.dialogrc
 }
 
-FILES_${PN} = "/opt/bin/ovmenu-ng.sh \
+FILES:${PN} = "/opt/bin/ovmenu-ng.sh \
 	/opt/conf/machine.conf \
 	${ROOT_HOME}/.dialogrc \
 "

@@ -14,7 +14,8 @@ inherit image_types
 #
 
 # This image depends on the rootfs image
-IMAGE_TYPEDEP_openvario-sdimg = "${SDIMG_ROOTFS_TYPE}"
+IMAGE_TYPEDEP:openvario-sdimg = "${SDIMG_ROOTFS_TYPE}"
+
 # Boot partition sdcard volume id (not longer then 11 characters!)
 BOOTDD_VOLUME_ID ?= "OV-${SHORT_OV_MACHINE}"
 
@@ -40,7 +41,7 @@ do_image_openvario_sdimg[depends] += " \
 SDIMG = "${IMGDEPLOYDIR}/${IMAGE_NAME}.rootfs.img"
 SDIMG_LINK = "${IMAGE_NAME_LINK}.rootfs.img"
 
-IMAGE_CMD_openvario-sdimg () {
+IMAGE_CMD:openvario-sdimg () {
 
 	# Align partitions
 	BOOT_SPACE_ALIGNED=$(expr ${BOOT_SPACE} + ${IMAGE_ROOTFS_ALIGNMENT} - 1)

@@ -7,7 +7,7 @@ LICENSE = "GPL-3.0-only"
 LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/${LICENSE};md5=c79ff39f19dfec6d293b95dea7b07891"
 SECTION = "base/app"
 DEPENDS = "udev libinput"
-RDEPENDS_${PN} = " \  
+RDEPENDS:${PN} = " \  
 		libudev \
 		libinput \
 		bash \
@@ -32,7 +32,7 @@ do_install() {
 }
 
 PACKAGES = "${PN}"
-FILES_${PN} = "  \
+FILES:${PN} = "  \
 		/opt/bin/touchscreen.rules.template \
 		/opt/bin/calibrate_landscape.sh \
 		/opt/bin/calibrate_portrait.sh \

@@ -1,6 +1,6 @@
-FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}:"
+FILESEXTRAPATHS:prepend := "${THISDIR}/${PN}:"
 
-SRC_URI_append = " \
+SRC_URI:append = " \
     file://openvario-common.dts \
 	file://openvario-43-rgb.dts \
 	file://openvario-57-lvds-DS2.dts \
@@ -22,13 +22,13 @@ SRC_URI_append = " \
 	file://graphics.cfg \
 "
 
-SRC_URI_append_sunxi = " \
+SRC_URI:append:sunxi = " \
 	file://sunxi.cfg \
 "
 
-SRC_URI_append = " file://0002-Allow-to-set-duty-cycle-before-turning-off-the-PWM.patch"
+SRC_URI:append = " file://0002-Allow-to-set-duty-cycle-before-turning-off-the-PWM.patch"
 
-SRC_URI_append = " \
+SRC_URI:append = " \
 	file://0001-pwm-sun4i-convert-next_period-to-local-variable.patch \
 	file://0002-pwm-sun4i-calculate-delay_jiffies-directly-eliminate.patch \
 	file://0003-pwm-sun4i-calculate-the-delay-without-rounding-down-.patch \
@@ -41,7 +41,7 @@ PR = "r0"
 # exist.
 KMETA = ".kernel-meta"
 
-do_configure_prepend() {
+do_configure:prepend() {
     if test -n "${KERNEL_DEVICETREE_SOURCE}"; then
         cp ${WORKDIR}/openvario-common.dts ${S}/arch/arm/boot/dts/openvario-common.dts
         cp ${WORKDIR}/${KERNEL_DEVICETREE_SOURCE} ${S}/arch/arm/boot/dts/openvario.dts

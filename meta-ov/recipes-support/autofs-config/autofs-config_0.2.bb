@@ -10,7 +10,7 @@ SRC_URI = "\
 	file://usb.automount \
 "
 
-SYSTEMD_SERVICE_${PN} = "usb.mount usb.automount"
+SYSTEMD_SERVICE:${PN} = "usb.mount usb.automount"
 
 do_configure() {
     :
