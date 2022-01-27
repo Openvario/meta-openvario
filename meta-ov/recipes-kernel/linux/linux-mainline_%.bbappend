@@ -23,6 +23,7 @@ SRC_URI_append = " \
 	file://sound.cfg \
 	file://wifi.cfg \
 	file://bluetooth.cfg \
+	file://w1.cfg \
 "
 
 SRC_URI_append_sunxi = " \
