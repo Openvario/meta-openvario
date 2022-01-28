@@ -60,7 +60,7 @@ LICENSE = "MIT"
 inherit core-image extrausers
 
 #IMAGE_ROOTFS_SIZE ?= "8192"
-IMAGE_ROOTFS_EXTRA_SPACE_append = "${@bb.utils.contains("DISTRO_FEATURES", "systemd", " + 4096", "" ,d)}"
+IMAGE_ROOTFS_EXTRA_SPACE:append = "${@bb.utils.contains("DISTRO_FEATURES", "systemd", " + 4096", "" ,d)}"
 
 # Add root to audio group to allow root to use pulseaudio server
 EXTRA_USERS_PARAMS = "\

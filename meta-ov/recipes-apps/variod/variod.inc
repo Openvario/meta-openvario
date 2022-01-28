@@ -9,7 +9,7 @@ SECTION = "base/app"
 
 S = "${WORKDIR}/git"
 
-INSANE_SKIP_${PN} += "ldflags"
+INSANE_SKIP:${PN} += "ldflags"
 
 inherit systemd
 
@@ -18,7 +18,7 @@ DEPENDS = " \
 	libgcc \
 	"
 
-RDEPENDS_${PN} = " \
+RDEPENDS:${PN} = " \
 	pulseaudio-server \
 "
 
@@ -50,7 +50,7 @@ do_install() {
 
 PACKAGES = "${PN}"
 INHIBIT_PACKAGE_DEBUG_SPLIT = '1'
-FILES_${PN} = "/opt/bin/variod \
+FILES:${PN} = "/opt/bin/variod \
 					/opt/conf/default/variod.conf \
 					/opt/conf/variod.conf \
 					/etc/cfgmgr.d/variod.cfgmgr \
@@ -58,4 +58,4 @@ FILES_${PN} = "/opt/bin/variod \
 "
 
 SYSTEMD_PACKAGES = "${PN}"
-SYSTEMD_SERVICE_${PN} = "variod.service"
+SYSTEMD_SERVICE:${PN} = "variod.service"

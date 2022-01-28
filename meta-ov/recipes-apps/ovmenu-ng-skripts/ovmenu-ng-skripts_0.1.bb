@@ -12,7 +12,7 @@ PR = "r10"
 
 inherit allarch
 
-RDEPENDS_${PN} = "bash"
+RDEPENDS:${PN} = "bash"
 
 SRC_URI =      "\
 	file://xcsoar_config.sh \
@@ -45,7 +45,7 @@ do_install() {
 		install -m 0755 ${S}/ov-calibrate-ts.sh ${D}/usr/bin/ov-calibrate-ts.sh
 }
 
-FILES_${PN} = "/usr/bin/xcsoar_config.sh \
+FILES:${PN} = "/usr/bin/xcsoar_config.sh \
 				/usr/bin/update-maps.sh \
 				/usr/bin/update-system.sh \
 				/usr/bin/download-igc.sh \

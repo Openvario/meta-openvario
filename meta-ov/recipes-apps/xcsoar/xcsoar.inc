@@ -26,7 +26,7 @@ DEPENDS = "	\
 		c-ares \
 "
 
-RDEPENDS_${PN} = "\
+RDEPENDS:${PN} = "\
         ttf-dejavu-sans-condensed \
 "
 
@@ -83,7 +83,7 @@ do_install() {
 	oe_runmake install-bin install-mo DESTDIR=${D}
 }
 
-FILES_${PN} = " \
+FILES:${PN} = " \
 	${bindir}/xcsoar \
 	${bindir}/vali-xcs \
 	/opt/conf/default/ov-xcsoar.conf \

@@ -7,7 +7,7 @@ LICENSE = "GPL-3.0-only"
 LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/${LICENSE};md5=c79ff39f19dfec6d293b95dea7b07891"
 SECTION = "base/app"
 DEPENDS = "dialog"
-RDEPENDS_${PN} = "dialog \
+RDEPENDS:${PN} = "dialog \
 					bash \
 				"
 PR = "r9"
@@ -30,6 +30,6 @@ do_install() {
 }
 
 PACKAGES = "${PN}"
-FILES_${PN} = " \
+FILES:${PN} = " \
 	/opt/bin/ovmenu-recovery.sh \
 "

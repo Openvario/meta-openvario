@@ -10,12 +10,12 @@ DEPENDS = ""
 PR = "r10"
 
 
-INSANE_SKIP_${PN} += "ldflags"
+INSANE_SKIP:${PN} += "ldflags"
 
 S = "${WORKDIR}/git"
 
 inherit systemd
-SRCREV_pn-sensord-testing = "${AUTOREV}"
+SRCREV:pn-sensord-testing = "${AUTOREV}"
 
 SRC_URI = "git://github.com/Openvario/sensord.git;protocol=git;branch=master \
 			file://sensord.service \
@@ -50,7 +50,7 @@ do_install() {
 PACKAGES = "${PN}"
 INHIBIT_PACKAGE_DEBUG_SPLIT = '1'
 
-FILES_${PN} = "/opt/bin/sensord \
+FILES:${PN} = "/opt/bin/sensord \
 					/opt/bin/compdata \
 					/opt/bin/sensorcal \
 					/opt/conf/default/sensord.conf \
@@ -58,10 +58,10 @@ FILES_${PN} = "/opt/bin/sensord \
 					/opt/conf/sensord.conf \
 "
 
-CONFFILES_${PN} = " \
+CONFFILES:${PN} = " \
 	/opt/conf/sensord.conf \
 "
 
-FILES_${PN}-dev = "/usr/src/debug/sensord-testing/git-r7/git/*"
+FILES:${PN}-dev = "/usr/src/debug/sensord-testing/git-r7/git/*"
 
-SYSTEMD_SERVICE_${PN} = "sensord.service"
+SYSTEMD_SERVICE:${PN} = "sensord.service"

@@ -12,7 +12,7 @@ DEPENDS = " \
 				libinput \
 "
 
-INSANE_SKIP_${PN} = "ldflags"
+INSANE_SKIP:${PN} = "ldflags"
 
 S = "${WORKDIR}/git"
 
@@ -34,6 +34,6 @@ do_install() {
 
 PACKAGES = "${PN}"
 INHIBIT_PACKAGE_DEBUG_SPLIT = '1'
-FILES_${PN} = "/opt/bin/caltool \
+FILES:${PN} = "/opt/bin/caltool \
                /opt/conf/ \
 "
