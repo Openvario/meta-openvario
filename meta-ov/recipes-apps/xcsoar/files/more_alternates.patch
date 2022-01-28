@@ -1,0 +1,14 @@
+diff --git a/src/Engine/Task/Unordered/AlternateTask.hpp b/src/Engine/Task/Unordered/AlternateTask.hpp
+index 07454aae0c..1977ac7af5 100644
+--- a/src/Engine/Task/Unordered/AlternateTask.hpp
++++ b/src/Engine/Task/Unordered/AlternateTask.hpp
+@@ -45,7 +45,7 @@ public:
+   using DivertVector = std::vector<Divert>;
+ 
+   /// number of alternates
+-  static constexpr DivertVector::size_type max_alternates = 6;
++  static constexpr DivertVector::size_type max_alternates = 16;
+ 
+   AlternateList alternates;
+   GeoPoint destination;
+   

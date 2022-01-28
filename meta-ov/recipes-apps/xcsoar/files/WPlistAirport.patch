@@ -1,0 +1,13 @@
+diff --git a/src/Dialogs/Waypoint/WaypointList.cpp b/src/Dialogs/Waypoint/WaypointList.cpp
+index 9aa7e4763d..7e16879692 100644
+--- a/src/Dialogs/Waypoint/WaypointList.cpp
++++ b/src/Dialogs/Waypoint/WaypointList.cpp
+@@ -393,7 +393,7 @@ CreateTypeDataField(DataFieldListener *listener)
+                          ProfileKeys::AdditionalWaypointFile);
+   ReplaceProfilePathBase(*df, (unsigned)TypeFilter::MAP,
+                          ProfileKeys::MapFile);
+-
++  if(!dialog_state.IsDefined()) dialog_state.type_index = TypeFilter::AIRPORT; //start default
+   df->SetValue(dialog_state.type_index);
+   return df;
+ }

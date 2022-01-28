@@ -118,14 +118,22 @@ location=9
 mode=default
 type=key
 data=V
-event=SendNMEAPort1 POV,C,VAR
-event=StatusMessage Vario Mode
+#event=SendNMEAPort1 POV,C,VAR
+event=SendNMEAPort2 PFV,REM,C
+#event=StatusMessage Vario Mode
 
 mode=default
 type=key
 data=S
-event=SendNMEAPort1 POV,C,STF 
-event=StatusMessage Speed to Fly Mode
+#event=SendNMEAPort1 POV,C,STF
+event=SendNMEAPort2 PFV,REM,S
+#event=StatusMessage Speed to Fly Mode
+
+mode=default
+type=key
+data=A
+event=SendNMEAPort2 PFV,REM,A
+#event=StatusMessage Automatic Mode
 
 mode=default RemoteStick
 type=key
