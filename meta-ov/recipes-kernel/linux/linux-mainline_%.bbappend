@@ -20,6 +20,10 @@ SRC_URI_append = " \
         file://usbserial.cfg \
         file://filesystems.cfg \
 	file://graphics.cfg \
+	file://sound.cfg \
+	file://wifi.cfg \
+	file://bluetooth.cfg \
+	file://w1.cfg \
 "
 
 SRC_URI_append_sunxi = " \
