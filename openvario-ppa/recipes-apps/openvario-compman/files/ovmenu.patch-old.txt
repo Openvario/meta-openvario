@@ -1,0 +1,29 @@
+--- /opt/bin/ovmenu-ng.sh.old
++++ /opt/bin/ovmenu-ng.sh
+@@ -21,6 +21,7 @@
+ 	--begin 3 4 \
+ 	--menu "You can use the UP/DOWN arrow keys" 15 50 6 \
+ 	XCSoar   "Start XCSoar" \
++	CompMan   "Competition Manager" \
+ 	File   "Copys file to and from OpenVario" \
+ 	System   "Update, Settings, ..." \
+ 	Exit   "Exit to the shell" \
+@@ -32,6 +33,7 @@
+ 	# make decsion 
+ case $menuitem in
+ 	XCSoar) start_xcsoar;;
++	CompMan) start_compman;;
+ 	File) submenu_file;;
+ 	System) submenu_system;;
+ 	Exit) yesno_exit;;
+@@ -332,6 +334,10 @@
+ 	else
+ 		LANG=$XCSOAR_LANG /opt/XCSoar/bin/xcsoar -fly -640x480
+ 	fi
++}
++
++function start_compman() {
++	/usr/bin/compman
+ }
+ 
+ function yesno_exit(){
