@@ -37,23 +37,19 @@ do_compile() {
 
 do_install() {
         echo "Installing ..."
-        install -d ${D}/usr/bin
-        install -m 0755 ${S}/xcsoar_config.sh ${D}/usr/bin/xcsoar_config.sh
-        install -m 0755 ${S}/update-maps.sh ${D}/usr/bin/update-maps.sh
-		install -m 0755 ${S}/update-system.sh ${D}/usr/bin/update-system.sh
-		install -m 0755 ${S}/download-igc.sh ${D}/usr/bin/download-igc.sh
-		install -m 0755 ${S}/upload-all.sh ${D}/usr/bin/upload-all.sh
-		install -m 0755 ${S}/upload-xcsoar.sh ${D}/usr/bin/upload-xcsoar.sh
-		install -m 0755 ${S}/download-all.sh ${D}/usr/bin/download-all.sh
-		install -m 0755 ${S}/ov-calibrate-ts.sh ${D}/usr/bin/ov-calibrate-ts.sh
+        install -d ${D}${bindir}
+        install -m 0755 \
+		${S}/xcsoar_config.sh \
+		${S}/update-maps.sh \
+		${S}/update-system.sh \
+		${S}/download-igc.sh \
+		${S}/upload-all.sh \
+		${S}/upload-xcsoar.sh \
+		${S}/download-all.sh \
+		${S}/ov-calibrate-ts.sh \
+		${D}${bindir}/
 }
 
-FILES:${PN} = "/usr/bin/xcsoar_config.sh \
-				/usr/bin/update-maps.sh \
-				/usr/bin/update-system.sh \
-				/usr/bin/download-igc.sh \
-				/usr/bin/upload-all.sh \
-				/usr/bin/download-all.sh \
-				/usr/bin/upload-xcsoar.sh \
-				/usr/bin/ov-calibrate-ts.sh \
+FILES:${PN} = " \
+	${bindir}/*.sh \
 "
