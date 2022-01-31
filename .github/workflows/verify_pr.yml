@@ -32,15 +32,9 @@ jobs:
       - name: Update submodules
         run: git submodule update --init
       
-      # Install necessary packages
-      #- name: Install build dependencies
-      #  run: |
-      #    sudo apt-get update
-      #    sudo apt-get install -y ffmpeg gawk wget git diffstat unzip texinfo gcc build-essential chrpath socat cpio python3 python3-pip python3-pexpect xz-utils debianutils iputils-ping python3-git python3-jinja2 libegl1-mesa libsdl1.2-dev pylint3 xterm python3-subunit mesa-common-dev zstd liblz4-tool
       - name: Verify recipies
         env:
           MACHINE: openvario-57-lvds
         run: |
-          docker run -v $(pwd):/workdir ghcr.io/openvario/ovbuild-container:main --workdir=/workdir source openembedded-core/oe-init-build-env . &&  bitbake openvario-image-testing --dry-run
-          # source openembedded-core/oe-init-build-env .
-          #bitbake openvario-image-testing --dry-run
+          docker run -v ${{ github.workspace }}:/workdir ghcr.io/openvario/ovbuild-container:main --workdir=/workdir source openembedded-core/oe-init-build-env . &&  bitbake openvario-image-testing --dry-run
+
