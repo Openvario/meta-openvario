@@ -41,6 +41,6 @@ jobs:
         env:
           MACHINE: openvario-57-lvds
         run: |
-          docker run -it --rm -v $(pwd):/workdir ghcr.io/openvario/ovbuild-container:main --workdir=/workdir source openembedded-core/oe-init-build-env . &&  bitbake openvario-image-testing --dry-run
+          docker run -v $(pwd):/workdir ghcr.io/openvario/ovbuild-container:main --workdir=/workdir source openembedded-core/oe-init-build-env . &&  bitbake openvario-image-testing --dry-run
           # source openembedded-core/oe-init-build-env .
           #bitbake openvario-image-testing --dry-run
