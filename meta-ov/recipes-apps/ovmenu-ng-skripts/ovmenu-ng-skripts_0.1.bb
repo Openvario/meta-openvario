@@ -12,7 +12,10 @@ PR = "r10"
 
 inherit allarch
 
-RDEPENDS:${PN} = "bash"
+RDEPENDS:${PN} = " \
+	bash \
+	dialog \
+"
 
 SRC_URI =      "\
 	file://xcsoar_config.sh \
