@@ -33,15 +33,12 @@ jobs:
         MACHINE: ${{ matrix.MACHINE }}
       #volumes:
       #  - ${{ github.workspace }}:/workdir
-      #options: |
-      #  --user 1001
+      options: |
+        --user pokyuser
     
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       
-      - name: Rootless Docker
-        uses: ScribeMD/rootless-docker@0.1.1
-
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it          
       - name: Checkout sources
         uses: actions/checkout@v2
