@@ -21,7 +21,13 @@ jobs:
     
     # The type of runner that the job will run on
     runs-on: ubuntu-20.04
-    
+
+    # Matrix Run: Test all combinations
+    strategy:
+      matrix:
+        MACHINE: [openvario-57-lvds, openvario-7-PQ070, openvario-7-CH070]
+        TARGET: [openvario-image-testing, openvario-image]
+
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
@@ -39,7 +45,7 @@ jobs:
           sudo apt-get install -y ffmpeg gawk wget git diffstat unzip texinfo gcc build-essential chrpath socat cpio python3 python3-pip python3-pexpect xz-utils debianutils iputils-ping python3-git python3-jinja2 libegl1-mesa libsdl1.2-dev pylint3 xterm python3-subunit mesa-common-dev zstd liblz4-tool
       - name: Verify recipies
         env:
-          MACHINE: openvario-57-lvds
+          MACHINE: ${{ matrix.MACHINE }}
         run: |
           source openembedded-core/oe-init-build-env .
-          bitbake openvario-image-testing --dry-run
+          bitbake ${{ matrix.TARGET }} --dry-run
