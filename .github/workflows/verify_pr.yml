@@ -42,6 +42,7 @@ jobs:
       
       - name: Verify recipies
         run: |
+          source openembedded-core/oe-init-build-env .
           bitbake openvario-image-testing --dry-run
           #docker run -v ${{ github.workspace }}:/workdir ghcr.io/openvario/ovbuild-container:main --workdir=/workdir source openembedded-core/oe-init-build-env . &&  bitbake openvario-image-testing --dry-run
 
