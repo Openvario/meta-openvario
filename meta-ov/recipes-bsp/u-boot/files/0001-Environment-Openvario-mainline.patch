@@ -12,39 +12,21 @@ GPU driver (https://github.com/Openvario/meta-openvario/issues/71).
  1 file changed, 64 insertions(+), 4 deletions(-)
 
 diff --git a/include/configs/sunxi-common.h b/include/configs/sunxi-common.h
-index 9819d99..76e7a83 100644
+index 9e37e99684..8d08a49004 100644
 --- a/include/configs/sunxi-common.h
 +++ b/include/configs/sunxi-common.h
-@@ -258,7 +258,7 @@ extern int soft_i2c_gpio_scl;
-  */
- #define CONFIG_SUNXI_MAX_FB_SIZE (16 << 20)
+@@ -403,8 +403,8 @@ extern int soft_i2c_gpio_scl;
  
--#define CONFIG_VIDEO_LOGO
-+/*#define CONFIG_VIDEO_LOGO*/
- #define CONFIG_VIDEO_STD_TIMINGS
- #define CONFIG_I2C_EDID
- #define VIDEO_LINE_LEN (pGD->plnSizeX)
-@@ -419,7 +419,7 @@ extern int soft_i2c_gpio_scl;
- #define BOOTCMD_SUNXI_COMPAT
- #endif
- 
--#include <config_distro_bootcmd.h>
-+/*#include <config_distro_bootcmd.h>*/
- 
- #ifdef CONFIG_USB_KEYBOARD
- #define CONSOLE_STDIN_SETTINGS \
-@@ -431,8 +431,8 @@ extern int soft_i2c_gpio_scl;
- 
- #ifdef CONFIG_VIDEO
+ #ifdef CONFIG_DM_VIDEO
  #define CONSOLE_STDOUT_SETTINGS \
--	"stdout=serial,vga\0" \
--	"stderr=serial,vga\0"
+-	"stdout=serial,vidconsole\0" \
+-	"stderr=serial,vidconsole\0"
 +	"stdout=serial\0" \
 +	"stderr=serial\0"
- #elif CONFIG_DM_VIDEO
+ #else
  #define CONSOLE_STDOUT_SETTINGS \
- 	"stdout=serial,vidconsole\0" \
-@@ -481,6 +481,66 @@ extern int soft_i2c_gpio_scl;
+ 	"stdout=serial\0" \
+@@ -449,6 +449,66 @@ extern int soft_i2c_gpio_scl;
  #define FDTFILE CONFIG_DEFAULT_DEVICE_TREE ".dtb"
  #endif
  
@@ -111,6 +93,3 @@ index 9819d99..76e7a83 100644
  #define CONFIG_EXTRA_ENV_SETTINGS \
  	CONSOLE_ENV_SETTINGS \
  	MEM_LAYOUT_ENV_SETTINGS \
--- 
-1.8.3.1
-

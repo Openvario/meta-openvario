@@ -14,4 +14,4 @@ do_install () {
     install -m 0666 ${WORKDIR}/sunxi4-ts.rules  ${D}${sysconfdir}/udev/rules.d/
 }    
 
-FILES_${PN} += " /etc/udev/rules.d/sunxi4-ts.rules"
+FILES:${PN} += " /etc/udev/rules.d/sunxi4-ts.rules"

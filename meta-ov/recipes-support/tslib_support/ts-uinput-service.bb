@@ -26,4 +26,4 @@ do_install() {
 }
 
 
-SYSTEMD_SERVICE_${PN} = "ts_uinput.service"
+SYSTEMD_SERVICE:${PN} = "ts_uinput.service"

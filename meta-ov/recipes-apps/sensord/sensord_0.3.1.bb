@@ -36,7 +36,7 @@ do_install() {
 }
 
 PACKAGES = "${PN}"
-FILES_${PN} = "\
+FILES:${PN} = "\
 		/opt/bin/sensord \
 		/opt/bin/sensorcal \
 		/opt/conf/sensord.conf \
@@ -44,4 +44,4 @@ FILES_${PN} = "\
 "
 
 SYSTEMD_PACKAGES = "${PN}"
-SYSTEMD_SERVICE_${PN} = "sensord.service"
+SYSTEMD_SERVICE:${PN} = "sensord.service"

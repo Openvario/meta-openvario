@@ -4,7 +4,7 @@
 PR = "r13"
 RCONFLICTS_${PN}="xcsoar"
 
-SRCREV_pn-xcsoar-testing = "${AUTOREV}" 
+SRCREV:pn-xcsoar-testing = "${AUTOREV}" 
 
 SRC_URI = "git://github.com/XCSoar/XCSoar.git;protocol=git;branch=master \
            file://ov-xcsoar.conf"

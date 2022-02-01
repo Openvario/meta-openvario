@@ -10,7 +10,7 @@ DEPENDS = ""
 PR = "r1"
 
 
-INSANE_SKIP_${PN} += "ldflags"
+INSANE_SKIP:${PN} += "ldflags"
 
 S = "${WORKDIR}/git"
 
@@ -40,7 +40,7 @@ do_install() {
 
 PACKAGES = "${PN}"
 INHIBIT_PACKAGE_DEBUG_SPLIT = '1'
-FILES_${PN} = "\
+FILES:${PN} = "\
         /opt/bin/sensord \
         /opt/bin/sensorcal \
         /opt/conf/sensord.conf \
@@ -48,4 +48,4 @@ FILES_${PN} = "\
 "
 
 SYSTEMD_PACKAGES = "${PN}"
-SYSTEMD_SERVICE_${PN} = "sensord.service"
+SYSTEMD_SERVICE:${PN} = "sensord.service"

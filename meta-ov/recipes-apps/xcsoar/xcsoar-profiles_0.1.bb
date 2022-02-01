@@ -25,5 +25,5 @@ do_install() {
         install -m 0755 ${S}/*.prf ${D}${ROOT_HOME}/.xcsoar/
 }
 
-FILES_${PN} = "${ROOT_HOME}/.xcsoar/openvario.prf"
+FILES:${PN} = "${ROOT_HOME}/.xcsoar/openvario.prf"
 

@@ -13,8 +13,12 @@ inherit image_types
 #
 #
 
+# Use an uncompressed ext4 by default as rootfs
+SDIMG_ROOTFS_TYPE ?= "ext4"
+
 # This image depends on the rootfs image
-IMAGE_TYPEDEP_openvario-sdimg = "${SDIMG_ROOTFS_TYPE}"
+IMAGE_TYPEDEP:openvario-sdimg = "${SDIMG_ROOTFS_TYPE}"
+
 # Boot partition sdcard volume id (not longer then 11 characters!)
 BOOTDD_VOLUME_ID ?= "OV-${SHORT_OV_MACHINE}"
 
@@ -24,8 +28,6 @@ BOOT_SPACE ?= "40960"
 # First partition begin at sector 2048 : 2048*1024 = 2097152
 IMAGE_ROOTFS_ALIGNMENT = "2048"
 
-# Use an uncompressed ext4 by default as rootfs
-SDIMG_ROOTFS_TYPE ?= "ext4"
 SDIMG_ROOTFS = "${IMGDEPLOYDIR}/${IMAGE_NAME}.rootfs.${SDIMG_ROOTFS_TYPE}"
 
 do_image_openvario_sdimg[depends] += " \
@@ -40,7 +42,7 @@ do_image_openvario_sdimg[depends] += " \
 SDIMG = "${IMGDEPLOYDIR}/${IMAGE_NAME}.rootfs.img"
 SDIMG_LINK = "${IMAGE_NAME_LINK}.rootfs.img"
 
-IMAGE_CMD_openvario-sdimg () {
+IMAGE_CMD:openvario-sdimg () {
 
 	# Align partitions
 	BOOT_SPACE_ALIGNED=$(expr ${BOOT_SPACE} + ${IMAGE_ROOTFS_ALIGNMENT} - 1)
@@ -71,25 +73,15 @@ IMAGE_CMD_openvario-sdimg () {
 		for DTS_FILE in ${KERNEL_DEVICETREE}; do
 			DTS_BASE_NAME=`basename ${DTS_FILE} | awk -F "." '{print $1}'`
 			DTS_DIR_NAME=`dirname ${DTS_FILE}`
-			echo $DTS_BASE_NAME
-			echo $DTS_DIR_NAME
-			echo $DTS_FILE
 			if [ -e ${DEPLOY_DIR_IMAGE}/"${DTS_BASE_NAME}.dtb" ]; then
-				echo "Exists"
 				if [ ${DTS_FILE} != ${DTS_BASE_NAME}.dtb ]; then
 					mmd -i ${WORKDIR}/boot.img ::/${DTS_DIR_NAME}
 				fi
 
 				kernel_bin="`readlink ${DEPLOY_DIR_IMAGE}/${KERNEL_IMAGETYPE}-${MACHINE}.bin`"
 				kernel_bin_for_dtb="`readlink ${DEPLOY_DIR_IMAGE}/${DTS_BASE_NAME}.dtb | sed "s,$DTS_BASE_NAME,${KERNEL_IMAGETYPE},g;s,\.dtb$,.bin,g"`"
-				echo "Kernel bin"
-				echo $kernel_bin
-				echo "Kernel bin DTB"
-				echo $kernel_bin_for_dtb
 				mcopy -i ${WORKDIR}/boot.img -s ${DEPLOY_DIR_IMAGE}/${DTS_BASE_NAME}.dtb ::${DTS_FILE}
 				#if [ $kernel_bin = $kernel_bin_for_dtb ]; then
-					
-				#	echo "Copy DTS"
 				#	mcopy -i ${WORKDIR}/boot.img -s ${DEPLOY_DIR_IMAGE}/${DTS_BASE_NAME}.dtb ::/${DTS_FILE}
 				#fi
 			fi
