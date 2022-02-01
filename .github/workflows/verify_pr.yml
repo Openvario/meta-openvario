@@ -19,16 +19,23 @@ jobs:
     
     name: Verify recipes at Pull Requests
     
+    strategy:
+      matrix:
+        MACHINE: [openvario-57-lvds]
+        TARGET: [openvario-image-testing]
+    
     # The type of runner that the job will run on
     runs-on: ubuntu-20.04
     
     container:
       image: ghcr.io/openvario/ovbuild-container:main
       env:
-        MACHINE: openvario-57-lvds
+        MACHINE: ${{ matrix.MACHINE }}
       volumes:
         - ${{ github.workspace }}:/workdir
-      options: --workdir=/workdir
+      options: |
+        --workdir=/workdir
+        --user=poky
     
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -43,6 +50,6 @@ jobs:
       - name: Verify recipies
         run: |
           source openembedded-core/oe-init-build-env .
-          bitbake openvario-image-testing --dry-run
+          bitbake ${{ matrix.TARGET }} --dry-run
           #docker run -v ${{ github.workspace }}:/workdir ghcr.io/openvario/ovbuild-container:main --workdir=/workdir source openembedded-core/oe-init-build-env . &&  bitbake openvario-image-testing --dry-run
 
