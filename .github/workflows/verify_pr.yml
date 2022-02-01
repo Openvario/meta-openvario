@@ -48,7 +48,7 @@ jobs:
       
       - name: Verify recipies
         run: |
-          su -c 'source openembedded-core/oe-init-build-env .' pokyuser
-          su -c 'bitbake ${{ matrix.TARGET }} --dry-run' pokyuser
+          sudo -u 1000 source openembedded-core/oe-init-build-env .
+          sudo -u 1000 bitbake ${{ matrix.TARGET }} --dry-run
           #docker run -v ${{ github.workspace }}:/workdir ghcr.io/openvario/ovbuild-container:main --workdir=/workdir source openembedded-core/oe-init-build-env . &&  bitbake openvario-image-testing --dry-run
 
