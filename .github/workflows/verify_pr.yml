@@ -7,7 +7,7 @@ on:
   #push:
     #branches: [ main ]
   pull_request:
-    branches: [ main ]
+    branches: [ master ]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -25,8 +25,8 @@ jobs:
     # Matrix Run: Test all combinations
     strategy:
       matrix:
-        MACHINE: [openvario-57-lvds]
-        TARGET: [openvario-image-testing]
+        MACHINE: [openvario-57-lvds, openvario-7-PQ070, openvario-7-CH070]
+        TARGET: [openvario-image-testing, openvario-image]
         
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
