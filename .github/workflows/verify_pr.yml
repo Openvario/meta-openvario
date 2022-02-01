@@ -33,8 +33,8 @@ jobs:
         MACHINE: ${{ matrix.MACHINE }}
       #volumes:
       #  - ${{ github.workspace }}:/workdir
-      #options: |
-       # --user pokyuser
+      options: |
+         --user usersetup
     
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -49,7 +49,7 @@ jobs:
       - name: Verify recipies
         run: |
           less /etc/passwd
-          sudo -u 1000 source openembedded-core/oe-init-build-env .
-          sudo -u 1000 bitbake ${{ matrix.TARGET }} --dry-run
+          source openembedded-core/oe-init-build-env .
+          bitbake ${{ matrix.TARGET }} --dry-run
           #docker run -v ${{ github.workspace }}:/workdir ghcr.io/openvario/ovbuild-container:main --workdir=/workdir source openembedded-core/oe-init-build-env . &&  bitbake openvario-image-testing --dry-run
 
