@@ -47,7 +47,7 @@ jobs:
       
       - name: Verify recipies
         env:
-          MACHINE: openvario-57-lvds
+          MACHINE: ${{ matrix.MACHINE }}
         run: |
           source openembedded-core/oe-init-build-env .
-          bitbake openvario-image-testing --dry-run
+          bitbake ${{ matrix.TARGET }} --dry-run
