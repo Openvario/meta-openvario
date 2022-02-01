@@ -31,10 +31,9 @@ jobs:
       image: ghcr.io/openvario/ovbuild-container:main
       env:
         MACHINE: ${{ matrix.MACHINE }}
-      volumes:
-        - ${{ github.workspace }}:/workdir
+      #volumes:
+      #  - ${{ github.workspace }}:/workdir
       options: |
-        --workdir=/workdir
         --user 1001
     
     # Steps represent a sequence of tasks that will be executed as part of the job
