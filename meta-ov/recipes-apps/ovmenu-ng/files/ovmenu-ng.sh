@@ -6,7 +6,6 @@ INPUT=/tmp/menu.sh.$$
 
 TOUCH_CAL=/opt/conf/touch.cal
 
-unset XCSOAR_OPTIONS
 unset CONSOLE_FONT
 
 #get config files
@@ -163,8 +162,13 @@ function submenu_settings() {
 }
 
 function submenu_xcsoar_lang() {
-	if [ -n $XCSOAR_LANG ]; then
-		dialog --nocancel --backtitle "OpenVario" \
+	if test -n "$LANG"; then
+		XCSOAR_LANG="$LANG"
+	else
+		XCSOAR_LANG="system"
+	fi
+
+	dialog --nocancel --backtitle "OpenVario" \
 		--title "[ S Y S T E M ]" \
 		--begin 3 4 \
 		--menu "Actual Setting is $XCSOAR_LANG \nSelect Language:" 15 50 12 \
@@ -182,17 +186,13 @@ function submenu_xcsoar_lang() {
 		 nl_NL.UTF-8 "Dutch" \
 		 2>"${INPUT}"
 		 
-		 menuitem=$(<"${INPUT}")
+	menuitem=$(<"${INPUT}")
 
-		# update config
-		sed -i 's/^XCSOAR_LANG=.*/XCSOAR_LANG='$menuitem'/' /opt/conf/ov-xcsoar.conf
-		sync
-		dialog --msgbox "New Setting saved !!\n A Reboot is required !!!" 10 50	
-	else
-		dialog --backtitle "OpenVario" \
-		--title "ERROR" \
-		--msgbox "No Config found !!"
-	fi
+	# update config
+	localectl set-locale "$menuitem"
+	sync
+
+	export LANG="$menuitem"
 }
 
 function submenu_lcd_brightness() {
@@ -343,12 +343,7 @@ function upload_files(){
 }
 
 function start_xcsoar() {
-	/usr/bin/xcsoar_config.sh
-	if [ -z $XCSOAR_LANG ]; then
-		/usr/bin/xcsoar -fly $XCSOAR_OPTIONS
-	else
-		LANG=$XCSOAR_LANG /usr/bin/xcsoar -fly $XCSOAR_OPTIONS
-	fi
+	/usr/bin/xcsoar -fly
 	sync
 }
 
