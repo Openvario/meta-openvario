@@ -26,7 +26,6 @@ jobs:
     strategy:
       matrix:
         MACHINE: [openvario-57-lvds, openvario-7-PQ070, openvario-7-CH070]
-        TARGET: [openvario-image-testing, openvario-image]
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -49,4 +48,4 @@ jobs:
           MACHINE: ${{ matrix.MACHINE }}
         run: |
           source openembedded-core/oe-init-build-env .
-          bitbake ${{ matrix.TARGET }} --dry-run
+          bitbake openvario-image-testing openvario-image --dry-run
