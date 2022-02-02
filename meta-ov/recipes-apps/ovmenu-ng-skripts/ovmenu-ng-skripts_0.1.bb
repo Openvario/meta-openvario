@@ -18,7 +18,6 @@ RDEPENDS:${PN} = " \
 "
 
 SRC_URI =      "\
-	file://xcsoar_config.sh \
 	file://update-maps.sh \
 	file://update-system.sh \
 	file://download-igc.sh \
@@ -39,7 +38,6 @@ do_install() {
         echo "Installing ..."
         install -d ${D}${bindir}
         install -m 0755 \
-		${S}/xcsoar_config.sh \
 		${S}/update-maps.sh \
 		${S}/update-system.sh \
 		${S}/download-igc.sh \

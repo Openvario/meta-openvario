@@ -198,7 +198,6 @@ function update_system() {
 #}
 
 #function start_xcsoar() {
-#	/usr/bin/xcsoar_config.sh
 #	/usr/bin/xcsoar -fly
 #}
 

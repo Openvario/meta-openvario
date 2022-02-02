@@ -342,7 +342,6 @@ function upload_files(){
 }
 
 function start_xcsoar() {
-	/usr/bin/xcsoar_config.sh
 	if [ -z $XCSOAR_LANG ]; then
 		/usr/bin/xcsoar -fly
 	else
