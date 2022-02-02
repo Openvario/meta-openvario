@@ -6,7 +6,6 @@ INPUT=/tmp/menu.sh.$$
 
 TOUCH_CAL=/opt/conf/touch.cal
 
-unset XCSOAR_OPTIONS
 unset CONSOLE_FONT
 
 #get config files
@@ -345,9 +344,9 @@ function upload_files(){
 function start_xcsoar() {
 	/usr/bin/xcsoar_config.sh
 	if [ -z $XCSOAR_LANG ]; then
-		/usr/bin/xcsoar -fly $XCSOAR_OPTIONS
+		/usr/bin/xcsoar -fly
 	else
-		LANG=$XCSOAR_LANG /usr/bin/xcsoar -fly $XCSOAR_OPTIONS
+		LANG=$XCSOAR_LANG /usr/bin/xcsoar -fly
 	fi
 	sync
 }
