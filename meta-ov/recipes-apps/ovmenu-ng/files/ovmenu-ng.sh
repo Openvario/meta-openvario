@@ -11,10 +11,6 @@ unset CONSOLE_FONT
 #get config files
 source /opt/conf/*.conf
 
-if test -n "$XCSOAR_LANG"; then
-	export LANG=$XCSOAR_LANG
-fi
-
 # trap and delete temp files
 trap "rm $INPUT;rm /tmp/tail.$$; exit" SIGHUP SIGINT SIGTERM
 
@@ -166,8 +162,13 @@ function submenu_settings() {
 }
 
 function submenu_xcsoar_lang() {
-	if [ -n $XCSOAR_LANG ]; then
-		dialog --nocancel --backtitle "OpenVario" \
+	if test -n "$LANG"; then
+		XCSOAR_LANG="$LANG"
+	else
+		XCSOAR_LANG="system"
+	fi
+
+	dialog --nocancel --backtitle "OpenVario" \
 		--title "[ S Y S T E M ]" \
 		--begin 3 4 \
 		--menu "Actual Setting is $XCSOAR_LANG \nSelect Language:" 15 50 12 \
@@ -185,18 +186,13 @@ function submenu_xcsoar_lang() {
 		 nl_NL.UTF-8 "Dutch" \
 		 2>"${INPUT}"
 		 
-		 menuitem=$(<"${INPUT}")
+	menuitem=$(<"${INPUT}")
 
-		# update config
-		sed -i 's/^XCSOAR_LANG=.*/XCSOAR_LANG='$menuitem'/' /opt/conf/ov-xcsoar.conf
-		sync
+	# update config
+	localectl set-locale "$menuitem"
+	sync
 
-		export LANG="$menuitem"
-	else
-		dialog --backtitle "OpenVario" \
-		--title "ERROR" \
-		--msgbox "No Config found !!"
-	fi
+	export LANG="$menuitem"
 }
 
 function submenu_lcd_brightness() {
