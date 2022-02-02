@@ -16,8 +16,6 @@ SRC_URI += " \
 "
 
 do_compile() {
-	echo "Making .."
-	echo '${WORKDIR}'
 	cd ${WORKDIR}/git
 	make
 }
