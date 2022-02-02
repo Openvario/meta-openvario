@@ -1,67 +1,27 @@
 # Copyright (C) 2014 Unknow User <unknow@user.org>
 # Released under the MIT license (see COPYING.MIT for the terms)
 
-DESCRIPTION = "Sensord Daemon for Openvario"
-HOMEPAGE = "www.openvario.org"
-LICENSE = "GPL-3.0-only"
-LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/${LICENSE};md5=c79ff39f19dfec6d293b95dea7b07891"
-SECTION = "base/app"
-DEPENDS = ""
 PR = "r10"
-
-
-INSANE_SKIP:${PN} += "ldflags"
-
-S = "${WORKDIR}/git"
 
 inherit systemd
 SRCREV:pn-sensord-testing = "${AUTOREV}"
 
 SRC_URI = "git://github.com/Openvario/sensord.git;protocol=git;branch=master \
-			file://sensord.service \
 			file://sensord.cfgmgr \			  
 "
 
-do_compile() {
-	echo "Making .."
-	echo '${WORKDIR}'
-	cd ${WORKDIR}/git
-	make
-}
+require sensord.inc
 
-do_install() {
-	install -d ${D}/opt/bin
-	install -d ${D}/opt/conf
+do_install:append() {
 	install -d ${D}/opt/conf/default
 	install -d ${D}/etc/cfgmgr.d
-	install -m 0755 ${S}/sensord ${D}/opt/bin
 	install -m 0755 ${S}/compdata ${D}/opt/bin
-	install -m 0755 ${S}/sensorcal ${D}/opt/bin
 	install -m 0755 ${S}/sensord.conf ${D}/opt/conf/default/sensord.conf
-	install -m 0755 ${S}/sensord.conf ${D}/opt/conf/sensord.conf
 	install -m 0755 ${WORKDIR}/sensord.cfgmgr ${D}/etc/cfgmgr.d/sensord.cfgmgr
-	
-	install -d ${D}${systemd_unitdir}/system
-	install -m 0644 ${WORKDIR}/sensord.service ${D}${systemd_unitdir}/system
 }
 
-
-
-PACKAGES = "${PN}"
-INHIBIT_PACKAGE_DEBUG_SPLIT = '1'
-
-FILES:${PN} = "/opt/bin/sensord \
+FILES:${PN} += " \
 					/opt/bin/compdata \
-					/opt/bin/sensorcal \
 					/opt/conf/default/sensord.conf \
 					/etc/cfgmgr.d/sensord.cfgmgr \
-					/opt/conf/sensord.conf \
 "
-
-CONFFILES:${PN} = " \
-	/opt/conf/sensord.conf \
-"
-
-FILES:${PN}-dev = "/usr/src/debug/sensord-testing/git-r7/git/*"
-
-SYSTEMD_SERVICE:${PN} = "sensord.service"
