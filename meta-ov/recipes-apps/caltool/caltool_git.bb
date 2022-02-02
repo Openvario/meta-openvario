@@ -20,8 +20,6 @@ SRC_URI = "git://git-ro.openvario.org/ovmenu.git;protocol=http;rev=master\
 "
 
 do_compile() {
-	echo "Making .."
-	echo '${WORKDIR}'
 	cd ${WORKDIR}/git/caltool
 	make
 }
