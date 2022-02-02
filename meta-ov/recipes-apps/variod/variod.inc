@@ -27,8 +27,8 @@ SRC_URI = "file://variod.service \
 
 do_compile() {
 	cd ${WORKDIR}/git
-	make clean
-	make
+	oe_runmake clean
+	oe_runmake
 }
 
 do_install() {
