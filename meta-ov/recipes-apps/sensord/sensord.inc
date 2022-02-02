@@ -16,8 +16,7 @@ SRC_URI += " \
 "
 
 do_compile() {
-	cd ${WORKDIR}/git
-	make
+	oe_runmake
 }
 
 do_install() {
