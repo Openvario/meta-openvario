@@ -190,7 +190,8 @@ function submenu_xcsoar_lang() {
 		# update config
 		sed -i 's/^XCSOAR_LANG=.*/XCSOAR_LANG='$menuitem'/' /opt/conf/ov-xcsoar.conf
 		sync
-		dialog --msgbox "New Setting saved !!\n A Reboot is required !!!" 10 50	
+
+		export LANG="$menuitem"
 	else
 		dialog --backtitle "OpenVario" \
 		--title "ERROR" \
