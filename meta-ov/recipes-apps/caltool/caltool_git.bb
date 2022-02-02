@@ -20,8 +20,7 @@ SRC_URI = "git://git-ro.openvario.org/ovmenu.git;protocol=http;rev=master\
 "
 
 do_compile() {
-	cd ${WORKDIR}/git/caltool
-	make
+	oe_runmake
 }
 
 do_install() {
