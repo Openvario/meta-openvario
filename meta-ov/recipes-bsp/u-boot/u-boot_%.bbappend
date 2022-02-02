@@ -56,7 +56,20 @@ SRC_URI:append:cubieboard2 = " \
         file://0001-Added-openvario.dts-to-Makefile.patch \
         file://0001-Added-RGB-swap-for-RGB-LCD.patch \
         file://0001-Environment-Openvario-mainline.patch \
+	\
+	file://ini2c.py \
+	file://bootenv.ini \
     "
+
+do_bootenv() {
+}
+
+do_bootenv:append:cubieboard2() {
+	echo '#define BOOTENV \' >>${S}/include/config_distro_bootcmd.h
+	${PYTHON} ${WORKDIR}/ini2c.py <${WORKDIR}/bootenv.ini >>${S}/include/config_distro_bootcmd.h
+}
+
+addtask do_bootenv after do_unpack before do_configure
 
 do_configure:prepend:cubieboard2() {
     cp ${WORKDIR}/openvario_defconfig ${S}/configs/openvario_defconfig
