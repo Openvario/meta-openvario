@@ -11,6 +11,10 @@ unset CONSOLE_FONT
 #get config files
 source /opt/conf/*.conf
 
+if test -n "$XCSOAR_LANG"; then
+	export LANG=$XCSOAR_LANG
+fi
+
 # trap and delete temp files
 trap "rm $INPUT;rm /tmp/tail.$$; exit" SIGHUP SIGINT SIGTERM
 
@@ -342,11 +346,7 @@ function upload_files(){
 }
 
 function start_xcsoar() {
-	if [ -z $XCSOAR_LANG ]; then
-		/usr/bin/xcsoar -fly
-	else
-		LANG=$XCSOAR_LANG /usr/bin/xcsoar -fly
-	fi
+	/usr/bin/xcsoar -fly
 	sync
 }
 
