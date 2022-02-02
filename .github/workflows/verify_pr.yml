@@ -50,4 +50,4 @@ jobs:
           MACHINE: ${{ matrix.MACHINE }}
         run: |
           source openembedded-core/oe-init-build-env .
-          bitbake ${{ matrix.TARGET }} --dry-run
+          bitbake openvario-image openvario-image-testing --dry-run
