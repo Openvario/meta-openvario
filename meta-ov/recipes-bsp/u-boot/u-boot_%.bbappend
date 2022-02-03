@@ -70,6 +70,7 @@ do_bootenv:append:cubieboard2() {
 }
 
 addtask do_bootenv after do_unpack before do_configure
+do_bootenv[depends] += "python3-native:do_populate_sysroot"
 
 do_configure:prepend:cubieboard2() {
     cp ${WORKDIR}/openvario_defconfig ${S}/configs/openvario_defconfig
