@@ -75,9 +75,6 @@ do_compile() {
 }
 
 do_install() {
-	install -d ${D}/opt/conf
-	install -d ${D}/opt/conf/default
-
 	oe_runmake install-bin install-mo DESTDIR=${D}
 }
 
