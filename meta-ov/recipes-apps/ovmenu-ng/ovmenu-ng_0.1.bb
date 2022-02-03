@@ -32,7 +32,6 @@ do_compile() {
 }
 
 do_install() {
-        echo "Installing ..."
         install -d ${D}/opt/bin ${D}/opt/conf
         install -m 0755 ${S}/ovmenu-ng.sh ${D}/opt/bin/ovmenu-ng.sh
 	install -d ${D}${ROOT_HOME}
