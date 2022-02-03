@@ -28,12 +28,12 @@ SRC_URI =      "\
 addtask do_package_write_ipk after do_package
 
 do_compile() {
-        :
+	:
 }
 
 do_install() {
-        install -d ${D}/opt/bin ${D}/opt/conf
-        install -m 0755 ${S}/ovmenu-ng.sh ${D}/opt/bin/ovmenu-ng.sh
+	install -d ${D}/opt/bin ${D}/opt/conf
+	install -m 0755 ${S}/ovmenu-ng.sh ${D}/opt/bin/ovmenu-ng.sh
 	install -d ${D}${ROOT_HOME}
 	install -m 0755 ${S}/openvario.rc ${D}${ROOT_HOME}/.dialogrc
 }
