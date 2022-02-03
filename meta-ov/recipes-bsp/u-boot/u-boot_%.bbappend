@@ -78,22 +78,12 @@ do_configure:prepend:cubieboard2() {
 }
 
 do_install:append:cubieboard2() {
-    if [ -e ${WORKDIR}/ov_recover_0.bmp ] ; then
     install -m 644 -D ${WORKDIR}/ov_*.bmp ${D}/boot
-    fi
-    
-    if [ -e ${WORKDIR}/config.uEnv ] ; then
     install -m 644 -D ${WORKDIR}/config.uEnv ${D}/boot
-    fi
 }
 
 do_deploy:append:cubieboard2() {
-    if [ -e ${WORKDIR}/ov_recover_0.bmp ] ; then
     install -d ${DEPLOYDIR}/pics
         install -m 644 -D ${WORKDIR}/ov_*.bmp ${DEPLOYDIR}/pics
-    fi
-    
-    if [ -e ${WORKDIR}/config.uEnv ] ; then
     install -m 644 -D ${WORKDIR}/config.uEnv ${DEPLOYDIR} 
-    fi
 }
