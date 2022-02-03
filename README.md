@@ -1,8 +1,8 @@
 [![Automated Release Notes by gren](https://img.shields.io/badge/%F0%9F%A4%96-release%20notes-00B2EE.svg)](https://github-tools.github.io/github-release-notes/)
 
-# meta-openvario
+# meta-openvario // version for freevario device
 
-This is a layer for OpenEmbedded to support the Openvario hardware
+This is a layer version for OpenEmbedded to support the Openvario hardware with freevario driver
 
 ## How to build an image
 
@@ -14,11 +14,7 @@ This is a layer for OpenEmbedded to support the Openvario hardware
 ### Fetching sources
 
 ```
-<<<<<<< HEAD
 git clone https://github.com/freevariode/meta-openvario.git
-=======
-git clone --recurse-submodules https://github.com/Openvario/meta-openvario.git
->>>>>>> 8331c361ca536a822affd4e6970708f6c390ea02
 cd meta-openvario
 ```
 
