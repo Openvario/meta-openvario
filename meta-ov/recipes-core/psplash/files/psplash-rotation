@@ -1,24 +1,15 @@
 #!/bin/sh
 
-# reads rotation from cmdline convert it to degrees and writes
+# convert fbcon/rotate to degrees
 
-read -r cmdline < /proc/cmdline
-for param in ${cmdline} ; do
-  case "${param}" in
-      fbcon=*)
-          fbcon="${param#fbcon=}"
-          ;;
-  esac
-done
-
-case "${fbcon}" in
-    "rotate:3")
+case "$(cat /sys/class/graphics/fbcon/rotate)" in
+    "3")
         rotation=90
         ;;
-    "rotate:2")
+    "2")
         rotation=180
         ;;
-    "rotate:1")
+    "1")
         rotation=270
         ;;
     *)
