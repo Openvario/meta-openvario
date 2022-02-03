@@ -11,7 +11,7 @@ SRC_URI = " \
 "
 
 # the "autologin" package is obsolete and interferes with this one
-RCONFLICTS_${PN} = "openvario-autologin"
+RCONFLICTS:${PN} = "openvario-autologin"
 
 SYSTEMD_SERVICE:${PN} = "ovmenu-ng.service"
 
