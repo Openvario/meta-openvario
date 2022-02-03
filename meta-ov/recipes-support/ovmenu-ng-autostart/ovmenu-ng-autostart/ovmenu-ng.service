@@ -4,6 +4,9 @@ Description=OVMenu Next-Generation
 # No getty on tty1
 Conflicts=getty@tty1.service
 
+Wants=systemd-vconsole-setup.service
+After=systemd-vconsole-setup.service
+
 After=systemd-user-sessions.service plymouth-quit-wait.service getty-pre.target
 After=rc-local.service
 
@@ -40,6 +43,7 @@ IgnoreSIGPIPE=no
 SendSIGHUP=yes
 
 StandardInput=tty
+StandardError=journal
 
 Slice=user.slice
 

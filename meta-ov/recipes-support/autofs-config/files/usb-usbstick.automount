@@ -2,7 +2,7 @@
 Description=Automatically mount connected USB drives
 
 [Automount]
-Where=/usb
+Where=/usb/usbstick
 
 [Install]
 WantedBy=ovmenu-ng.service

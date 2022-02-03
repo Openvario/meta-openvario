@@ -14,10 +14,12 @@ This is a layer for OpenEmbedded to support the Openvario hardware
 ### Fetching sources
 
 ```
+<<<<<<< HEAD
 git clone https://github.com/freevariode/meta-openvario.git
+=======
+git clone --recurse-submodules https://github.com/Openvario/meta-openvario.git
+>>>>>>> 8331c361ca536a822affd4e6970708f6c390ea02
 cd meta-openvario
-git submodule init
-git submodule update
 ```
 
 This will fetch the sources including all submodules.

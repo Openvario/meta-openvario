@@ -26,11 +26,9 @@ SRC_URI = "file://variod.service \
            file://variod.cfgmgr "
 
 do_compile() {
-	echo "Making .."
-	echo '${WORKDIR}'
 	cd ${WORKDIR}/git
-	make clean
-	make
+	oe_runmake clean
+	oe_runmake
 }
 
 do_install() {
