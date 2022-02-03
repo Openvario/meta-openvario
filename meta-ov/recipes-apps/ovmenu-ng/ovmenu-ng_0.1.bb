@@ -16,7 +16,7 @@ RDEPENDS:${PN} = " \
 	bash \
 	dialog \
 	ovmenu-ng-skripts \
-        ovmenu-ng-autostart \
+	ov-tools \
 "
 
 SRC_URI =      "\
