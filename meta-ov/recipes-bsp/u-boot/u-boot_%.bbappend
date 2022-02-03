@@ -43,6 +43,7 @@ SRC_URI:append:cubieboard2 = " \
 	file://per_machine.cfg \
 	file://openvario.dts \
 	file://config.uEnv \
+	file://font.env \
 	file://ov_recover_0.bmp \
 	file://ov_recover_1.bmp \
 	file://ov_recover_2.bmp \
@@ -80,10 +81,12 @@ do_configure:prepend:cubieboard2() {
 do_install:append:cubieboard2() {
 	install -m 644 -D ${WORKDIR}/ov_*.bmp ${D}/boot
 	install -m 644 -D ${WORKDIR}/config.uEnv ${D}/boot
+	cat ${WORKDIR}/font.env >>${D}/boot/config.uEnv
 }
 
 do_deploy:append:cubieboard2() {
 	install -d ${DEPLOYDIR}/pics
 	install -m 644 -D ${WORKDIR}/ov_*.bmp ${DEPLOYDIR}/pics
 	install -m 644 -D ${WORKDIR}/config.uEnv ${DEPLOYDIR}
+	cat ${WORKDIR}/font.env >>${DEPLOYDIR}/config.uEnv
 }
