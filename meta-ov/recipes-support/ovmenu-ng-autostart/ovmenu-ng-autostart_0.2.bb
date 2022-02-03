@@ -11,7 +11,7 @@ SRC_URI = " \
 "
 
 # the "autologin" package is obsolete and interferes with this one
-RCONFLICTS_${PN} = "openvario-autologin"
+RCONFLICTS:${PN} = "openvario-autologin"
 
 SYSTEMD_SERVICE:${PN} = "ovmenu-ng.service"
 
@@ -28,4 +28,4 @@ do_install() {
 	install -m 0644 ${WORKDIR}/ovmenu-ng.service ${D}${systemd_unitdir}/system
 }
 
-RDEPENDS:${PN} = "bash ov-tools ovmenu-ng-skripts"
+RDEPENDS:${PN} = "bash ovmenu-ng"

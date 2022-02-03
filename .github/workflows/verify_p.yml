@@ -1,0 +1,51 @@
+# This is a basic workflow to verify incoming PRs with just one single machine (openvario-57-lvds)
+name: verify_pr
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events but only for the main branch
+  #push:
+    #branches: [ main ]
+  pull_request:
+    branches: [ master ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  Verify_PR:
+    
+    name: Verify recipes at Pull Requests
+    
+    # The type of runner that the job will run on
+    runs-on: ubuntu-20.04
+
+    # Matrix Run: Test all combinations
+    strategy:
+      matrix:
+        MACHINE: [openvario-57-lvds, openvario-7-PQ070, openvario-7-CH070]
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+                
+      - name: Checkout sources
+        uses: actions/checkout@v2
+        
+      - name: Update submodules
+        run: git submodule update --init
+      
+      # Install necessary packages
+      - name: Install build dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y diffstat
+
+      - name: Verify recipies
+        env:
+          MACHINE: ${{ matrix.MACHINE }}
+        run: |
+          source openembedded-core/oe-init-build-env .
+          bitbake openvario-image-testing openvario-image --dry-run
