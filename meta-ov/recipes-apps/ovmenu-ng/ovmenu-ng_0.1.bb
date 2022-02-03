@@ -40,7 +40,7 @@ do_compile() {
 }
 
 do_install() {
-	install -d ${D}/opt/bin ${D}/opt/conf
+	install -d ${D}/opt/bin
 	install -m 0755 ${S}/ovmenu-ng.sh ${D}/opt/bin/ovmenu-ng.sh
 	install -d ${D}${ROOT_HOME}
 	install -m 0755 ${S}/openvario.rc ${D}${ROOT_HOME}/.dialogrc
@@ -51,6 +51,5 @@ do_install() {
 SYSTEMD_SERVICE:${PN} = "${PN}.service"
 
 FILES:${PN} = "/opt/bin/ovmenu-ng.sh \
-	/opt/conf \
 	${ROOT_HOME}/.dialogrc \
 "
