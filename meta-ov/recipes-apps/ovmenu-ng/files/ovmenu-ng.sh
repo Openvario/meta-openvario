@@ -4,8 +4,6 @@
 TIMEOUT=3
 INPUT=/tmp/menu.sh.$$
 
-TOUCH_CAL=/opt/conf/touch.cal
-
 # trap and delete temp files
 trap "rm $INPUT;rm /tmp/tail.$$; exit" SIGHUP SIGINT SIGTERM
 
