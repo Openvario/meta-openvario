@@ -17,6 +17,7 @@ RDEPENDS:${PN} = " \
 	dialog \
 	ovmenu-ng-skripts \
 	ov-tools \
+	autofs-config \
 "
 
 # the "autologin" package is obsolete and interferes with this one

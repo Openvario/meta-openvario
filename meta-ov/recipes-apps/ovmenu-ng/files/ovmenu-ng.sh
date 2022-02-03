@@ -215,8 +215,6 @@ done
 }
 
 function submenu_rotation() {
-	
-	mount /dev/mmcblk0p1 /boot 
 	TEMP=$(grep "rotation" /boot/config.uEnv)
 	if [ -n $TEMP ]; then
 		ROTATION=${TEMP: -1}
@@ -240,8 +238,6 @@ function submenu_rotation() {
 		--title "ERROR" \
 		--msgbox "No Config found !!"
 	fi
-	
-	umount /boot
 }
 
 function update_system() {
