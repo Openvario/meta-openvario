@@ -10,7 +10,7 @@ SECTION = "base/app"
 S = "${WORKDIR}"
 PR = "r15"
 
-inherit allarch
+inherit allarch systemd
 
 RDEPENDS:${PN} = " \
 	bash \
@@ -19,9 +19,17 @@ RDEPENDS:${PN} = " \
 	ov-tools \
 "
 
+# the "autologin" package is obsolete and interferes with this one
+# the "autostart" package was merged into this one
+RCONFLICTS:${PN} = " \
+	openvario-autologin \
+	ovmenu-ng-autostart \
+"
+
 SRC_URI =      "\
 	file://ovmenu-ng.sh \
 	file://openvario.rc \
+	file://${PN}.service \
 "
 
 
@@ -36,7 +44,11 @@ do_install() {
 	install -m 0755 ${S}/ovmenu-ng.sh ${D}/opt/bin/ovmenu-ng.sh
 	install -d ${D}${ROOT_HOME}
 	install -m 0755 ${S}/openvario.rc ${D}${ROOT_HOME}/.dialogrc
+	install -d ${D}${systemd_unitdir}/system
+	install -m 0644 ${WORKDIR}/ovmenu-ng.service ${D}${systemd_unitdir}/system
 }
+
+SYSTEMD_SERVICE:${PN} = "${PN}.service"
 
 FILES:${PN} = "/opt/bin/ovmenu-ng.sh \
 	/opt/conf \
