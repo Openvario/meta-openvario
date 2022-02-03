@@ -232,7 +232,8 @@ function submenu_rotation() {
 		# update config
 		# uboot rotation
 		sed -i 's/^rotation=.*/rotation='$menuitem'/' /boot/config.uEnv
-		dialog --msgbox "New Setting saved !!\n Touch recalibration required !!\n A Reboot is required !!!" 10 50
+		echo "$menuitem" >/sys/class/graphics/fbcon/rotate
+		dialog --msgbox "New Setting saved !!\n Touch recalibration required !!" 10 50
 	else
 		dialog --backtitle "OpenVario" \
 		--title "ERROR" \
