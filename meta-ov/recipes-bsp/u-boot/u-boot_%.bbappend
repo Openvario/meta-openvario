@@ -39,27 +39,27 @@ do_compile:append() {
 FILESEXTRAPATHS:prepend := "${THISDIR}/files:"
 
 SRC_URI:append:cubieboard2 = " \
-        file://openvario_defconfig \
-        file://per_machine.cfg \
-        file://openvario.dts \
-        file://config.uEnv \
-        file://ov_recover_0.bmp \
-        file://ov_recover_1.bmp \
-        file://ov_recover_2.bmp \
-        file://ov_recover_3.bmp \
-        \
-        file://ov_booting_0.bmp \
-        file://ov_booting_1.bmp \
-        file://ov_booting_2.bmp \
-        file://ov_booting_3.bmp \
-        \
-        file://0001-Added-openvario.dts-to-Makefile.patch \
-        file://0001-Added-RGB-swap-for-RGB-LCD.patch \
-        file://0001-Environment-Openvario-mainline.patch \
+	file://openvario_defconfig \
+	file://per_machine.cfg \
+	file://openvario.dts \
+	file://config.uEnv \
+	file://ov_recover_0.bmp \
+	file://ov_recover_1.bmp \
+	file://ov_recover_2.bmp \
+	file://ov_recover_3.bmp \
+	\
+	file://ov_booting_0.bmp \
+	file://ov_booting_1.bmp \
+	file://ov_booting_2.bmp \
+	file://ov_booting_3.bmp \
+	\
+	file://0001-Added-openvario.dts-to-Makefile.patch \
+	file://0001-Added-RGB-swap-for-RGB-LCD.patch \
+	file://0001-Environment-Openvario-mainline.patch \
 	\
 	file://ini2c.py \
 	file://bootenv.ini \
-    "
+"
 
 do_bootenv() {
 }
@@ -73,17 +73,17 @@ addtask do_bootenv after do_unpack before do_configure
 do_bootenv[depends] += "python3-native:do_populate_sysroot"
 
 do_configure:prepend:cubieboard2() {
-    cp ${WORKDIR}/openvario_defconfig ${S}/configs/openvario_defconfig
-    cp ${WORKDIR}/openvario.dts ${S}/arch/arm/dts/openvario.dts
+	cp ${WORKDIR}/openvario_defconfig ${S}/configs/openvario_defconfig
+	cp ${WORKDIR}/openvario.dts ${S}/arch/arm/dts/openvario.dts
 }
 
 do_install:append:cubieboard2() {
-    install -m 644 -D ${WORKDIR}/ov_*.bmp ${D}/boot
-    install -m 644 -D ${WORKDIR}/config.uEnv ${D}/boot
+	install -m 644 -D ${WORKDIR}/ov_*.bmp ${D}/boot
+	install -m 644 -D ${WORKDIR}/config.uEnv ${D}/boot
 }
 
 do_deploy:append:cubieboard2() {
-    install -d ${DEPLOYDIR}/pics
-        install -m 644 -D ${WORKDIR}/ov_*.bmp ${DEPLOYDIR}/pics
-    install -m 644 -D ${WORKDIR}/config.uEnv ${DEPLOYDIR} 
+	install -d ${DEPLOYDIR}/pics
+	install -m 644 -D ${WORKDIR}/ov_*.bmp ${DEPLOYDIR}/pics
+	install -m 644 -D ${WORKDIR}/config.uEnv ${DEPLOYDIR}
 }
