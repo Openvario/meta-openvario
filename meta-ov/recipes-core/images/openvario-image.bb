@@ -11,7 +11,7 @@ IMAGE_INSTALL += "\
     caltool \
     sensord \
     variod \
-    ovmenu-ng \
+    ovmenu-ng-autostart \
 "
 
 export IMAGE_BASENAME = "openvario-image"

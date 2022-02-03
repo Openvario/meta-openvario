@@ -6,11 +6,6 @@ INPUT=/tmp/menu.sh.$$
 
 TOUCH_CAL=/opt/conf/touch.cal
 
-unset CONSOLE_FONT
-
-#get config files
-source /opt/conf/*.conf
-
 # trap and delete temp files
 trap "rm $INPUT;rm /tmp/tail.$$; exit" SIGHUP SIGINT SIGTERM
 
@@ -392,8 +387,6 @@ function yesno_power_off(){
 		0) shutdown -h now;;
 	esac
 }
-
-test -z "$CONSOLE_FONT" || setfont "$CONSOLE_FONT"
 
 DIALOG_CANCEL=1 dialog --nook --nocancel --pause "Starting XCSoar ... \\n Press [ESC] for menu" 10 30 $TIMEOUT 2>&1
 
