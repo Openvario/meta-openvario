@@ -28,7 +28,7 @@ Before=rescue.service
 ConditionPathExists=/dev/tty0
 
 [Service]
-ExecStart=/opt/bin/ovmenu-ng.sh
+ExecStart=/usr/bin/ovmenu-ng.sh
 Type=idle
 Restart=always
 RestartSec=0
