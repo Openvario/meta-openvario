@@ -35,7 +35,6 @@ LOCALE_PACKAGES = " \
 IMAGE_INSTALL = " \
     packagegroup-base \
     distro-feed-configs \
-    autofs-config \
     nano \
     openssh-sftp-server \
     tslib \

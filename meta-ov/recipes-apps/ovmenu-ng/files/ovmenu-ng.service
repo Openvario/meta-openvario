@@ -27,8 +27,12 @@ Before=rescue.service
 # unit.
 ConditionPathExists=/dev/tty0
 
+# This service can be used to manipulate settings in /boot/config.uEnv
+Wants=boot.automount
+After=boot.automount
+
 [Service]
-ExecStart=/opt/bin/ovmenu-ng.sh
+ExecStart=/usr/bin/ovmenu-ng.sh
 Type=idle
 Restart=always
 RestartSec=0
