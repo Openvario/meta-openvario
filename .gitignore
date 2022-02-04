@@ -1,7 +1,10 @@
 *~
 *.log
+OpenVario*rootfs.img.gz
 .DS_Store
+bitbake.lock
 cache/
 downloads/
 sstate-cache/
 tmp/
+build/
