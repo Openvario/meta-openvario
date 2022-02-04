@@ -6,11 +6,18 @@ PR = "r1"
 inherit allarch systemd
 
 SRC_URI = "\
+	file://boot.mount \
+	file://boot.automount \
 	file://usb-usbstick.mount \
 	file://usb-usbstick.automount \
 "
 
-SYSTEMD_SERVICE:${PN} = "usb-usbstick.mount usb-usbstick.automount"
+SYSTEMD_SERVICE:${PN} = " \
+	boot.mount \
+	boot.automount \
+	usb-usbstick.mount \
+	usb-usbstick.automount \
+"
 
 do_configure() {
     :
@@ -22,5 +29,10 @@ do_compile() {
 
 do_install() {
 	install -d ${D}${systemd_unitdir}/system
-	install -m 0644 ${WORKDIR}/usb-usbstick.mount ${WORKDIR}/usb-usbstick.automount ${D}${systemd_unitdir}/system
+	install -m 0644 \
+		${WORKDIR}/boot.mount \
+		${WORKDIR}/boot.automount \
+		${WORKDIR}/usb-usbstick.mount \
+		${WORKDIR}/usb-usbstick.automount \
+		${D}${systemd_unitdir}/system
 }

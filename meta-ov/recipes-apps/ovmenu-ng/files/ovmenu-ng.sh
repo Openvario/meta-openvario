@@ -4,8 +4,6 @@
 TIMEOUT=3
 INPUT=/tmp/menu.sh.$$
 
-TOUCH_CAL=/opt/conf/touch.cal
-
 # trap and delete temp files
 trap "rm $INPUT;rm /tmp/tail.$$; exit" SIGHUP SIGINT SIGTERM
 
@@ -137,6 +135,7 @@ function submenu_settings() {
 	Display_Rotation 	"Set rotation of the display" \
 	LCD_Brightness		"Set display brightness" \
 	XCSoar_Language 	"Set language used for XCSoar" \
+	SSH			"Enable or disable SSH" \
 	Back   "Back to Main" 2>"${INPUT}"
 	
 	menuitem=$(<"${INPUT}")
@@ -151,6 +150,9 @@ function submenu_settings() {
 			;;
 		XCSoar_Language)
 			submenu_xcsoar_lang
+			;;
+		SSH)
+			submenu_ssh
 			;;
 		Back) ;;
 	esac		
@@ -190,6 +192,38 @@ function submenu_xcsoar_lang() {
 	export LANG="$menuitem"
 }
 
+function submenu_ssh() {
+	if /bin/systemctl --quiet is-enabled dropbear.socket; then
+		local state=enabled
+	elif /bin/systemctl --quiet is-active dropbear.socket; then
+		local state=temporary
+	else
+		local state=disabled
+	fi
+
+	dialog --nocancel --backtitle "OpenVario" \
+		--title "[ S S H ]" \
+		--begin 3 4 \
+		--default-item "${state}" \
+		--menu "SSH access is currently ${state}." 15 50 4 \
+		enabled "Enable SSH permanently" \
+		temporary "Enable SSH temporarily (until reboot)" \
+		disabled "Disable SSH" \
+		2>"${INPUT}"
+	menuitem=$(<"${INPUT}")
+
+	if test "${state}" != "$menuitem"; then
+		if test "$menuitem" = "enabled"; then
+			/bin/systemctl enable --now dropbear.socket
+		elif test "$menuitem" = "temporary"; then
+			/bin/systemctl disable dropbear.socket
+			/bin/systemctl start dropbear.socket
+		else
+			/bin/systemctl disable --now dropbear.socket
+		fi
+	fi
+}
+
 function submenu_lcd_brightness() {
 while [ $? -eq 0 ]
 do
@@ -217,8 +251,6 @@ done
 }
 
 function submenu_rotation() {
-	
-	mount /dev/mmcblk0p1 /boot 
 	TEMP=$(grep "rotation" /boot/config.uEnv)
 	if [ -n $TEMP ]; then
 		ROTATION=${TEMP: -1}
@@ -236,14 +268,13 @@ function submenu_rotation() {
 		# update config
 		# uboot rotation
 		sed -i 's/^rotation=.*/rotation='$menuitem'/' /boot/config.uEnv
-		dialog --msgbox "New Setting saved !!\n Touch recalibration required !!\n A Reboot is required !!!" 10 50
+		echo "$menuitem" >/sys/class/graphics/fbcon/rotate
+		dialog --msgbox "New Setting saved !!\n Touch recalibration required !!" 10 50
 	else
 		dialog --backtitle "OpenVario" \
 		--title "ERROR" \
 		--msgbox "No Config found !!"
 	fi
-	
-	umount /boot
 }
 
 function update_system() {
@@ -353,12 +384,17 @@ function yesno_exit(){
 		0)
 			clear
 			cd
+
+			# Redirecting stderr to stdout (= the console)
+			# because stderr is currently connected to
+			# systemd-journald, which breaks interactive
+			# shells.
 			if test -x /bin/bash; then
-				/bin/bash --login
+				/bin/bash --login 2>&1
 			elif test -x /bin/ash; then
-				/bin/ash -i
+				/bin/ash -i 2>&1
 			else
-				/bin/sh
+				/bin/sh 2>&1
 			fi
 			;;
 	esac
