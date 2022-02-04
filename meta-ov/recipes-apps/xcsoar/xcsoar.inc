@@ -38,7 +38,6 @@ SRC_URI += " \
 	file://0001-avoid-tail-cut.patch \
 	file://0007-Disable-touch-screen-auto-detection.patch \
 	file://more_alternates.patch \
-	file://WPlistAirport.patch \
 	https://boostorg.jfrog.io/artifactory/main/release/1.78.0/source/boost_1_78_0.tar.bz2;sha256sum=8681f175d4bdb26c52222665793eef08490d7758529330f98d3b29dd0735bccc;unpack=0 \
 "
 
