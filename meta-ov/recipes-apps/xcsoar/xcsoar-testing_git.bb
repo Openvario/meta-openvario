@@ -7,6 +7,6 @@ RCONFLICTS:${PN}="xcsoar"
 SRCREV:pn-xcsoar-testing = "${AUTOREV}" 
 
 SRC_URI = "git://github.com/freevariode/XCSoar.git;protocol=git;branch=master \
-           file://ov-xcsoar.conf"
+"
 
 require xcsoar.inc
