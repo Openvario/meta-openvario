@@ -1,0 +1,29 @@
+--- /opt/bin/ovmenu-ng.sh.old
++++ /opt/bin/ovmenu-ng.sh
+@@ -21,6 +21,7 @@ do
+ 	--begin 3 4 \
+ 	--menu "You can use the UP/DOWN arrow keys" 15 50 6 \
+ 	XCSoar   "Start XCSoar" \
++	CompMan   "Competition Manager" \
+ 	File   "Copys file to and from OpenVario" \
+ 	System   "Update, Settings, ..." \
+ 	Exit   "Exit to the shell" \
+@@ -32,6 +33,7 @@ do
+ 	# make decsion 
+ case $menuitem in
+ 	XCSoar) start_xcsoar;;
++	CompMan) start_compman;;
+ 	File) submenu_file;;
+ 	System) submenu_system;;
+ 	Exit) yesno_exit;;
+@@ -346,6 +348,10 @@ function yesno_exit(){
+ 	esac
+ }
+ 
++function start_compman() {
++	/usr/bin/compman
++}
++
+ function yesno_restart(){
+ 	dialog --backtitle "Openvario" \
+ 	--begin 3 4 \

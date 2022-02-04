@@ -1,0 +1,46 @@
+[Unit]
+Description=Openvario Shell
+
+# No getty on tty1
+Conflicts=getty@tty1.service
+
+After=systemd-user-sessions.service plymouth-quit-wait.service getty-pre.target
+After=rc-local.service
+
+# If additional gettys are spawned during boot then we should make
+# sure that this is synchronized before getty.target, even though
+# getty.target didn't actually pull it in.
+Before=getty.target
+IgnoreOnIsolate=yes
+
+# IgnoreOnIsolate causes issues with sulogin, if someone isolates
+# rescue.target or starts rescue.service from multi-user.target or
+# graphical.target.
+Conflicts=rescue.service
+Before=rescue.service
+
+# On systems without virtual consoles, don't start any getty. Note
+# that serial gettys are covered by serial-getty@.service, not this
+# unit.
+ConditionPathExists=/dev/tty0
+
+[Service]
+ExecStart=/usr/bin/ovshell
+Type=idle
+Restart=always
+RestartSec=0
+
+Environment=HOME=/home/root
+Environment=LANG=en_US.UTF-8
+
+TTYPath=/dev/tty1
+TTYReset=yes
+TTYVHangup=yes
+TTYVTDisallocate=yes
+IgnoreSIGPIPE=no
+SendSIGHUP=yes
+
+StandardInput=tty
+
+[Install]
+WantedBy=getty.target
