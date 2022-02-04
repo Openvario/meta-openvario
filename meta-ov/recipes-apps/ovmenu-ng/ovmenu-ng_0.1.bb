@@ -31,6 +31,7 @@ SRC_URI =      "\
 	file://ovmenu-ng.sh \
 	file://openvario.rc \
 	file://${PN}.service \
+	file://disable_dropbear.preset \
 "
 
 
@@ -47,6 +48,10 @@ do_install() {
 	install -m 0755 ${S}/openvario.rc ${D}${ROOT_HOME}/.dialogrc
 	install -d ${D}${systemd_unitdir}/system
 	install -m 0644 ${WORKDIR}/ovmenu-ng.service ${D}${systemd_unitdir}/system
+
+	# TODO: move this preset file to a more appropriate recipe
+	install -d ${D}${systemd_unitdir}/system-preset
+	install -m 0644 ${WORKDIR}/disable_dropbear.preset ${D}${systemd_unitdir}/system-preset/50-disable_dropbear.preset
 }
 
 SYSTEMD_SERVICE:${PN} = "${PN}.service"
@@ -54,4 +59,5 @@ SYSTEMD_SERVICE:${PN} = "${PN}.service"
 FILES:${PN} = " \
 	${bindir}/ovmenu-ng.sh \
 	${ROOT_HOME}/.dialogrc \
+	${systemd_unitdir}/system-preset/50-disable_dropbear.preset \
 "

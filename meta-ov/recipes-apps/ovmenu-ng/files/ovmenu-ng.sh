@@ -135,6 +135,7 @@ function submenu_settings() {
 	Display_Rotation 	"Set rotation of the display" \
 	LCD_Brightness		"Set display brightness" \
 	XCSoar_Language 	"Set language used for XCSoar" \
+	SSH			"Enable or disable SSH" \
 	Back   "Back to Main" 2>"${INPUT}"
 	
 	menuitem=$(<"${INPUT}")
@@ -149,6 +150,9 @@ function submenu_settings() {
 			;;
 		XCSoar_Language)
 			submenu_xcsoar_lang
+			;;
+		SSH)
+			submenu_ssh
 			;;
 		Back) ;;
 	esac		
@@ -186,6 +190,38 @@ function submenu_xcsoar_lang() {
 	sync
 
 	export LANG="$menuitem"
+}
+
+function submenu_ssh() {
+	if /bin/systemctl --quiet is-enabled dropbear.socket; then
+		local state=enabled
+	elif /bin/systemctl --quiet is-active dropbear.socket; then
+		local state=temporary
+	else
+		local state=disabled
+	fi
+
+	dialog --nocancel --backtitle "OpenVario" \
+		--title "[ S S H ]" \
+		--begin 3 4 \
+		--default-item "${state}" \
+		--menu "SSH access is currently ${state}." 15 50 4 \
+		enabled "Enable SSH permanently" \
+		temporary "Enable SSH temporarily (until reboot)" \
+		disabled "Disable SSH" \
+		2>"${INPUT}"
+	menuitem=$(<"${INPUT}")
+
+	if test "${state}" != "$menuitem"; then
+		if test "$menuitem" = "enabled"; then
+			/bin/systemctl enable --now dropbear.socket
+		elif test "$menuitem" = "temporary"; then
+			/bin/systemctl disable dropbear.socket
+			/bin/systemctl start dropbear.socket
+		else
+			/bin/systemctl disable --now dropbear.socket
+		fi
+	fi
 }
 
 function submenu_lcd_brightness() {
