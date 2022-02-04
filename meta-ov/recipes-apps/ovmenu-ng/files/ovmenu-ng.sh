@@ -348,12 +348,17 @@ function yesno_exit(){
 		0)
 			clear
 			cd
+
+			# Redirecting stderr to stdout (= the console)
+			# because stderr is currently connected to
+			# systemd-journald, which breaks interactive
+			# shells.
 			if test -x /bin/bash; then
-				/bin/bash --login
+				/bin/bash --login 2>&1
 			elif test -x /bin/ash; then
-				/bin/ash -i
+				/bin/ash -i 2>&1
 			else
-				/bin/sh
+				/bin/sh 2>&1
 			fi
 			;;
 	esac
