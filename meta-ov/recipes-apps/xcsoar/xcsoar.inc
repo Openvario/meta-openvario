@@ -76,18 +76,11 @@ do_compile() {
 }
 
 do_install() {
-	install -d ${D}/opt/conf
-	install -d ${D}/opt/conf/default
-	install -m 0755 ${S}/../ov-xcsoar.conf ${D}/opt/conf/default/ov-xcsoar.conf
-	install -m 0755 ${S}/../ov-xcsoar.conf ${D}/opt/conf/ov-xcsoar.conf
-
 	oe_runmake install-bin install-mo DESTDIR=${D}
 }
 
 FILES:${PN} = " \
 	${bindir}/xcsoar \
 	${bindir}/vali-xcs \
-	/opt/conf/default/ov-xcsoar.conf \
-	/opt/conf/ov-xcsoar.conf \
 	${LC_LOCALE_PATH}/*/LC_MESSAGES/xcsoar.mo \
 "

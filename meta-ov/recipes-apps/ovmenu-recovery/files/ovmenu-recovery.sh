@@ -198,8 +198,7 @@ function update_system() {
 #}
 
 #function start_xcsoar() {
-#	/usr/bin/xcsoar_config.sh
-#	/usr/bin/xcsoar -fly -480x272
+#	/usr/bin/xcsoar -fly
 #}
 
 #function power_off() {

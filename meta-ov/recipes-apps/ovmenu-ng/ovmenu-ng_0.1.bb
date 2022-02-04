@@ -10,18 +10,17 @@ SECTION = "base/app"
 S = "${WORKDIR}"
 PR = "r15"
 
-PACKAGE_ARCH = "${MACHINE_ARCH}"
+inherit allarch
 
 RDEPENDS:${PN} = " \
 	bash \
 	dialog \
 	ovmenu-ng-skripts \
-        ovmenu-ng-autostart \
+	ov-tools \
 "
 
 SRC_URI =      "\
 	file://ovmenu-ng.sh \
-	file://machine.conf \
 	file://openvario.rc \
 "
 
@@ -36,12 +35,11 @@ do_install() {
         echo "Installing ..."
         install -d ${D}/opt/bin ${D}/opt/conf
         install -m 0755 ${S}/ovmenu-ng.sh ${D}/opt/bin/ovmenu-ng.sh
-        install -m 0755 ${S}/machine.conf ${D}/opt/conf/
 	install -d ${D}${ROOT_HOME}
 	install -m 0755 ${S}/openvario.rc ${D}${ROOT_HOME}/.dialogrc
 }
 
 FILES:${PN} = "/opt/bin/ovmenu-ng.sh \
-	/opt/conf/machine.conf \
+	/opt/conf \
 	${ROOT_HOME}/.dialogrc \
 "

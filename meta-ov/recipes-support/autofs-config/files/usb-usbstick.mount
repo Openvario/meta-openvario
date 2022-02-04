@@ -3,5 +3,5 @@ Description=Automatically mount connected USB drives
 
 [Mount]
 What=/dev/sda1
-Where=/usb
+Where=/usb/usbstick
 Options=nodev,noexec,nosuid,noatime,rw,sync
