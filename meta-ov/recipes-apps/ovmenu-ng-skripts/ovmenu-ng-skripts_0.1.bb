@@ -18,7 +18,7 @@ RDEPENDS:${PN} = " \
 	rsync \
 "
 
-SRC_URI =      "\
+SRC_URI = "\
 	file://update-maps.sh \
 	file://update-system.sh \
 	file://download-igc.sh \
@@ -30,23 +30,23 @@ SRC_URI =      "\
 addtask do_package_write_ipk after do_package
 
 do_compile() {
-        :
+	:
 }
 
 do_install() {
-        echo "Installing ..."
-        install -d ${D}${bindir}
-        install -m 0755 \
+	echo "Installing ..."
+	install -d ${D}${bindir}
+	install -m 0755 \
 		${S}/update-maps.sh \
 		${S}/update-system.sh \
 		${S}/download-igc.sh \
 		${S}/transfer-xcsoar.sh \
 		${S}/ov-calibrate-ts.sh \
 		${D}${bindir}/
-        cd ${D}${bindir}
-        ln -s -r transfer-xcsoar.sh upload-all.sh
-        ln -s -r transfer-xcsoar.sh upload-xcsoar.sh
-        ln -s -r transfer-xcsoar.sh download-all.sh
+	cd ${D}${bindir}
+	ln -s -r transfer-xcsoar.sh upload-all.sh
+	ln -s -r transfer-xcsoar.sh upload-xcsoar.sh
+	ln -s -r transfer-xcsoar.sh download-all.sh
 }
 
 FILES:${PN} = " \
