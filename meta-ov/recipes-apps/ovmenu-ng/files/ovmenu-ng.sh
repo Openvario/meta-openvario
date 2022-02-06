@@ -257,7 +257,8 @@ function submenu_rotation() {
 		dialog --nocancel --backtitle "OpenVario" \
 		--title "[ S Y S T E M ]" \
 		--begin 3 4 \
-		--menu "Actual Setting is $ROTATION \nSelect Rotation:" 15 50 4 \
+		--default-item "${ROTATION}" \
+		--menu "Select Rotation:" 15 50 4 \
 		 0 "Landscape 0 deg" \
 		 1 "Portrait 90 deg" \
 		 2 "Landscape 180 deg" \
