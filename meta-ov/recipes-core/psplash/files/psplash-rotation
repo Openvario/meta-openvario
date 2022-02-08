@@ -2,18 +2,18 @@
 
 # convert fbcon/rotate to degrees
 
-case "$(cat /sys/class/graphics/fbcon/rotate)" in
-    "3")
-        rotation=90
-        ;;
-    "2")
-        rotation=180
-        ;;
-    "1")
-        rotation=270
-        ;;
-    *)
-        rotation=0
-        ;;
+case "$(sed -n 's/^rotation=//p' /boot/config.uEnv)" in
+	"3")
+		rotation=90
+		;;
+	"2")
+		rotation=180
+		;;
+	"1")
+		rotation=270
+		;;
+	*)
+		rotation=0
+		;;
 esac
 exec /usr/bin/psplash --angle "${rotation}"
