@@ -12,6 +12,8 @@ CONFIG_SPL_I2C_SUPPORT=y
 # CONFIG_SPL_EFI_PARTITION is not set
 CONFIG_DEFAULT_DEVICE_TREE="openvario"
 
+CONFIG_PREBOOT="run openvario_preboot"
+
 # CONFIG_BOOTM_NETBSD is not set
 # CONFIG_BOOTM_PLAN9 is not set
 # CONFIG_BOOTM_RTEMS is not set
