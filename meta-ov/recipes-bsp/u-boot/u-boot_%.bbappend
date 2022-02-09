@@ -48,6 +48,7 @@ SRC_URI:append:cubieboard2 = " \
 	file://0001-Added-openvario.dts-to-Makefile.patch \
 	file://0001-Added-RGB-swap-for-RGB-LCD.patch \
 	file://0001-Environment-Openvario-mainline.patch \
+	file://0001-video_bmp-implement-BMP-RLE-to-32-bit.patch \
 	\
 	file://ini2c.py \
 	file://bootenv.ini \
@@ -89,3 +90,4 @@ do_deploy:append:cubieboard2() {
 	install -m 644 -D ${WORKDIR}/config.uEnv ${DEPLOYDIR}
 	cat ${WORKDIR}/font.env >>${DEPLOYDIR}/config.uEnv
 }
+
