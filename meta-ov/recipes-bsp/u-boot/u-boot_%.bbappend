@@ -44,15 +44,6 @@ SRC_URI:append:cubieboard2 = " \
 	file://openvario.dts \
 	file://config.uEnv \
 	file://font.env \
-	file://ov_recover_0.bmp \
-	file://ov_recover_1.bmp \
-	file://ov_recover_2.bmp \
-	file://ov_recover_3.bmp \
-	\
-	file://ov_booting_0.bmp \
-	file://ov_booting_1.bmp \
-	file://ov_booting_2.bmp \
-	file://ov_booting_3.bmp \
 	\
 	file://0001-Added-openvario.dts-to-Makefile.patch \
 	file://0001-Added-RGB-swap-for-RGB-LCD.patch \
@@ -77,6 +68,14 @@ do_configure:prepend:cubieboard2() {
 	cp ${WORKDIR}/openvario_defconfig ${S}/configs/openvario_defconfig
 	cp ${WORKDIR}/openvario.dts ${S}/arch/arm/dts/openvario.dts
 }
+
+do_compile:append:cubieboard2() {
+	DISPLAY=$(perl -ne '/^CONFIG_VIDEO_LCD_MODE="x:(\d+),y:(\d+)/ && print "$1x$2"' ${WORKDIR}/per_machine.cfg)
+	test -n "$DISPLAY"
+	install ${RECIPE_SYSROOT}${datadir}/openvario/u-boot/$DISPLAY/ov_*_?.bmp ${WORKDIR}
+}
+
+do_compile[depends] += "perl-native:do_populate_sysroot openvario-logo:do_populate_sysroot"
 
 do_install:append:cubieboard2() {
 	install -m 644 -D ${WORKDIR}/ov_*.bmp ${D}/boot
