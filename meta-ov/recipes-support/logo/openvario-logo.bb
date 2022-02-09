@@ -45,6 +45,7 @@ build_uboot_logos1() {
 		   -gravity South \
 		   -font "${FONT}" -pointsize $_FONTSIZE -draw "text 0,$_TEXT_POSITION '$_TEXT'" \
 		   -alpha off \
+		   -type Palette \
 		   ${B}/$_SIZE/"$_PREFIX"_0.bmp
 	${CONVERT} -rotate 180 ${B}/$_SIZE/"$_PREFIX"_0.bmp ${B}/$_SIZE/"$_PREFIX"_2.bmp
 
@@ -54,6 +55,7 @@ build_uboot_logos1() {
 		   -gravity South \
 		   -font "${FONT}" -pointsize $_FONTSIZE -draw "text 0,$_TEXT_POSITION '$_TEXT'" \
 		   -alpha off \
+		   -type Palette \
 		   ${B}/$_SIZE/"$_PREFIX"_portrait.bmp
 	${CONVERT} -rotate 90 ${B}/$_SIZE/"$_PREFIX"_portrait.bmp ${B}/$_SIZE/"$_PREFIX"_1.bmp
 	${CONVERT} -rotate 270 ${B}/$_SIZE/"$_PREFIX"_portrait.bmp ${B}/$_SIZE/"$_PREFIX"_3.bmp
