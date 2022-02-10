@@ -65,3 +65,7 @@ CONFIG_BMP_32BPP=y
 # CONFIG_CMD_RANDOM is not set
 # CONFIG_CMD_GPT is not set
 # CONFIG_RANDOM_UUID is not set
+
+# no binary "uboot.env" file anywhere
+CONFIG_ENV_IS_NOWHERE=y
+# CONFIG_ENV_IS_IN_FAT is not set
