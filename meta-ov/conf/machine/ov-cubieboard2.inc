@@ -3,8 +3,6 @@
 # this value is recommended by meta-sunxi/README.md
 DEFAULTTUNE = "cortexa7hf-neon-vfpv4"
 
-PREFERRED_VERSION_linux-mainline ?= "5.10.%"
-
 # use the open source "Lima" Mali GPU driver
 MACHINEOVERRIDES .= ":use-mailine-graphics"
 
