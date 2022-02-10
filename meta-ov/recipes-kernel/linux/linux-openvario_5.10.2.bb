@@ -8,10 +8,12 @@ inherit kernel kernel-yocto siteinfo
 # Pull in the devicetree files into the rootfs
 RDEPENDS_${KERNEL_PACKAGE_NAME}-base += "kernel-devicetree"
 
-S = "${WORKDIR}/linux-${PV}"
+S = "${WORKDIR}/git"
+
+KBRANCH = "linux-5.10.y"
 
 SRC_URI = " \
-	https://www.kernel.org/pub/linux/kernel/v5.x/linux-${PV}.tar.xz \
+	git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git;branch=${KBRANCH};tag=v${PV} \
 	\
 	file://defconfig \
 	\
