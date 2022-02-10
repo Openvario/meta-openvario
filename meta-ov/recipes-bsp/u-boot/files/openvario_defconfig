@@ -27,8 +27,10 @@ CONFIG_SUN7I_GMAC=y
 # CONFIG_SCSI is not set
 CONFIG_SYS_USB_EVENT_POLL_VIA_INT_QUEUE=y
 
+# The OHCI controller causes bus scan timeouts, and OpenVario doesn't
+# use it anyway.
+# CONFIG_USB_OHCI_HCD is not set
 
-CONFIG_USB_OHCI_HCD=y
 CONFIG_USB_EHCI_HCD=y
 CONFIG_USB_STORAGE=y
 
