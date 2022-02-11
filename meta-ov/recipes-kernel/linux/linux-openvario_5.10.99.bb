@@ -37,8 +37,6 @@ SRC_URI = " \
 "
 
 SRC_URI:append:sunxi = " \
-	file://0002-Allow-to-set-duty-cycle-before-turning-off-the-PWM.patch \
-	\
 	file://0001-pwm-sun4i-convert-next_period-to-local-variable.patch \
 	file://0002-pwm-sun4i-calculate-delay_jiffies-directly-eliminate.patch \
 	file://0003-pwm-sun4i-calculate-the-delay-without-rounding-down-.patch \
