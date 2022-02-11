@@ -1,8 +1,5 @@
 # Common machine definitions for all Cubieboard2-based OpenVarios
 
-# this value is recommended by meta-sunxi/README.md
-DEFAULTTUNE = "cortexa7hf-neon-vfpv4"
-
 # use the open source "Lima" Mali GPU driver
 MACHINEOVERRIDES .= ":use-mailine-graphics"
 
