@@ -1,5 +1,6 @@
 [Unit]
 Description=Automatically mount connected USB drives
+JobTimeoutSec=2
 
 [Mount]
 What=/dev/sda1
