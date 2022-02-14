@@ -13,7 +13,7 @@ SRC_URI = "\
 
 DEPENDS = "\
         dtc-native \
-        linux-mainline \
+        virtual/kernel \
         openvario-recovery-initramfs \
         u-boot-mkimage-native \
         u-boot \
