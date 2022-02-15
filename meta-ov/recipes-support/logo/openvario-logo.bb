@@ -83,7 +83,7 @@ build_uboot_logos2() {
 do_compile() {
 	build_uboot_logos2 1280 800
 	build_uboot_logos2 1024 600
-	build_uboot_logos2 800 600
+	build_uboot_logos2 800 480
 	build_uboot_logos2 640 480
 	build_uboot_logos2 480 272
 }
@@ -91,7 +91,7 @@ do_compile() {
 do_compile[depends] += "ttf-dejavu:do_populate_sysroot"
 
 do_install() {
-	for i in 1280x800 1024x600 800x600 640x480 480x272; do
+	for i in 1280x800 1024x600 800x480 640x480 480x272; do
 		install -d ${D}/${datadir}/openvario/u-boot/$i
 		install ${B}/$i/ov_*_?.bmp ${D}/${datadir}/openvario/u-boot/$i
 	done
