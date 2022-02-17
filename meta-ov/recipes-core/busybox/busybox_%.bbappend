@@ -1,6 +1,7 @@
 FILESEXTRAPATHS:prepend := "${THISDIR}/files:"
 
 SRC_URI += " \
+	file://debloat.cfg \
 	file://systemd.cfg \
 	file://networking.cfg \
 	file://no_swap.cfg \
