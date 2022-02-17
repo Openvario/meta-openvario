@@ -86,3 +86,12 @@ mask_systemd_units() {
 }
 
 ROOTFS_POSTPROCESS_COMMAND += "mask_systemd_units;"
+
+delete_uimage() {
+	# delete the redundant uImage from the root partition; another
+	# copy is on the /boot partition, and that one is used by
+	# u-boot
+	rm -f ${IMAGE_ROOTFS}/boot/uImage*
+}
+
+ROOTFS_POSTINSTALL_COMMAND += "delete_uimage;"
