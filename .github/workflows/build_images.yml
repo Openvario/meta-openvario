@@ -1,5 +1,5 @@
 # This is a basic workflow to verify incoming PRs with just one single machine (openvario-57-lvds)
-name: verify_pr
+name: Build images
 
 # Controls when the workflow will run
 on:
