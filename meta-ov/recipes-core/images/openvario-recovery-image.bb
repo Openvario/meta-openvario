@@ -1,7 +1,7 @@
 SUMMARY = "Distribution of boot up and recovery itb's with kernel and boot up initramfs built in"
 HOMEPAGE = "none"
 LICENSE = "MIT"
-LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=4d92cd373abda3937c2bc47fbc49d690"
+LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda2f7b4f302"
 
 PR = "r24"
 
@@ -13,7 +13,7 @@ SRC_URI = "\
 
 DEPENDS = "\
         dtc-native \
-        linux-mainline \
+        virtual/kernel \
         openvario-recovery-initramfs \
         u-boot-mkimage-native \
         u-boot \

@@ -1,0 +1,8 @@
+[Unit]
+Description=Mount the boot partition
+
+[Mount]
+What=/dev/mmcblk0p1
+Where=/boot
+Type=vfat
+Options=nodev,noexec,nosuid,noatime,rw,sync

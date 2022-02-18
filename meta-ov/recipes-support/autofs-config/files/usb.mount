@@ -1,7 +1,0 @@
-[Unit]
-Description=Automatically mount connected USB drives
-
-[Mount]
-What=/dev/sda1
-Where=/usb
-Options=nodev,noexec,nosuid,noatime,rw,sync

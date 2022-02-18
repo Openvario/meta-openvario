@@ -4,14 +4,6 @@
 TIMEOUT=3
 INPUT=/tmp/menu.sh.$$
 
-TOUCH_CAL=/opt/conf/touch.cal
-
-unset XCSOAR_OPTIONS
-unset CONSOLE_FONT
-
-#get config files
-source /opt/conf/*.conf
-
 # trap and delete temp files
 trap "rm $INPUT;rm /tmp/tail.$$; exit" SIGHUP SIGINT SIGTERM
 
@@ -29,10 +21,10 @@ do
 	Exit   "Exit to the shell" \
 	Restart "Restart" \
 	Power_OFF "Power OFF" 2>"${INPUT}"
-	 
+
 	menuitem=$(<"${INPUT}")
- 
-	# make decsion 
+
+	# make decsion
 case $menuitem in
 	XCSoar) start_xcsoar;;
 	File) submenu_file;;
@@ -56,10 +48,10 @@ function submenu_file() {
 	Download   "Download XCSoar to USB" \
 	Upload   "Upload files from USB to XCSoar" \
 	Back   "Back to Main" 2>"${INPUT}"
-	
+
 	menuitem=$(<"${INPUT}")
-	
-	# make decsion 
+
+	# make decsion
 	case $menuitem in
 		Download_IGC) download_igc_files;;
 		Download) download_files;;
@@ -81,21 +73,21 @@ function submenu_system() {
 	Settings   "System Settings" \
 	Information "System Info" \
 	Back   "Back to Main" 2>"${INPUT}"
-	
+
 	menuitem=$(<"${INPUT}")
-	
-	# make decsion 
+
+	# make decsion
 	case $menuitem in
-		Update_System) 
+		Update_System)
 			update_system
 			;;
-		Update_Maps) 
+		Update_Maps)
 			update_maps
 			;;
-		Calibrate_Sensors) 
+		Calibrate_Sensors)
 			calibrate_sensors
 			;;
-		Calibrate_Touch) 
+		Calibrate_Touch)
 			calibrate_touch
 			;;
 		Settings)
@@ -105,7 +97,7 @@ function submenu_system() {
 			show_info
 			;;
 		Exit) ;;
-	esac		
+	esac
 }
 
 function show_info() {
@@ -117,7 +109,7 @@ function show_info() {
 	VARIOD_VERSION=$(opkg list-installed variod* | awk -F' ' '{print $3}')
 	IP_ETH0=$(/sbin/ifconfig eth0 | grep 'inet addr:' | cut -d: -f2 | awk '{ print $1}')
 	IP_WLAN=$(/sbin/ifconfig wlan0 | grep 'inet addr:' | cut -d: -f2 | awk '{ print $1}')
-	
+
 	dialog --backtitle "OpenVario" \
 	--title "[ S Y S T E M I N F O ]" \
 	--begin 3 4 \
@@ -131,7 +123,7 @@ function show_info() {
 	IP eth0: $IP_ETH0\n \
 	IP wlan0: $IP_WLAN\n \
 	" 15 50
-	
+
 }
 
 function submenu_settings() {
@@ -143,11 +135,12 @@ function submenu_settings() {
 	Display_Rotation 	"Set rotation of the display" \
 	LCD_Brightness		"Set display brightness" \
 	XCSoar_Language 	"Set language used for XCSoar" \
+	SSH			"Enable or disable SSH" \
 	Back   "Back to Main" 2>"${INPUT}"
-	
+
 	menuitem=$(<"${INPUT}")
 
-	# make decsion 
+	# make decsion
 	case $menuitem in
 		Display_Rotation)
 			submenu_rotation
@@ -158,13 +151,21 @@ function submenu_settings() {
 		XCSoar_Language)
 			submenu_xcsoar_lang
 			;;
+		SSH)
+			submenu_ssh
+			;;
 		Back) ;;
-	esac		
+	esac
 }
 
 function submenu_xcsoar_lang() {
-	if [ -n $XCSOAR_LANG ]; then
-		dialog --nocancel --backtitle "OpenVario" \
+	if test -n "$LANG"; then
+		XCSOAR_LANG="$LANG"
+	else
+		XCSOAR_LANG="system"
+	fi
+
+	dialog --nocancel --backtitle "OpenVario" \
 		--title "[ S Y S T E M ]" \
 		--begin 3 4 \
 		--menu "Actual Setting is $XCSOAR_LANG \nSelect Language:" 15 50 12 \
@@ -181,17 +182,45 @@ function submenu_xcsoar_lang() {
 		 es_ES.UTF-8 "Espanol" \
 		 nl_NL.UTF-8 "Dutch" \
 		 2>"${INPUT}"
-		 
-		 menuitem=$(<"${INPUT}")
 
-		# update config
-		sed -i 's/^XCSOAR_LANG=.*/XCSOAR_LANG='$menuitem'/' /opt/conf/ov-xcsoar.conf
-		sync
-		dialog --msgbox "New Setting saved !!\n A Reboot is required !!!" 10 50	
+	menuitem=$(<"${INPUT}")
+
+	# update config
+	localectl set-locale "$menuitem"
+	sync
+
+	export LANG="$menuitem"
+}
+
+function submenu_ssh() {
+	if /bin/systemctl --quiet is-enabled dropbear.socket; then
+		local state=enabled
+	elif /bin/systemctl --quiet is-active dropbear.socket; then
+		local state=temporary
 	else
-		dialog --backtitle "OpenVario" \
-		--title "ERROR" \
-		--msgbox "No Config found !!"
+		local state=disabled
+	fi
+
+	dialog --nocancel --backtitle "OpenVario" \
+		--title "[ S S H ]" \
+		--begin 3 4 \
+		--default-item "${state}" \
+		--menu "SSH access is currently ${state}." 15 50 4 \
+		enabled "Enable SSH permanently" \
+		temporary "Enable SSH temporarily (until reboot)" \
+		disabled "Disable SSH" \
+		2>"${INPUT}"
+	menuitem=$(<"${INPUT}")
+
+	if test "${state}" != "$menuitem"; then
+		if test "$menuitem" = "enabled"; then
+			/bin/systemctl enable --now dropbear.socket
+		elif test "$menuitem" = "temporary"; then
+			/bin/systemctl disable dropbear.socket
+			/bin/systemctl start dropbear.socket
+		else
+			/bin/systemctl disable --now dropbear.socket
+		fi
 	fi
 }
 
@@ -222,33 +251,31 @@ done
 }
 
 function submenu_rotation() {
-	
-	mount /dev/mmcblk0p1 /boot 
 	TEMP=$(grep "rotation" /boot/config.uEnv)
 	if [ -n $TEMP ]; then
 		ROTATION=${TEMP: -1}
 		dialog --nocancel --backtitle "OpenVario" \
 		--title "[ S Y S T E M ]" \
 		--begin 3 4 \
-		--menu "Actual Setting is $ROTATION \nSelect Rotation:" 15 50 4 \
+		--default-item "${ROTATION}" \
+		--menu "Select Rotation:" 15 50 4 \
 		 0 "Landscape 0 deg" \
 		 1 "Portrait 90 deg" \
 		 2 "Landscape 180 deg" \
 		 3 "Portrait 270 deg" 2>"${INPUT}"
-		 
+
 		 menuitem=$(<"${INPUT}")
 
 		# update config
 		# uboot rotation
 		sed -i 's/^rotation=.*/rotation='$menuitem'/' /boot/config.uEnv
-		dialog --msgbox "New Setting saved !!\n Touch recalibration required !!\n A Reboot is required !!!" 10 50
+		echo "$menuitem" >/sys/class/graphics/fbcon/rotate_all
+		dialog --msgbox "New Setting saved !!\n Touch recalibration required !!" 10 50
 	else
 		dialog --backtitle "OpenVario" \
 		--title "ERROR" \
 		--msgbox "No Config found !!"
 	fi
-	
-	umount /boot
 }
 
 function update_system() {
@@ -256,12 +283,12 @@ function update_system() {
 	echo "Updating System ..." > /tmp/tail.$$
 	opkg update &>/dev/null
 	OPKG_UPDATE=$(opkg list-upgradable)
-	
+
 	dialog --backtitle "Openvario" \
 	--begin 3 4 \
 	--defaultno \
 	--title "Update" --yesno "$OPKG_UPDATE" 15 40
-	
+
 	response=$?
 	case $response in
 		0) opkg upgrade &>/tmp/tail.$$
@@ -277,13 +304,13 @@ function calibrate_sensors() {
 	--begin 3 4 \
 	--defaultno \
 	--title "Sensor Calibration" --yesno "Really want to calibrate sensors ?? \n This takes a few moments ...." 10 40
-	
+
 	response=$?
 	case $response in
 		0) ;;
 		*) return 0
 	esac
-		
+
 	echo "Calibrating Sensors ..." >> /tmp/tail.$$
 	systemctl stop sensord
 	/opt/bin/sensorcal -c > /tmp/tail.$$
@@ -295,7 +322,7 @@ function calibrate_sensors() {
 		--begin 3 4 \
 		--defaultno \
 		--title "Init Sensorboard" --yesno "Sensorboard is virgin ! \n Do you want to initialize ??" 10 40
-	
+
 		response=$?
 		case $response in
 			0) /opt/bin/sensorcal -i > /tmp/tail.$$
@@ -343,12 +370,7 @@ function upload_files(){
 }
 
 function start_xcsoar() {
-	/usr/bin/xcsoar_config.sh
-	if [ -z $XCSOAR_LANG ]; then
-		/usr/bin/xcsoar -fly $XCSOAR_OPTIONS
-	else
-		LANG=$XCSOAR_LANG /usr/bin/xcsoar -fly $XCSOAR_OPTIONS
-	fi
+	/usr/bin/xcsoar -fly
 	sync
 }
 
@@ -363,12 +385,17 @@ function yesno_exit(){
 		0)
 			clear
 			cd
+
+			# Redirecting stderr to stdout (= the console)
+			# because stderr is currently connected to
+			# systemd-journald, which breaks interactive
+			# shells.
 			if test -x /bin/bash; then
-				/bin/bash --login
+				/bin/bash --login 2>&1
 			elif test -x /bin/ash; then
-				/bin/ash -i
+				/bin/ash -i 2>&1
 			else
-				/bin/sh
+				/bin/sh 2>&1
 			fi
 			;;
 	esac
@@ -397,8 +424,6 @@ function yesno_power_off(){
 		0) shutdown -h now;;
 	esac
 }
-
-test -z "$CONSOLE_FONT" || setfont "$CONSOLE_FONT"
 
 DIALOG_CANCEL=1 dialog --nook --nocancel --pause "Starting XCSoar ... \\n Press [ESC] for menu" 10 30 $TIMEOUT 2>&1
 

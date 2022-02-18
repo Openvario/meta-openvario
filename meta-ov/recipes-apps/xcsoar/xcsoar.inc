@@ -35,7 +35,6 @@ S = "${WORKDIR}/git"
 LC_LOCALE_PATH = "${datadir}/locale"
 
 SRC_URI += " \
-	file://0001-avoid-tail-cut.patch \
 	file://0007-Disable-touch-screen-auto-detection.patch \
 	https://boostorg.jfrog.io/artifactory/main/release/1.78.0/source/boost_1_78_0.tar.bz2;sha256sum=8681f175d4bdb26c52222665793eef08490d7758529330f98d3b29dd0735bccc;unpack=0 \
 "
@@ -75,18 +74,11 @@ do_compile() {
 }
 
 do_install() {
-	install -d ${D}/opt/conf
-	install -d ${D}/opt/conf/default
-	install -m 0755 ${S}/../ov-xcsoar.conf ${D}/opt/conf/default/ov-xcsoar.conf
-	install -m 0755 ${S}/../ov-xcsoar.conf ${D}/opt/conf/ov-xcsoar.conf
-
 	oe_runmake install-bin install-mo DESTDIR=${D}
 }
 
 FILES:${PN} = " \
 	${bindir}/xcsoar \
 	${bindir}/vali-xcs \
-	/opt/conf/default/ov-xcsoar.conf \
-	/opt/conf/ov-xcsoar.conf \
 	${LC_LOCALE_PATH}/*/LC_MESSAGES/xcsoar.mo \
 "

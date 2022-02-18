@@ -12,16 +12,17 @@ PR = "r10"
 
 inherit allarch
 
-RDEPENDS:${PN} = "bash"
+RDEPENDS:${PN} = " \
+	bash \
+	dialog \
+	rsync \
+"
 
-SRC_URI =      "\
-	file://xcsoar_config.sh \
+SRC_URI = "\
 	file://update-maps.sh \
 	file://update-system.sh \
 	file://download-igc.sh \
-	file://upload-all.sh \
-	file://upload-xcsoar.sh \
-	file://download-all.sh \
+	file://transfer-xcsoar.sh \
 	file://ov-calibrate-ts.sh \
 "
 
@@ -29,28 +30,25 @@ SRC_URI =      "\
 addtask do_package_write_ipk after do_package
 
 do_compile() {
-        :
+	:
 }
 
 do_install() {
-        echo "Installing ..."
-        install -d ${D}/usr/bin
-        install -m 0755 ${S}/xcsoar_config.sh ${D}/usr/bin/xcsoar_config.sh
-        install -m 0755 ${S}/update-maps.sh ${D}/usr/bin/update-maps.sh
-		install -m 0755 ${S}/update-system.sh ${D}/usr/bin/update-system.sh
-		install -m 0755 ${S}/download-igc.sh ${D}/usr/bin/download-igc.sh
-		install -m 0755 ${S}/upload-all.sh ${D}/usr/bin/upload-all.sh
-		install -m 0755 ${S}/upload-xcsoar.sh ${D}/usr/bin/upload-xcsoar.sh
-		install -m 0755 ${S}/download-all.sh ${D}/usr/bin/download-all.sh
-		install -m 0755 ${S}/ov-calibrate-ts.sh ${D}/usr/bin/ov-calibrate-ts.sh
+	echo "Installing ..."
+	install -d ${D}${bindir}
+	install -m 0755 \
+		${S}/update-maps.sh \
+		${S}/update-system.sh \
+		${S}/download-igc.sh \
+		${S}/transfer-xcsoar.sh \
+		${S}/ov-calibrate-ts.sh \
+		${D}${bindir}/
+	cd ${D}${bindir}
+	ln -s -r transfer-xcsoar.sh upload-all.sh
+	ln -s -r transfer-xcsoar.sh upload-xcsoar.sh
+	ln -s -r transfer-xcsoar.sh download-all.sh
 }
 
-FILES:${PN} = "/usr/bin/xcsoar_config.sh \
-				/usr/bin/update-maps.sh \
-				/usr/bin/update-system.sh \
-				/usr/bin/download-igc.sh \
-				/usr/bin/upload-all.sh \
-				/usr/bin/download-all.sh \
-				/usr/bin/upload-xcsoar.sh \
-				/usr/bin/ov-calibrate-ts.sh \
+FILES:${PN} = " \
+	${bindir}/*.sh \
 "

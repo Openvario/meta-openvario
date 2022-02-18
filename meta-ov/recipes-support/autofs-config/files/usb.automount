@@ -1,8 +1,0 @@
-[Unit]
-Description=Automatically mount connected USB drives
-
-[Automount]
-Where=/usb
-
-[Install]
-WantedBy=ovmenu-ng.service
