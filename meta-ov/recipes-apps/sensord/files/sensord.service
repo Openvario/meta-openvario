@@ -1,10 +1,8 @@
 [Unit]
 Description=Sensor Daemon for Openvario Sensorboard
-After=syslog.target
 
 [Service]
-Type=forking
-ExecStart=/opt/bin/sensord -c /opt/conf/sensord.conf
+ExecStart=/opt/bin/sensord -f -c /opt/conf/sensord.conf
 Restart=on-abort
 
 [Install]
