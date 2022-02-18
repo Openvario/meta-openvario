@@ -13,7 +13,7 @@ state.sun4icodec {
 			dbvalue.0 -400
 		}
 	}
-	control.2 {
+	control.8 {
 		iface MIXER
 		name 'Left Mixer Left DAC Playback Switch'
 		value false
@@ -23,7 +23,7 @@ state.sun4icodec {
 			count 1
 		}
 	}
-	control.3 {
+	control.13 {
 		iface MIXER
 		name 'Right Mixer Right DAC Playback Switch'
 		value true
@@ -33,7 +33,7 @@ state.sun4icodec {
 			count 1
 		}
 	}
-	control.4 {
+	control.14 {
 		iface MIXER
 		name 'Right Mixer Left DAC Playback Switch'
 		value true
@@ -43,7 +43,7 @@ state.sun4icodec {
 			count 1
 		}
 	}
-	control.5 {
+	control.15 {
 		iface MIXER
 		name 'Power Amplifier DAC Playback Switch'
 		value true
@@ -53,7 +53,7 @@ state.sun4icodec {
 			count 1
 		}
 	}
-	control.6 {
+	control.16 {
 		iface MIXER
 		name 'Power Amplifier Mixer Playback Switch'
 		value true
@@ -63,7 +63,7 @@ state.sun4icodec {
 			count 1
 		}
 	}
-	control.7 {
+	control.17 {
 		iface MIXER
 		name 'Power Amplifier Mute Switch'
 		value true

@@ -5,8 +5,7 @@ Requires=pulseaudio.service
 After=pulseaudio.service
 
 [Service]
-Type=forking
-ExecStart=/opt/bin/variod -c /opt/conf/variod.conf
+ExecStart=/opt/bin/variod -f -c /opt/conf/variod.conf
 Restart=on-abort
 
 [Install]
