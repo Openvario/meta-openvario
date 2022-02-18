@@ -17,7 +17,7 @@ jobs:
   # This workflow contains a single job called "build"
   Build_Images:
     
-    name: Verify recipes at Pull Requests
+    name: Build images for release
     
     # The type of runner that the job will run on
     runs-on: ubuntu-20.04
