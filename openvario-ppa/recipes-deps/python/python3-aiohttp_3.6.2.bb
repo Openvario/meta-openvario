@@ -18,7 +18,7 @@ HOMEPAGE = "https://github.com/aio-libs/aiohttp"
 # licenses then you should change the value to separate the licenses with |
 # instead of &. If there is any doubt, check the accompanying documentation
 # to determine which situation is applicable.
-LICENSE = "Unknown & MIT & Apache"
+LICENSE = "MIT & Apache-2.0"
 LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=cf056e8e7a0a5477451af18b7b5aa98c \
                     file://vendor/http-parser/LICENSE-MIT;md5=9bfa835d048c194ab30487af8d7b3778"
 

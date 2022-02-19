@@ -4,6 +4,9 @@ Description=Openvario Shell
 # No getty on tty1
 Conflicts=getty@tty1.service
 
+# Interface with usb sticks using automount to /usb/usbstick
+Wants=usb-usbstick.automount
+
 After=systemd-user-sessions.service plymouth-quit-wait.service getty-pre.target
 After=rc-local.service
 

@@ -8,7 +8,7 @@ SRC_URI = " \
     file://ovshell.service \
 "
 
-RCONFLICTS:${PN} = "ovmenu-ng-autostart"
+RCONFLICTS:${PN} = "ovmenu-ng"
 
 SYSTEMD_SERVICE:${PN} = "ovshell.service"
 

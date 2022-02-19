@@ -18,7 +18,7 @@ HOMEPAGE = "https://www.attrs.org/"
 # licenses then you should change the value to separate the licenses with |
 # instead of &. If there is any doubt, check the accompanying documentation
 # to determine which situation is applicable.
-LICENSE = "MIT & Unknown"
+LICENSE = "MIT"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=d4ab25949a73fe7d4fdee93bcbdbf8ff \
                     file://docs/license.rst;md5=0da481b581a7a2a95b0546f5968519cf"
 

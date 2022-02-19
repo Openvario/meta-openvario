@@ -10,7 +10,7 @@ HOMEPAGE = "https://github.com/aio-libs/yarl/"
 # The following license files were not able to be identified and are
 # represented as "Unknown" below, you will need to check them yourself:
 #   LICENSE
-LICENSE = "Apache"
+LICENSE = "Apache-2.0"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=b334fc90d45983db318f54fd5bf6c90b"
 
 SRC_URI[md5sum] = "08ba0d6e18f460b44d9e5459f3d217ba"

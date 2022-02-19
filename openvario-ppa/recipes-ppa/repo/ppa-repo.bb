@@ -13,6 +13,7 @@ DEPENDS = "\
     python3-pip \
     xcsoar \
     ntp \
+    kedder-opkg-feed \
 "
 
 inherit nopackages

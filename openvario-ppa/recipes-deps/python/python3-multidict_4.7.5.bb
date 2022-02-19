@@ -10,7 +10,7 @@ HOMEPAGE = "https://github.com/aio-libs/multidict"
 # The following license files were not able to be identified and are
 # represented as "Unknown" below, you will need to check them yourself:
 #   LICENSE
-LICENSE = "Apache"
+LICENSE = "Apache-2.0"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=e74c98abe0de8f798ca609137f9cef4a"
 
 SRC_URI[md5sum] = "9a1ed2cc0cd3e5dd2e71921104f2b760"
