@@ -20,8 +20,10 @@ jobs:
     name: Build images for release
     
     # The type of runner that the job will run on
-    runs-on: ubuntu-20.04
-    
+    #runs-on: ubuntu-20.04
+    runs-on: self-hosted
+
+
     # Matrix Run: Test all combinations
     strategy:
       matrix:
