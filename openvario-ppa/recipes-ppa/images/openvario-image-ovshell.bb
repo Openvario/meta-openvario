@@ -4,7 +4,7 @@ require recipes-core/images/openvario-base-image.bb
 IMAGE_ROOTFS_SIZE ?= "1048576"
 
 IMAGE_INSTALL += "\
-    xcsoar-testing \
+    xcsoar \
     xcsoar-menu \
     xcsoar-profiles \
     xcsoar-maps-default \
