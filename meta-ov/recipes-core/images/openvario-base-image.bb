@@ -65,3 +65,33 @@ IMAGE_ROOTFS_EXTRA_SPACE:append = "${@bb.utils.contains("DISTRO_FEATURES", "syst
 EXTRA_USERS_PARAMS = "\
     usermod -a -G audio root; \
 "
+
+# These systemd units are going to be masked, because they are a no-op
+# and just waste boot time.
+MASK_SYSTEMD_UNITS = " \
+	dev-hugepages.mount \
+	dev-mqueue.mount \
+	sys-fs-fuse-connections.mount \
+	sys-kernel-config.mount \
+	sys-kernel-debug.mount \
+	sys-kernel-tracing.mount \
+	modprobe@.service \
+	systemd-sysctl.service \
+"
+
+mask_systemd_units() {
+	for i in ${MASK_SYSTEMD_UNITS}; do
+		ln -s /dev/null ${IMAGE_ROOTFS}${sysconfdir}/systemd/system/$i
+	done
+}
+
+ROOTFS_POSTPROCESS_COMMAND += "mask_systemd_units;"
+
+delete_uimage() {
+	# delete the redundant uImage from the root partition; another
+	# copy is on the /boot partition, and that one is used by
+	# u-boot
+	rm -f ${IMAGE_ROOTFS}/boot/uImage*
+}
+
+ROOTFS_POSTINSTALL_COMMAND += "delete_uimage;"
