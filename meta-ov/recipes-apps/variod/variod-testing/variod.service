@@ -1,0 +1,18 @@
+[Unit]
+Description=Variod Daemon for Openvario
+Requires=sensord.socket
+After=sensord.socket
+Requires=pulseaudio.service
+After=pulseaudio.service
+
+[Service]
+ExecStart=/opt/bin/variod -f -c /opt/conf/variod.conf
+Restart=on-abort
+
+# enable real-time scheduling to ensure that variod meets all
+# deadlines to keep the audio buffer full
+CPUSchedulingPolicy=fifo
+CPUSchedulingPriority=10
+
+[Install]
+WantedBy=multi-user.target
