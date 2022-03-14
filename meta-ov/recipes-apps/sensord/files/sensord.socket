@@ -1,0 +1,6 @@
+[Unit]
+Description=Sensor Daemon for Openvario Sensorboard
+
+[Socket]
+ListenStream=%t/sensord.socket
+Accept=yes
