@@ -36,6 +36,8 @@ IMAGE_INSTALL = " \
     packagegroup-base \
     distro-feed-configs \
     nano \
+    i2c-tools \
+    e2fsprogs \
     openssh-sftp-server \
     tslib \
     tslib-tests \
