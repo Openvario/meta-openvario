@@ -7,7 +7,7 @@ S = "${WORKDIR}/git"
 
 inherit systemd
 
-SRC_URI = "git://github.com/Openvario/sensord.git;protocol=git;tag=${PV} \
+SRC_URI = "git://github.com/Openvario/sensord.git;protocol=https;tag=${PV} \
 "
 
 require sensord.inc
