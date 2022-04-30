@@ -13,11 +13,13 @@ RDEPENDS:${PN} = " \
 		bash \
 "
 
+PV = "0.1+git${SRCPV}"
+
 PR = "r6"
 
 S = "${WORKDIR}/git"
 
-SRC_URI = "git://git-ro.openvario.org/ovmenu.git;protocol=http;rev=master\
+SRC_URI = "git://git-ro.openvario.org/ovmenu.git;protocol=http;branch=master;rev=master\
 "
 
 do_compile() {
