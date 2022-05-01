@@ -5,5 +5,5 @@ PR = "r12"
 
 SRCREV:pn-variod-testing = "${AUTOREV}" 
 
-SRC_URI:append = " git://github.com/Openvario/variod.git;protocol=git;branch=master "
+SRC_URI:append = " git://github.com/Openvario/variod.git;protocol=https;branch=master "
 
