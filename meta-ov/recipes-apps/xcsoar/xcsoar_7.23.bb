@@ -5,7 +5,6 @@ PR="r0"
 RCONFLICTS:${PN}="xcsoar-testing"
 
 SRC_URI = "git://github.com/XCSoar/XCSoar.git;protocol=git;tag=v${PV} \
-
 "
 
 require xcsoar.inc
