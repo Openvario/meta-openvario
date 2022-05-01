@@ -6,7 +6,7 @@ RCONFLICTS:${PN}="xcsoar"
 
 SRCREV:pn-xcsoar-testing = "${AUTOREV}" 
 
-SRC_URI = "git://github.com/freevariode/XCSoar.git;protocol=git;branch=master \
+SRC_URI = "git://github.com/XCSoar/XCSoar.git;protocol=https;branch=master \
 "
 
 require xcsoar.inc
