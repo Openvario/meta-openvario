@@ -10,7 +10,7 @@ RDEPENDS_${KERNEL_PACKAGE_NAME}-base += "kernel-devicetree"
 
 S = "${WORKDIR}/git"
 
-KBRANCH = "linux-5.15.y"
+KBRANCH = "linux-5.17.y"
 
 SRC_URI = " \
 	git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git;branch=${KBRANCH};tag=v${PV} \
