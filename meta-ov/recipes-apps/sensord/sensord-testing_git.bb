@@ -6,7 +6,7 @@ PR = "r10"
 inherit systemd
 SRCREV:pn-sensord-testing = "${AUTOREV}"
 
-SRC_URI = "git://github.com/Openvario/sensord.git;protocol=git;branch=master \
+SRC_URI = "git://github.com/Openvario/sensord.git;protocol=https;branch=master \
 			file://sensord.cfgmgr \			  
 	file://sensord.socket \
 	file://sensord@.service \
