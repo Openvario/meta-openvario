@@ -41,11 +41,9 @@ FILESEXTRAPATHS:prepend := "${THISDIR}/files:"
 SRC_URI:append:cubieboard2 = " \
 	file://openvario.cfg \
 	file://per_machine.cfg \
-	file://openvario.dts \
 	file://config.uEnv \
 	file://font.env \
 	\
-	file://0001-Added-openvario.dts-to-Makefile.patch \
 	file://0001-Added-RGB-swap-for-RGB-LCD.patch \
 	file://0001-Environment-Openvario-mainline.patch \
 	file://0001-video_bmp-implement-BMP-RLE-to-32-bit.patch \
@@ -64,10 +62,6 @@ do_bootenv:append:cubieboard2() {
 
 addtask do_bootenv after do_unpack before do_configure
 do_bootenv[depends] += "python3-native:do_populate_sysroot"
-
-do_configure:prepend:cubieboard2() {
-	cp ${WORKDIR}/openvario.dts ${S}/arch/arm/dts/openvario.dts
-}
 
 do_compile:append:cubieboard2() {
 	DISPLAY=$(perl -ne '/^CONFIG_VIDEO_LCD_MODE="x:(\d+),y:(\d+)/ && print "$1x$2"' ${WORKDIR}/per_machine.cfg)
