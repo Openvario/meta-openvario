@@ -39,7 +39,7 @@ do_compile:append() {
 FILESEXTRAPATHS:prepend := "${THISDIR}/files:"
 
 SRC_URI:append:cubieboard2 = " \
-	file://openvario_defconfig \
+	file://openvario.cfg \
 	file://per_machine.cfg \
 	file://openvario.dts \
 	file://config.uEnv \
@@ -66,7 +66,6 @@ addtask do_bootenv after do_unpack before do_configure
 do_bootenv[depends] += "python3-native:do_populate_sysroot"
 
 do_configure:prepend:cubieboard2() {
-	cp ${WORKDIR}/openvario_defconfig ${S}/configs/openvario_defconfig
 	cp ${WORKDIR}/openvario.dts ${S}/arch/arm/dts/openvario.dts
 }
 
