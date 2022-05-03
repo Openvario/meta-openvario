@@ -75,6 +75,7 @@ do_install:append:cubieboard2() {
 	install -m 644 -D ${WORKDIR}/ov_*.bmp ${D}/boot
 	install -m 644 -D ${WORKDIR}/config.uEnv ${D}/boot
 	cat ${WORKDIR}/font.env >>${D}/boot/config.uEnv
+	echo fdtfile=${KERNEL_DEVICETREE} >>${D}/boot/config.uEnv
 }
 
 do_deploy:append:cubieboard2() {
@@ -82,5 +83,5 @@ do_deploy:append:cubieboard2() {
 	install -m 644 -D ${WORKDIR}/ov_*.bmp ${DEPLOYDIR}/pics
 	install -m 644 -D ${WORKDIR}/config.uEnv ${DEPLOYDIR}
 	cat ${WORKDIR}/font.env >>${DEPLOYDIR}/config.uEnv
+	echo fdtfile=${KERNEL_DEVICETREE} >>${DEPLOYDIR}/config.uEnv
 }
-
