@@ -66,10 +66,7 @@ KMACHINE ?= "${MACHINE}"
 KMETA = ".kernel-meta"
 
 do_configure:prepend:sunxi() {
-	if test -n "${KERNEL_DEVICETREE_SOURCE}"; then
-		cp ${WORKDIR}/openvario-common.dts ${S}/arch/arm/boot/dts/openvario-common.dts
-		cp ${WORKDIR}/${KERNEL_DEVICETREE_SOURCE} ${S}/arch/arm/boot/dts/openvario.dts
-	fi
+	cp ${WORKDIR}/openvario-*.dts ${S}/arch/arm/boot/dts/
 }
 
 FILES_${KERNEL_PACKAGE_NAME}-base:append = " ${nonarch_base_libdir}/modules/${KERNEL_VERSION}/modules.builtin.modinfo"

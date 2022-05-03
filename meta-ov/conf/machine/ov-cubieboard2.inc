@@ -11,5 +11,3 @@ MACHINE_FEATURES:remove = "apm"
 
 IMAGE_CLASSES += "sdcard_image-openvario"
 IMAGE_FSTYPES = "openvario-sdimg"
-
-KERNEL_DEVICETREE = "openvario.dtb"
