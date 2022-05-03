@@ -5,9 +5,6 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
 
 inherit kernel kernel-yocto siteinfo
 
-# Pull in the devicetree files into the rootfs
-RDEPENDS_${KERNEL_PACKAGE_NAME}-base += "kernel-devicetree"
-
 S = "${WORKDIR}/git"
 
 KBRANCH = "linux-5.17.y"
