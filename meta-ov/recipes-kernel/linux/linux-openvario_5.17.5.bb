@@ -1,6 +1,6 @@
 DESCRIPTION = "Linux kernel for OpenVario"
 SECTION = "kernel"
-LICENSE = "GPLv2"
+LICENSE = "GPL-2.0-only"
 LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
 
 inherit kernel kernel-yocto siteinfo
@@ -12,8 +12,10 @@ S = "${WORKDIR}/git"
 
 KBRANCH = "linux-5.17.y"
 
+SRCREV = "2731bd17017d4a0e2180a1917ab22d7820a07330"
+
 SRC_URI = " \
-	git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git;branch=${KBRANCH};tag=v${PV} \
+	git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git;branch=${KBRANCH} \
 	\
 	file://defconfig \
 	\
