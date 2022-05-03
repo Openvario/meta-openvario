@@ -1,0 +1,117 @@
+\documentclass[german,a4paper,11pt]{refrep}
+\usepackage[utf8]{inputenc}
+\usepackage{colortbl}
+\usepackage{tabularx}
+\definecolor{light-gray}{gray}{0.95}
+\newcommand{\gray}{\rowcolor[gray]{.90}}
+\usepackage{multicol}
+\usepackage{array}
+\newcolumntype{L}[1]{>{\raggedright\let\newline\\\arraybackslash}p{#1}}
+\newcolumntype{C}[1]{>{\centering\let\newline\\\arraybackslash}p{#1}}
+\newcolumntype{R}[1]{>{\raggedleft\let\newline\\\arraybackslash}p{#1}}
+\usepackage[pdftex]{hyperref}
+\hypersetup{linkcolor=blue,%interne Links (ref, cite, etc)
+linktocpage=true,%nur Seitenzahlen nicht der Tex wird eingefärbt
+urlcolor=blue,%externe links 
+pdftitle={OpenVario Developer Guide},
+pdfauthor=Timo Bruderek,
+bookmarks=true,
+bookmarksnumbered=true,
+breaklinks=true%Umbruch von links erlaubt
+}
+
+\makeatletter
+\title{Developer Guide}%	Titel der ersten Seite 
+\newcommand{\mycontent}[0]{%
+\begin{tabular}{l}\hspace*{-4cm}{\em OpenVario Manual  } \vspace*{2pt}\end{tabular}}% Kopfzeile
+%
+%
+\input{../style/ov.sty}       % XCS-Sytelfile hier laden
+\input{../style/title-ov.sty} % XCS Titelseite hier laden
+%\input{buttons-de.sty}   % Extras for de laden
+%
+%
+\begin{document}
+\sloppy
+%\shorthandoff{"}%
+
+%%%%%%%%%%%%%%%%%%%%%%
+% Front page
+\maketitle
+
+ 
+%%%%%%%%%%%%%%%%%%%%%%
+% Table of contents
+\begingroup
+\setlength{\parskip}{0.1\baselineskip}
+\tableofcontents
+\endgroup
+
+
+%%%%%%%%%%%%%%%%%%%%%%
+\chapter*{Preface}
+
+\section*{Warnings and precautions}
+
+\warning IT IS THE USER'S RESPONSIBILITY TO USE THIS SOFT\-WARE PRUDENTLY. THIS SOFTWARE IS 
+INTENDED TO BE USED ONLY AS A NAVIGATION AID AND MUST NOT BE USED FOR ANY PURPOSE REQUIRING 
+PRECISE MEASURE\-MENT OF DIRECTION, DISTANCE, LOCATION, OR TOPO\-GRAPHY. THIS SOFTWARE SHOULD 
+NOT BE USED AS AN AID TO DETERMINE GROUND PROXIMITY FOR AIRCRAFT NAVIGATION. THIS SOFTWARE 
+SHOULD NOT BE USED AS A TRAFFIC COLLISION AVOIDANCE SYSTEM.
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%
+\section*{Legal notices}
+
+\subsection*{Software license agreement}
+
+This software is released according to the GNU General Public License
+Version~3.  See Appendix~\ref{cha:gnu-general-public} for the full
+text of the agreement and warranty notice.
+
+\subsection*{Disclaimer}
+This product, and all accompanying files, data and materials, are
+distributed "as is" and with no warranties of any kind, whether
+express or implied.  This product is used entirely at the risk of the
+user.  Although great care has been taken to eliminate defects during
+its development it is not claimed to be fault-free. No claims are made
+regarding its correctness, reliability or fitness for any particular
+purpose.  The OpenVario project developers and contributors shall not be
+liable for errors contained herein or for incidental or consequential
+damages, loss of data or personal injury in connection with
+furnishing, performance, or use of this material.
+
+%%%%%%%%%%%%%%%%%%%%%%
+\chapter{Revision History}\label{cha:revhist}
+\input{changes}
+
+%%%%%%%%%%%%%%%%%%%%%%
+\chapter{Introduction}\label{cha:intrudoction}
+%\input{introduction.tex}
+
+%%%%%%%%%%%%%%%%%%%%%%
+\chapter{Setup Build Environment}
+\input{setup_buildenv}
+
+%%%%%%%%%%%%%%%%%%%%%%
+%\input{ch03_usage.tex}
+
+%%%%%%%%%%%%%%%%%%%%%%
+%\input{ch04_maintenance.tex}
+
+%%%%%%%%%%%%%%%%%%%%%%
+\pagestyle{empty}\hypersetup{linkcolor=orange}
+\printindex
+
+%%%%%%%%%%%%%%%%%%%%%%%
+\appendix
+
+%%%%%%%%%%%%%%%%%%%%%%
+\chapter{GNU General Public License}\label{cha:gnu-general-public}
+\input{../style/gpl-3.0.tex}
+
+%%%%%%%www.%%%%%%%%%%%%%%%%%
+%\listoftodos
+
+\end{document}
