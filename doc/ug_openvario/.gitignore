@@ -1,0 +1,10 @@
+output/
+figures/*.pdf
+
+*.log
+*.idx
+*.toc
+*.aux
+*.pdf
+*.gz
+*.out
