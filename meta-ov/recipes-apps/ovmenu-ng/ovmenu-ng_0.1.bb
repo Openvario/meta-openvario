@@ -30,7 +30,7 @@ RCONFLICTS:${PN} = " \
 SRC_URI =      "\
 	file://ovmenu-ng.sh \
 	file://openvario.rc \
-	file://${PN}.service \
+	file://${BPN}.service \
 	file://disable_dropbear.preset \
 "
 
