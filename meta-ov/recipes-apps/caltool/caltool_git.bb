@@ -16,7 +16,7 @@ INSANE_SKIP:${PN} = "ldflags"
 
 S = "${WORKDIR}/git"
 
-SRC_URI = "git://git-ro.openvario.org/ovmenu.git;protocol=http;branch=master;rev=master\
+SRC_URI = "git://git-ro.openvario.org/ovmenu.git;protocol=http;rev=master\
 "
 
 do_compile() {
