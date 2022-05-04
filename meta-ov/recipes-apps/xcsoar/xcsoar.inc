@@ -38,6 +38,7 @@ SRC_URI += " \
 	file://0007-Disable-touch-screen-auto-detection.patch \
 	file://more_alternates.patch \
 	https://boostorg.jfrog.io/artifactory/main/release/1.78.0/source/boost_1_78_0.tar.bz2;sha256sum=8681f175d4bdb26c52222665793eef08490d7758529330f98d3b29dd0735bccc;unpack=0 \
+	https://boostorg.jfrog.io/artifactory/main/release/1.79.0/source/boost_1_79_0.tar.bz2;sha256sum=475d589d51a7f8b3ba2ba4eda022b170e562ca3b760ee922c146b6c65856ef39;unpack=0 \
 "
 
 inherit pkgconfig
@@ -63,7 +64,9 @@ EXTRA_OEMAKE = " \
 
 do_configure() {
 	install -d ${B}/output/download
+	# TODO: remove Boost 1.78.0 after XCSoar 7.24 has been released
 	cp ${WORKDIR}/boost_1_78_0.tar.bz2 ${B}/output/download/
+	cp ${WORKDIR}/boost_1_79_0.tar.bz2 ${B}/output/download/
 	oe_runmake boost
 }
 
