@@ -1,0 +1,53 @@
+\documentclass[german,a4paper,11pt]{refrep}
+\usepackage[utf8]{inputenc}
+\usepackage[pdftex]{hyperref}
+\hypersetup{linkcolor=blue,%interne Links (ref, cite, etc)
+linktocpage=true,%nur Seitenzahlen nicht der Tex wird eingefärbt
+urlcolor=blue,%externe links 
+pdftitle={Release Notes},
+pdfauthor=Timo Bruderek,
+bookmarks=true,
+bookmarksnumbered=true,
+breaklinks=true%Umbruch von links erlaubt
+}
+
+\makeatletter
+\title{Release Notes}%	Titel der ersten Seite 
+%
+
+\newcommand{\mycontent}[0]{%
+\begin{tabular}{l}\hspace*{-4cm}{\em Release Notes  } \vspace*{2pt}\end{tabular}}% Kopfzeile
+
+%
+\input{../style/ov.sty}       % XCS-Sytelfile hier laden
+\input{../style/title-ov.sty} % XCS Titelseite hier laden
+%\input{buttons-de.sty}   % Extras for de laden
+%
+%
+\begin{document}
+\sloppy
+%\shorthandoff{"}%
+
+%%%%%%%%%%%%%%%%%%%%%%
+% Front page
+\maketitle
+
+
+%%%%%%%%%%%%%%%%%%%%%%
+\input{release_15081}
+\input{release_15238}
+\input{release_16108}
+\input{release_16241}
+
+%%%%%%%%%%%%%%%%%%%%%%
+%\pagestyle{empty}\hypersetup{linkcolor=orange}
+%\printindex
+
+%%%%%%%%%%%%%%%%%%%%%%%
+%\appendix
+
+
+%%%%%%%www.%%%%%%%%%%%%%%%%%
+%\listoftodos
+
+\end{document}
