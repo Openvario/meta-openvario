@@ -5,9 +5,6 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
 
 inherit kernel kernel-yocto siteinfo
 
-# Pull in the devicetree files into the rootfs
-RDEPENDS_${KERNEL_PACKAGE_NAME}-base += "kernel-devicetree"
-
 S = "${WORKDIR}/git"
 
 KBRANCH = "linux-5.17.y"
@@ -69,10 +66,7 @@ KMACHINE ?= "${MACHINE}"
 KMETA = ".kernel-meta"
 
 do_configure:prepend:sunxi() {
-	if test -n "${KERNEL_DEVICETREE_SOURCE}"; then
-		cp ${WORKDIR}/openvario-common.dts ${S}/arch/arm/boot/dts/openvario-common.dts
-		cp ${WORKDIR}/${KERNEL_DEVICETREE_SOURCE} ${S}/arch/arm/boot/dts/openvario.dts
-	fi
+	cp ${WORKDIR}/openvario-*.dts ${S}/arch/arm/boot/dts/
 }
 
 FILES_${KERNEL_PACKAGE_NAME}-base:append = " ${nonarch_base_libdir}/modules/${KERNEL_VERSION}/modules.builtin.modinfo"
