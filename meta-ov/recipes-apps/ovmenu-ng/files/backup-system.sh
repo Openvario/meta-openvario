@@ -3,6 +3,13 @@
 # Transfer script for backup to usbstick
 
 USB_PATH=/usb/usbstick/openvario/backup
+MAC=`ip li|fgrep ether|tail -1|cut -d ' ' -f 6`
+
+if mkdir -p "$USB_PATH/$MAC"
+then :;	else
+	echo "Can't create directory '$USB_PATH/$MAC'"
+	exit 100
+fi
 
 echo "
 /etc/dropbear
@@ -13,11 +20,11 @@ while read DIR
 do
 	echo "Path: $DIR"
 	SRC_PATH="$DIR"
-	DEST_PATH="$USB_PATH/$DIR"
+	DEST_PATH="$USB_PATH/$MAC/$DIR"
 
 	if [ ! -d "$SRC_PATH" ] || [ ! -d "$DEST_PATH" ]; then
 		>&2 echo "Source $SRC_PATH or destination path $DEST_PATH does not exist"
-		exit 1
+		exit 101
 	fi
 	
 	if [ -z "$(find "$SRC_PATH" -type f | head -n 1 2>/dev/null)" ]; then
