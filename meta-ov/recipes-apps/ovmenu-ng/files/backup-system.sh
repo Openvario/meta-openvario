@@ -22,6 +22,12 @@ do
 	SRC_PATH="$DIR"
 	DEST_PATH="$USB_PATH/$MAC/$DIR"
 
+	if mkdir -p "$DEST_PATH"
+	then :;	else
+		echo "Can't create directory '$DEST_PATH'"
+		exit 102
+	fi
+
 	if [ ! -d "$SRC_PATH" ] || [ ! -d "$DEST_PATH" ]; then
 		>&2 echo "Source $SRC_PATH or destination path $DEST_PATH does not exist"
 		exit 101
