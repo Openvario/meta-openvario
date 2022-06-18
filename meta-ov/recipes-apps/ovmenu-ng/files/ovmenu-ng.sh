@@ -44,9 +44,10 @@ function submenu_file() {
 	--title "[ F I L E ]" \
 	--begin 3 4 \
 	--menu "You can use the UP/DOWN arrow keys" 15 50 4 \
-	Download_IGC   "Download XCSoar IGC files to USB" \
-	Download   "Download XCSoar to USB" \
-	Upload   "Upload files from USB to XCSoar" \
+	Download_IGC   "Download IGC files to USB" \
+	Download  "Backup XCSoar and OV settings" \
+	Upload   "Restore XCSoar and OV settings" \
+	Upload_XCSoar   "Restore only XCSoar settings" \
 	Back   "Back to Main" 2>"${INPUT}"
 
 	menuitem=$(<"${INPUT}")
@@ -56,6 +57,7 @@ function submenu_file() {
 		Download_IGC) download_igc_files;;
 		Download) download_files;;
 		Upload) upload_files;;
+		Upload_XCSoar) upload_xcsoar_files;;
 		Exit) ;;
 esac
 }
@@ -100,30 +102,9 @@ function submenu_system() {
 	esac
 }
 
-function show_info() {
-	### collect info of system
-	XCSOAR_VERSION=$(opkg list-installed xcsoar | awk -F' ' '{print $3}')
-	XCSOAR_MAPS_VERSION=$(opkg list-installed | grep "xcsoar-maps-" | awk -F' ' '{print $3}')
-	IMAGE_VERSION=$(cat /etc/os-release | grep VERSION_ID | awk -F'=' -F'"' '{print $2}')
-	SENSORD_VERSION=$(opkg list-installed sensord* | awk -F' ' '{print $3}')
-	VARIOD_VERSION=$(opkg list-installed variod* | awk -F' ' '{print $3}')
-	IP_ETH0=$(/sbin/ifconfig eth0 | grep 'inet addr:' | cut -d: -f2 | awk '{ print $1}')
-	IP_WLAN=$(/sbin/ifconfig wlan0 | grep 'inet addr:' | cut -d: -f2 | awk '{ print $1}')
-
-	dialog --backtitle "OpenVario" \
-	--title "[ S Y S T E M I N F O ]" \
-	--begin 3 4 \
-	--msgbox " \
-	\n \
-	Image: $IMAGE_VERSION\n \
-	XCSoar: $XCSOAR_VERSION\n \
-	Maps: $XCSOAR_MAPS_VERSION\n \
-	sensord: $SENSORD_VERSION\n \
-	variod: $VARIOD_VERSION\n \
-	IP eth0: $IP_ETH0\n \
-	IP wlan0: $IP_WLAN\n \
-	" 15 50
-
+function show_info() { 
+	/usr/bin/system-info.sh >> /tmp/tail.$$ &
+	dialog --backtitle "OpenVario" --title "Result" --tailbox /tmp/tail.$$ 30 50
 }
 
 function submenu_settings() {
@@ -349,23 +330,27 @@ function update_maps() {
 	dialog --backtitle "OpenVario" --title "Result" --tailbox /tmp/tail.$$ 30 50
 }
 
-# Copy /home/root/.xcsoar to /usb/usbstick/openvario/download/xcsoar
-function download_files() {
-	echo "Downloading files ..." > /tmp/tail.$$
-	/usr/bin/download-all.sh >> /tmp/tail.$$ &
-	dialog --backtitle "OpenVario" --title "Result" --tailbox /tmp/tail.$$ 30 50
-}
-
 # Copy /home/root/.xcsoar/logs to /usb/usbstick/openvario/igc
 # Copy only *.igc files
 function download_igc_files() {
 	/usr/bin/download-igc.sh
 }
 
-# Copy /usb/usbstick/openvario/upload to /home/root/.xcsoar
+# Copy XCSaor and OpenVario settings to /usb/usbstick/openvario/backup/<MAC address of eth0>
+function download_files() { 
+	/usr/bin/backup-system.sh >> /tmp/tail.$$ &
+	dialog --backtitle "OpenVario" --title "Result" --tailbox /tmp/tail.$$ 30 50
+}
+
+# Copy XCSaor and OpenVario settings from /usb/usbstick/openvario/backup/<MAC address of eth0>
 function upload_files(){
-	echo "Uploading files ..." > /tmp/tail.$$
-	/usr/bin/upload-xcsoar.sh >> /tmp/tail.$$ &
+	/usr/bin/restore-system.sh >> /tmp/tail.$$ &
+	dialog --backtitle "OpenVario" --title "Result" --tailbox /tmp/tail.$$ 30 50
+}
+
+# Copy /usb/usbstick/openvario/backup/<MAC address of eth0>/home/root/.xcsoar to /home/root/.xcsoar
+function upload_xcsoar_files(){
+	/usr/bin/restore-xcsoar.sh >> /tmp/tail.$$ &
 	dialog --backtitle "OpenVario" --title "Result" --tailbox /tmp/tail.$$ 30 50
 }
 
