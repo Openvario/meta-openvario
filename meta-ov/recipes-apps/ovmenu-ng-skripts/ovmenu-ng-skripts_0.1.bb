@@ -42,6 +42,8 @@ do_install() {
 		${S}/download-igc.sh \
 		${S}/transfer-xcsoar.sh \
 		${S}/ov-calibrate-ts.sh \
+		${S}/backup-system.sh \
+		${S}/restore-system.sh \
 		${D}${bindir}/
 	cd ${D}${bindir}
 	ln -s -r transfer-xcsoar.sh upload-all.sh
