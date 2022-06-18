@@ -24,6 +24,8 @@ SRC_URI = "\
 	file://download-igc.sh \
 	file://transfer-xcsoar.sh \
 	file://ov-calibrate-ts.sh \
+	file://backup-system.sh \
+	file://restore-system.sh \
 "
 
 
