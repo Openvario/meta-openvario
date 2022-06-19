@@ -3,7 +3,7 @@
 # Transfer script for backup to usbstick
 
 USB_PATH=/usb/usbstick/openvario
-MAC=`ip li|fgrep ether|tail -1|cut -d ' ' -f 6`
+MAC=`ip li|fgrep ether|tail -1|cut -d ' ' -f 6| sed -e s/:/-/g`
 
 rsync --files-from - --archive --relative --mkpath --checksum \
 	/ "$USB_PATH/backup/$MAC"/ <<LISTE || exit $?
