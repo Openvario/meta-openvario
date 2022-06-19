@@ -9,14 +9,23 @@ USB_PATH=/usb/usbstick/openvario
 MAC=`ip li|fgrep ether|head -n 1|cut -d ' ' -f 6|sed -e s/:/-/g`
 
 # Copy all directories and files from (example) list below to backup directory
-rsync --files-from - --archive --recursive --relative --mkpath --checksum \
-	/ "$USB_PATH/backup/$MAC"/ <<LIST || exit $?
-/etc/dropbear
+echo "/etc/dropbear
 /etc/odpk
 /etc/locale.conf
 ...
-/adapt/to/your/needs
-LIST
+/adapt/to/your/needs" |
+rsync --files-from - -v --archive --recursive --relative --mkpath --checksum \
+	/ "$USB_PATH/backup/$MAC"/ || exit $?
+
+## Copy all directories and files from (example) list below to backup directory
+#rsync --files-from - -v --archive --recursive --relative --mkpath --checksum \
+#	/ "$USB_PATH/backup/$MAC"/ <<LIST || exit $?
+#/etc/dropbear
+#/etc/odpk
+#/etc/locale.conf
+#...
+#/adapt/to/your/needs
+#LIST
 
 # Sync the buffer to be sure data is on disk
 sync
