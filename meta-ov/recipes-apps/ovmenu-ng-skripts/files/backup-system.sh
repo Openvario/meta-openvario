@@ -9,14 +9,31 @@ USB_PATH=/usb/usbstick/openvario
 # MAC address of the Ethernet device eth0 to do a separate backup
 MAC=`ip li|fgrep -A 1 eth0|head -n 2|cut -d ' ' -f 6|tail -n 1|sed -e s/:/-/g`
 
-#Copy brightness setting
-rm /home/root/brightness
+# Store SSH-status 
+if /bin/systemctl --quiet is-enabled dropbear.socket; then
+	>/home/root/ssh-status
+	echo enabled >> /home/root/ssh-status
+	
+elif /bin/systemctl --quiet is-active dropbear.socket; then
+	>/home/root/ssh-status
+	echo temporary >> /home/root/ssh-status
+	
+else 
+	>/home/root/ssh-status
+	echo disabled >> /home/root/ssh-status
+	
+fi
+
+# Copy brightness setting
+>/home/root/brightness
 cat /sys/class/backlight/lcd/brightness >> /home/root/brightness
 
 # Copy all directories and files from list below to backup directory
-echo "/etc/dropbear
+echo "/etc/locale.conf
+/etc/udev/rules.d/libinput-ts.rules
+/etc/pointercal
+/etc/dropbear
 /etc/opkg
-/etc/locale.conf
 /home/root
 /opt/conf
 /var/lib/connman
