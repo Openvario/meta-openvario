@@ -18,6 +18,20 @@ else
 	echo disabled  
 fi > /home/root/ssh-status
 
+# Store variod-status 
+if   /bin/systemctl --quiet is-enabled variod; then
+	echo enabled
+else 
+	echo disabled  
+fi > /home/root/variod-status
+
+# Store sensord-status 
+if   /bin/systemctl --quiet is-enabled sensord; then
+	echo enabled
+else 
+	echo disabled  
+fi > /home/root/sensord-status
+
 # Copy brightness setting
 cat /sys/class/backlight/lcd/brightness > /home/root/brightness
 

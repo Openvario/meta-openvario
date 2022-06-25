@@ -25,6 +25,26 @@ elif [ "$SSH" = disabled ]; then
 	/bin/systemctl disable --quiet --now dropbear.socket
 fi
 
+# Restore variod-status 
+variod=`cat $USB_PATH/$MAC/home/root/variod-status`
+if [ "$variod" = enabled ]; then
+	echo " variod has been enabled."
+	/bin/systemctl enable  --quiet --now variod
+elif [ "$variod" = disabled ]; then
+	echo " variod has been disabled."
+	/bin/systemctl disable --quiet --now variod
+fi
+
+# Restore sensord-status 
+sensord=`cat $USB_PATH/$MAC/home/root/sensord-status`
+if [ "$sensord" = enabled ]; then
+	echo " sensord has been enabled."
+	/bin/systemctl enable  --quiet --now sensord
+elif [ "$sensord" = disabled ]; then
+	echo " sensord has been disabled."
+	/bin/systemctl disable --quiet --now sensord
+fi
+
 # Restore brightness setting
 cat $USB_PATH/$MAC/home/root/brightness > /sys/class/backlight/lcd/brightness
 
