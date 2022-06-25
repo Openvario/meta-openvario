@@ -31,9 +31,10 @@ cat $USB_PATH/$MAC/home/root/brightness > /sys/class/backlight/lcd/brightness
 if 
 # Copy all files and dirs recursively.
 # We use -c here due to cubieboards not having an rtc clock
+	echo ' Starting backup ..."
+	echo ' Wait until "Done !!" appears before you exit!'
 	rsync --recursive --mkpath --checksum --quiet "$USB_PATH/$MAC/" /
 	EXIT=$?
-	echo ' Wait until "Done !!" appears before you exit!'
 # Sync the buffer to be sure data is on disk
 	sync
 	test $EXIT -eq 0
