@@ -35,7 +35,7 @@ echo "
 " |
 if 
 # Copy all files and dirs recursively
-	echo ' Starting backup ..."
+	echo ' Starting backup ...'
 	echo ' Wait until "Done !!" appears before you exit!'
 	rsync --files-from - --archive --recursive --quiet --relative --mkpath --checksum --safe-links \
 		/ "$USB_PATH/backup/$MAC"/
