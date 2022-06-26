@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# Transfer script for OpenVario backup to usbstick
+# System restore transfer script from usbstick for OpenVario
 # 7lima, 2022-06-19
 
 # Path where the USB stick is mounted
