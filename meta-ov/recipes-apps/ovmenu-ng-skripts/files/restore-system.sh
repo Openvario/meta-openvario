@@ -8,13 +8,14 @@ USB_PATH=/usb/usbstick
 # Backup path on the USB stick
 BACKUP=openvario/backup
 # MAC address of the Ethernet device eth0 to restore the separate backup
-MAC=`ip li|fgrep -A 1 eth0|tail -n 1|cut -d ' ' -f 6|sed -e s/:/-/g`
+MAC=`ip li|grep -A 1 eth0|tail -n 1|cut -d ' ' -f 6|sed -e s/:/-/g`
+
+echo ' Starting restore ...'
+echo ' Wait until "DONE !!" appears before you exit!'
 
 if 
 # Copy all files and dirs recursively.
 # We use -c here due to cubieboards not having an rtc clock
-	echo ' Starting restore ...'
-	echo ' Wait until "Done !!" appears before you exit!'
 	rsync --recursive --mkpath --checksum --quiet "$USB_PATH/$BACKUP/$MAC"/ /
 	RSYNC_EXIT=$?
 # Sync the buffer to be sure data is on disk
@@ -23,8 +24,8 @@ if
 then
 	echo ' All files have been restored.'
 else 
-	echo ' An error $RSYNC_EXIT has occurred!'
-	echo ' Done !!' 
+	echo " An error $RSYNC_EXIT has occurred!"
+	echo ' DONE !!' 
 	exit $RSYNC_EXIT
 fi
 
@@ -46,7 +47,7 @@ esac
 for DAEMON in variod sensord
 do
 	case `cat /home/root/$DAEMON-status` in
-	enabled)	/bin/systemctl enable  --quiet --now $DAEMON
+	enabled)	/bin/systemctl  enable --quiet --now $DAEMON
 			echo " $DAEMON has been enabled.";;
 	disabled)	/bin/systemctl disable --quiet --now $DAEMON
 			echo " $DAEMON has been disabled.";;
@@ -57,5 +58,5 @@ done
 cat /home/root/brightness > /sys/class/backlight/lcd/brightness
 echo " brightness setting has been restored."
 
-echo ' Done !!' 
+echo ' DONE !!' 
 exit 0
