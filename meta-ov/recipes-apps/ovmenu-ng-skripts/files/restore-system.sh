@@ -34,8 +34,8 @@ enabled)
 	/bin/systemctl enable  --quiet --now dropbear.socket;;
 temporary)
 	echo " SSH has been enabled temporarily."
-	/bin/systemctl disable dropbear.socket
-	/bin/systemctl start   dropbear.socket;;
+	/bin/systemctl disable --quiet --now dropbear.socket
+	/bin/systemctl start   --quiet --now dropbear.socket;;
 disabled)
 	echo " SSH has been disabled."
 	/bin/systemctl disable --quiet --now dropbear.socket;;
