@@ -28,7 +28,7 @@ else
 	exit $RSYNC_EXIT
 fi
 
-# Restore SSH-status 
+# Restore SSH status 
 case `cat /home/root/ssh-status` in
 enabled)
 	/bin/systemctl enable  --quiet --now dropbear.socket

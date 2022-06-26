@@ -10,7 +10,7 @@ BACKUP=openvario/backup
 # MAC address of the Ethernet device eth0 to do a separate backup
 MAC=`ip li|fgrep -A 1 eth0|tail -n 1|cut -d ' ' -f 6|sed -e s/:/-/g`
 
-# Store SSH-status 
+# Store SSH status 
 if   /bin/systemctl --quiet is-enabled dropbear.socket; then
 	echo enabled
 elif /bin/systemctl --quiet is-active  dropbear.socket; then
@@ -19,19 +19,15 @@ else
 	echo disabled  
 fi > /home/root/ssh-status
 
-# Store variod-status 
-if   /bin/systemctl --quiet is-enabled variod; then
-	echo enabled
-else 
-	echo disabled  
-fi > /home/root/variod-status
-
-# Store sensord-status 
-if   /bin/systemctl --quiet is-enabled sensord; then
-	echo enabled
-else 
-	echo disabled  
-fi > /home/root/sensord-status
+# Store variod and sensord status
+for DAEMON in variod sensord
+do
+	if /bin/systemctl --quiet is-enabled $DAEMON; then
+		echo enabled
+	else 
+		echo disabled  
+	fi > /home/root/$DAEMON-status
+done
 
 # Copy brightness setting
 cat /sys/class/backlight/lcd/brightness > /home/root/brightness
