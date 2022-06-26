@@ -16,16 +16,16 @@ if
 	echo ' Starting restore ...'
 	echo ' Wait until "Done !!" appears before you exit!'
 	rsync --recursive --mkpath --checksum --quiet "$USB_PATH/$BACKUP/$MAC"/ /
-	EXIT=$?
+	RSYNC_EXIT=$?
 # Sync the buffer to be sure data is on disk
 	sync
-	test $EXIT -eq 0
+	test $RSYNC_EXIT -eq 0
 then
 	echo ' All files have been restored.'
 else 
-	echo ' An error $EXIT has occurred!'
+	echo ' An error $RSYNC_EXIT has occurred!'
 	echo ' Done !!' 
-	exit $EXIT
+	exit $RSYNC_EXIT
 fi
 
 # Restore SSH-status 
@@ -42,25 +42,18 @@ disabled)
 	echo " SSH has been disabled.";;
 esac
 
-# Restore variod status 
-case `cat /home/root/variod-status` in
-enabled)
-	/bin/systemctl enable  --quiet --now variod
-	echo " variod has been enabled.";;
-disabled)
-	/bin/systemctl disable --quiet --now variod
-	echo " variod has been disabled.";;
-esac
-
-# Restore sensord status 
-case `cat /home/root/sensord-status` in
-enabled)
-	/bin/systemctl enable  --quiet --now sensord
-	echo " sensord has been enabled.";;
-disabled)
-	/bin/systemctl disable --quiet --now sensord
-	echo " sensord has been disabled.";;
-esac
+# Restore variod and sensord status 
+for DAEMON in variod sensord
+do
+	case `cat /home/root/$DAEMON-status` in
+	enabled)
+		/bin/systemctl enable  --quiet --now $DAEMON
+		echo " $DAEMON has been enabled.";;
+	disabled)
+		/bin/systemctl disable --quiet --now $DAEMON
+		echo " $DAEMON has been disabled.";;
+	esac
+done
 
 # Restore brightness setting
 cat /home/root/brightness > /sys/class/backlight/lcd/brightness

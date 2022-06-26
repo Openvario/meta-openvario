@@ -52,18 +52,19 @@ if
 # Copy all files and dirs recursively
 	echo ' Starting backup ...'
 	echo ' Wait until "Done !!" appears before you exit!'
-	rsync --files-from - --archive --recursive --quiet --relative --mkpath --checksum --safe-links \
-		/ "$USB_PATH/$BACKUP/$MAC"/
-	EXIT=$?
+	rsync --files-from - --archive --recursive --quiet --relative --mkpath \
+	      --checksum --safe-links \
+	      / "$USB_PATH/$BACKUP/$MAC"/
+	RSYNC_EXIT=$?
 # Sync the buffer to be sure data is on disk
 	sync
-	test $EXIT -eq 0
+	test $RSYNC_EXIT -eq 0
 then
 	echo ' All files and some settings have been backed up.'
 else 
 	echo ' An error has occurred!'
-	echo ' Copying using rsync issued error code' $EXIT
+	echo ' Copying using rsync issued error code' $RSYNC_EXIT
 fi
 
 echo ' Done !!' 
-exit $EXIT
+exit $RSYNC_EXIT
