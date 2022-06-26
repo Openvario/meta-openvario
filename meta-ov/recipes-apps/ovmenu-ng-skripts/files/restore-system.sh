@@ -24,6 +24,7 @@ then
 	echo ' All files have been restored.'
 else 
 	echo ' An error has occured!'
+	echo ' Copying using rsync issued error code' $EXIT
 fi
 
 # Restore SSH-status 
