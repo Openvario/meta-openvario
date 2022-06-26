@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# System backup transfer script to usbstick for OpenVario
+# System backup transfer script to usbstick for OpenVario and XCSoar
 # 7lima & Blaubart, 2022-06-19
 
 # Path where the USB stick is mounted
