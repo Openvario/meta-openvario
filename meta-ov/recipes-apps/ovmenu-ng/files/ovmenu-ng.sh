@@ -349,20 +349,27 @@ function update_maps() {
 	dialog --backtitle "OpenVario" --title "Result" --tailbox /tmp/tail.$$ 30 50
 }
 
-# Copy /home/root/.xcsoar to /usb/usbstick/openvario/download/xcsoar
-function download_files() {
-	echo "Downloading files ..." > /tmp/tail.$$
-	/usr/bin/download-all.sh >> /tmp/tail.$$ &
-	dialog --backtitle "OpenVario" --title "Result" --tailbox /tmp/tail.$$ 30 50
-}
-
 # Copy /home/root/.xcsoar/logs to /usb/usbstick/openvario/igc
 # Copy only *.igc files
 function download_igc_files() {
 	/usr/bin/download-igc.sh
 }
 
-# Copy /usb/usbstick/openvario/upload to /home/root/.xcsoar
+# Copy XCSaor and OpenVario settings to /usb/usbstick/openvario/backup/"MAC address of eth0"
+function download_files() {
+	echo "Downloading files ..." > /tmp/tail.$$
+	/usr/bin/download-all.sh >> /tmp/tail.$$ &
+	dialog --backtitle "OpenVario" --title "Result" --tailbox /tmp/tail.$$ 30 50
+}
+
+# Copy XCSaor and OpenVario settings from /usb/usbstick/openvario/backup/"MAC address of eth0"
+function upload_files(){
+	echo "Uploading files ..." > /tmp/tail.$$
+	/usr/bin/upload-all.sh >> /tmp/tail.$$ &
+	dialog --backtitle "OpenVario" --title "Result" --tailbox /tmp/tail.$$ 30 50
+}
+
+# Copy /usb/usbstick/openvario/backup/"MAC address of eth0"/home/root/.xcsoar to /home/root/.xcsoar
 function upload_files(){
 	echo "Uploading files ..." > /tmp/tail.$$
 	/usr/bin/upload-xcsoar.sh >> /tmp/tail.$$ &
