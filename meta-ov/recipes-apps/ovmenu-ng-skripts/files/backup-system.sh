@@ -2,19 +2,6 @@
 #
 # System backup transfer script to usbstick for OpenVario and XCSoar
 #
-# This backup script stores all XCSoar settings and relevant OpenVario settings
-# like:
-#   - brightness of the display
-#   - rotation
-#   - Touch screen calibration
-#   - language settings
-#   - dropbear settings
-#   - SSH, variod and sensord status
-#
-# Backups are stored at USB stick at:
-#   openvario/backup/"MAC address of eth0"/
-# So you can store more than one backup on the same stick!
-#
 # 7lima & Blaubart, 2022-06-19
 #
 # This backup script stores all XCSoar settings and relevant OpenVario settings like:
@@ -28,9 +15,8 @@
 # 
 # backups are stored at USB stick at:
 # openvario/backup/"MAC address of eth0"/
-
-So you can store more than one backup on the same stick!
-
+#
+# So you can store more than one backup on the same stick!
 
 # Path where the USB stick is mounted
 USB_PATH=/usb/usbstick
