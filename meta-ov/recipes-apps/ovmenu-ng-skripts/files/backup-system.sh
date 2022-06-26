@@ -1,7 +1,7 @@
 #!/bin/sh
 #
 # System backup transfer script to usbstick for OpenVario
-# 7lima, 2022-06-19
+# 7lima & Blaubart, 2022-06-19
 
 # Path where the USB stick is mounted
 USB_PATH=/usb/usbstick
