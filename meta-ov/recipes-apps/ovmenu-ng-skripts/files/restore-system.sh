@@ -28,40 +28,38 @@ else
 fi
 
 # Restore SSH-status 
-SSH=`cat /home/root/ssh-status`
-if [ "$SSH" = enabled ]; then
+case `cat /home/root/ssh-status` in
+enabled)
 	echo " SSH has been enabled permanently."
-	/bin/systemctl enable  --quiet --now dropbear.socket
-	
-elif [ "$SSH" = temporary ]; then
+	/bin/systemctl enable  --quiet --now dropbear.socket;;
+temporary)
 	echo " SSH has been enabled temporarily."
 	/bin/systemctl disable dropbear.socket
-	/bin/systemctl start   dropbear.socket
-	
-elif [ "$SSH" = disabled ]; then
+	/bin/systemctl start   dropbear.socket;;
+disabled)
 	echo " SSH has been disabled."
-	/bin/systemctl disable --quiet --now dropbear.socket
-fi
+	/bin/systemctl disable --quiet --now dropbear.socket;;
+esac
 
-# Restore variod-status 
-variod=`cat /home/root/variod-status`
-if [ "$variod" = enabled ]; then
+# Restore variod status 
+case `cat /home/root/variod-status` in
+enabled)
 	echo " variod has been enabled."
-	/bin/systemctl enable  --quiet --now variod
-elif [ "$variod" = disabled ]; then
+	/bin/systemctl enable  --quiet --now variod;;
+disabled)
 	echo " variod has been disabled."
-	/bin/systemctl disable --quiet --now variod
-fi
+	/bin/systemctl disable --quiet --now variod;;
+esac
 
-# Restore sensord-status 
-sensord=`cat /home/root/sensord-status`
-if [ "$sensord" = enabled ]; then
+# Restore sensord status 
+case `cat /home/root/sensord-status` in
+enabled)
 	echo " sensord has been enabled."
-	/bin/systemctl enable  --quiet --now sensord
-elif [ "$sensord" = disabled ]; then
+	/bin/systemctl enable  --quiet --now sensord;;
+disabled)
 	echo " sensord has been disabled."
-	/bin/systemctl disable --quiet --now sensord
-fi
+	/bin/systemctl disable --quiet --now sensord;;
+esac
 
 # Restore brightness setting
 cat /home/root/brightness > /sys/class/backlight/lcd/brightness
