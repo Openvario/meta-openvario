@@ -4,8 +4,9 @@
 # 7lima, 2022-06-19
 
 # Path where the USB stick is mounted
-USB_PATH=/usb/usbstick/openvario
-
+USB_PATH=/usb/usbstick
+# Backup path on the USB stick
+BACKUP=openvario/backup
 # MAC address of the Ethernet device eth0 to do a separate backup
 MAC=`ip li|fgrep -A 1 eth0|tail -n 1|cut -d ' ' -f 6|sed -e s/:/-/g`
 
@@ -52,7 +53,7 @@ if
 	echo ' Starting backup ...'
 	echo ' Wait until "Done !!" appears before you exit!'
 	rsync --files-from - --archive --recursive --quiet --relative --mkpath --checksum --safe-links \
-		/ "$USB_PATH/backup/$MAC"/
+		/ "$USB_PATH/$BACKUP/$MAC"/
 	EXIT=$?
 # Sync the buffer to be sure data is on disk
 	sync

@@ -4,8 +4,9 @@
 # 7lima, 2022-06-19
 
 # Path where the USB stick is mounted
-USB_PATH=/usb/usbstick/openvario/backup
-
+USB_PATH=/usb/usbstick
+# Backup path on the USB stick
+BACKUP=openvario/backup
 # MAC address of the Ethernet device eth0 to restore the separate backup
 MAC=`ip li|fgrep -A 1 eth0|tail -n 1|cut -d ' ' -f 6|sed -e s/:/-/g`
 
@@ -26,7 +27,7 @@ elif [ "$SSH" = disabled ]; then
 fi
 
 # Restore variod-status 
-variod=`cat $USB_PATH/$MAC/home/root/variod-status`
+variod=`cat $USB_PATH/$BACKUP/$MAC/home/root/variod-status`
 if [ "$variod" = enabled ]; then
 	echo " variod has been enabled."
 	/bin/systemctl enable  --quiet --now variod
@@ -36,7 +37,7 @@ elif [ "$variod" = disabled ]; then
 fi
 
 # Restore sensord-status 
-sensord=`cat $USB_PATH/$MAC/home/root/sensord-status`
+sensord=`cat $USB_PATH/$BACKUP/$MAC/home/root/sensord-status`
 if [ "$sensord" = enabled ]; then
 	echo " sensord has been enabled."
 	/bin/systemctl enable  --quiet --now sensord
@@ -46,14 +47,14 @@ elif [ "$sensord" = disabled ]; then
 fi
 
 # Restore brightness setting
-cat $USB_PATH/$MAC/home/root/brightness > /sys/class/backlight/lcd/brightness
+cat $USB_PATH/$BACKUP/$MAC/home/root/brightness > /sys/class/backlight/lcd/brightness
 
 if 
 # Copy all files and dirs recursively.
 # We use -c here due to cubieboards not having an rtc clock
 	echo ' Starting restore ...'
 	echo ' Wait until "Done !!" appears before you exit!'
-	rsync --recursive --mkpath --checksum --quiet "$USB_PATH/$MAC/" /
+	rsync --recursive --mkpath --checksum --quiet "$USB_PATH/$BACKUP/$MAC"/ /
 	EXIT=$?
 # Sync the buffer to be sure data is on disk
 	sync
