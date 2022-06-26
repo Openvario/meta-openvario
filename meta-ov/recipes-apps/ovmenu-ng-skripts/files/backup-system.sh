@@ -59,7 +59,7 @@ if
 	sync
 	test $EXIT -eq 0
 then
-	echo ' All files have been backed up.'
+	echo ' All files and some settings have been backed up.'
 else 
 	echo ' An error has occured!'
 	echo ' Copying using rsync issued error code' $EXIT

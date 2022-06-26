@@ -30,39 +30,40 @@ fi
 # Restore SSH-status 
 case `cat /home/root/ssh-status` in
 enabled)
-	echo " SSH has been enabled permanently."
 	/bin/systemctl enable  --quiet --now dropbear.socket;;
+	echo " SSH has been enabled permanently."
 temporary)
-	echo " SSH has been enabled temporarily."
 	/bin/systemctl disable --quiet --now dropbear.socket
 	/bin/systemctl start   --quiet --now dropbear.socket;;
+	echo " SSH has been enabled temporarily."
 disabled)
-	echo " SSH has been disabled."
 	/bin/systemctl disable --quiet --now dropbear.socket;;
+	echo " SSH has been disabled."
 esac
 
 # Restore variod status 
 case `cat /home/root/variod-status` in
 enabled)
-	echo " variod has been enabled."
 	/bin/systemctl enable  --quiet --now variod;;
+	echo " variod has been enabled."
 disabled)
-	echo " variod has been disabled."
 	/bin/systemctl disable --quiet --now variod;;
+	echo " variod has been disabled."
 esac
 
 # Restore sensord status 
 case `cat /home/root/sensord-status` in
 enabled)
-	echo " sensord has been enabled."
 	/bin/systemctl enable  --quiet --now sensord;;
+	echo " sensord has been enabled."
 disabled)
-	echo " sensord has been disabled."
 	/bin/systemctl disable --quiet --now sensord;;
+	echo " sensord has been disabled."
 esac
 
 # Restore brightness setting
 cat /home/root/brightness > /sys/class/backlight/lcd/brightness
+echo " brightness setting has been restored."
 
 echo ' Done !!' 
 exit $EXIT
