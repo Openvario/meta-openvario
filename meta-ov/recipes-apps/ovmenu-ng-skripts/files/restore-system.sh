@@ -23,8 +23,9 @@ if
 then
 	echo ' All files have been restored.'
 else 
-	echo ' An error has occured!'
-	echo ' Copying using rsync issued error code' $EXIT
+	echo ' An error $EXIT has occurred!'
+	echo ' Done !!' 
+	exit $EXIT
 fi
 
 # Restore SSH-status 
@@ -66,4 +67,4 @@ cat /home/root/brightness > /sys/class/backlight/lcd/brightness
 echo " brightness setting has been restored."
 
 echo ' Done !!' 
-exit $EXIT
+exit 0

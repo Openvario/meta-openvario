@@ -61,7 +61,7 @@ if
 then
 	echo ' All files and some settings have been backed up.'
 else 
-	echo ' An error has occured!'
+	echo ' An error has occurred!'
 	echo ' Copying using rsync issued error code' $EXIT
 fi
 
