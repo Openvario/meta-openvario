@@ -46,12 +46,10 @@ esac
 for DAEMON in variod sensord
 do
 	case `cat /home/root/$DAEMON-status` in
-	enabled)
-		/bin/systemctl enable  --quiet --now $DAEMON
-		echo " $DAEMON has been enabled.";;
-	disabled)
-		/bin/systemctl disable --quiet --now $DAEMON
-		echo " $DAEMON has been disabled.";;
+	enabled)	/bin/systemctl enable  --quiet --now $DAEMON
+			echo " $DAEMON has been enabled.";;
+	disabled)	/bin/systemctl disable --quiet --now $DAEMON
+			echo " $DAEMON has been disabled.";;
 	esac
 done
 
