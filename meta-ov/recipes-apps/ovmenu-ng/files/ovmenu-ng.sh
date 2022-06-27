@@ -44,9 +44,10 @@ function submenu_file() {
 	--title "[ F I L E ]" \
 	--begin 3 4 \
 	--menu "You can use the UP/DOWN arrow keys" 15 50 4 \
-	Download_IGC   "Download XCSoar IGC files to USB" \
-	Download   "Download XCSoar to USB" \
-	Upload   "Upload files from USB to XCSoar" \
+	Download_IGC   "Download IGC files to USB" \
+	Download  "Backup XCSoar and OV settings" \
+	Upload   "Restore XCSoar and OV settings" \
+	Upload_XCSoar   "Restore only XCSoar settings" \
 	Back   "Back to Main" 2>"${INPUT}"
 
 	menuitem=$(<"${INPUT}")
@@ -56,6 +57,7 @@ function submenu_file() {
 		Download_IGC) download_igc_files;;
 		Download) download_files;;
 		Upload) upload_files;;
+		Upload_XCSoar) upload_xcsoar_files;;
 		Exit) ;;
 esac
 }
@@ -356,23 +358,20 @@ function download_igc_files() {
 }
 
 # Copy XCSaor and OpenVario settings to /usb/usbstick/openvario/backup/"MAC address of eth0"
-function download_files() {
-	echo "Downloading files ..." > /tmp/tail.$$
-	/usr/bin/download-all.sh >> /tmp/tail.$$ &
+function download_files() { 
+	/usr/bin/backup-system.sh >> /tmp/tail.$$ &
 	dialog --backtitle "OpenVario" --title "Result" --tailbox /tmp/tail.$$ 30 50
 }
 
 # Copy XCSaor and OpenVario settings from /usb/usbstick/openvario/backup/"MAC address of eth0"
 function upload_files(){
-	echo "Uploading files ..." > /tmp/tail.$$
-	/usr/bin/upload-all.sh >> /tmp/tail.$$ &
+	/usr/bin/restore-system.sh >> /tmp/tail.$$ &
 	dialog --backtitle "OpenVario" --title "Result" --tailbox /tmp/tail.$$ 30 50
 }
 
 # Copy /usb/usbstick/openvario/backup/"MAC address of eth0"/home/root/.xcsoar to /home/root/.xcsoar
-function upload_files(){
-	echo "Uploading files ..." > /tmp/tail.$$
-	/usr/bin/upload-xcsoar.sh >> /tmp/tail.$$ &
+function upload_xcsoar_files(){
+	/usr/bin/restore-xcsoar.sh >> /tmp/tail.$$ &
 	dialog --backtitle "OpenVario" --title "Result" --tailbox /tmp/tail.$$ 30 50
 }
 
