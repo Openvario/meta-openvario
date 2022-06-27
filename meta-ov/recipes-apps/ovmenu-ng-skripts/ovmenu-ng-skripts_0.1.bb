@@ -43,16 +43,12 @@ do_install() {
 		${S}/update-maps.sh \
 		${S}/update-system.sh \
 		${S}/download-igc.sh \
-		${S}/transfer-xcsoar.sh \
 		${S}/ov-calibrate-ts.sh \
 		${S}/backup-system.sh \
 		${S}/restore-system.sh \
 		${S}/restore-xcsoar.sh \
 		${D}${bindir}/
 	cd ${D}${bindir}
-	ln -s -r transfer-xcsoar.sh upload-all.sh
-	ln -s -r transfer-xcsoar.sh upload-xcsoar.sh
-	ln -s -r transfer-xcsoar.sh download-all.sh
 }
 
 FILES:${PN} = " \
