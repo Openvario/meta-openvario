@@ -3,8 +3,10 @@
 OpenVario*rootfs.img.gz
 .DS_Store
 bitbake.lock
+.project
 cache/
 downloads/
 sstate-cache/
 tmp/
 build/
+.settings/
