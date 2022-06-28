@@ -357,19 +357,19 @@ function download_igc_files() {
 	/usr/bin/download-igc.sh
 }
 
-# Copy XCSaor and OpenVario settings to /usb/usbstick/openvario/backup/"MAC address of eth0"
+# Copy XCSaor and OpenVario settings to /usb/usbstick/openvario/backup/<MAC address of eth0>
 function download_files() { 
 	/usr/bin/backup-system.sh >> /tmp/tail.$$ &
 	dialog --backtitle "OpenVario" --title "Result" --tailbox /tmp/tail.$$ 30 50
 }
 
-# Copy XCSaor and OpenVario settings from /usb/usbstick/openvario/backup/"MAC address of eth0"
+# Copy XCSaor and OpenVario settings from /usb/usbstick/openvario/backup/<MAC address of eth0>
 function upload_files(){
 	/usr/bin/restore-system.sh >> /tmp/tail.$$ &
 	dialog --backtitle "OpenVario" --title "Result" --tailbox /tmp/tail.$$ 30 50
 }
 
-# Copy /usb/usbstick/openvario/backup/"MAC address of eth0"/home/root/.xcsoar to /home/root/.xcsoar
+# Copy /usb/usbstick/openvario/backup/<MAC address of eth0>/home/root/.xcsoar to /home/root/.xcsoar
 function upload_xcsoar_files(){
 	/usr/bin/restore-xcsoar.sh >> /tmp/tail.$$ &
 	dialog --backtitle "OpenVario" --title "Result" --tailbox /tmp/tail.$$ 30 50
