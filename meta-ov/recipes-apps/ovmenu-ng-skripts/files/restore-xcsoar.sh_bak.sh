@@ -24,7 +24,7 @@ echo ' Wait until "DONE !!" appears before you exit!'
 if 
 # Copy all files and dirs recursively.
 # We use -c here due to cubieboards not having an rtc clock
-	rsync --recursive --mkpath --checksum --quiet "$USB_PATH/$BACKUP/$MAC"/home/root.xcsoar/ /home/root.xcsoar
+	rsync --recursive --mkpath --checksum --quiet "$USB_PATH/$BACKUP/$MAC"/home/root/.xcsoar/ /home/root/.xcsoar
 	RSYNC_EXIT=$?
 # Sync the buffer to be sure data is on disk
 	sync
