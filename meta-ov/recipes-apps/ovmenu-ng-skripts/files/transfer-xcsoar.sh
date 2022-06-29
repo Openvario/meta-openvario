@@ -117,7 +117,6 @@ case `basename "$0"` in
 			test ${RSYNC_EXIT:=$?} -eq 0
 		then
 			echo ' All files have been restored.'
-			echo ' DONE !!'
 		else 
 			echo " An rsync error $RSYNC_EXIT has occurred!"
 			echo ' DONE !!'
@@ -151,6 +150,7 @@ case `basename "$0"` in
 		# Restore brightness setting
 		cat /home/root/brightness > /sys/class/backlight/lcd/brightness
 		echo " brightness setting has been restored.";;
+		echo ' DONE !!' 
 	*)
 		>&2 echo 'call as backup-system.sh, restore-xcsoar.sh or restore-system.sh'
 		exit 1
