@@ -149,8 +149,8 @@ case `basename "$0"` in
 
 		# Restore brightness setting
 		cat /home/root/brightness > /sys/class/backlight/lcd/brightness
-		echo " brightness setting has been restored.";;
-		echo ' DONE !!' 
+		echo " brightness setting has been restored."
+		echo ' DONE !!';; 
 	*)
 		>&2 echo 'call as backup-system.sh, restore-xcsoar.sh or restore-system.sh'
 		exit 1
