@@ -67,7 +67,6 @@ case `basename "$0"` in
 					/etc/udev/rules.d/libinput-ts.rules
 					/etc/pointercal
 					/etc/dropbear
-					/etc/opkg
 					/home/root
 					/opt/conf
 					/var/lib/connman
@@ -105,6 +104,11 @@ case `basename "$0"` in
 		fi;;
 		
 	restore-system.sh)
+		if [ -d "$USB_PATH/$BACKUP/$MAC/etc/opkg" ] 
+		then
+			rm -r "$USB_PATH/$BACKUP/$MAC"/etc/opkg/
+		fi
+	
 		echo ' Starting restore ...'
 		echo ' Wait until "DONE !!" appears before you exit!'
 
