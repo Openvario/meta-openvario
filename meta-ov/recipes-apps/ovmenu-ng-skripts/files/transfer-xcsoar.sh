@@ -73,11 +73,15 @@ case `basename "$0"` in
 					/var/lib/connman
 					/boot/config.uEnv
 				LISTE
+			# Sync the system buffer to be sure data is on disk
+			sync
 			test ${RSYNC_EXIT:=$?} -eq 0
 		then
 			echo ' All files and some settings have been backed up.'
+			echo ' DONE !!'
 		else 
 			echo " An rsync error $RSYNC_EXIT has occurred!"
+			echo ' DONE !!'
 		fi;;
 		
 	restore-xcsoar.sh)
@@ -89,11 +93,15 @@ case `basename "$0"` in
 			# We use --checksum here due to cubieboards not having an rtc clock
 			rsync --recursive --mkpath --checksum --quiet \
 			      "$USB_PATH/$BACKUP/$MAC/$XCSOAR_PATH"/ "$XCSOAR_PATH"/
+			# Sync the buffer to be sure data is on disk
+			sync
 			test ${RSYNC_EXIT:=$?} -eq 0
 		then
 			echo ' All XCSoar files have been restored.'
+			echo ' DONE !!'
 		else 
 			echo " An rsync error $RSYNC_EXIT has occurred!"
+			echo ' DONE !!'
 		fi;;
 		
 	restore-system.sh)
@@ -104,11 +112,15 @@ case `basename "$0"` in
 			# Copy all files and dirs recursively.
 			# We use --checksum here due to cubieboards not having an rtc clock
 			rsync --recursive --mkpath --checksum --quiet "$USB_PATH/$BACKUP/$MAC"/ /
+			# Sync the buffer to be sure data is on disk
+			sync
 			test ${RSYNC_EXIT:=$?} -eq 0
 		then
 			echo ' All files have been restored.'
+			echo ' DONE !!'
 		else 
 			echo " An rsync error $RSYNC_EXIT has occurred!"
+			echo ' DONE !!'
 		fi
 
 		# Restore SSH status 
@@ -143,8 +155,4 @@ case `basename "$0"` in
 		>&2 echo 'call as backup-system.sh, restore-xcsoar.sh or restore-system.sh'
 		exit 1
 esac
-
-# Sync the buffer to be sure data is on disk
-sync
-echo ' DONE !!' 
 exit $RSYNC_EXIT
