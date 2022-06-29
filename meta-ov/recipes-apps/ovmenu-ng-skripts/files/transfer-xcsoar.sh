@@ -35,7 +35,7 @@ MAC=`ip li|grep -A 1 eth0|tail -n 1|cut -d ' ' -f 6|sed -e s/:/-/g`
 case `basename "$0"` in
 	backup-system.sh)
 		echo ' Starting backup ...'
-		echo ' Wait until "DONE !!" appears before you power off!'
+		echo ' Wait until "DONE !!" appears before you exit!'
 		
 		# Store SSH status 
 		if   /bin/systemctl --quiet is-enabled dropbear.socket
@@ -82,7 +82,7 @@ case `basename "$0"` in
 		
 	restore-xcsoar.sh)
 		echo ' Starting restore of XCSoar ...'
-		echo ' Wait until "DONE !!" appears before you power off!'
+		echo ' Wait until "DONE !!" appears before you exit!'
 
 		if 
 			# Copy all files and dirs recursively.
@@ -98,7 +98,7 @@ case `basename "$0"` in
 		
 	restore-system.sh)
 		echo ' Starting restore ...'
-		echo ' Wait until "DONE !!" appears before you power off!'
+		echo ' Wait until "DONE !!" appears before you exit!'
 
 		if 
 			# Copy all files and dirs recursively.
