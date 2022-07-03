@@ -6,28 +6,6 @@
 # Created by Blaubart,        2022-02-08
 #
 
-# collect info of installed packages, depending of testing or stable version is used
-if [ -n "$(opkg list-installed xcsoar-testing)" ]
-then
-	XCSOAR_VERSION=$(opkg list-installed xcsoar-testing | cut -d ' - ' -f 3)
-else
-	XCSOAR_VERSION=$(opkg list-installed xcsoar | cut -d '-' -f 2)
-fi
-
-if [ -n "$(opkg list-installed sensord-testing)" ] 
-then
-	SENSORD_VERSION=$(opkg list-installed sensord-testing | cut -d ' - ' -f 3)
-else
-	SENSORD_VERSION=$(opkg list-installed sensord | cut -d '-' -f 2)
-fi
-
-if [ -n "$(opkg list-installed variod-testing)" ] 
-then
-	VARIOD_VERSION=$(opkg list-installed variod-testing | cut -d ' - ' -f 3)
-else
-	VARIOD_VERSION=$(opkg list-installed variod | cut -d '-' -f 2)
-fi
-
 # collect info of system and more installed packages
 IMAGE_VERSION=$(cat /etc/os-release | grep VERSION_ID | cut -d '=' -f 2)
 XCSOAR_MAPS_VERSION=$(opkg list-installed xcsoar-maps* | cut -d '-' -f 4)
@@ -64,10 +42,13 @@ fi
 #print info of system and packages
 echo ' Image: '$IMAGE_VERSION
 
+# collect info of installed packages, depending of testing or stable version is used
 if [ -n "$(opkg list-installed xcsoar-testing)" ]
 then
+	XCSOAR_VERSION=$(opkg list-installed xcsoar-testing | cut -d ' - ' -f 3)
 	echo ' XCSoar-testing: '$XCSOAR_VERSION
 else
+	XCSOAR_VERSION=$(opkg list-installed xcsoar         | cut -d '-'   -f 2)
 	echo ' XCSoar:'$XCSOAR_VERSION
 fi
 
@@ -76,15 +57,19 @@ echo ' Menu:'$XCSOAR_MENU
 
 if [ -n "$(opkg list-installed sensord-testing)" ] 
 then
+	SENSORD_VERSION=$(opkg list-installed sensord-testing | cut -d ' - ' -f 3)
 	echo ' sensord-testing: '$SENSORD_VERSION
 else
+	SENSORD_VERSION=$(opkg list-installed sensord         | cut -d '-'   -f 2)
 	echo ' sensord:'$SENSORD_VERSION
 fi
 
 if [ -n "$(opkg list-installed variod-testing)" ] 
 then
+	VARIOD_VERSION=$(opkg list-installed variod-testing | cut -d ' - ' -f 3)
 	echo ' variod-testing: '$VARIOD_VERSION
 else
+	VARIOD_VERSION=$(opkg list-installed variod         | cut -d '-'   -f 2)
 	echo ' variod:'$VARIOD_VERSION
 fi
 
