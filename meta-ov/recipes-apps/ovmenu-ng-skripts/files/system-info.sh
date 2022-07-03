@@ -8,10 +8,12 @@
 
 # collect info of system and more installed packages
 IMAGE_VERSION=$(cat /etc/os-release | grep VERSION_ID | cut -d '=' -f 2)
+KERNEL_VERSION=$(uname -r)
 XCSOAR_MAPS_VERSION=$(opkg list-installed xcsoar-maps* | cut -d '-' -f 4)
 XCSOAR_MENU=$(opkg list-installed xcsoar-menu* | cut -d '-' -f 3)
 IP_ETH0=$(ip route | grep eth0 | head -n 1 | cut -d ' ' -f 8)
 MAC=`ip li|grep -A 1 eth0|tail -n 1|cut -d ' ' -f 6`
+HOSTNAME=$(cat /etc/hostname)
 IP_WLAN=$(ip route | grep wlan0 | head -n 1| cut -d ' ' -f 8)
 I2C_TOOLS=$(opkg list-installed i2c-tools | cut -d '-' -f 3)
 E2FSPROGS=$(opkg list-installed e2fsprogs | cut -d '-' -f 2)
@@ -41,6 +43,7 @@ fi
 		
 #print info of system and packages
 echo ' Image: '$IMAGE_VERSION
+echo ' Kernel: '$KERNEL_VERSION
 
 # collect info of installed packages, depending of testing or stable version is used
 if [ -n "$(opkg list-installed xcsoar-testing)" ]
@@ -75,6 +78,7 @@ fi
 
 echo ' IP eth0: '$IP_ETH0
 echo ' MAC-address eth0: '$MAC
+echo ' Hostname: '$HOSTNAME
 echo ' IP wlan0: '$IP_WLAN
 echo -e '\n'
 echo ' supplementary packages that are not included\n in every image:'
