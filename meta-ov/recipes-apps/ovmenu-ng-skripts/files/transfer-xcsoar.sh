@@ -60,8 +60,9 @@ case `basename "$0"` in
 		# Copy all directories and files from list below to backup directory recursively
 		# We use --checksum here due to cubieboards not having an rtc clock
 		if 
-			rsync --files-from - --archive --recursive --quiet --relative \
-				--mkpath --checksum --safe-links \
+			rsync --files-from - --archive --recursive --quiet \
+			      --relative --mkpath --checksum --safe-links \
+			      --progress \
 				/ "$USB_PATH/$BACKUP/$MAC"/ <<-LISTE
 					/etc/locale.conf
 					/etc/udev/rules.d/libinput-ts.rules
@@ -87,6 +88,7 @@ case `basename "$0"` in
 			# Copy all files and dirs recursively.
 			# We use --checksum here due to cubieboards not having an rtc clock
 			rsync --recursive --mkpath --checksum --quiet \
+			      --progress \
 			      "$USB_PATH/$BACKUP/$MAC/$XCSOAR_PATH"/ "$XCSOAR_PATH"/
 			test ${RSYNC_EXIT:=$?} -eq 0
 		then
@@ -105,7 +107,8 @@ case `basename "$0"` in
 		if 
 			# Copy all files and dirs recursively.
 			# We use --checksum here due to cubieboards not having an rtc clock
-			rsync --recursive --mkpath --checksum --quiet "$USB_PATH/$BACKUP/$MAC"/ /
+			rsync --recursive --mkpath --checksum --quiet \
+			      --progress "$USB_PATH/$BACKUP/$MAC"/ /
 			test ${RSYNC_EXIT:=$?} -eq 0
 		then
 			echo ' All files have been restored.'
