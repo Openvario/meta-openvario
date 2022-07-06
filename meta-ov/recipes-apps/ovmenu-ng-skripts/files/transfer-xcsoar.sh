@@ -45,7 +45,7 @@ restore() {
 	then
 		echo " All $3 files have been restored."
 	else 
-		echo " An rsync error $RSYNC_EXIT has occurred!"
+		>&2 echo " An rsync error $RSYNC_EXIT has occurred!"
 	fi
 }
 
@@ -94,7 +94,7 @@ backup-system.sh)
 	then
 		echo ' All files and some settings have been backed up.'
 	else 
-		echo " An rsync error $RSYNC_EXIT has occurred!"
+		>&2 echo " An rsync error $RSYNC_EXIT has occurred!"
 	fi;;
 	
 restore-xcsoar.sh)
