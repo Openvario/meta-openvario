@@ -32,6 +32,23 @@ BACKUP=openvario/backup
 # MAC address of the Ethernet device eth0 to do a separate backup
 MAC=`ip li|grep -A 1 eth0|tail -n 1|cut -d ' ' -f 6|sed -e s/:/-/g`
 
+# Restore Shell Function: calls rsync with unified options. 
+# Copies all files and dirs from source recursively. Parameters:
+# $1 source
+# $2 target
+# $3 comment about type of items
+restore() {
+	if 
+		# We use --checksum here due to cubieboards not having an rtc clock
+		rsync --recursive --mkpath --checksum --quiet --progress "$1" "$2"
+		test ${RSYNC_EXIT:=$?} -eq 0
+	then
+		echo " All $3 files have been restored."
+	else 
+		echo " An rsync error $RSYNC_EXIT has occurred!"
+	fi
+}
+
 case `basename "$0"` in
 backup-system.sh)
 	echo ' Starting backup ...'
@@ -83,19 +100,8 @@ backup-system.sh)
 restore-xcsoar.sh)
 	echo ' Starting restore of XCSoar ...'
 	echo ' Wait until "DONE !!" appears before you exit!'
-
-	if 
-		# Copy all files and dirs recursively.
-		# We use --checksum here due to cubieboards not having an rtc clock
-		rsync --recursive --mkpath --checksum --quiet \
-		      --progress \
-		      "$USB_PATH/$BACKUP/$MAC/$XCSOAR_PATH"/ "$XCSOAR_PATH"/
-		test ${RSYNC_EXIT:=$?} -eq 0
-	then
-		echo ' All XCSoar files have been restored.'
-	else 
-		echo " An rsync error $RSYNC_EXIT has occurred!"
-	fi;;
+	# Call Shell Function defined above
+	restore "$USB_PATH/$BACKUP/$MAC/$XCSOAR_PATH"/ "$XCSOAR_PATH"/ XCSoar;;
 	
 restore-system.sh)
 	# Eliminate /etc/opkg backup in case it's present
@@ -103,18 +109,8 @@ restore-system.sh)
 
 	echo ' Starting restore ...'
 	echo ' Wait until "DONE !!" appears before you exit!'
-
-	if 
-		# Copy all files and dirs recursively.
-		# We use --checksum here due to cubieboards not having an rtc clock
-		rsync --recursive --mkpath --checksum --quiet \
-		      --progress "$USB_PATH/$BACKUP/$MAC"/ /
-		test ${RSYNC_EXIT:=$?} -eq 0
-	then
-		echo ' All files have been restored.'
-	else 
-		echo " An rsync error $RSYNC_EXIT has occurred!"
-	fi
+	# Call Shell Function defined above
+	restore "$USB_PATH/$BACKUP/$MAC"/ / system
 
 	# Restore SSH status 
 	case `cat /home/root/ssh-status` in
@@ -146,7 +142,7 @@ restore-system.sh)
 	echo " brightness setting has been restored.";;
 *)
 	>&2 echo 'call as backup-system.sh, restore-xcsoar.sh or restore-system.sh'
-	exit 1
+	exit 1;;
 esac
 
 # Sync the buffer to be sure data is on disk
