@@ -96,10 +96,8 @@ case `basename "$0"` in
 		fi;;
 		
 	restore-system.sh)
-		if [ -d "$USB_PATH/$BACKUP/$MAC/etc/opkg" ] 
-		then
-			rm -r "$USB_PATH/$BACKUP/$MAC"/etc/opkg/
-		fi
+		# Eliminate /etc/opkg backup in case it's present
+		rm -rf "$USB_PATH/$BACKUP/$MAC"/etc/opkg/
 	
 		echo ' Starting restore ...'
 		echo ' Wait until "DONE !!" appears before you exit!'
