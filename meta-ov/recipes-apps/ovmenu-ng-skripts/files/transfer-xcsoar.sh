@@ -104,11 +104,12 @@ restore-xcsoar.sh)
 	restore "$USB_PATH/$BACKUP/$MAC/$XCSOAR_PATH"/ "$XCSOAR_PATH"/ XCSoar;;
 	
 restore-system.sh)
+	echo ' Starting restore ...'
+	echo ' Wait until "DONE !!" appears before you exit!'
+
 	# Eliminate /etc/opkg backup in case it's present
 	rm -rf "$USB_PATH/$BACKUP/$MAC"/etc/opkg/
 
-	echo ' Starting restore ...'
-	echo ' Wait until "DONE !!" appears before you exit!'
 	# Call Shell Function defined above
 	restore "$USB_PATH/$BACKUP/$MAC"/ / system
 
