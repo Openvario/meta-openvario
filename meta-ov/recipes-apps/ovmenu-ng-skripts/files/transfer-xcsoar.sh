@@ -148,5 +148,5 @@ esac
 
 # Sync the buffer to be sure data is on disk
 sync
-echo ' DONE !!' 
+echo ' DONE !! ----------------------------------------------------------------' 
 exit $RSYNC_EXIT
