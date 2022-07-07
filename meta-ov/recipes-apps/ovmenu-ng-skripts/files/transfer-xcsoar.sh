@@ -146,6 +146,7 @@ restore-system.sh)
 esac
 
 # Sync the buffer to be sure data is on disk
+echo ' Please wait a moment, synchronization is not yet complete!'
 sync
 echo ' DONE !!' 
 exit $RSYNC_EXIT
