@@ -1,12 +1,13 @@
 #!/bin/sh
 #
 # transfer-xcsoar.sh
-# System backup transfer script to and from usbstick for OpenVario and XCSoar
+# System backup transfer script to and from usbstick for Openvario and XCSoar
 #
 # Created by lordfolken         2022-02-08
 # Enhanced by 7lima & Blaubart  2022-06-19
 #
-# This backup and restore script stores all XCSoar settings and relevant OpenVario settings like:
+# This backup and restore script stores all XCSoar settings and relevant
+# Openvario settings like:
 #
 # -brightness of the display
 # -rotation
@@ -19,6 +20,9 @@
 # openvario/backup/<MAC address of eth0>/
 #
 # So you can store backups from more than one OV on the same stick!
+
+echo ' [..........] Starting'
+echo ' [#.........] Wait until "DONE !!" appears before you exit!'
 
 # Provident background system buffer sync to help later syncs finish quicker
 sync&
@@ -46,7 +50,7 @@ restore() {
 		rsync --recursive --mkpath --checksum --quiet --progress "$1" "$2"
 		test ${RSYNC_EXIT:=$?} -eq 0
 	then
-		echo " All $3 files have been restored."
+		echo " [####......] All $3 files have been restored."
 	else 
 		>&2 echo " An rsync error $RSYNC_EXIT has occurred!"
 	fi
@@ -56,8 +60,7 @@ restore() {
 
 case `basename "$0"` in
 backup-system.sh)
-	echo ' Starting backup ...'
-	echo ' Wait until "DONE !!" appears before you exit!'
+	echo ' [##........] System check ...'
 	
 	# Store SSH status 
 	if   /bin/systemctl --quiet is-enabled dropbear.socket
@@ -79,7 +82,8 @@ backup-system.sh)
 	# Copy brightness setting
 	cat /sys/class/backlight/lcd/brightness > /home/root/brightness
 
-	# Copy all directories and files from list below to backup directory recursively
+	echo ' [####......] Starting backup ...'
+	# Copy all directories and files from list below to backup directory recursively.
 	# We use --checksum here due to cubieboards not having an rtc clock
 	if 
 		rsync --files-from - --archive --recursive --quiet \
@@ -97,20 +101,18 @@ backup-system.sh)
 			LISTE
 		test ${RSYNC_EXIT:=$?} -eq 0
 	then
-		echo ' All files and some settings have been backed up.'
+		echo ' [######....] All files and settings have been backed up.'
 	else 
 		>&2 echo " An rsync error $RSYNC_EXIT has occurred!"
 	fi;;
 	
 restore-xcsoar.sh)
-	echo ' Starting restore of XCSoar ...'
-	echo ' Wait until "DONE !!" appears before you exit!'
+	echo ' [##........] Starting restore of XCSoar ...'
 	# Call Shell Function defined above
 	restore "$USB_PATH/$BACKUP/$MAC/$XCSOAR_PATH"/ "$XCSOAR_PATH"/ XCSoar;;
 	
 restore-system.sh)
-	echo ' Starting restore ...'
-	echo ' Wait until "DONE !!" appears before you exit!'
+	echo ' [##........] Starting restore ...'
 
 	# Eliminate /etc/opkg backup in case it's present
 	rm -rf "$USB_PATH/$BACKUP/$MAC"/etc/opkg/
@@ -122,14 +124,14 @@ restore-system.sh)
 	case `cat /home/root/ssh-status` in
 	enabled)
 		/bin/systemctl enable  --quiet --now dropbear.socket
-		echo " SSH has been enabled permanently.";;
+		echo " [####......] SSH has been enabled permanently.";;
 	temporary)
 		/bin/systemctl disable --quiet --now dropbear.socket
 		/bin/systemctl start   --quiet --now dropbear.socket
-		echo " SSH has been enabled temporarily.";;
+		echo " [####......] SSH has been enabled temporarily.";;
 	disabled)
 		/bin/systemctl disable --quiet --now dropbear.socket
-		echo " SSH has been disabled.";;
+		echo " [####......] SSH has been disabled.";;
 	esac
 	
 	# Restore variod and sensord status 
@@ -137,21 +139,22 @@ restore-system.sh)
 	do
 		case `cat /home/root/$DAEMON-status` in
 		enabled)  /bin/systemctl  enable --quiet --now $DAEMON
-		          echo " $DAEMON has been enabled.";;
+		          echo " [#####.....] $DAEMON has been enabled.";;
 		disabled) /bin/systemctl disable --quiet --now $DAEMON
-		          echo " $DAEMON has been disabled.";;
+		          echo " [#####.....] $DAEMON has been disabled.";;
 		esac
 	done
 
 	# Restore brightness setting
 	cat /home/root/brightness > /sys/class/backlight/lcd/brightness
-	echo " brightness setting has been restored.";;
+	echo " [######....] brightness setting has been restored.";;
 *)
 	>&2 echo 'call as backup-system.sh, restore-xcsoar.sh or restore-system.sh'
 	exit 1;;
 esac
 
 # Sync the system buffer to make sure all data is on disk
+echo ' [#######...] Please wait!'
 sync
-echo ' DONE !! ----------------------------------------------------------------' 
+echo ' [##########] DONE !! ---------------------------------------------------'
 exit $RSYNC_EXIT
