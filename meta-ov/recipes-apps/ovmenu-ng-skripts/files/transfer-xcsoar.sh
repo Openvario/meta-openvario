@@ -1,12 +1,13 @@
 #!/bin/sh
 #
 # transfer-xcsoar.sh
-# System backup transfer script to and from usbstick for OpenVario and XCSoar
+# System backup transfer script to and from usbstick for Openvario and XCSoar
 #
 # Created by lordfolken         2022-02-08
 # Enhanced by 7lima & Blaubart  2022-06-19
 #
-# This backup and restore script stores all XCSoar settings and relevant OpenVario settings like:
+# This backup and restore script stores all XCSoar settings and relevant
+# Openvario settings like:
 #
 # -brightness of the display
 # -rotation
@@ -17,7 +18,6 @@
 # 
 # backups are stored at USB stick at:
 # openvario/backup/<MAC address of eth0>/
-#
 # So you can store backups from more than one OV on the same stick!
 
 # Provident background system buffer sync to help later syncs finish quicker
@@ -79,7 +79,7 @@ backup-system.sh)
 	# Copy brightness setting
 	cat /sys/class/backlight/lcd/brightness > /home/root/brightness
 
-	# Copy all directories and files from list below to backup directory recursively
+	# Copy all directories and files from list below to backup directory recursively.
 	# We use --checksum here due to cubieboards not having an rtc clock
 	if 
 		rsync --files-from - --archive --recursive --quiet \
@@ -153,5 +153,5 @@ esac
 
 # Sync the system buffer to make sure all data is on disk
 sync
-echo ' DONE !! ----------------------------------------------------------------' 
+echo ' DONE !! ----------------------------------------------------------------'
 exit $RSYNC_EXIT
