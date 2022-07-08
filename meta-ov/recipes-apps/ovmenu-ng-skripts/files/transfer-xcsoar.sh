@@ -18,7 +18,6 @@
 # 
 # backups are stored at USB stick at:
 # openvario/backup/<MAC address of eth0>/
-#
 # So you can store backups from more than one OV on the same stick!
 
 echo ' [..........] Starting'
@@ -118,7 +117,7 @@ restore-system.sh)
 	rm -rf "$USB_PATH/$BACKUP/$MAC"/etc/opkg/
 
 	# Call Shell Function defined above
-	restore "$USB_PATH/$BACKUP/$MAC"/ / system
+	restore "$USB_PATH/$BACKUP/$MAC"/ / "Openvario and XCSoar"
 
 	# Restore SSH status 
 	case `cat /home/root/ssh-status` in
@@ -154,7 +153,7 @@ restore-system.sh)
 esac
 
 # Sync the system buffer to make sure all data is on disk
-echo ' [#######...] Please wait!'
+echo ' [#######...] Please wait a moment, synchronization is not yet complete!'
 sync
 echo ' [##########] DONE !! ---------------------------------------------------'
 exit $RSYNC_EXIT
