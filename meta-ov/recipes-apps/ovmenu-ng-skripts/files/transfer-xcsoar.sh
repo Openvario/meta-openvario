@@ -116,7 +116,7 @@ restore-system.sh)
 	rm -rf "$USB_PATH/$BACKUP/$MAC"/etc/opkg/
 
 	# Call Shell Function defined above
-	restore "$USB_PATH/$BACKUP/$MAC"/ / system
+	restore "$USB_PATH/$BACKUP/$MAC"/ / "Openvario and XCSoar"
 
 	# Restore SSH status 
 	case `cat /home/root/ssh-status` in
