@@ -20,6 +20,9 @@
 #
 # So you can store backups from more than one OV on the same stick!
 
+# Provident background system buffer sync to help later syncs finish quicker
+sync&
+
 # Path where the USB stick is mounted
 USB_PATH=/usb/usbstick
 
@@ -47,6 +50,8 @@ restore() {
 	else 
 		>&2 echo " An rsync error $RSYNC_EXIT has occurred!"
 	fi
+	# Provident system buffer sync to help later syncs finish quicker
+	sync&
 }
 
 case `basename "$0"` in
@@ -146,7 +151,7 @@ restore-system.sh)
 	exit 1;;
 esac
 
-# Sync the buffer to be sure data is on disk
+# Sync the system buffer to make sure all data is on disk
 sync
 echo ' DONE !! ----------------------------------------------------------------' 
 exit $RSYNC_EXIT
