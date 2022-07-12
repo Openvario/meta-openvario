@@ -44,10 +44,12 @@ function submenu_file() {
 	--title "[ F I L E ]" \
 	--begin 3 4 \
 	--menu "You can use the UP/DOWN arrow keys" 15 50 4 \
-	Download_IGC   "Download IGC files to USB" \
-	Download  "Backup XCSoar and OV settings" \
-	Upload   "Restore XCSoar and OV settings" \
-	Upload_XCSoar   "Restore only XCSoar settings" \
+	Download_IGC   "Download XCSoar IGC files to USB" \
+	Update_Maps   "Update Maps" \
+	Upload_XCSoar   "Update or upload XCSoar files" \
+	Backup  "Backup XCSoar and OV settings" \
+	Restore   "Restore XCSoar and OV settings" \
+	Restore_XCSoar   "Restore only XCSoar settings" \
 	Back   "Back to Main" 2>"${INPUT}"
 
 	menuitem=$(<"${INPUT}")
@@ -55,9 +57,11 @@ function submenu_file() {
 	# make decsion
 	case $menuitem in
 		Download_IGC) download_igc_files;;
-		Download) download_files;;
-		Upload) upload_files;;
+		Update_Maps) update_maps_files;;
 		Upload_XCSoar) upload_xcsoar_files;;
+		Backup) backup_files;;
+		Restore) restore_files;;
+		Restore_XCSoar) restore_xcsoar_files;;
 		Exit) ;;
 esac
 }
@@ -69,7 +73,6 @@ function submenu_system() {
 	--begin 3 4 \
 	--menu "You can use the UP/DOWN arrow keys" 15 50 6 \
 	Update_System   "Update system software" \
-	Update_Maps   "Update Maps files" \
 	Calibrate_Sensors   "Calibrate Sensors" \
 	Calibrate_Touch   "Calibrate Touch" \
 	Settings   "System Settings" \
@@ -82,9 +85,6 @@ function submenu_system() {
 	case $menuitem in
 		Update_System)
 			update_system
-			;;
-		Update_Maps)
-			update_maps
 			;;
 		Calibrate_Sensors)
 			calibrate_sensors
@@ -337,19 +337,25 @@ function download_igc_files() {
 }
 
 # Copy XCSaor and OpenVario settings to /usb/usbstick/openvario/backup/<MAC address of eth0>
-function download_files() { 
+function backup_files() { 
 	/usr/bin/backup-system.sh >> /tmp/tail.$$ &
 	dialog --backtitle "OpenVario" --title "Result" --tailbox /tmp/tail.$$ 30 50
 }
 
+# Copy usb/usbstick/openvario/upload/xcsoar to /home/root/.xcsoar
+function upload_xcsoar() { 
+	/usr/bin/upload-xcsoar.sh >> /tmp/tail.$$ &
+	dialog --backtitle "OpenVario" --title "Result" --tailbox /tmp/tail.$$ 30 50
+}
+
 # Copy XCSaor and OpenVario settings from /usb/usbstick/openvario/backup/<MAC address of eth0>
-function upload_files(){
+function restore_files(){
 	/usr/bin/restore-system.sh >> /tmp/tail.$$ &
 	dialog --backtitle "OpenVario" --title "Result" --tailbox /tmp/tail.$$ 30 50
 }
 
 # Copy /usb/usbstick/openvario/backup/<MAC address of eth0>/home/root/.xcsoar to /home/root/.xcsoar
-function upload_xcsoar_files(){
+function restore_xcsoar_files(){
 	/usr/bin/restore-xcsoar.sh >> /tmp/tail.$$ &
 	dialog --backtitle "OpenVario" --title "Result" --tailbox /tmp/tail.$$ 30 50
 }
