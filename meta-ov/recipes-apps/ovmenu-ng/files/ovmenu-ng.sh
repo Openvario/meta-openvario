@@ -47,6 +47,7 @@ function submenu_file() {
 	Download_IGC   "Download XCSoar IGC files to USB" \
 	Download   "Download XCSoar to USB" \
 	Upload   "Upload files from USB to XCSoar" \
+	Update_Maps   "Update Maps" \
 	Back   "Back to Main" 2>"${INPUT}"
 
 	menuitem=$(<"${INPUT}")
@@ -56,6 +57,7 @@ function submenu_file() {
 		Download_IGC) download_igc_files;;
 		Download) download_files;;
 		Upload) upload_files;;
+		Update_Maps) update_maps_files;;
 		Exit) ;;
 esac
 }
@@ -67,7 +69,6 @@ function submenu_system() {
 	--begin 3 4 \
 	--menu "You can use the UP/DOWN arrow keys" 15 50 6 \
 	Update_System   "Update system software" \
-	Update_Maps   "Update Maps files" \
 	Calibrate_Sensors   "Calibrate Sensors" \
 	Calibrate_Touch   "Calibrate Touch" \
 	Settings   "System Settings" \
@@ -80,9 +81,6 @@ function submenu_system() {
 	case $menuitem in
 		Update_System)
 			update_system
-			;;
-		Update_Maps)
-			update_maps
 			;;
 		Calibrate_Sensors)
 			calibrate_sensors
