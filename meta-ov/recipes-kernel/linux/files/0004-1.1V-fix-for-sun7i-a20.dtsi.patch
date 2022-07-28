@@ -1,0 +1,39 @@
+From 7e668bb8ed7ca437c2758de490162bfc33c67ab5 Mon Sep 17 00:00:00 2001
+From: Torsten Beyer <tb@pobox.com>
+Date: Tue, 19 Jul 2022 10:18:57 +0200
+Subject: [PATCH 4/4] 1.1V fix for sun7i-a20.dtsi
+
+Signed-off-by: Torsten Beyer <tb@pobox.com>
+---
+ arch/arm/boot/dts/sun7i-a20.dtsi | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/arch/arm/boot/dts/sun7i-a20.dtsi b/arch/arm/boot/dts/sun7i-a20.dtsi
+index 5574299685ab..7cba57b5eab0 100644
+--- a/arch/arm/boot/dts/sun7i-a20.dtsi
++++ b/arch/arm/boot/dts/sun7i-a20.dtsi
+@@ -113,8 +113,8 @@
+ 				<864000	1300000>,
+ 				<720000	1200000>,
+ 				<528000	1100000>,
+-				<312000	1000000>,
+-				<144000	1000000>;
++				<312000	1100000>,
++				<144000	1100000>;
+ 			#cooling-cells = <2>;
+ 		};
+ 
+@@ -131,8 +131,8 @@
+ 				<864000	1300000>,
+ 				<720000	1200000>,
+ 				<528000	1100000>,
+-				<312000	1000000>,
+-				<144000	1000000>;
++				<312000	1100000>,
++				<144000	1100000>;
+ 			#cooling-cells = <2>;
+ 		};
+ 	};
+-- 
+2.15.0
+
