@@ -32,6 +32,9 @@ USB_PATH=/usb/usbstick
 # XCSoar settings path
 XCSOAR_PATH=/home/root/.xcsoar
 
+# XCSoar upload path
+XCSOAR_UPLOAD_PATH=openvario/upload/xcsoar
+
 # Backup path within the USB stick
 BACKUP=openvario/backup
 
@@ -105,6 +108,11 @@ backup-system.sh)
 		>&2 echo " An rsync error $RSYNC_EXIT has occurred!"
 	fi;;
 	
+upload-xcsoar.sh)
+	echo ' [##========] Starting upload of XCSoar files ...'
+	# Call Shell Function defined above
+	restore "$USB_PATH/$XCSOAR_UPLOAD_PATH"/ "$XCSOAR_PATH"/ XCSoar;;
+	
 restore-xcsoar.sh)
 	echo ' [##========] Starting restore of XCSoar ...'
 	# Call Shell Function defined above
@@ -148,7 +156,7 @@ restore-system.sh)
 	cat /home/root/brightness > /sys/class/backlight/lcd/brightness
 	echo " [######====] brightness setting has been restored.";;
 *)
-	>&2 echo 'call as backup-system.sh, restore-xcsoar.sh or restore-system.sh'
+	>&2 echo 'call as backup-system.sh, upload-xcsoar.sh, restore-xcsoar.sh or restore-system.sh'
 	exit 1;;
 esac
 
