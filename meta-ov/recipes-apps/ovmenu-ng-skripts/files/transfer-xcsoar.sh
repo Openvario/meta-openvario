@@ -30,7 +30,7 @@ sync&
 USB_PATH=/usb/usbstick
 
 # XCSoar settings path
-XCSOAR_PATH=/home/root/.xcsoar
+export XCSOAR_PATH=/home/root/.xcsoar
 
 # XCSoar upload path
 XCSOAR_UPLOAD_PATH=openvario/upload/xcsoar
@@ -80,6 +80,22 @@ backup-system.sh)
 		else echo disabled  
 		fi > /home/root/$DAEMON-status
 	done
+	
+	# Store if profiles are protected or not
+	if opkg list-installed | grep "e2fsprogs" > /dev/null; 
+	then
+	PROFILE= find "$XCSOAR_PATH" -maxdepth 1 -type f -name '*.prf' -exec sh -c '
+	for PROFILE; 
+	do
+		mkdir -p /home/root/profile-settings
+		PROFILE_SETTINGS=`basename "$PROFILE"`
+		if lsattr "$PROFILE" | cut -b 5 | fgrep -q i; 
+		then echo protected
+		else echo unprotected
+		fi > /home/root/profile-settings/$PROFILE_SETTINGS 
+	done
+	' -- {} +
+	fi
 
 	# Copy brightness setting
 	cat /sys/class/backlight/lcd/brightness > /home/root/brightness
@@ -152,16 +168,41 @@ restore-system.sh)
 		esac
 	done
 
+	# Restore protection for profiles if necessary
+	if opkg list-installed | grep "e2fsprogs" > /dev/null; 
+	then
+		PROFILE= find "$XCSOAR_PATH" -maxdepth 1 -type f -name '*.prf' -exec sh -c '
+		for PROFILE; 
+		do
+			PROFILE_SETTINGS=`basename "$PROFILE"`
+			case `cat /home/root/profile-settings/"$PROFILE_SETTINGS"` in
+			protected)   chattr +i "$XCSOAR_PATH"/"$PROFILE_SETTINGS"
+		 	             echo " [######====] $PROFILE_SETTINGS has been protected.";;
+			unprotected) echo " [######====] $PROFILE_SETTINGS is still unprotected.";;
+			esac
+		done
+		' -- {} +
+	else 
+		PROFILE= find "$XCSOAR_PATH" -maxdepth 1 -type f -name '*.prf' -exec sh -c '
+		for PROFILE; 
+		do
+			case `cat /home/root/profile-settings/"$PROFILE_SETTINGS"` in
+			protected)  echo ' You try to protect $PROFILE_SETTINGS, but chattr is not installed!';;
+			esac
+		done
+		' -- {} +
+	fi
+
 	# Restore brightness setting
 	cat /home/root/brightness > /sys/class/backlight/lcd/brightness
-	echo " [######====] brightness setting has been restored.";;
+	echo " [#######===] brightness setting has been restored.";;
 *)
 	>&2 echo 'call as backup-system.sh, upload-xcsoar.sh, restore-xcsoar.sh or restore-system.sh'
 	exit 1;;
 esac
 
 # Sync the system buffer to make sure all data is on disk
-echo ' [#######===] Please wait a moment, synchronization is not yet complete!'
+echo ' [########==] Please wait a moment, synchronization is not yet complete!'
 sync
 echo ' [##########] DONE !! ---------------------------------------------------'
 exit $RSYNC_EXIT
