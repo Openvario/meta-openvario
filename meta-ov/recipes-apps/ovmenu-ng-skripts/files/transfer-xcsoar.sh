@@ -128,7 +128,17 @@ backup-system.sh)
 upload-xcsoar.sh)
 	echo ' [##========] Starting upload of XCSoar files ...'
 	# Call Shell Function defined above
-	restore "$USB_PATH/$XCSOAR_UPLOAD_PATH"/ "$XCSOAR_PATH"/ XCSoar;;
+	if 
+		# We use --checksum here due to cubieboards not having an rtc clock
+		rsync --recursive --mkpath --checksum --quiet --progress "$USB_PATH/$XCSOAR_UPLOAD_PATH"/ "$XCSOAR_PATH"
+		test ${RSYNC_EXIT:=$?} -eq 0
+	then
+		echo " [####======] All XCSoar files have been uploaded."
+	else 
+		>&2 echo " An rsync error $RSYNC_EXIT has occurred!"
+	fi
+	# Provident system buffer sync to help later syncs finish quicker
+	sync&;;
 	
 restore-xcsoar.sh)
 	echo ' [##========] Starting restore of XCSoar ...'
