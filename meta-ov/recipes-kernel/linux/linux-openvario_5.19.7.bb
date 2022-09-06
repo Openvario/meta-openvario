@@ -9,7 +9,7 @@ S = "${WORKDIR}/git"
 
 KBRANCH = "linux-5.19.y"
 
-SRCREV = "692b33c0449da9d801b0f3bebc1d5161be2f8b84"
+SRCREV = "713c93b5165b9e5a26574dff5e49531dfdd0788d"
 
 SRC_URI = " \
 	git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git;branch=${KBRANCH} \
