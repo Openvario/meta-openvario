@@ -48,6 +48,10 @@ Available machines for the OpenVario with the new adapter board DS2 are:
 - openvario-7-AM070-DS2
 - openvario-57-lvds-DS2
 
+Experimental machines:
+- `raspberrypi4` (Raspberry Pi 4 in 32 bit mode)
+- `raspberrypi4-64`  (Raspberry Pi 4 in 64 bit mode)
+
 ### Starting the build
 
 ```
