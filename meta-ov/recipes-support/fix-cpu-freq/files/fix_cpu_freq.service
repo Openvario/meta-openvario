@@ -1,0 +1,10 @@
+[Unit]
+Description=Script to fix cpu_freq_min=cpu_freq_max for cpu0/1 to stop cpu_freq from switching frequencies
+
+[Service]
+Type=simple
+RemainAfterExit=yes
+ExecStart=/opt/bin/fix_cpu_freq.sh
+
+[Install]
+WantedBy=default.target
