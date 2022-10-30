@@ -46,6 +46,7 @@ IMAGE_INSTALL = " \
     ts-uinput-service \
     ${COMMON_WIFI_FIRMWARE_PACKAGES} \
     ${LOCALE_PACKAGES} \
+    fix-cpu-freq\
 "
 
 #                    packagegroup-base packagegroup-core-ssh-openssh 
