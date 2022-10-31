@@ -36,7 +36,7 @@ SRC_URI = " \
 "
 
 SRC_URI:append:sunxi = " \
-	file://0004-1.1V-fix-for-sun7i-a20.dtsi.patch\
+	file://0004-Set-minimum-CPU-voltage-to-1.2V.patch\
 	\
 	file://openvario-common.dts \
 	file://openvario-43-rgb.dts \
