@@ -209,14 +209,18 @@ restore-system.sh)
 
 	# Restore brightness setting
 	cat /home/root/brightness > /sys/class/backlight/lcd/brightness
-	echo " [#######===] brightness setting has been restored.";;
+	echo " [#######===] brightness setting has been restored."
+	
+	# Restore rotation setting
+	grep "rotation" /boot/config.uEnv | cut -d '=' -f 2 > /sys/class/graphics/fbcon/rotate_all
+	echo " [########==] rotation setting has been restored.";;
 *)
 	>&2 echo 'call as backup-system.sh, upload-xcsoar.sh, restore-xcsoar.sh or restore-system.sh'
 	exit 1;;
 esac
 
 # Sync the system buffer to make sure all data is on disk
-echo ' [########==] Please wait a moment, synchronization is not yet complete!'
+echo ' [#########=] Please wait a moment, synchronization is not yet complete!'
 sync
 echo ' [##########] DONE !! ---------------------------------------------------'
 exit $RSYNC_EXIT
