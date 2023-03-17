@@ -7,7 +7,7 @@ case "$(sed -n 's/^rotation=//p' /boot/config.uEnv | tr -d '"')" in
 		rotation=90
 		;;
 	"2")
-		rotation=18
+		rotation=180
 		;;
 	"1")
 		rotation=270
