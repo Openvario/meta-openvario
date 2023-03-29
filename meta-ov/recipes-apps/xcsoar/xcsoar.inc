@@ -36,6 +36,7 @@ LC_LOCALE_PATH = "${datadir}/locale"
 
 SRC_URI += " \
 	file://0007-Disable-touch-screen-auto-detection.patch \
+	file://logbook.sh \
 	https://boostorg.jfrog.io/artifactory/main/release/1.80.0/source/boost_1_80_0.tar.bz2;sha256sum=1e19565d82e43bc59209a168f5ac899d3ba471d55c7610c677d4ccf2c9c500c0;unpack=0 \
 "
 
@@ -75,10 +76,15 @@ do_compile() {
 
 do_install() {
 	oe_runmake install-bin install-mo DESTDIR=${D}
+	install -d ${D}${bindir}
+	install -m 0755 \
+	        ${WORKDIR}/logbook.sh \
+	        ${D}${bindir}/
 }
 
 FILES:${PN} = " \
 	${bindir}/xcsoar \
 	${bindir}/vali-xcs \
 	${LC_LOCALE_PATH}/*/LC_MESSAGES/xcsoar.mo \
+	${bindir}/*.sh \
 "
