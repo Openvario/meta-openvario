@@ -36,6 +36,7 @@ IMAGE_INSTALL = " \
     packagegroup-base \
     distro-feed-configs \
     nano \
+    store-runtime-value \
     openssh-sftp-server \
     tslib \
     tslib-tests \

@@ -1,0 +1,13 @@
+[Unit]
+Description=Store runtime values at Config
+ConditionPathExists=/opt/bin/store-runtime-value.sh
+After=basic.target
+
+[Service]
+Type=oneshot
+RemainAfterExit=true
+ExecStart=/bin/true
+ExecStop=/bin/sh -c '/opt/bin/store-runtime-value.sh stop'
+
+[Install]
+WantedBy=multi-user.target
