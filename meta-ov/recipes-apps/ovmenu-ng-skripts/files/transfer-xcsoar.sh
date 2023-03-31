@@ -82,7 +82,7 @@ backup-system.sh)
 	done
 	
 	# Store if profiles are protected or not
-	if opkg list-installed | grep "e2fsprogs" > /dev/null; 
+	if [[ 'opkg list-installed | grep "e2fsprogs -"' == *"e2fsprogs"* ]]; 
 	then
 	PROFILE= find "$XCSOAR_PATH" -maxdepth 1 -type f -name '*.prf' -exec sh -c '
 	for PROFILE; 
@@ -180,7 +180,7 @@ restore-system.sh)
 	done
 
 	# Restore protection for profiles if necessary
-	if opkg list-installed | grep "e2fsprogs" > /dev/null; 
+	if [[ 'opkg list-installed | grep "e2fsprogs -"' == *"e2fsprogs"* ]]; 
 	then
 		PROFILE= find "$XCSOAR_PATH" -maxdepth 1 -type f -name '*.prf' -exec sh -c '
 		for PROFILE; 
@@ -201,7 +201,7 @@ restore-system.sh)
 			PROFILE_FILE=`basename "$PROFILE"`
 			PROFILE_NAME=${PROFILE_FILE%.*}
 			case `cat /home/root/profile-settings/"$PROFILE_NAME"` in
-			protected)  echo ' You try to protect $PROFILE_NAME.prf, but chattr is not installed!';;
+			protected)  echo " You try to protect $PROFILE_NAME.prf, but chattr is not installed!";;
 			esac
 		done
 		' -- {} +
