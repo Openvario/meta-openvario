@@ -212,7 +212,7 @@ restore-system.sh)
 	echo " [#######===] brightness setting has been restored."
 	
 	# Restore rotation setting
-	grep "rotation" /boot/config.uEnv | cut -d '=' -f 2 > /sys/class/graphics/fbcon/rotate
+	grep "rotation" /boot/config.uEnv | cut -d '=' -f 2 | tr -d '"' > /sys/class/graphics/fbcon/rotate
 	echo " [########==] rotation setting has been restored.";;
 *)
 	>&2 echo 'call as backup-system.sh, upload-xcsoar.sh, restore-xcsoar.sh or restore-system.sh'
