@@ -1,0 +1,14 @@
+[Unit]
+Description=Sensor Daemon for Openvario Sensorboard
+
+[Service]
+ExecStart=/opt/bin/sensord -f -c /opt/conf/sensord.conf
+Restart=on-abort
+
+# enable real-time scheduling because the MS5611 chip is very
+# sensitive to timing
+CPUSchedulingPolicy=fifo
+CPUSchedulingPriority=20
+
+[Install]
+WantedBy=multi-user.target
