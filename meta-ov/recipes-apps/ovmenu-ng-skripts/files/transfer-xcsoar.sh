@@ -153,6 +153,7 @@ restore-system.sh)
 
 	# Call Shell Function defined above
 	restore "$USB_PATH/$BACKUP/$MAC"/ / "Openvario and XCSoar"
+	/bin/systemctl restart  --quiet --now ts_uinput
 
 	# Restore SSH status 
 	case `cat /home/root/ssh-status` in
