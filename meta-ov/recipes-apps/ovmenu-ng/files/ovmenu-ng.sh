@@ -44,7 +44,10 @@ function submenu_file() {
 	--menu "You can use the UP/DOWN arrow keys" 15 50 4 \
 	Download_IGC   "Download XCSoar IGC files to USB" \
 	Update_Maps    "Update Maps" \
-	Upload_XCSoar  "Upload files from USB to XCSoar" \
+	Upload_XCSoar  "Update or upload XCSoar files" \
+	Backup         "Backup XCSoar and OV settings" \
+	Restore        "Restore XCSoar and OV settings" \
+	Restore_XCSoar "Restore only XCSoar settings" \
 	Back           "Back to Main" 2>"${INPUT}"
 
 	menuitem=$(<"${INPUT}")
@@ -54,6 +57,9 @@ function submenu_file() {
 		Download_IGC)   download_igc_files;;
 		Update_Maps)    update_maps_files;;
 		Upload_XCSoar)  upload_xcsoar_files;;
+		Backup)         backup_files;;
+		Restore)        restore_files;;
+		Restore_XCSoar) restore_xcsoar_files;;
 		Back) ;;
 	esac
 }
@@ -326,10 +332,27 @@ function download_igc_files() {
 	/usr/bin/download-igc.sh
 }
 
-# Copy /usb/usbstick/openvario/upload to /home/root/.xcsoar
+# Copy XCSoar and OpenVario settings to /usb/usbstick/openvario/backup/<MAC address of eth0>
+function backup_files() { 
+	/usr/bin/backup-system.sh > /tmp/tail.$$ &
+	dialog --backtitle "OpenVario" --title "Result" --tailbox /tmp/tail.$$ 30 50
+}
+
+# Copy /usb/usbstick/openvario/upload/xcsoar to /home/root/.xcsoar
 function upload_xcsoar_files() { 
-	echo "Uploading files ..." > /tmp/tail.$$
-	/usr/bin/upload-xcsoar.sh >> /tmp/tail.$$ &
+	/usr/bin/upload-xcsoar.sh > /tmp/tail.$$ &
+	dialog --backtitle "OpenVario" --title "Result" --tailbox /tmp/tail.$$ 30 50
+}
+
+# Copy XCSoar and OpenVario settings from /usb/usbstick/openvario/backup/<MAC address of eth0>
+function restore_files(){
+	/usr/bin/restore-system.sh > /tmp/tail.$$ &
+	dialog --backtitle "OpenVario" --title "Result" --tailbox /tmp/tail.$$ 30 50
+}
+
+# Copy /usb/usbstick/openvario/backup/<MAC address of eth0>/home/root/.xcsoar to /home/root/.xcsoar
+function restore_xcsoar_files(){
+	/usr/bin/restore-xcsoar.sh > /tmp/tail.$$ &
 	dialog --backtitle "OpenVario" --title "Result" --tailbox /tmp/tail.$$ 30 50
 }
 
