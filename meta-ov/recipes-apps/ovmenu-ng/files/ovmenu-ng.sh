@@ -45,6 +45,7 @@ function submenu_file() {
 	--begin 3 4 \
 	--menu "You can use the UP/DOWN arrow keys" 15 50 4 \
 	Download_IGC   "Download XCSoar IGC files to USB" \
+	Update_Maps    "Update Maps" \
 	Download   "Download XCSoar to USB" \
 	Upload   "Upload files from USB to XCSoar" \
 	Back   "Back to Main" 2>"${INPUT}"
@@ -54,6 +55,7 @@ function submenu_file() {
 	# make decsion
 	case $menuitem in
 		Download_IGC) download_igc_files;;
+		Update_Maps)    update_maps_files;;
 		Download) download_files;;
 		Upload) upload_files;;
 		Exit) ;;
@@ -67,7 +69,6 @@ function submenu_system() {
 	--begin 3 4 \
 	--menu "You can use the UP/DOWN arrow keys" 15 50 6 \
 	Update_System   "Update system software" \
-	Update_Maps   "Update Maps files" \
 	Calibrate_Sensors   "Calibrate Sensors" \
 	Calibrate_Touch   "Calibrate Touch" \
 	Settings   "System Settings" \
@@ -80,9 +81,6 @@ function submenu_system() {
 	case $menuitem in
 		Update_System)
 			update_system
-			;;
-		Update_Maps)
-			update_maps
 			;;
 		Calibrate_Sensors)
 			calibrate_sensors
@@ -322,7 +320,7 @@ function calibrate_touch() {
 
 # Copy /usb/usbstick/openvario/maps to /home/root/.xcsoar
 # Copy only xcsoar-maps*.ipk and *.xcm files
-function update_maps() {
+function update_maps_files() {
 	echo "Updating Maps ..." > /tmp/tail.$$
 	/usr/bin/update-maps.sh >> /tmp/tail.$$ 2>/dev/null &
 	dialog --backtitle "OpenVario" --title "Result" --tailbox /tmp/tail.$$ 30 50
