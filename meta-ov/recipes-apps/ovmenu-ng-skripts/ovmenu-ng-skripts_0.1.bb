@@ -46,9 +46,7 @@ do_install() {
 		${S}/ov-calibrate-ts.sh \
 		${D}${bindir}/
 	cd ${D}${bindir}
-#	ln -s -r transfer-xcsoar.sh upload-all.sh
 	ln -s -r transfer-xcsoar.sh upload-xcsoar.sh
-	ln -s -r transfer-xcsoar.sh backup-xcsoar.sh
 }
 
 FILES:${PN} = " \

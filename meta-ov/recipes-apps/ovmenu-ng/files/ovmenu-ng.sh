@@ -44,7 +44,6 @@ function submenu_file() {
 	--menu "You can use the UP/DOWN arrow keys" 15 50 4 \
 	Download_IGC   "Download XCSoar IGC files to USB" \
 	Update_Maps    "Update Maps" \
-	Backup_XCSoar  "Backup XCSoar to USB" \
 	Upload_XCSoar  "Upload files from USB to XCSoar" \
 	Back           "Back to Main" 2>"${INPUT}"
 
@@ -54,7 +53,6 @@ function submenu_file() {
 	case $menuitem in
 		Download_IGC)   download_igc_files;;
 		Update_Maps)    update_maps_files;;
-		Backup_XCSoar)  backup_xcsoar_files;;
 		Upload_XCSoar)  upload_xcsoar_files;;
 		Back) ;;
 	esac
@@ -319,13 +317,6 @@ function calibrate_touch() {
 function update_maps_files() {
 	echo "Updating Maps ..." > /tmp/tail.$$
 	/usr/bin/update-maps.sh >> /tmp/tail.$$ 2>/dev/null &
-	dialog --backtitle "OpenVario" --title "Result" --tailbox /tmp/tail.$$ 30 50
-}
-
-# Copy /home/root/.xcsoar to /usb/usbstick/openvario/download/xcsoar
-function backup_xcsoar_files() {
-	echo "Downloading files ..." > /tmp/tail.$$
-	/usr/bin/backup-xcsoar.sh >> /tmp/tail.$$ &
 	dialog --backtitle "OpenVario" --title "Result" --tailbox /tmp/tail.$$ 30 50
 }
 
