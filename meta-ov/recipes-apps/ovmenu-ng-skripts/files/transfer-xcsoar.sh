@@ -6,7 +6,7 @@ USB_PATH="/usb/usbstick/openvario/"
 XCSOAR_PATH="/home/root/.xcsoar"
 
 case "$(basename "$0")" in
-	'download-all.sh')
+	'backup-xcsoar.sh')
 		SRC_PATH="$XCSOAR_PATH"
 		DEST_PATH="$USB_PATH/download/xcsoar"
 		;;
@@ -14,12 +14,12 @@ case "$(basename "$0")" in
 		SRC_PATH="$USB_PATH/upload/xcsoar"
 		DEST_PATH="$XCSOAR_PATH"
 		;;
-	'upload-all.sh')
-		SRC_PATH="$USB_PATH/upload"
-		DEST_PATH="$XCSOAR_PATH"
-		;;
+#	'upload-all.sh')
+#		SRC_PATH="$USB_PATH/upload"
+#		DEST_PATH="$XCSOAR_PATH"
+#		;;
 	*)
-		>&2 echo 'call as download-all.sh, upload-xcsoar.sh or upload-all.sh'
+		>&2 echo 'call as backup-xcsoar.sh or upload-xcsoar.sh'
 		exit 1
 esac
 
