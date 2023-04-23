@@ -7,9 +7,9 @@ inherit kernel kernel-yocto siteinfo
 
 S = "${WORKDIR}/git"
 
-KBRANCH = "linux-5.17.y"
+KBRANCH = "linux-6.0.y"
 
-SRCREV = "2731bd17017d4a0e2180a1917ab22d7820a07330"
+SRCREV = "b0a5c296d896606b260b781814cdfd887b42bec2"
 
 SRC_URI = " \
 	git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git;branch=${KBRANCH} \
@@ -36,9 +36,7 @@ SRC_URI = " \
 "
 
 SRC_URI:append:sunxi = " \
-	file://0001-pwm-sun4i-convert-next_period-to-local-variable.patch \
-	file://0002-pwm-sun4i-calculate-delay_jiffies-directly-eliminate.patch \
-	file://0003-pwm-sun4i-calculate-the-delay-without-rounding-down-.patch \
+	file://0004-Set-minimum-CPU-voltage-to-1.2V.patch\
 	\
 	file://openvario-common.dts \
 	file://openvario-43-rgb.dts \

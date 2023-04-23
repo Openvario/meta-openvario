@@ -24,6 +24,7 @@ SRC_URI = "\
 	file://download-igc.sh \
 	file://transfer-xcsoar.sh \
 	file://system-info.sh \
+	file://logbook.sh \
 	file://ov-calibrate-ts.sh \
 "
 
@@ -43,6 +44,7 @@ do_install() {
 		${S}/download-igc.sh \
 		${S}/transfer-xcsoar.sh \
 		${S}/system-info.sh \
+		${S}/logbook.sh \
 		${S}/ov-calibrate-ts.sh \
 		${D}${bindir}/
 	cd ${D}${bindir}
