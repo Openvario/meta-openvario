@@ -24,6 +24,7 @@ DEPENDS = "	\
 		alsa-lib \
 		libsodium \
 		c-ares \
+		fmt \
 "
 
 RDEPENDS:${PN} = "\
