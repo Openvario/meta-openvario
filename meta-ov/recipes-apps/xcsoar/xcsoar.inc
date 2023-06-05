@@ -25,6 +25,7 @@ DEPENDS = "	\
 		libsodium \
 		c-ares \
 		fmt \
+		dbus \
 "
 
 RDEPENDS:${PN} = "\
