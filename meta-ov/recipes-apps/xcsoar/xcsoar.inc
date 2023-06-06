@@ -25,6 +25,7 @@ DEPENDS = "	\
 		libsodium \
 		c-ares \
 		fmt \
+		dbus \
 "
 
 RDEPENDS:${PN} = "\
@@ -63,7 +64,6 @@ EXTRA_OEMAKE = " \
 
 do_configure() {
 	install -d ${B}/output/download
-	cp ${WORKDIR}/boost_1_80_0.tar.bz2 ${B}/output/download/
 	cp ${WORKDIR}/boost_1_82_0.tar.bz2 ${B}/output/download/
 	oe_runmake boost
 }
