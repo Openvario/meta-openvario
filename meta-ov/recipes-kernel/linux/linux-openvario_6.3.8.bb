@@ -7,9 +7,9 @@ inherit kernel kernel-yocto siteinfo
 
 S = "${WORKDIR}/git"
 
-KBRANCH = "linux-6.2.y"
+KBRANCH = "linux-6.3.y"
 
-SRCREV = "ec4fa2ca8a13ca792a75f943381dd1ef7c986f3f"
+SRCREV = "a70bf5cc6bd9c273b8f1dd849839eca57ae76df1"
 
 SRC_URI = " \
 	git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git;branch=${KBRANCH} \
@@ -50,9 +50,6 @@ SRC_URI:append:sunxi = " \
 	file://sunxi.cfg \
 	file://drm.cfg \
 "
-
-SRC_URI[md5sum] = "0751179f60de73eb2cd93f161fa52fcf"
-SRC_URI[sha256sum] = "3b84e13abae26af17ebccc4d7212f5843a991127a73a320848d5c6942ef781a2"
 
 KERNEL_EXTRA_ARGS += "LOADADDR=${UBOOT_ENTRYPOINT}"
 KCONFIG_MODE ?= "alldefconfig"
