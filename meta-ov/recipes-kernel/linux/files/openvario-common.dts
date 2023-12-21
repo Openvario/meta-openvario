@@ -1,5 +1,5 @@
 /dts-v1/;
-#include "sun7i-a20-cubieboard2.dts"
+#include "allwinner/sun7i-a20-cubieboard2.dts"
 
 / {
 	panel: panel {

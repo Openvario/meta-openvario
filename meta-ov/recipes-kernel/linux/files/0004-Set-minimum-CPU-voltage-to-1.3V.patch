@@ -11,8 +11,8 @@ show instable behaviour with voltages of 1.0V and 1.1V. Hence this change increa
 
 diff --git a/arch/arm/boot/dts/sun7i-a20.dtsi b/arch/arm/boot/dts/sun7i-a20.dtsi
 index 5574299685ab..6902621d806f 100644
---- a/arch/arm/boot/dts/sun7i-a20.dtsi
-+++ b/arch/arm/boot/dts/sun7i-a20.dtsi
+--- a/arch/arm/boot/dts/allwinner/sun7i-a20.dtsi
++++ b/arch/arm/boot/dts/allwinner/sun7i-a20.dtsi
 @@ -112,9 +112,9 @@
  				<912000	1400000>,
  				<864000	1300000>,
