@@ -7,9 +7,9 @@ inherit kernel kernel-yocto siteinfo
 
 S = "${WORKDIR}/git"
 
-KBRANCH = "linux-6.5.y"
+KBRANCH = "linux-6.6.y"
 
-SRCREV = "555e4529ed79961c0f4426522e0389d45079ae6f"
+SRCREV = "8dfb9086136c1092a4e613c0878a5b1e88d5f328"
 
 SRC_URI = " \
 	git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git;branch=${KBRANCH} \
