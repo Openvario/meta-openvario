@@ -53,6 +53,7 @@ SRC_URI = " \
 	file://0001-avoid-tail-cut.patch \
 	file://0007-Disable-touch-screen-auto-detection.patch \
 	file://0001-FreeVario.patch \
+	file://0002-replace-defaulted-equality-comparison.patch \
 	file://ov-xcsoar.conf \
 "
 
