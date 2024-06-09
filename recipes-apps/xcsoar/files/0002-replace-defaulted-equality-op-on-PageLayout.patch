@@ -1,0 +1,47 @@
+From 44dc2c36375a14c7bfaf467ddaf57dd3e0af7b3d Mon Sep 17 00:00:00 2001
+From: bomilkar <ronald_niederhagen@freenet.de>
+Date: Sun, 9 Jun 2024 12:08:46 +0200
+Subject: [PATCH 2/3] replace defaulted equality op on PageLayout
+
+---
+ src/PageSettings.hpp | 17 +++++++++++++----
+ 1 file changed, 13 insertions(+), 4 deletions(-)
+
+diff --git a/src/PageSettings.hpp b/src/PageSettings.hpp
+index 3f5b351665..b7993b248e 100644
+--- a/src/PageSettings.hpp
++++ b/src/PageSettings.hpp
+@@ -33,8 +33,12 @@ struct PageLayout
+       panel = 0;
+     }
+ 
+-    constexpr bool operator==(const InfoBoxConfig &other) const noexcept = default;
+-    constexpr bool operator!=(const InfoBoxConfig &other) const noexcept = default;
++    // constexpr bool operator==(const InfoBoxConfig &other) const noexcept = default;
++    bool operator==(const InfoBoxConfig &other) const {
++      return enabled == other.enabled &&
++        auto_switch == other.auto_switch &&
++        panel == other.panel;
++    }
+   };
+ 
+   bool valid;
+@@ -138,8 +142,13 @@ struct PageLayout
+                          std::span<TCHAR> buffer,
+                          const bool concise=false) const noexcept;
+ 
+-  constexpr bool operator==(const PageLayout &other) const noexcept = default;
+-  constexpr bool operator!=(const PageLayout &other) const noexcept = default;
++  // constexpr bool operator==(const PageLayout &other) const noexcept = default;
++  bool operator==(const PageLayout &other) const {
++    return valid == other.valid &&
++      main == other.main &&
++      bottom == other.bottom &&
++      infobox_config == other.infobox_config;
++  }
+ };
+ 
+ struct PageSettings {
+-- 
+2.39.2
+

@@ -1,0 +1,48 @@
+From 71ae48a16bd421461ab65af4e82471e414d81c4b Mon Sep 17 00:00:00 2001
+From: bomilkar <ronald_niederhagen@freenet.de>
+Date: Sun, 9 Jun 2024 12:18:53 +0200
+Subject: [PATCH 3/3] replace defaulted equality op on Point2D and GeoPoint
+
+---
+ src/Geo/GeoPoint.hpp | 8 +++++++-
+ src/Math/Point2D.hpp | 5 ++++-
+ 2 files changed, 11 insertions(+), 2 deletions(-)
+
+diff --git a/src/Geo/GeoPoint.hpp b/src/Geo/GeoPoint.hpp
+index 153aeaf690..557354011f 100644
+--- a/src/Geo/GeoPoint.hpp
++++ b/src/Geo/GeoPoint.hpp
+@@ -263,7 +263,13 @@ struct GeoPoint {
+   [[gnu::pure]]
+   GeoPoint Middle(const GeoPoint &other) const noexcept;
+ 
+-  constexpr bool operator==(const GeoPoint &) const noexcept = default;
++  // constexpr bool operator==(const GeoPoint &) const noexcept = default;
++  constexpr bool Equals(const GeoPoint other) const noexcept {
++    return longitude == other.longitude && latitude == other.latitude;
++  }
++  constexpr bool operator==(const GeoPoint other) const noexcept {
++    return Equals(other);
++  }
+ };
+ 
+ static_assert(std::is_trivial<GeoPoint>::value, "type is not trivial");
+diff --git a/src/Math/Point2D.hpp b/src/Math/Point2D.hpp
+index 4e08b34c26..f291901769 100644
+--- a/src/Math/Point2D.hpp
++++ b/src/Math/Point2D.hpp
+@@ -32,7 +32,10 @@ struct Point2D {
+     :x(static_cast<scalar_type>(src.x)),
+      y(static_cast<scalar_type>(src.y)) {}
+ 
+-  constexpr bool operator==(const Point2D<T, PT> &) const noexcept = default;
++  // constexpr bool operator==(const Point2D<T, PT> &) const noexcept = default;
++  constexpr bool operator==(const Point2D<T, PT> &other) const noexcept {
++    return x == other.x && y == other.y;
++  }
+ 
+   constexpr Point2D<T, PT> operator+(Point2D<T, PT> other) const noexcept {
+     return { scalar_type(x + other.x), scalar_type(y + other.y) };
+-- 
+2.39.2
+

@@ -54,6 +54,8 @@ SRC_URI = " \
 	file://0007-Disable-touch-screen-auto-detection.patch \
 	file://0001-FreeVario.patch \
 	file://0002-replace-defaulted-equality-comparison.patch \
+	file://0002-replace-defaulted-equality-op-on-PageLayout.patch \
+	file://0003-replace-defaulted-equality-op-on-Point2D-and-GeoPoin.patch \
 	file://ov-xcsoar.conf \
 "
 
