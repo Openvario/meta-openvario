@@ -28,7 +28,7 @@ BOOT_SPACE ?= "40960"
 # First partition begin at sector 2048 : 2048*1024 = 2097152
 IMAGE_ROOTFS_ALIGNMENT = "2048"
 
-SDIMG_ROOTFS = "${IMGDEPLOYDIR}/${IMAGE_NAME}.rootfs.${SDIMG_ROOTFS_TYPE}"
+SDIMG_ROOTFS = "${IMGDEPLOYDIR}/${IMAGE_NAME}.${SDIMG_ROOTFS_TYPE}"
 
 do_image_openvario_sdimg[depends] += " \
 			parted-native:do_populate_sysroot \
@@ -39,8 +39,8 @@ do_image_openvario_sdimg[depends] += " \
 			"
 
 # SD card image name
-SDIMG = "${IMGDEPLOYDIR}/${IMAGE_NAME}.rootfs.img"
-SDIMG_LINK = "${IMAGE_NAME_LINK}.rootfs.img"
+SDIMG = "${IMGDEPLOYDIR}/${IMAGE_NAME}.sdimg"
+SDIMG_LINK = "${IMAGE_NAME_LINK}.img"
 
 # Get IMAGE_VERSION_SUFFIX
 inherit compose_image-version-suffix
