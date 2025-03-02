@@ -34,19 +34,25 @@ source openembedded-core/oe-init-build-env .
 ### Setting the machine
 
 ```
-export MACHINE=openvario-7-CH070
+export MACHINE=ov-cb2-7-ch070
 ```
 
 Available machines for the OpenVario with the original adapter board are:
-- openvario-7-PQ070
-- openvario-7-CH070
-- openvario-57-lvds
-- openvario-43-rgb
+- ov-cb2-43-rgb
+- ov-cb2-57-lvds
+- ov-cb2-7-ch070
+- ov-cb2-7-pq070
 
 Available machines for the OpenVario with the new adapter board DS2 are:
-- openvario-7-CH070-DS2
-- openvario-7-AM070-DS2
-- openvario-57-lvds-DS2
+- ov-cb2-57-lvds-ds2
+- ov-cb2-7-am070-ds2
+- ov-cb2-7-ch070-ds2
+- ov-cb2-7-pq070-ds2
+
+Available machines for the OpenVario with RaspberryPi 4:
+- ov-rpi4
+- ov-rpi4-64
+
 
 ### Starting the build
 
