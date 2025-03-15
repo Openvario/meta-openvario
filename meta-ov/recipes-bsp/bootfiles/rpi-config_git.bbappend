@@ -14,8 +14,18 @@ do_deploy:append () {
         # Enable OTG mode
         echo "otg_mode=1" >> $CONFIG
     fi
+    
+     # Openvario 57 LVDS
+    if [ "${MACHINE}" = "ov-cm4-57-lvds" ]; then
+        # Use the machine specific device tree overlay
+        echo "# Enable 57 LVDS" >> $CONFIG
+        echo "dtoverlay=ov-cm4-57-lvds" >> $CONFIG
+        
+        # Enable OTG mode
+        echo "otg_mode=1" >> $CONFIG
+    fi
 
-     # Openvario 7 PQ070
+    # Openvario 7 PQ070
     if [ "${MACHINE}" = "ov-cm4-7-pq070" ]; then
         # Use the machine specific device tree overlay
         echo "# Enable PQ070 Display" >> $CONFIG

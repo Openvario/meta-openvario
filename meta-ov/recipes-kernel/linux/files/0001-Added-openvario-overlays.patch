@@ -17,7 +17,7 @@ index bdd02b8c6f0f..581c622a4026 100644
  	wittypi.dtbo \
 -	wm8960-soundcard.dtbo
 +	wm8960-soundcard.dtbo \
-+	ov-rpi4-57-lvds.dtbo \
++	ov-cm4-57-lvds.dtbo \
 +	ov-cm4-7-pq070.dtbo \
  
  targets += dtbs dtbs_install

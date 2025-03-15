@@ -1,0 +1,143 @@
+/dts-v1/;
+/plugin/;
+
+/ {
+    compatible = "brcm,bcm2835";
+    
+    /* PWM0 function */
+    fragment@0 {
+        target = <&gpio>;
+        __overlay__ {
+            pwm_pins: pwm_pins {
+                brcm,pins = <12>;
+                brcm,function = <4>;
+            };
+        };
+
+    };
+    
+    fragment@1 {
+        target = <&pwm>;
+        __overlay__ {
+            pinctrl-names = "default";
+            pinctrl-0 = <&pwm_pins>;
+            assigned-clock-rates = <1000000>;
+            status = "okay";
+        };
+    };
+    
+    fragment@2 {
+        target-path = "/";
+        __overlay__ {
+            reg_main_1v8: regulator-main-1v8 {
+                compatible = "regulator-fixed";
+                regulator-name = "1V8";
+                regulator-min-microvolt = <1800000>;
+                regulator-max-microvolt = <1800000>;
+                regulator-always-on;
+            };
+        
+            lcd:lcd {
+                compatible = "pwm-backlight";
+                brightness-levels = <0 6 8 12 16 24 32 40 48 64 96 128 160 192 224 255>;
+                default-brightness-level = <15>;
+                pwms = <&pwm 0 200000 0>;
+            };
+
+            
+            panel: panel {
+                compatible = "yes,yts700tlbc-02-100c", "panel-lvds";
+
+                backlight = <&lcd>;
+                power-supply = <0>;
+
+                /* Physical dimensions of active area */
+                width-mm = <115>;
+                height-mm = <86>;
+
+                data-mapping = "jeida-18";
+
+                panel-timing {
+                    clock-frequency = <25000000>; /* pixel clock is 3GHz / 60 */
+                    hactive = <640>;
+                    vactive = <480>;
+                    hsync-len = <30>;
+                    hfront-porch = <20>;
+                    hback-porch = <114>;
+                    vfront-porch = <15>;
+                    vback-porch = <33>;
+                    vsync-len = <3>;
+                    hsync-active = <1>; 
+                    vsync-active = <1>;
+                    de-active = <1>; 
+                };
+
+                port {
+                    panel_lvds_in: endpoint {
+                        remote-endpoint = <&bridge_lvds_port>;
+                    };
+                };
+            };
+        };
+    };
+
+    fragment@3 {
+        target = <&i2c1>;
+        __overlay__ {
+            #address-cells = <1>;
+            #size-cells = <0>;
+
+            sn65dsi83_bridge: bridge@2c {
+                compatible = "ti,sn65dsi83";
+                reg = <0x2c>;
+                status = "okay";
+                enable-gpios = <&gpio 6 0>;
+                power-supply = <&reg_main_1v8>;
+
+                ports {                
+                    #address-cells = <1>;
+                    #size-cells = <0>;
+                    port@0 {
+                        reg = <0>;
+                        bridge_dsi_port: endpoint {
+                            data-lanes = <0 1>;
+                            remote-endpoint = <&dsi_out_port>;
+                        };
+                    };
+
+                    port@2{
+                        reg = <2>;
+                        bridge_lvds_port: endpoint {
+                            remote-endpoint = <&panel_lvds_in>;
+                        };
+                    };
+                };
+            };
+        };
+    };
+
+    fragment@4 {
+        target = <&dsi1>;
+        __overlay__ {
+            #address-cells = <1>;
+            #size-cells = <0>;
+            status = "okay";
+            port {
+                dsi_out_port: endpoint {
+                    remote-endpoint = <&bridge_dsi_port>;
+                    data-lanes = <0 1>;
+                };
+            };
+        };
+    };
+
+    /* Enable I2C1 */
+    fragment@5 {
+        target = <&i2c1>;
+        __overlay__ {
+            status = "okay";
+            pinctrl-0 = <&i2c1_gpio44>;
+            clock-frequency = <400000>;
+        };
+    };
+};
