@@ -1,0 +1,2 @@
+# Set backlight power ON at boot
+SUBSYSTEM=="backlight", ACTION=="add", KERNEL=="lcd", ATTR{bl_power}="0"
