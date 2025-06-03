@@ -38,7 +38,7 @@ LC_LOCALE_PATH = "${datadir}/locale"
 
 SRC_URI += " \
 	file://0007-Disable-touch-screen-auto-detection.patch \
-	https://boostorg.jfrog.io/artifactory/main/release/1.84.0/source/boost_1_84_0.tar.bz2;sha256sum=cc4b893acf645c9d4b698e9a0f08ca8846aa5d6c68275c14c3e7949c24109454;unpack=0 \
+	https://boostorg.jfrog.io/artifactory/main/release/1.85.0/source/boost_1_85_0.tar.bz2;sha256sum=7009fe1faa1697476bdc7027703a2badb84e849b7b0baad5086b087b971f8617;unpack=0 \
 "
 
 inherit pkgconfig
@@ -64,7 +64,7 @@ EXTRA_OEMAKE = " \
 
 do_configure() {
 	install -d ${B}/output/download
-	cp ${WORKDIR}/boost_1_84_0.tar.bz2 ${B}/output/download/
+	cp ${WORKDIR}/boost_1_85_0.tar.bz2 ${B}/output/download/
 	oe_runmake boost
 }
 
