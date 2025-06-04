@@ -47,6 +47,9 @@ IMAGE_INSTALL = " \
     ${COMMON_WIFI_FIRMWARE_PACKAGES} \
     ${LOCALE_PACKAGES} \
     fix-cpu-freq\
+"
+
+IMAGE_INSTALL:append:rpi = " \
     udev-rules-rpi \
 "
 
