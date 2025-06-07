@@ -46,7 +46,8 @@ IMAGE_INSTALL = " \
     ts-uinput-service \
     ${COMMON_WIFI_FIRMWARE_PACKAGES} \
     ${LOCALE_PACKAGES} \
-    fix-cpu-freq\
+    fix-cpu-freq \
+	e2fsprogs-mke2fs \
 "
 
 IMAGE_INSTALL:append:rpi = " \
