@@ -1,16 +1,17 @@
 # Copyright (C) 2014 Unknow User <unknow@user.org>
 # Released under the MIT license (see COPYING.MIT for the terms)
 
-PR = "r10"
+PR = "r12"
+
+S = "${WORKDIR}/git"
 
 inherit systemd
 SRCREV:pn-sensord-testing = "${AUTOREV}"
 
-SRC_URI = "git://github.com/Openvario/sensord.git;protocol=https;branch=master \
-			file://sensord.cfgmgr \			  
-	file://sensord.socket \
-	file://sensord@.service \
-"
+SRC_URI = "git://github.com/Openvario/sensord.git;protocol=https;branch=master"
+SRCREV = "${AUTOREV}"
+
+#  SRCREV = "465e3560583266aa9e1f161c7a3d43207f2b9e08"
 
 require sensord.inc
 
