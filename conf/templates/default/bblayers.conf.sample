@@ -6,12 +6,14 @@ BBPATH = "${TOPDIR}"
 BBFILES ?= ""
 
 BBLAYERS ?= " \
-  ##OEROOT##/meta \
-  ##OEROOT##/meta-poky \
-  ##OEROOT##/meta-yocto-bsp \
-  ##OEROOT##/meta-sunxi \
-  ##OEROOT##/meta-openvario \
-  ##OEROOT##/meta-openembedded/meta-oe \
-  ##OEROOT##/meta-openembedded/meta-python \
-  ##OEROOT##/meta-openembedded/meta-networking \
-  "
+  ${TOPDIR}/openembedded-core/meta \
+  ${TOPDIR}/meta-openembedded/meta-networking \
+  ${TOPDIR}/meta-openembedded/meta-oe \
+  ${TOPDIR}/meta-openembedded/meta-python \
+  ${TOPDIR}/meta-arm/meta-arm \
+  ${TOPDIR}/meta-arm/meta-arm-toolchain \
+  ${TOPDIR}/meta-sunxi \
+  ${TOPDIR}/meta-openvario \
+  ${TOPDIR}/meta-raspberrypi \
+  ${TOPDIR}/meta-rauc \  
+"
