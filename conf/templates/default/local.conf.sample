@@ -51,6 +51,9 @@ MACHINE ??= "ov-cb2-7-ch070"
 #
 #SSTATE_DIR ?= "${TOPDIR}/sstate-cache"
 
+#We need to accept
+LICENSE_FLAGS_ACCEPTED = "synaptics-killswitch"
+
 #
 # Where to place the build output
 #
