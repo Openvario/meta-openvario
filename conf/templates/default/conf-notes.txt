@@ -11,6 +11,8 @@ Possible machines are:
     ov-cb2-7-ch070-ds2
     ov-cb2-7-pq070
     ov-cb2-7-pq070-ds2
+    ov-cm4-7-pq070
+    ov-cm4-57-lvds
     ov-rpi4
     ov-rpi4-64
 
