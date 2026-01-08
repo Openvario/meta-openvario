@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#Config
+# Config
 TIMEOUT=3
 INPUT=/tmp/menu.sh.$$
 
@@ -72,6 +72,7 @@ function submenu_system() {
 	Calibrate_Touch   "Calibrate Touch" \
 	Settings   "System Settings" \
 	Information "System Info" \
+	Network          "Network Options" \
 	Back   "Back to Main" 2>"${INPUT}"
 
 	menuitem=$(<"${INPUT}")
@@ -96,34 +97,11 @@ function submenu_system() {
 		Information)
 			show_info
 			;;
+		Network)
+			submenu_network
+			;;
 		Exit) ;;
 	esac
-}
-
-function show_info() {
-	### collect info of system
-	XCSOAR_VERSION=$(opkg list-installed xcsoar | awk -F' ' '{print $3}')
-	XCSOAR_MAPS_VERSION=$(opkg list-installed | grep "xcsoar-maps-" | awk -F' ' '{print $3}')
-	IMAGE_VERSION=$(cat /etc/os-release | grep VERSION_ID | awk -F'=' -F'"' '{print $2}')
-	SENSORD_VERSION=$(opkg list-installed sensord* | awk -F' ' '{print $3}')
-	VARIOD_VERSION=$(opkg list-installed variod* | awk -F' ' '{print $3}')
-	IP_ETH0=$(/sbin/ifconfig eth0 | grep 'inet addr:' | cut -d: -f2 | awk '{ print $1}')
-	IP_WLAN=$(/sbin/ifconfig wlan0 | grep 'inet addr:' | cut -d: -f2 | awk '{ print $1}')
-
-	dialog --backtitle "OpenVario" \
-	--title "[ S Y S T E M I N F O ]" \
-	--begin 3 4 \
-	--msgbox " \
-	\n \
-	Image: $IMAGE_VERSION\n \
-	XCSoar: $XCSOAR_VERSION\n \
-	Maps: $XCSOAR_MAPS_VERSION\n \
-	sensord: $SENSORD_VERSION\n \
-	variod: $VARIOD_VERSION\n \
-	IP eth0: $IP_ETH0\n \
-	IP wlan0: $IP_WLAN\n \
-	" 15 50
-
 }
 
 function submenu_settings() {
@@ -156,6 +134,170 @@ function submenu_settings() {
 			;;
 		Back) ;;
 	esac
+}
+
+function submenu_network() {
+	dialog --nocancel --backtitle "OpenVario" \
+	--title "[ N E T W O R K ]" \
+	--begin 3 4 \
+	--menu "You can use the UP/DOWN arrow keys" 15 50 4 \
+	Scan_WiFi     "Scan for available WiFi networks" \
+	Set_Country   "Set WiFi country code" \
+	Back          "Back to System Menu" 2>"${INPUT}"
+
+	menuitem=$(<"${INPUT}")
+
+	case $menuitem in
+		Scan_WiFi) scan_wifi_networks;;
+		Set_Country) do_wifi_country;;
+		Back) ;;
+	esac
+}
+
+
+function scan_wifi_networks() {
+	nmcli radio wifi on >/dev/null 2>&1
+
+	declare -A SSID_MAP
+	SCAN_LIST=()
+	current_ssid=$(nmcli -t -f active,ssid dev wifi | awk -F: '$1=="yes"{print $2}')
+
+	# parse nmcli output: SSID:SIGNAL:... (ignore empty SSIDs)
+	while IFS=":" read -r ssid signal rest; do
+		[ -z "$ssid" ] && continue
+		if [[ -z "${SSID_MAP[$ssid]}" ]]; then
+			SSID_MAP["$ssid"]=1
+			display_name="(Signal: $signal)"
+			if [[ "$ssid" == "$current_ssid" ]]; then
+				display_name="$display_name [Connected]"
+			fi
+			SCAN_LIST+=("$ssid" "$display_name")
+		fi
+	done < <(nmcli -t -f SSID,SIGNAL dev wifi list)
+
+	if [ ${#SCAN_LIST[@]} -eq 0 ]; then
+		dialog --backtitle "OpenVario" --msgbox "No WiFi networks found." 10 40
+	else
+		dialog --backtitle "OpenVario" \
+		--title "[ WiFi Networks ]" \
+		--menu "Detected WiFi networks" 20 60 $(( ${#SCAN_LIST[@]} / 2 )) \
+		"${SCAN_LIST[@]}" 2>"${INPUT}"
+
+		chosen_ssid=$(<"${INPUT}")
+		if [ -n "$chosen_ssid" ]; then
+			dialog --backtitle "OpenVario" \
+			--title "[ WiFi Password ]" \
+			--insecure --passwordbox "Enter password for '$chosen_ssid':" 10 50 2>"${INPUT}"
+			wifi_pass=$(<"${INPUT}")
+
+			if [ -z "$wifi_pass" ]; then
+				nmcli dev wifi connect "$chosen_ssid" && \
+				dialog --backtitle "OpenVario" --msgbox "Successfully connected to '$chosen_ssid'." 10 40 || \
+				dialog --backtitle "OpenVario" --msgbox "Failed to connect to '$chosen_ssid'." 10 40
+			else
+				nmcli dev wifi connect "$chosen_ssid" password "$wifi_pass" && \
+				dialog --backtitle "OpenVario" --msgbox "Successfully connected to '$chosen_ssid'." 10 40 || \
+				dialog --backtitle "OpenVario" --msgbox "Failed to connect to '$chosen_ssid'." 10 40
+			fi
+		fi
+	fi
+}
+
+function do_wifi_country() {
+	value=$(sed '/^#/d' /usr/share/zoneinfo/iso3166.tab | tr '\t' ' ')
+
+	# Liste der Länder in ein Array umwandeln
+	COUNTRY_LIST=()
+	while read -r code name; do
+		COUNTRY_LIST+=("$code" "$name")
+	done <<< "$value"
+
+	# Auswahlmenü anzeigen
+	dialog --backtitle "OpenVario" \
+	--title "[ WiFi Country Selection ]" \
+	--begin 3 4 \
+	--menu "Select the country in which the device is used" 20 60 15 \
+	"${COUNTRY_LIST[@]}" 2>"${INPUT}"
+
+	REGDOMAIN=$(<"${INPUT}")
+
+	# Wenn kein Land ausgewählt wurde
+	if [ -z "$REGDOMAIN" ]; then
+		return 1
+	fi
+
+	# Validierung
+	if ! grep -q "^${REGDOMAIN}[[:space:]]" /usr/share/zoneinfo/iso3166.tab; then
+		dialog --backtitle "OpenVario" \
+		--title "[ Error ]" \
+		--msgbox "$REGDOMAIN is not a valid ISO/IEC 3166-1 alpha2 code" 10 50
+		return 1
+	fi
+
+	# Systemkonfiguration aktualisieren
+	sed -i \
+		-e "s/\s*cfg80211.ieee80211_regdom=\S*//" \
+		-e "s/\(.*\)/\1 cfg80211.ieee80211_regdom=$REGDOMAIN/" \
+		"$CMDLINE"
+
+	if is_installed crda && [ -e /etc/default/crda ]; then
+		rm -f /etc/default/crda
+	fi
+
+	if ! ischroot; then
+		iw reg set "$REGDOMAIN"
+	fi
+
+	IFACE="$(list_wlan_interfaces | head -n 1)"
+	if [ "$INIT" = "systemd" ] && [ -n "$IFACE" ] && systemctl -q is-active dhcpcd; then
+		wpa_cli -i "$IFACE" set country "$REGDOMAIN" > /dev/null 2>&1
+		wpa_cli -i "$IFACE" save_config > /dev/null 2>&1
+	fi
+
+	if [ "$INIT" = "systemd" ] && ! ischroot && systemctl -q is-active NetworkManager; then
+		nmcli radio wifi on
+	elif hash rfkill 2> /dev/null; then
+		rfkill unblock wifi
+		if [ -f /var/lib/NetworkManager/NetworkManager.state ]; then
+			sed -i 's/^WirelessEnabled=.*/WirelessEnabled=true/' /var/lib/NetworkManager/NetworkManager.state
+		fi
+	fi
+
+	if is_pi; then
+		for filename in /var/lib/systemd/rfkill/*:wlan ; do
+			[ -e "$filename" ] && echo 0 > "$filename"
+		done
+	fi
+
+	dialog --backtitle "OpenVario" \
+	--title "[ Country Set ]" \
+	--msgbox "Wireless LAN country set to $REGDOMAIN" 8 50
+}
+
+function show_info() {
+	### collect info of system
+	XCSOAR_VERSION=$(opkg list-installed xcsoar | awk -F' ' '{print $3}')
+	XCSOAR_MAPS_VERSION=$(opkg list-installed | grep "xcsoar-maps-" | awk -F' ' '{print $3}')
+	IMAGE_VERSION=$(cat /etc/os-release | grep VERSION_ID | awk -F'=' -F'"' '{print $2}')
+	SENSORD_VERSION=$(opkg list-installed sensord* | awk -F' ' '{print $3}')
+	
+	VARIOD_VERSION=$(opkg list-installed variod* | awk -F' ' '{print $3}')
+	IP_ETH0=$(ip -4 addr show eth0 | grep -w inet | head -n1 | awk '{print $2}' | cut -d/ -f1)
+	IP_WLAN=$(ip -4 addr show wlan0 | grep -w inet | head -n1 | awk '{print $2}' | cut -d/ -f1)
+
+	dialog --backtitle "OpenVario" \
+	--title "[ S Y S T E M I N F O ]" \
+	--begin 3 4 \
+	--msgbox " \
+	\n \
+	Image: $IMAGE_VERSION\n \
+	XCSoar: $XCSOAR_VERSION\n \
+	Maps: $XCSOAR_MAPS_VERSION\n \
+	sensord: $SENSORD_VERSION\n \
+	variod: $VARIOD_VERSION\n \
+	IP eth0: $IP_ETH0\n \
+	IP wlan0: $IP_WLAN\n \
+	" 15 50
 }
 
 function submenu_xcsoar_lang() {

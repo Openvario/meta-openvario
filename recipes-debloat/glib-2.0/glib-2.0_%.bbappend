@@ -2,7 +2,7 @@
 SHAREDMIMEDEP = ""
 
 # eliminate the "python3" build-dependency
-PACKAGES:remove = "${PN}-codegen"
-do_install:append () {
+PACKAGES:remove:cubieboard2 = "${PN}-codegen"
+do_install:append:cubieboard2 () {
 	rm -rf ${D}${datadir}/glib-2.0/codegen
 }
