@@ -29,6 +29,7 @@ RCONFLICTS:${PN} = " \
 
 SRC_URI =      "\
 	file://ovmenu-ng.sh \
+	file://ovmenu-ng-rpi.sh \
 	file://openvario.rc \
 	file://${BPN}.service \
 	file://disable_dropbear.preset \
@@ -43,7 +44,14 @@ do_compile() {
 
 do_install() {
 	install -d ${D}/${bindir}
-	install -m 0755 ${S}/ovmenu-ng.sh ${D}/${bindir}
+	case "${MACHINE}" in
+		ov-cm4-*|ov-rpi4*)
+			install -m 0755 ${S}/ovmenu-ng-rpi.sh ${D}${bindir}/ovmenu-ng.sh
+			;;
+		*)
+			install -m 0755 ${S}/ovmenu-ng.sh ${D}${bindir}/ovmenu-ng.sh
+			;;
+	esac
 	install -d ${D}${ROOT_HOME}
 	install -m 0755 ${S}/openvario.rc ${D}${ROOT_HOME}/.dialogrc
 	install -d ${D}${systemd_unitdir}/system
@@ -52,7 +60,7 @@ do_install() {
 	# TODO: move this preset file to a more appropriate recipe
 	install -d ${D}${systemd_unitdir}/system-preset
 	install -m 0644 ${WORKDIR}/disable_dropbear.preset ${D}${systemd_unitdir}/system-preset/50-disable_dropbear.preset
-}
+} 
 
 SYSTEMD_SERVICE:${PN} = "${PN}.service"
 
