@@ -1,0 +1,29 @@
+#include "openvario-common.dts"
+
+&panel {
+    width-mm = <152>;
+    height-mm = <91>;
+    data-mapping = "jeida-18";
+    
+    panel-timing {
+        clock-frequency = <25000000>;
+        hactive = <800>;
+        vactive = <480>;
+        hsync-len = <1>;
+        hfront-porch = <55>;
+        hback-porch = <199>;
+        vsync-len = <1>;
+        vfront-porch = <2>;
+        vback-porch = <42>;
+    };
+};
+
+&touchscreen {
+    x-size = <800>;
+    y-size = <480>;
+};
+
+// UART5 on Schematic
+&uart5 {
+    pinctrl-0 = <&uart5_pi_pins>;
+};
