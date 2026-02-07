@@ -115,6 +115,9 @@ do_install() {
 	oe_runmake install-bin install-mo DESTDIR=${D}
 	# install -m755 ${S}/output/OPENVARIO/bin/OpenVarioBaseMenu ${D}${bindir}
 	# install -m755 ${S}/output/UNIX/bin/OpenVarioBaseMenu ${D}${bindir}
+
+	# Has to be removed, because this is in xcsoar-package. Otherwise causes QA error.
+	rm -f ${D}${bindir}/vali-xcs
 }
 
 FILES:${PN} = " \
