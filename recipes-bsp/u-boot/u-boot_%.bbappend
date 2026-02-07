@@ -21,8 +21,6 @@ DEFAULT_PREFERENCE-sun7i="1"
 
 # the nanopi-neo_air isn't used in openvario :), we need only the boot.cmd:
 SRC_URI:append:cubieboard2 = " file://boot.cmd "
-#            file://0001-nanopi_neo_air_defconfig-Enable-eMMC-support.patch
-
 
 UBOOT_ENV_SUFFIX:sunxi = "scr"
 UBOOT_ENV:sunxi = "boot"
@@ -50,6 +48,7 @@ SRC_URI:append:cubieboard2 = " \
 	file://0001-Added-RGB-swap-for-RGB-LCD.patch \
 	file://0001-Environment-Openvario-mainline.patch \
 	\
+	\
 	file://ini2c.py \
 	file://bootenv.ini \
 "
@@ -57,6 +56,7 @@ SRC_URI:append:cubieboard2 = " \
 # todo-tbr
 # adapt patches
 # file://0001-video_bmp-implement-BMP-RLE-to-32-bit.patch
+# Really necessary for uboot ?? file://0004-Set-minimum-CPU-voltage-to-1.1V.patch 
 
 do_bootenv() {
 }

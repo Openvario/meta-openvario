@@ -1,0 +1,58 @@
+From 7d460400702a323c3dc796f95ce5e155767c0aca Mon Sep 17 00:00:00 2001
+From: Torsten Beyer <tb@pobox.com>
+Date: Sun, 28 Aug 2022 20:04:45 +0200
+Subject: [PATCH] Set minimum CPU voltage to 1.1V
+
+The cubieboard2 dev spec says minimum voltage for lower frequencies should be 1.0iV and 1.1V respectively. Usage of cubieboards in OpenVarion
+show instable behaviour with voltages of 1.0V. Hence this change increases CPU voltage to 1.1V for the lowest CPU speeds.
+---
+ arch/arm/dts/sun7i-a20.dtsi | 12 ++++----
+ 1 file changed, 8 insertions(+), 4 deletions(-)
+
+diff --git a/arch/arm/dts/sun7i-a20.dtsi b/arch/arm/dts/sun7i-a20.dtsi
+index 641a8fa6d4..94a82c1474 100644
+--- a/arch/arm/dts/sun7i-a20.dtsi
++++ b/arch/arm/dts/sun7i-a20.dtsi
+@@ -105,15 +105,17 @@
+ 			reg = <0>;
+ 			clocks = <&ccu CLK_CPU>;
+ 			clock-latency = <244144>; /* 8 32k periods */
++			clock-frequency = <720000>;
+ 			operating-points = <
+ 				/* kHz	  uV */
++				1008000	1450000
+ 				960000	1400000
+ 				912000	1400000
+ 				864000	1300000
+ 				720000	1200000
+ 				528000	1100000
+-				312000	1000000
+-				144000	1000000
++				312000	1100000
++				144000	1100000
+ 				>;
+ 			#cooling-cells = <2>;
+ 		};
+@@ -124,15 +126,17 @@
+ 			reg = <1>;
+ 			clocks = <&ccu CLK_CPU>;
+ 			clock-latency = <244144>; /* 8 32k periods */
++			clock-frequency = <720000>;
+ 			operating-points = <
+ 				/* kHz	  uV */
++				1008000	1450000
+ 				960000	1400000
+ 				912000	1400000
+ 				864000	1300000
+ 				720000	1200000
+ 				528000	1100000
+-				312000	1000000
+-				144000	1000000
++				312000	1100000
++				144000	1100000
+ 				>;
+ 			#cooling-cells = <2>;
+ 		};
+-- 
+2.15.0
+
