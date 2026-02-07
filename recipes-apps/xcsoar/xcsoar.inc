@@ -36,10 +36,10 @@ S = "${WORKDIR}/git"
 
 LC_LOCALE_PATH = "${datadir}/locale"
 
+BOOST_FILE = "boost_${@'${BOOST_VERSION}'.replace('.','_')}.tar.bz2"
 SRC_URI += " \
 	file://0007-Disable-touch-screen-auto-detection.patch \
-	https://boostorg.jfrog.io/artifactory/main/release/1.85.0/source/boost_1_85_0.tar.bz2;sha256sum=7009fe1faa1697476bdc7027703a2badb84e849b7b0baad5086b087b971f8617;unpack=0 \
-	https://boostorg.jfrog.io/artifactory/main/release/1.87.0/source/boost_1_87_0.tar.bz2;sha256sum=af57be25cb4c4f4b413ed692fe378affb4352ea50fbe294a11ef548f4d527d89;unpack=0 \
+	https://archives.boost.io/release/${BOOST_VERSION}/source/${BOOST_FILE};sha256sum=${BOOST_SHA256HASH};unpack=0 \
 "
 
 inherit pkgconfig
@@ -65,8 +65,7 @@ EXTRA_OEMAKE = " \
 
 do_configure() {
 	install -d ${B}/output/download
-	cp ${WORKDIR}/boost_1_85_0.tar.bz2 ${B}/output/download/
-	cp ${WORKDIR}/boost_1_87_0.tar.bz2 ${B}/output/download/
+	cp ${WORKDIR}/${BOOST_FILE} ${B}/output/download/
 	oe_runmake boost
 }
 

@@ -3,14 +3,22 @@
 Export the machine you want to build for with 'export MACHINE=<machine>'
 
 Possible machines are:
-    ov-cb2-43-rgb
-    ov-cb2-57-lvds
-    ov-cb2-57-lvds-ds2
-    ov-cb2-7-am070-ds2
-    ov-cb2-7-ch070
-    ov-cb2-7-ch070-ds2
-    ov-cb2-7-pq070
-    ov-cb2-7-pq070-ds2
+  
+  for Cubieboard2 based devices:
+
+    ov-cb2-am43
+    ov-cb2-ch57
+    ov-cb2-ch57s
+    ov-cb2-am70s
+    ov-cb2-ch70
+    ov-cb2-ch70s
+    ov-cb2-pq70
+    ov-cb2-pq70s
+
+ for Raspberry Pi4 based devices:
+
+    ov-cm4-pq070
+    ov-cm4-ch57
     ov-rpi4
     ov-rpi4-64
 

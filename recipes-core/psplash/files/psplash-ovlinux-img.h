@@ -10,7 +10,8 @@
 #define PSPLASH_BAR_COLOR 0x6d,0x6d,0x70
 
 /* This is the color of the progress bar background */
-#define PSPLASH_BAR_BACKGROUND_COLOR 0xec,0xec,0xe1
+/* #define PSPLASH_BAR_BACKGROUND_COLOR 0xec,0xec,0xe1 */
+#define PSPLASH_BAR_BACKGROUND_COLOR 0xec,0xec,0x00
 
 #define POKY_IMG_ROWSTRIDE (1440)
 #define POKY_IMG_WIDTH (480)

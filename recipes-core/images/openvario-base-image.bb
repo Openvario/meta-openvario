@@ -1,7 +1,10 @@
 SUMMARY = "A small image just capable of allowing a device to boot."
 
+require ov-revision.inc
+
 IMAGE_FEATURES += "splash ssh-server-dropbear package-management"
-DEPENDS += "linux-firmware \
+DEPENDS += " \
+    linux-firmware \
     "
 
 # Include common WIFI firmware packages into the image. All linux-firmware
@@ -46,7 +49,8 @@ IMAGE_INSTALL = " \
     ts-uinput-service \
     ${COMMON_WIFI_FIRMWARE_PACKAGES} \
     ${LOCALE_PACKAGES} \
-    fix-cpu-freq\
+    fix-cpu-freq \
+	e2fsprogs-mke2fs \
 "
 
 IMAGE_INSTALL:append:rpi = " \
