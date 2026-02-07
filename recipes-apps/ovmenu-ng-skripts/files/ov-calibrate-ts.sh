@@ -12,7 +12,7 @@ case $ROT in
     3) ROTMATRIX="0 -1 1 1 0 0" ;;
 esac
 
-echo "ENV{LIBINPUT_CALIBRATION_MATRIX}=\"$ROTMATRIX\"" > /etc/udev/rules.d/libinput-ts.rules
+sudo echo "ENV{LIBINPUT_CALIBRATION_MATRIX}=\"$ROTMATRIX\"" > /etc/udev/rules.d/libinput-ts.rules
 udevadm control --reload
 udevadm trigger
 
