@@ -20,8 +20,6 @@ RDEPENDS:${PN} = " \
 
 SRC_URI = "\
 	file://download-igc.sh \
-	file://transfers.sh \
-	file://transfer-system.sh \
 	file://logbook.sh \
 	file://ov-calibrate-ts.sh \
 	file://system-info.sh \
@@ -37,13 +35,12 @@ do_compile() {
 	:
 }
 
+
 do_install() {
 	echo "Installing ..."
 	install -d ${D}${bindir}
 	install -m 0755 \
 		${S}/download-igc.sh \
-		${S}/transfers.sh \
-		${S}/transfer-system.sh \
 		${S}/logbook.sh \
 		${S}/ov-calibrate-ts.sh \
 		${S}/system-info.sh \

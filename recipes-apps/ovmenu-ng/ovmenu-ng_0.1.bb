@@ -8,7 +8,9 @@ LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/${LICENSE};md5=c79ff39f19dfec6d
 SECTION = "base/app"
 
 S = "${WORKDIR}"
-PR = "r15"
+require ov-revision.inc
+# PR = "r21"
+
 
 inherit allarch systemd
 
@@ -16,7 +18,6 @@ RDEPENDS:${PN} = " \
 	bash \
 	dialog \
 	ovmenu-ng-skripts \
-	ov-tools \
 	autofs-config \
 "
 
@@ -33,6 +34,7 @@ SRC_URI =      "\
 	file://openvario.rc \
 	file://${BPN}.service \
 	file://disable_dropbear.preset \
+	file://create_datapart.sh \
 "
 
 
@@ -53,6 +55,8 @@ do_install() {
 			;;
 	esac
 	install -d ${D}${ROOT_HOME}
+	install -d ${D}${ROOT_HOME}/.xcsoar
+	install -d ${D}${ROOT_HOME}/data  # mount dir for data partition!
 	install -m 0755 ${S}/openvario.rc ${D}${ROOT_HOME}/.dialogrc
 	install -d ${D}${systemd_unitdir}/system
 	install -m 0644 ${WORKDIR}/ovmenu-ng.service ${D}${systemd_unitdir}/system
@@ -60,12 +64,21 @@ do_install() {
 	# TODO: move this preset file to a more appropriate recipe
 	install -d ${D}${systemd_unitdir}/system-preset
 	install -m 0644 ${WORKDIR}/disable_dropbear.preset ${D}${systemd_unitdir}/system-preset/50-disable_dropbear.preset
-} 
+
+	if [ "${MACHINE}" = "sunxi" ]; then
+		install -m 0644 ${DEPLOY_DIR_IMAGE}/ov-recovery.itb ${D}/${bindir}
+	fi
+
+}
 
 SYSTEMD_SERVICE:${PN} = "${PN}.service"
 
 FILES:${PN} = " \
 	${bindir}/ovmenu-ng.sh \
+	${bindir}/create_datapart.sh \
+	${bindir}/ov-recovery.itb \
 	${ROOT_HOME}/.dialogrc \
 	${systemd_unitdir}/system-preset/50-disable_dropbear.preset \
+	${ROOT_HOME}/.xcsoar/ \
+	${ROOT_HOME}/data/ \
 "

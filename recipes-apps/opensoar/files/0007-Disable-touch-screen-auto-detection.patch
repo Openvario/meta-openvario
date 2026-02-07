@@ -1,0 +1,30 @@
+From 9d515d154921e0c08337a50c8c616a327310d4c2 Mon Sep 17 00:00:00 2001
+From: Andrey Lebedev <andrey@lebedev.lt>
+Date: Sun, 5 Jul 2020 22:58:38 +0300
+Subject: [PATCH] Disable touch-screen auto-detection
+
+When touch screen is detected, XCSoar renders larger buttons and other
+screen controls. Larger control size is more preferrable for Openvario
+even on machines with no touch screen is installed: it is easier to
+click larger controls with the stick control and labels acually fit the
+buttons with the larger font sizes.
+---
+ src/ui/event/poll/libinput/LibInputHandler.hpp | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/ui/event/poll/libinput/LibInputHandler.hpp b/src/ui/event/poll/libinput/LibInputHandler.hpp
+index 0ca1d8f512..b9eeb3e724 100644
+--- a/src/ui/event/poll/libinput/LibInputHandler.hpp
++++ b/src/ui/event/poll/libinput/LibInputHandler.hpp
+@@ -57,7 +57,7 @@ class LibInputHandler final {
+   /**
+    * The number of pointer input devices, touch screens ans keyboards.
+    */
+-  unsigned n_pointers = 0, n_touch_screens = 0, n_keyboards = 0;
++  unsigned n_pointers = 0, n_touch_screens = 1, n_keyboards = 0;
+ 
+ public:
+   explicit LibInputHandler(EventQueue &_queue) noexcept;
+-- 
+2.25.1
+

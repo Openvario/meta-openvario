@@ -12,13 +12,11 @@
 # uploads to OpenVario are stored at USB stick at:
 # openvario/upload/OpenSoarData/ (or ../XCSoarData/)
 
-# Transfer script for Up/Downloading data to usbstick
+# Transfer script for Up/Downloadng data to usbstick
 # echo "Transfer to and from OpenVario and USB Stick"
 
-USB_STICK="/usb/usbstick"
-USB_PATH="$USB_STICK/openvario"
-TRANSFER_OPTION=download-igc
-# TRANSFER_OPTION=download-nmea
+USB_PATH="/usb/usbstick/openvario"
+TRANSFER_OPTION=$1
 MAIN_APP=$2
 
 RSYNC_OPTION=""
@@ -27,29 +25,15 @@ if [ "$MAIN_APP" = "xcsoar" ]; then
   $DATA_FOLDER="XCSoarData"
 fi
 SOAR_DATA_PATH="/home/root/data/$DATA_FOLDER"
-COPY_MODE="-rc"
 # echo "MAIN-APPLICATION: '$MAIN_APP'"
 
 case "$TRANSFER_OPTION" in
-    download-nmea)
-    # ----------
-        echo "Syncronizing NMEA files with USB (folder: /NMEA-OpenSoar)"
-        SRC_PATH="$SOAR_DATA_PATH/logs/"
-        DEST_PATH="$USB_STICK/NMEA-OpenSoar"
-        mkdir -p $DEST_PATH
-        SRC_FILTER="--include=*.nmea --exclude=*.igc --exclude=*"
-        echo filter = ${SRC_FILTER}
-        COPY_MODE="-rcx"
-        ;;
     download-igc)
     # ----------
-        echo "Syncronizing IGC files with USB (folder: /IGC-OpenSoar)"
-        SRC_PATH="$SOAR_DATA_PATH/logs/"
-        DEST_PATH="$USB_STICK/IGC-OpenSoar"
+        echo "Syncronizing $DATA_FOLDER with USB "
+        SRC_PATH="$SOAR_DATA_PATH"
+        DEST_PATH="$USB_PATH/download/$DATA_FOLDER"
         mkdir -p $DEST_PATH
-        SRC_FILTER="--include=*.igc --exclude=*.nmea --exclude=*"
-        echo filter = ${SRC_FILTER}
-        COPY_MODE="-rcx"
         ;;
     download-data)
     # ----------
@@ -112,7 +96,7 @@ if [ -z "$(find "$SRC_PATH" -type f | head -n 1 2>/dev/null)" ]; then
     echo 'No files found !!!'
 else
   # We use -c here due to cubieboards not having an rtc clock
-    if rsync $COPY_MODE --progress $RSYNC_OPTION "${SRC_PATH}" ${SRC_FILTER} "$DEST_PATH/"; then
+    if rsync -rc --progress $RSYNC_OPTION "${SRC_PATH}/" "$DEST_PATH/"; then
         echo 'All files transfered successfully.'
         echo '----------------------------------'
     else
