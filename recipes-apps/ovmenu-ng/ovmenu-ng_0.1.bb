@@ -30,6 +30,7 @@ RCONFLICTS:${PN} = " \
 
 SRC_URI =      "\
 	file://ovmenu-ng.sh \
+	file://ovmenu-ng-rpi.sh \
 	file://openvario.rc \
 	file://${BPN}.service \
 	file://disable_dropbear.preset \
@@ -45,8 +46,14 @@ do_compile() {
 
 do_install() {
 	install -d ${D}/${bindir}
-	install -m 0755 ${S}/ovmenu-ng.sh ${D}/${bindir}
-	install -m 0755 ${S}/create_datapart.sh ${D}/${bindir}
+	case "${MACHINE}" in
+		ov-cm4-*|ov-rpi4*)
+			install -m 0755 ${S}/ovmenu-ng-rpi.sh ${D}${bindir}/ovmenu-ng.sh
+			;;
+		*)
+			install -m 0755 ${S}/ovmenu-ng.sh ${D}${bindir}/ovmenu-ng.sh
+			;;
+	esac
 	install -d ${D}${ROOT_HOME}
 	install -d ${D}${ROOT_HOME}/.xcsoar
 	install -d ${D}${ROOT_HOME}/data  # mount dir for data partition!

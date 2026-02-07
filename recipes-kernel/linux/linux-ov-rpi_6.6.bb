@@ -29,7 +29,6 @@ SRC_URI = "git://github.com/raspberrypi/linux.git;name=machine;branch=${LINUX_RP
            ${@bb.utils.contains("MACHINE_FEATURES", "wm8960", "file://wm8960.cfg", "", d)} \
            file://default-cpu-governor.cfg \
            file://rpi4-nvmem.cfg \
-           file://rpi4-nvmem.cfg \
            file://0001-Added-openvario-overlays.patch \
            file://ov-cm4-57-lvds-overlay.dts;subdir=git/arch/arm/boot/dts/overlays \
            file://ov-cm4-7-pq070-overlay.dts;subdir=git/arch/arm/boot/dts/overlays \
@@ -47,6 +46,7 @@ KBUILD_DEFCONFIG:raspberrypi4-64 ?= "bcm2711_defconfig"
 LINUX_VERSION_EXTENSION ?= ""
 
 KERNEL_MODULE_AUTOLOAD += "${@bb.utils.contains("MACHINE_FEATURES", "pitft28r", "stmpe-ts", "", d)}"
+KERNEL_MODULE_AUTOLOAD:rpi += "i2c-dev i2c-bcm2708"
 
 # A LOADADDR is needed when building a uImage format kernel. This value is not
 # set by default in rpi-4.8.y and later branches so we need to provide it
