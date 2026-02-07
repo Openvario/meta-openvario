@@ -1,10 +1,13 @@
 require openvario-base-image.bb
 
-#IMAGE_ROOTFS_SIZE ?= "3768320"
-IMAGE_ROOTFS_SIZE ?= "1048576"
+INHIBIT_PACKAGE_DEBUG_SPLIT = '1'
+INHIBIT_PACKAGE_STRIP = '1'
+
+
+# image size -> 512MB
+IMAGE_ROOTFS_SIZE ?= "475136"
 
 IMAGE_INSTALL += "\
-    opensoar \
     xcsoar \
     xcsoar-menu \
     xcsoar-profiles \
@@ -14,5 +17,7 @@ IMAGE_INSTALL += "\
     variod \
     ovmenu-ng \
 "
-#   xcsoar 
+
+IMAGE_INSTALL:append:sunxi = " opensoar"
+
 export IMAGE_BASENAME = "openvario-image"
