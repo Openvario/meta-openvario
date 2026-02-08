@@ -18,6 +18,6 @@ IMAGE_INSTALL += "\
     ovmenu-ng \
 "
 
-IMAGE_INSTALL:append:sunxi = " opensoar"
+IMAGE_INSTALL:append = "${@bb.utils.contains('DISTRO_FEATURES', 'opensoar', ' opensoar', '', d)}"
 
 export IMAGE_BASENAME = "openvario-image"
