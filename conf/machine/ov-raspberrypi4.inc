@@ -41,3 +41,5 @@ KERNEL_BOOTCMD ?= "booti"
 #ov-rpi-sdimg
 IMAGE_CLASSES += "sdcard_image-ov-rpi"
 IMAGE_FSTYPES = "tar.bz2 ext3 wic.bz2 wic.bmap ov-rpi-sdimg"
+
+LICENSE_FLAGS_ACCEPTED = "synaptics-killswitch"
