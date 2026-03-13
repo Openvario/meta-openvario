@@ -30,8 +30,8 @@ SRC_URI = "git://github.com/raspberrypi/linux.git;name=machine;branch=${LINUX_RP
            file://default-cpu-governor.cfg \
            file://rpi4-nvmem.cfg \
            file://0001-Added-openvario-overlays.patch \
-           file://ov-cm4-57-lvds-overlay.dts;subdir=git/arch/arm/boot/dts/overlays \
-           file://ov-cm4-7-pq070-overlay.dts;subdir=git/arch/arm/boot/dts/overlays \
+           file://ov-cm4-ch57-overlay.dts;subdir=git/arch/arm/boot/dts/overlays \
+           file://ov-cm4-pq70-overlay.dts;subdir=git/arch/arm/boot/dts/overlays \
            file://rpi4-nvmem.cfg \
            "
 

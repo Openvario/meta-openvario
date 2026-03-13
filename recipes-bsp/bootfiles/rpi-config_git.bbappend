@@ -9,21 +9,21 @@ do_deploy:append () {
     if [ "${MACHINE}" = "ov-rpi4-64" ]; then
         # Use the machine specific device tree overlay
         echo "# Enable 57 LVDS" >> $CONFIG
-        echo "dtoverlay=ov-rpi4-57-lvds" >> $CONFIG
+        echo "dtoverlay=ov-rpi4-ch57" >> $CONFIG
     fi
     
      # Openvario 57 LVDS
-    if [ "${MACHINE}" = "ov-cm4-57-lvds" ]; then
+    if [ "${MACHINE}" = "ov-cm4-ch57" ]; then
         # Use the machine specific device tree overlay
         echo "# Enable 57 LVDS" >> $CONFIG
-        echo "dtoverlay=ov-cm4-57-lvds" >> $CONFIG
+        echo "dtoverlay=ov-cm4-ch57" >> $CONFIG
     fi
 
     # Openvario 7 PQ070
-    if [ "${MACHINE}" = "ov-cm4-7-pq070" ]; then
+    if [ "${MACHINE}" = "ov-cm4-pq70" ]; then
         # Use the machine specific device tree overlay
         echo "# Enable PQ070 Display" >> $CONFIG
-        echo "dtoverlay=ov-cm4-7-pq070" >> $CONFIG
+        echo "dtoverlay=ov-cm4-pq70" >> $CONFIG
     fi
 
     echo "# sound driver" >> $CONFIG
