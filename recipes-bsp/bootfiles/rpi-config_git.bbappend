@@ -25,4 +25,11 @@ do_deploy:append () {
         echo "# Enable PQ070 Display" >> $CONFIG
         echo "dtoverlay=ov-cm4-7-pq070" >> $CONFIG
     fi
+
+    echo "# sound driver" >> $CONFIG
+    echo "dtoverlay=max98357a" >> $CONFIG
+
+    echo "# serial interfaces" >> $CONFIG
+    echo "dtoverlay=uart2" >> $CONFIG
+    echo "dtoverlay=uart3" >> $CONFIG
 }
