@@ -54,6 +54,7 @@ do_install() {
 			install -m 0755 ${S}/ovmenu-ng.sh ${D}${bindir}/ovmenu-ng.sh
 			;;
 	esac
+	install -m 0755 ${S}/create_datapart.sh ${D}/${bindir}
 	install -d ${D}${ROOT_HOME}
 	install -d ${D}${ROOT_HOME}/.xcsoar
 	install -d ${D}${ROOT_HOME}/data  # mount dir for data partition!
