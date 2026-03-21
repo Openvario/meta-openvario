@@ -4,6 +4,7 @@ require openvario-base-image.bb
 IMAGE_ROOTFS_SIZE ?= "475136"
 
 IMAGE_INSTALL += "\
+    opensoar \
     xcsoar-testing \
     xcsoar-menu \
     xcsoar-profiles \
@@ -13,8 +14,6 @@ IMAGE_INSTALL += "\
     variod \
     ovmenu-ng \
 "
-
-IMAGE_INSTALL:append = "${@bb.utils.contains('DISTRO_FEATURES', 'opensoar', ' opensoar-testing', '', d)}"
 
 export IMAGE_BASENAME = "openvario-testing"
 export IMAGE_TYPE = "testing"
