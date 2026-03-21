@@ -50,7 +50,7 @@ fi
 #=========================================================================
 echo "begin startup.."
 echo "===============" 
-chmod -Rf 757 $HOME
+chmod -R 757 $HOME
 mv $HOME/start-debug-1.log $HOME/start-debug-2.log
 mv $DEBUG_LOG $HOME/start-debug-1.log
 source /boot/config.uEnv
@@ -73,9 +73,9 @@ else
 fi
 
 #------------------------------------------------------------------------------
-echo "begin startup.. $(date %Y-%m-%d %H:%M:%S)" >> $DEBUG_LOG
-DATESTRING=$(date %Y-%m-%d %H:%M:%S)
-date %Y-%m-%d %H:%M:%S >> $DEBUG_LOG
+echo "begin startup.. $(date "+%Y-%m-%d %H:%M:%S")" >> $DEBUG_LOG
+DATESTRING=$(date "+%Y-%m-%d %H:%M:%S")
+date "+%Y-%m-%d %H:%M:%S" >> $DEBUG_LOG
 echo "=================================" >> $DEBUG_LOG
 if [ ! -e /dev/mmcblk0p3 ]; then
   echo "/dev/mmcblk0p3 don't exist " >> $DEBUG_LOG

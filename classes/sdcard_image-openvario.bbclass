@@ -1,5 +1,5 @@
 inherit image_types
-require VERSION.inc
+#require VERSION.inc
 
 # Create an image that can by written onto a SD card using dd.
 # Originally written for rasberrypi adapt for the needs of allwinner sunxi based boards
