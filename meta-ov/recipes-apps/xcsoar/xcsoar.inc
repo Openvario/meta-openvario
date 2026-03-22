@@ -36,6 +36,10 @@ S = "${WORKDIR}/git"
 
 LC_LOCALE_PATH = "${datadir}/locale"
 
+# Keep .mo locale files in the main package instead of splitting into xcsoar-locale-* sub-packages
+PACKAGE_NO_LOCALE = "1"
+PACKAGES:remove = "${PN}-locale"
+
 SRC_URI += " \
 	file://0007-Disable-touch-screen-auto-detection.patch \
 	https://boostorg.jfrog.io/artifactory/main/release/1.85.0/source/boost_1_85_0.tar.bz2;sha256sum=7009fe1faa1697476bdc7027703a2badb84e849b7b0baad5086b087b971f8617;unpack=0 \
