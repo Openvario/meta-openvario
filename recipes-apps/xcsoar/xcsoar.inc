@@ -36,6 +36,10 @@ S = "${WORKDIR}/git"
 
 LC_LOCALE_PATH = "${datadir}/locale"
 
+# Keep .mo locale files in the main package instead of splitting into xcsoar-locale-* sub-packages
+PACKAGE_NO_LOCALE = "1"
+PACKAGES:remove = "${PN}-locale"
+
 BOOST_FILE = "boost_${@'${BOOST_VERSION}'.replace('.','_')}.tar.bz2"
 SRC_URI += " \
 	file://0007-Disable-touch-screen-auto-detection.patch \
