@@ -62,22 +62,34 @@ esac
 
 function submenu_system() {
 	### display system menu ###
+	# Build system menu items. Include Network only if nmcli exists.
+	SYSTEM_MENU_ITEMS=(
+		Update_System "Update system software"
+		Update_Maps "Update Maps files"
+		Calibrate_Sensors "Calibrate Sensors"
+		Calibrate_Touch "Calibrate Touch"
+		Settings "System Settings"
+		Information "System Info"
+	)
+
+	if command -v nmcli >/dev/null 2>&1; then
+		SYSTEM_MENU_ITEMS+=(Network "Network Options")
+	fi
+
+	SYSTEM_MENU_ITEMS+=(Back "Back to Main")
+
+	MENU_COUNT=${#SYSTEM_MENU_ITEMS[@]}
+	MENU_LINES=$(( MENU_COUNT / 2 ))
+
 	dialog --nocancel --backtitle "OpenVario" \
 	--title "[ S Y S T E M ]" \
 	--begin 3 4 \
-	--menu "You can use the UP/DOWN arrow keys" 15 50 6 \
-	Update_System   "Update system software" \
-	Update_Maps   "Update Maps files" \
-	Calibrate_Sensors   "Calibrate Sensors" \
-	Calibrate_Touch   "Calibrate Touch" \
-	Settings   "System Settings" \
-	Information "System Info" \
-	Network          "Network Options" \
-	Back   "Back to Main" 2>"${INPUT}"
+	--menu "You can use the UP/DOWN arrow keys" 15 50 $MENU_LINES \
+	"${SYSTEM_MENU_ITEMS[@]}" 2>"${INPUT}"
 
 	menuitem=$(<"${INPUT}")
 
-	# make decsion
+	# make decision
 	case $menuitem in
 		Update_System)
 			update_system
@@ -100,7 +112,7 @@ function submenu_system() {
 		Network)
 			submenu_network
 			;;
-		Exit) ;;
+		Back) ;;
 	esac
 }
 
