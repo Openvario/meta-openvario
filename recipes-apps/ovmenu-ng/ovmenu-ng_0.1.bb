@@ -29,13 +29,15 @@ RCONFLICTS:${PN} = " \
 "
 
 SRC_URI =      "\
-	file://ovmenu-ng.sh \
-	file://ovmenu-ng-rpi.sh \
+	file://ovmenu-ng-opensoar.sh \
+	file://ovmenu-ng-xcsoar.sh \
 	file://openvario.rc \
 	file://${BPN}.service \
 	file://disable_dropbear.preset \
 	file://create_datapart.sh \
 "
+
+OVMENU_SRC = "${@bb.utils.contains('DISTRO_FEATURES', 'xcsoar', 'ovmenu-ng-xcsoar.sh', 'ovmenu-ng-opensoar.sh', d)}"
 
 
 addtask do_package_write_ipk after do_package
@@ -45,15 +47,8 @@ do_compile() {
 }
 
 do_install() {
-	install -d ${D}/${bindir}
-	case "${MACHINE}" in
-		ov-cm4-*|ov-rpi4*)
-			install -m 0755 ${S}/ovmenu-ng-rpi.sh ${D}${bindir}/ovmenu-ng.sh
-			;;
-		*)
-			install -m 0755 ${S}/ovmenu-ng.sh ${D}${bindir}/ovmenu-ng.sh
-			;;
-	esac
+	install -d ${D}${bindir}
+	install -m 0755 ${S}/${OVMENU_SRC} ${D}${bindir}/ovmenu-ng.sh
 	install -m 0755 ${S}/create_datapart.sh ${D}/${bindir}
 	install -d ${D}${ROOT_HOME}
 	install -d ${D}${ROOT_HOME}/.xcsoar
