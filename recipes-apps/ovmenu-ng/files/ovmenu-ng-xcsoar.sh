@@ -65,7 +65,6 @@ function submenu_system() {
 	# Build system menu items. Include Network only if nmcli exists.
 	SYSTEM_MENU_ITEMS=(
 		Update_System "Update system software"
-		Update_Maps "Update Maps files"
 		Calibrate_Sensors "Calibrate Sensors"
 		Calibrate_Touch "Calibrate Touch"
 		Settings "System Settings"
@@ -93,9 +92,6 @@ function submenu_system() {
 	case $menuitem in
 		Update_System)
 			update_system
-			;;
-		Update_Maps)
-			update_maps
 			;;
 		Calibrate_Sensors)
 			calibrate_sensors
@@ -540,14 +536,6 @@ function calibrate_touch() {
 	echo "Calibrating Touch ..." >> /tmp/tail.$$
 	/usr/bin/ov-calibrate-ts.sh >> /tmp/tail.$$
 	dialog --msgbox "Calibration OK!" 10 50
-}
-
-# Copy /usb/usbstick/openvario/maps to /home/root/.xcsoar
-# Copy only xcsoar-maps*.ipk and *.xcm files
-function update_maps() {
-	echo "Updating Maps ..." > /tmp/tail.$$
-	/usr/bin/update-maps.sh >> /tmp/tail.$$ 2>/dev/null &
-	dialog --backtitle "OpenVario" --title "Result" --tailbox /tmp/tail.$$ 30 50
 }
 
 # Copy /home/root/.xcsoar to /usb/usbstick/openvario/download/xcsoar
