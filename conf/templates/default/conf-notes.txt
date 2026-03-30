@@ -4,21 +4,23 @@ Export the machine you want to build for with 'export MACHINE=<machine>'
 
 Possible machines are:
   
-  for Cubieboard2 based devices:
+  for Cubieboard2 and the original adapter board:
 
     ov-cb2-am43
     ov-cb2-ch57
-    ov-cb2-ch57s
-    ov-cb2-am70s
     ov-cb2-ch70
-    ov-cb2-ch70s
     ov-cb2-pq70
-    ov-cb2-pq70s
+
+  for Cubieboard 2 and the adapter board DS2:
+    
+    ov-cb2-am70s
+    ov-cb2-ch57s
+    ov-cb2-ch70s
 
  for Raspberry Pi4 based devices:
 
-    ov-cm4-pq070
     ov-cm4-ch57
+    ov-cm4-pq70
     ov-rpi4
     ov-rpi4-64
 
