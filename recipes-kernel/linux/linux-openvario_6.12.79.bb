@@ -9,12 +9,12 @@ inherit kernel kernel-yocto siteinfo
 
 S = "${WORKDIR}/git"
 
-KBRANCH = "linux-6.6.y"
+KBRANCH = "linux-6.12.y"
 
 # KERNEL_CFG=no-debug.cfg
 KERNEL_CFG = "debug.cfg"
 
-SRCREV = "8dfb9086136c1092a4e613c0878a5b1e88d5f328"
+SRCREV = "c2d104a355013a14bcd73e31fb2c4bc21922115a"
 
 SRC_URI = " \
 	git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git;branch=${KBRANCH} \
@@ -23,15 +23,15 @@ SRC_URI = " \
 	\
 	file://systemd.cfg \
 	file://${KERNEL_CFG} \
-        file://openvario.cfg \
+	file://openvario.cfg \
 	file://cpufreq.cfg \
-        file://usbhost.cfg \
-        file://networking.cfg \
-        file://netdev.cfg \
-        file://usbnet.cfg \
-        file://usbserial.cfg \
-        file://usbstorage.cfg \
-        file://filesystems.cfg \
+	file://usbhost.cfg \
+	file://networking.cfg \
+	file://netdev.cfg \
+	file://usbnet.cfg \
+	file://usbserial.cfg \
+	file://usbstorage.cfg \
+	file://filesystems.cfg \
 	file://graphics.cfg \
 	file://sound.cfg \
 	file://wifi.cfg \

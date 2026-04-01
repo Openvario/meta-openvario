@@ -32,6 +32,9 @@ Wants=boot.automount
 After=boot.automount
 
 [Service]
+# Stop psplash and reclaim the framebuffer console before starting.
+ExecStartPre=-/bin/systemctl stop psplash-start
+ExecStartPre=-/bin/sh -c 'chvt 2; chvt 1'
 ExecStart=/usr/bin/ovmenu-ng.sh
 Type=idle
 Restart=always
