@@ -506,20 +506,22 @@ function update_maps() {
 # Copy /home/root/.xcsoar to /usb/usbstick/openvario/download/xcsoar
 function download_files() {
 	echo "Downloading files ..." > /tmp/tail.$$
-	/usr/bin/download-all.sh >> /tmp/tail.$$ &
+	/usr/bin/download-all.sh >> /tmp/tail.$$ 2>&1 &
 	dialog --backtitle "OpenVario" --title "Result" --tailbox /tmp/tail.$$ 30 50
 }
 
 # Copy /home/root/.xcsoar/logs to /usb/usbstick/openvario/igc
 # Copy only *.igc files
 function download_igc_files() {
-	/usr/bin/download-igc.sh
+	echo "Downloading IGC files ..." > /tmp/tail.$$
+	/usr/bin/download-igc.sh download-igc xcsoar >> /tmp/tail.$$ 2>&1 &
+	dialog --backtitle "OpenVario" --title "Result" --tailbox /tmp/tail.$$ 30 50
 }
 
 # Copy /usb/usbstick/openvario/upload to /home/root/.xcsoar
 function upload_files(){
 	echo "Uploading files ..." > /tmp/tail.$$
-	/usr/bin/upload-xcsoar.sh >> /tmp/tail.$$ &
+	/usr/bin/upload-xcsoar.sh >> /tmp/tail.$$ 2>&1 &
 	dialog --backtitle "OpenVario" --title "Result" --tailbox /tmp/tail.$$ 30 50
 }
 

@@ -23,10 +23,11 @@ MAIN_APP=$2
 
 RSYNC_OPTION=""
 DATA_FOLDER="OpenSoarData"
-if [ "$MAIN_APP" = "xcsoar" ]; then
-  $DATA_FOLDER="XCSoarData"
-fi
 SOAR_DATA_PATH="/home/root/data/$DATA_FOLDER"
+if [ "$MAIN_APP" = "xcsoar" ]; then
+  DATA_FOLDER="XCSoarData"
+  SOAR_DATA_PATH="/home/root/.xcsoar"
+fi
 COPY_MODE="-rc"
 # echo "MAIN-APPLICATION: '$MAIN_APP'"
 
