@@ -405,31 +405,78 @@ done
 }
 
 function submenu_rotation() {
-	TEMP=$(grep "rotation" /boot/config.uEnv)
-	if [ -n $TEMP ]; then
-		ROTATION=${TEMP: -1}
-		dialog --nocancel --backtitle "OpenVario" \
+	UENV=/boot/config.uEnv
+	CMDLINE=/boot/cmdline.txt
+
+	# prefer sysfs rotate_all then rotate
+	if [ -w /sys/class/graphics/fbcon/rotate_all ]; then
+		SYS_ROT=/sys/class/graphics/fbcon/rotate_all
+	elif [ -w /sys/class/graphics/fbcon/rotate ]; then
+		SYS_ROT=/sys/class/graphics/fbcon/rotate
+	else
+		SYS_ROT=""
+	fi
+
+	# detect primary persistent config: prefer file that already has a rotation setting
+	PRIMARY=""
+	if [ -f "$UENV" ] && grep -q '^rotation=' "$UENV"; then
+		PRIMARY="$UENV"
+	elif [ -f "$CMDLINE" ] && grep -q 'fbcon=rotate:' "$CMDLINE"; then
+		PRIMARY="$CMDLINE"
+	elif [ -f "$UENV" ]; then
+		PRIMARY="$UENV"
+	elif [ -f "$CMDLINE" ]; then
+		PRIMARY="$CMDLINE"
+	fi
+
+	# read current rotation
+	current=0
+	if [ -n "$PRIMARY" ]; then
+		if [ "$PRIMARY" = "$UENV" ]; then
+			current=$(sed -n 's/^rotation=//p' "$UENV" | tr -d '"' 2>/dev/null || echo 0)
+		else
+			current=$(grep -o 'fbcon=rotate:[0-3]' "$CMDLINE" 2>/dev/null | sed 's/.*://' || echo 0)
+		fi
+	elif [ -n "$SYS_ROT" ] && [ -r "$SYS_ROT" ]; then
+		current=$(cat "$SYS_ROT" 2>/dev/null || echo 0)
+	fi
+	case "$current" in [0-3]) ;; *) current=0 ;; esac
+
+	dialog --nocancel --backtitle "OpenVario" \
 		--title "[ S Y S T E M ]" \
-		--begin 3 4 \
-		--default-item "${ROTATION}" \
+		--default-item "${current}" \
 		--menu "Select Rotation:" 15 50 4 \
 		 0 "Landscape 0 deg" \
 		 1 "Portrait 90 deg" \
 		 2 "Landscape 180 deg" \
 		 3 "Portrait 270 deg" 2>"${INPUT}"
 
-		 menuitem=$(<"${INPUT}")
+	menuitem=$(<"${INPUT}")
+	[ -z "$menuitem" ] && return 0
 
-		# update config
-		# uboot rotation
-		sed -i 's/fbcon=rotate:.*/fbcon=rotate:'${menuitem}'/' /boot/cmdline.txt
-		echo "$menuitem" >/sys/class/graphics/fbcon/rotate_all
-		dialog --msgbox "New Setting saved !!\n Touch recalibration required !!" 10 50
-	else
-		dialog --backtitle "OpenVario" \
-		--title "ERROR" \
-		--msgbox "No Config found !!"
+	# persist to the detected primary config
+	if [ -n "$PRIMARY" ]; then
+		if [ "$PRIMARY" = "$UENV" ]; then
+			if grep -q '^rotation=' "$UENV"; then
+				sed -i 's/^rotation=.*/rotation='"$menuitem"'/' "$UENV"
+			else
+				echo "rotation=$menuitem" >> "$UENV"
+			fi
+		else
+			if grep -q 'fbcon=rotate:' "$CMDLINE"; then
+				sed -i 's/fbcon=rotate:[0-3]/fbcon=rotate:'"$menuitem"'/g' "$CMDLINE"
+			else
+				sed -i '1s/$/ fbcon=rotate:'"$menuitem"'/' "$CMDLINE"
+			fi
+		fi
 	fi
+
+	# apply live via sysfs
+	if [ -n "$SYS_ROT" ]; then
+		echo "$menuitem" > "$SYS_ROT" 2>/dev/null || true
+	fi
+
+	dialog --msgbox "New Setting saved !!\nTouch recalibration required !!" 10 50
 }
 
 function update_system() {
