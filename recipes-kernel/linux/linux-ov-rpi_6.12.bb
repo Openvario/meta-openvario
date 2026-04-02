@@ -8,12 +8,12 @@ COMPATIBLE_MACHINE ?= "^rpi$"
 PE = "1"
 PV = "${LINUX_VERSION}+git${SRCPV}"
 
-LINUX_VERSION ?= "6.6.22"
-LINUX_RPI_BRANCH ?= "rpi-6.6.y"
-LINUX_RPI_KMETA_BRANCH ?= "yocto-6.6"
+LINUX_VERSION ?= "6.12.79"
+LINUX_RPI_BRANCH ?= "rpi-6.12.y"
+LINUX_RPI_KMETA_BRANCH ?= "yocto-6.12"
 
-SRCREV_machine = "c04af98514c26014a4f29ec87b3ece95626059bd"
-SRCREV_meta = "6a24861d6504575a4a9f92366285332d47c7e111"
+SRCREV_machine = "5f23da14d91d4ba66604ec75453564e4e2afc57e"
+SRCREV_meta = "50fc2fcce39b1abff6f5438f410b2ef015e10479"
 
 inherit siteinfo
 require recipes-kernel/linux/linux-yocto.inc
