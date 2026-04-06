@@ -22,6 +22,7 @@ SRC_URI = "\
 	file://download-igc.sh \
 	file://transfers.sh \
 	file://transfer-system.sh \
+	file://transfer-xcsoar.sh \
 	file://logbook.sh \
 	file://ov-calibrate-ts.sh \
 	file://system-info.sh \
@@ -44,6 +45,7 @@ do_install() {
 		${S}/download-igc.sh \
 		${S}/transfers.sh \
 		${S}/transfer-system.sh \
+		${S}/transfer-xcsoar.sh \
 		${S}/logbook.sh \
 		${S}/ov-calibrate-ts.sh \
 		${S}/system-info.sh \
@@ -52,6 +54,9 @@ do_install() {
 		${S}/image_backup.sh \
 		${D}${bindir}/
 	cd ${D}${bindir}
+	ln -s -r transfer-xcsoar.sh download-all.sh
+	ln -s -r transfer-xcsoar.sh upload-xcsoar.sh
+	ln -s -r transfer-xcsoar.sh upload-all.sh
 }
 
 FILES:${PN} = " \

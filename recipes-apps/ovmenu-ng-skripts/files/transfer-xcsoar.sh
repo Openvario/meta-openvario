@@ -23,10 +23,12 @@ case "$(basename "$0")" in
 		exit 1
 esac
 
-if [ ! -d "$SRC_PATH" ] || [ ! -d "$DEST_PATH" ]; then
-	>&2 echo "Source $SRC_PATH or destination path $DEST_PATH does not exist"
-	exit 1
+if [ ! -d "$SRC_PATH" ]; then
+	echo "No files to transfer."
+	exit 0
 fi
+
+mkdir -p "$DEST_PATH" || { >&2 echo "Cannot create $DEST_PATH"; exit 1; }
 
 if [ -z "$(find "$SRC_PATH" -type f | head -n 1 2>/dev/null)" ]; then
 	echo 'No files found !!!'
