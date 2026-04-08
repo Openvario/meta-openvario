@@ -1,24 +1,27 @@
-From b5828239d18011da049935fd9b0878f91ebda36d Mon Sep 17 00:00:00 2001
+From 3fbfb63ef803a12d464d9bc7244b03412f058706 Mon Sep 17 00:00:00 2001
 From: OpenEmbedded <oe.patch@oe>
-Date: Sat, 21 Dec 2024 17:25:51 +0000
-Subject: [PATCH] Added openvario overlays
+Date: Wed, 8 Apr 2026 15:46:24 +0000
+Subject: [PATCH] ARM: dts: overlays: add openvario overlay
 
 ---
  arch/arm/boot/dts/overlays/Makefile | 4 +++-
  1 file changed, 3 insertions(+), 1 deletion(-)
 
 diff --git a/arch/arm/boot/dts/overlays/Makefile b/arch/arm/boot/dts/overlays/Makefile
-index bdd02b8c6f0f..581c622a4026 100644
+index e32dd9dc89f1..091d4d753d4f 100644
 --- a/arch/arm/boot/dts/overlays/Makefile
 +++ b/arch/arm/boot/dts/overlays/Makefile
-@@ -324,7 +324,9 @@ dtbo-$(CONFIG_ARCH_BCM2835) += \
- 	waveshare-can-fd-hat-mode-a.dtbo \
- 	waveshare-can-fd-hat-mode-b.dtbo \
+@@ -365,7 +365,9 @@ dtbo-$(CONFIG_ARCH_BCM2835) += \
+ 	wifimac.dtbo \
  	wittypi.dtbo \
--	wm8960-soundcard.dtbo
-+	wm8960-soundcard.dtbo \
+ 	wm8960-soundcard.dtbo \
+-	ws2812-pio.dtbo
++	ws2812-pio.dtbo \
 +	ov-cm4-ch57.dtbo \
-+	ov-cm4-pq70.dtbo \
++	ov-cm4-pq70.dtbo 
  
  targets += dtbs dtbs_install
  targets += $(dtbo-y)
+-- 
+2.44.1
+
