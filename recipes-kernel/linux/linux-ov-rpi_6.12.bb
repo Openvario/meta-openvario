@@ -29,7 +29,7 @@ SRC_URI = "git://github.com/raspberrypi/linux.git;name=machine;branch=${LINUX_RP
            ${@bb.utils.contains("MACHINE_FEATURES", "wm8960", "file://wm8960.cfg", "", d)} \
            file://default-cpu-governor.cfg \
            file://rpi4-nvmem.cfg \
-           file://0001-Added-openvario-overlays.patch \
+           file://0001-ARM-dts-overlays-add-openvario-overlay.patch \
            file://ov-cm4-ch57-overlay.dts;subdir=git/arch/arm/boot/dts/overlays \
            file://ov-cm4-pq70-overlay.dts;subdir=git/arch/arm/boot/dts/overlays \
            file://rpi4-nvmem.cfg \
