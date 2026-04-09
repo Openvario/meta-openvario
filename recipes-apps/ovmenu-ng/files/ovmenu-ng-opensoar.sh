@@ -4,10 +4,7 @@ DEBUG_STOP=No
 
 INPUT=/tmp/menu.sh.$$
 DATADIR=$HOME/data
-USB_STICK=/usb/usbstick
-USB_OPENVARIO=$USB_STICK/openvario
 RECOVER_DIR=$HOME/recover_data
-DEBUG_LOG=$HOME/start-debug.log
 
 # trap and delete temp files
 trap "rm $INPUT;rm /tmp/tail.$$; exit" SIGHUP SIGINT SIGTERM
@@ -28,31 +25,6 @@ function debug_stop() {
 # this second resolve the 'blind shell' issue?
 sleep 1
 #=========================================================================
-source /home/config.uEnv
-# a hidden possibility to change this file with a file from the USB-DIR
-if [ -z "$1" ]; then
-  if [ "$0" = "/usr/bin/ovmenu-ng.sh" ]; then
-    echo "Call another ovmenu-ng.sh to change it 'on the fly'"
-    if [ -f "$USB_OPENVARIO/ovmenu-ng.sh" ]; then 
-      cp -vf "$USB_OPENVARIO/ovmenu-ng.sh" $HOME/
-      chmod 757 $HOME/ovmenu-ng.sh
-      echo "call '$HOME/ovmenu-ng.sh'"
-      $HOME/ovmenu-ng.sh "New Start"
-      echo "Extra ovmenu from '$USB_OPENVARIO'"
-      exit
-      debug_stop " exit after '$HOME/ovmenu-ng.sh'"
-    fi
-  fi
-fi
-
-#=========================================================================
-#=========================================================================
-#=========================================================================
-echo "begin startup.."
-echo "===============" 
-chmod -R 757 $HOME
-mv $HOME/start-debug-1.log $HOME/start-debug-2.log
-mv $DEBUG_LOG $HOME/start-debug-1.log
 source /boot/config.uEnv
 if [[ -z "$brightness" ]]; then 
   brightness=10
