@@ -18,6 +18,7 @@ RDEPENDS:${PN} = " \
 	bash \
 	dialog \
 	ovmenu-ng-skripts \
+	ov-system-init \
 	autofs-config \
 "
 
@@ -34,7 +35,7 @@ SRC_URI =      "\
 	file://openvario.rc \
 	file://${BPN}.service \
 	file://disable_dropbear.preset \
-	file://create_datapart.sh \
+
 "
 
 OVMENU_SRC = "${@bb.utils.contains('DISTRO_FEATURES', 'xcsoar', 'ovmenu-ng-xcsoar.sh', 'ovmenu-ng-opensoar.sh', d)}"
@@ -49,7 +50,6 @@ do_compile() {
 do_install() {
 	install -d ${D}${bindir}
 	install -m 0755 ${S}/${OVMENU_SRC} ${D}${bindir}/ovmenu-ng.sh
-	install -m 0755 ${S}/create_datapart.sh ${D}/${bindir}
 	install -d ${D}${ROOT_HOME}
 	install -d ${D}${ROOT_HOME}/.xcsoar
 	install -d ${D}${ROOT_HOME}/data  # mount dir for data partition!
@@ -71,7 +71,7 @@ SYSTEMD_SERVICE:${PN} = "${PN}.service"
 
 FILES:${PN} = " \
 	${bindir}/ovmenu-ng.sh \
-	${bindir}/create_datapart.sh \
+
 	${bindir}/ov-recovery.itb \
 	${ROOT_HOME}/.dialogrc \
 	${systemd_unitdir}/system-preset/50-disable_dropbear.preset \
