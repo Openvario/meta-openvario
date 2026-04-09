@@ -29,16 +29,14 @@ RCONFLICTS:${PN} = " \
 	ovmenu-ng-autostart \
 "
 
-SRC_URI =      "\
+SRC_URI = "\
+	file://ovmenu-ng.sh \
 	file://ovmenu-ng-opensoar.sh \
 	file://ovmenu-ng-xcsoar.sh \
 	file://openvario.rc \
 	file://${BPN}.service \
 	file://disable_dropbear.preset \
-
 "
-
-OVMENU_SRC = "${@bb.utils.contains('DISTRO_FEATURES', 'xcsoar', 'ovmenu-ng-xcsoar.sh', 'ovmenu-ng-opensoar.sh', d)}"
 
 
 addtask do_package_write_ipk after do_package
@@ -49,7 +47,9 @@ do_compile() {
 
 do_install() {
 	install -d ${D}${bindir}
-	install -m 0755 ${S}/${OVMENU_SRC} ${D}${bindir}/ovmenu-ng.sh
+	install -m 0755 ${S}/ovmenu-ng.sh ${D}${bindir}/ovmenu-ng.sh
+	install -m 0755 ${S}/ovmenu-ng-opensoar.sh ${D}${bindir}/ovmenu-ng-opensoar.sh
+	install -m 0755 ${S}/ovmenu-ng-xcsoar.sh ${D}${bindir}/ovmenu-ng-xcsoar.sh
 	install -d ${D}${ROOT_HOME}
 	install -d ${D}${ROOT_HOME}/.xcsoar
 	install -d ${D}${ROOT_HOME}/data  # mount dir for data partition!
@@ -71,7 +71,8 @@ SYSTEMD_SERVICE:${PN} = "${PN}.service"
 
 FILES:${PN} = " \
 	${bindir}/ovmenu-ng.sh \
-
+	${bindir}/ovmenu-ng-opensoar.sh \
+	${bindir}/ovmenu-ng-xcsoar.sh \
 	${bindir}/ov-recovery.itb \
 	${ROOT_HOME}/.dialogrc \
 	${systemd_unitdir}/system-preset/50-disable_dropbear.preset \

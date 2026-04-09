@@ -1,11 +1,20 @@
 #!/bin/bash
+# Sourced by ovmenu-ng.sh. Expects: do_shell(), start_app(), INPUT
 
 # Config
 TIMEOUT=3
-INPUT=/tmp/menu.sh.$$
 
-# trap and delete temp files
-trap "rm $INPUT;rm /tmp/tail.$$; exit" SIGHUP SIGINT SIGTERM
+# Seed XCSoar data directory from ~/.xcsoar/ (one-shot via mv).
+# Packages install defaults to ~/.xcsoar/, but XCSoar runs with
+# -datapath=data/XCSoarData on the data partition.
+XCSOAR_DATADIR=$HOME/data/XCSoarData
+if [ -d "$XCSOAR_DATADIR" ] && [ -d "$HOME/.xcsoar" ]; then
+    for f in "$HOME/.xcsoar/"*; do
+        echo "Seeding ${f##*/} -> XCSoarData/"
+        mv "$f" "$XCSOAR_DATADIR/"
+    done
+    rmdir "$HOME/.xcsoar" 2>/dev/null
+fi
 
 main_menu () {
 while true
@@ -26,7 +35,7 @@ do
 
 	# make decsion
 case $menuitem in
-	XCSoar) start_xcsoar;;
+	XCSoar) start_app; sync;;
 	File) submenu_file;;
 	System) submenu_system;;
 	Exit) yesno_exit;;
@@ -560,11 +569,6 @@ function upload_files(){
 	dialog --backtitle "OpenVario" --title "Result" --tailbox /tmp/tail.$$ 30 50
 }
 
-function start_xcsoar() {
-	/usr/bin/xcsoar -fly
-	sync
-}
-
 function yesno_exit(){
 	dialog --backtitle "Openvario" \
 	--begin 3 4 \
@@ -574,21 +578,7 @@ function yesno_exit(){
 	response=$?
 	case $response in
 		0)
-			clear
-			cd
-
-			# Redirecting stderr to stdout (= the console)
-			# because stderr is currently connected to
-			# systemd-journald, which breaks interactive
-			# shells.
-			if test -x /bin/bash; then
-				/bin/bash --login 2>&1
-			elif test -x /bin/ash; then
-				/bin/ash -i 2>&1
-			else
-				/bin/sh 2>&1
-			fi
-			;;
+			select_app;;
 	esac
 }
 
@@ -619,7 +609,7 @@ function yesno_power_off(){
 DIALOG_CANCEL=1 dialog --nook --nocancel --pause "Starting XCSoar ... \\n Press [ESC] for menu" 10 30 $TIMEOUT 2>&1
 
 case $? in
-	0) start_xcsoar;;
+	0) start_app; sync;;
 	*) main_menu;;
 esac
 main_menu
