@@ -73,4 +73,14 @@ else
 	echo "WARNING: Data partition could not be mounted" >&2
 fi
 
+# --- USB debug hook for field diagnostics ---
+# Source a script from a USB stick if present.  This allows in-field
+# debugging on an embedded device where SSH / serial is unavailable.
+# The script is sourced (not copied), so nothing persists after USB removal.
+USB_DEBUG_HOOK="/usb/usbstick/openvario/ov-debug-hook.sh"
+if [ -f "$USB_DEBUG_HOOK" ]; then
+	echo "WARNING: executing USB debug hook from $USB_DEBUG_HOOK"
+	source "$USB_DEBUG_HOOK"
+fi
+
 echo "System initialization complete"
