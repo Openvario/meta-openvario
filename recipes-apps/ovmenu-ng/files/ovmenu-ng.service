@@ -4,8 +4,11 @@ Description=OVMenu Next-Generation
 # No getty on tty1
 Conflicts=getty@tty1.service
 
-Wants=systemd-vconsole-setup.service
-After=systemd-vconsole-setup.service
+Wants=systemd-vconsole-setup.service ov-system-init.service
+After=systemd-vconsole-setup.service ov-system-init.service
+
+# Wait for psplash so the stop command below doesn't race it.
+After=psplash-start.service
 
 After=systemd-user-sessions.service plymouth-quit-wait.service getty-pre.target
 After=rc-local.service

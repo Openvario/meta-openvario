@@ -1,0 +1,15 @@
+[Unit]
+Description=OpenVario System Initialization
+After=local-fs.target boot.automount
+Wants=boot.automount
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/usr/bin/ov-system-init.sh
+Environment=HOME=/home/root
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target
