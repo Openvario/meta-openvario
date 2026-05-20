@@ -61,7 +61,7 @@ do_install() {
 	install -d ${D}${systemd_unitdir}/system-preset
 	install -m 0644 ${WORKDIR}/disable_dropbear.preset ${D}${systemd_unitdir}/system-preset/50-disable_dropbear.preset
 
-	if [ "${MACHINE}" = "sunxi" ]; then
+	if [ -f "${DEPLOY_DIR_IMAGE}/ov-recovery.itb" ]; then
 		install -m 0644 ${DEPLOY_DIR_IMAGE}/ov-recovery.itb ${D}/${bindir}
 	fi
 
