@@ -22,6 +22,8 @@ RDEPENDS:${PN} = " \
 	autofs-config \
 "
 
+RDEPENDS:${PN}:append:cubieboard2 = "${@bb.utils.contains('OV_RUNTIME_RECOVERY_ITB', '1', ' ov-recovery-itb', '', d)}"
+
 # the "autologin" package is obsolete and interferes with this one
 # the "autostart" package was merged into this one
 RCONFLICTS:${PN} = " \
@@ -37,7 +39,6 @@ SRC_URI = "\
 	file://${BPN}.service \
 	file://disable_dropbear.preset \
 "
-
 
 addtask do_package_write_ipk after do_package
 
@@ -61,10 +62,6 @@ do_install() {
 	install -d ${D}${systemd_unitdir}/system-preset
 	install -m 0644 ${WORKDIR}/disable_dropbear.preset ${D}${systemd_unitdir}/system-preset/50-disable_dropbear.preset
 
-	if [ -f "${DEPLOY_DIR_IMAGE}/ov-recovery.itb" ]; then
-		install -m 0644 ${DEPLOY_DIR_IMAGE}/ov-recovery.itb ${D}/${bindir}
-	fi
-
 }
 
 SYSTEMD_SERVICE:${PN} = "${PN}.service"
@@ -73,7 +70,6 @@ FILES:${PN} = " \
 	${bindir}/ovmenu-ng.sh \
 	${bindir}/ovmenu-ng-opensoar.sh \
 	${bindir}/ovmenu-ng-xcsoar.sh \
-	${bindir}/ov-recovery.itb \
 	${ROOT_HOME}/.dialogrc \
 	${systemd_unitdir}/system-preset/50-disable_dropbear.preset \
 	${ROOT_HOME}/.xcsoar/ \

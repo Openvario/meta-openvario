@@ -552,14 +552,18 @@ function start_upgrade() {
     fi
     echo "Start Upgrading with '$IMAGE_NAME'..."
     
-    # copy the ov-recovery.itb from HW folder for the next step!!!
+    # Prepare ov-recovery.itb for the next step.
+    # Legacy flow copied it from the HW folder on the USB stick; newer images
+    # may already ship /usr/bin/ov-recovery.itb and should use that copy.
     if [ -z "$TARGET_HW" ]; then
       TARGET_HW="CH57"
     fi 
 
     if [ -f "/usr/bin/ov-recovery.itb" ]; then
-      # this is the case with UPGRADE_TYPE = 1 | 3 (new base FW):
-      echo "'/usr/bin/ov-recovery.itb' is available" # AugTest
+      # Historically this usually matched UPGRADE_TYPE = 1 | 3 (new base FW).
+      # The actual condition is simply that the running image already ships the
+      # recovery ITB, so prefer that packaged copy when present.
+      echo "'/usr/bin/ov-recovery.itb' is available - using packaged recovery ITB" # AugTest
       # make a hardlink from in $HOME:
       ITB_TARGET=$HOME/ov-recovery.itb
       echo "ln -f /usr/bin/ov-recovery.itb $ITB_TARGET"
@@ -570,9 +574,10 @@ function start_upgrade() {
           exit
       fi
     else
-      # this is the case with UPGRADE_TYPE = 2 | 4 (old base FW):
-      echo "this is an old firmware"
-      # the USB-STICK has to be available:
+      # Historically this usually matched UPGRADE_TYPE = 2 | 4 (old base FW).
+      # If the running image does not ship ov-recovery.itb, fall back to the
+      # USB-provided recovery ITB in the hardware-specific image directory.
+      echo "no packaged recovery ITB, using USB-provided recovery ITB"
       ITB_TARGET=$USB_OPENVARIO/ov-recovery.itb
       # TestA: 
       ITB_TARGET=$HOME/ov-recovery.itb
