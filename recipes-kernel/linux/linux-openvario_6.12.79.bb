@@ -68,6 +68,7 @@ KMETA = ".kernel-meta"
 
 do_configure:prepend:sunxi() {
 	cp ${WORKDIR}/ov-cb2-*.dts ${S}/arch/arm/boot/dts/
+	cp ${WORKDIR}/ov-hdmi.dts ${S}/arch/arm/boot/dts/
 }
 
 FILES_${KERNEL_PACKAGE_NAME}-base:append = " ${nonarch_base_libdir}/modules/${KERNEL_VERSION}/modules.builtin.modinfo"
