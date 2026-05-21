@@ -52,7 +52,7 @@ function start_app() {
             /usr/bin/OpenSoar -fly -datapath=data/OpenSoarData
             ;;
         "xcsoar"|"XCSoar")
-            /usr/bin/xcsoar -fly -datapath=data/XCSoarData
+            /usr/bin/xcsoar -fly -touchscreen -datapath=data/XCSoarData
             ;;
         *)
             echo "Unknown main_app '$main_app'" >&2
