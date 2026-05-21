@@ -41,7 +41,6 @@ IMAGE_INSTALL = " \
     nano \
     openssh-sftp-server \
     tslib \
-    tslib-tests \
     tslib-uinput \
     tslib-conf \
     tslib-calibrate \
