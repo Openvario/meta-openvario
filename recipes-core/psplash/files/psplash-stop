@@ -1,0 +1,33 @@
+#!/bin/sh
+
+unit=psplash-start.service
+fifo=/run/psplash_fifo
+timeout_steps=10
+psplash_pid=$(systemctl show --property=MainPID --value "$unit" 2>/dev/null || true)
+
+if [ ! -e "$fifo" ]; then
+	exit 0
+fi
+
+echo QUIT > "$fifo" 2>/dev/null || exit 0
+
+case "$psplash_pid" in
+	""|0)
+		exit 0
+		;;
+esac
+
+if [ -z "$psplash_pid" ]; then
+	exit 0
+fi
+
+while kill -0 "$psplash_pid" 2>/dev/null; do
+	timeout_steps=$((timeout_steps - 1))
+	if [ "$timeout_steps" -le 0 ]; then
+		echo "psplash-stop: timed out waiting for psplash pid $psplash_pid to exit" >&2
+		exit 0
+	fi
+	sleep 0.1
+done
+
+exit 0
