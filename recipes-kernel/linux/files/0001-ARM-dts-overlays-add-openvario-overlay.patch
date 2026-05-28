@@ -4,24 +4,24 @@ Date: Wed, 8 Apr 2026 15:46:24 +0000
 Subject: [PATCH] ARM: dts: overlays: add openvario overlay
 
 ---
- arch/arm/boot/dts/overlays/Makefile | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ arch/arm/boot/dts/overlays/Makefile | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
 diff --git a/arch/arm/boot/dts/overlays/Makefile b/arch/arm/boot/dts/overlays/Makefile
 index e32dd9dc89f1..091d4d753d4f 100644
 --- a/arch/arm/boot/dts/overlays/Makefile
 +++ b/arch/arm/boot/dts/overlays/Makefile
-@@ -365,7 +365,9 @@ dtbo-$(CONFIG_ARCH_BCM2835) += \
+@@ -365,7 +365,10 @@ dtbo-$(CONFIG_ARCH_BCM2835) += \
  	wifimac.dtbo \
  	wittypi.dtbo \
  	wm8960-soundcard.dtbo \
 -	ws2812-pio.dtbo
 +	ws2812-pio.dtbo \
 +	ov-cm4-ch57.dtbo \
-+	ov-cm4-pq70.dtbo 
++	ov-cm4-pq70.dtbo \
++	ov-rpi4-ch57.dtbo
  
  targets += dtbs dtbs_install
  targets += $(dtbo-y)
 -- 
 2.44.1
-
