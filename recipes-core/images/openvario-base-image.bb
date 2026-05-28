@@ -48,8 +48,11 @@ IMAGE_INSTALL = " \
     ts-uinput-service \
     ${COMMON_WIFI_FIRMWARE_PACKAGES} \
     ${LOCALE_PACKAGES} \
-    fix-cpu-freq \
 	e2fsprogs-mke2fs \
+"
+
+IMAGE_INSTALL:append:cubieboard2 = " \
+    fix-cpu-freq \
 "
 
 IMAGE_INSTALL:append:rpi = " \
