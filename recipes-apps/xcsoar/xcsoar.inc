@@ -26,6 +26,7 @@ DEPENDS = "	\
 		c-ares \
 		fmt \
 		dbus \
+		sqlite3 \
 "
 
 RDEPENDS:${PN} = "\
