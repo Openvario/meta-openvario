@@ -1,6 +1,7 @@
 FILESEXTRAPATHS:prepend:ovlinux := "${THISDIR}/files:"
 
 SPLASH_IMAGES = "file://psplash-ovlinux-img.h;outsuffix=default"
+SPLASH_IMAGES:rpi = "file://psplash-ovlinux-img.h;outsuffix=default"
 
 SRC_URI += "file://psplash-rotation \
             file://psplash-start.service \
