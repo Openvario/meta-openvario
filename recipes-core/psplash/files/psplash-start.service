@@ -2,7 +2,6 @@
 Description=Start psplash boot splash screen
 DefaultDependencies=no
 RequiresMountsFor=/run
-RequiresMountsFor=/boot
 
 [Service]
 Type=notify
