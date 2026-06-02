@@ -13,6 +13,7 @@ IMAGE_INSTALL += "\
     sensord \
     variod \
     ovmenu-ng \
+    tslib-tests \
 "
 
 export IMAGE_BASENAME = "openvario-testing"

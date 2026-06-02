@@ -2,12 +2,11 @@
 Description=Start psplash boot splash screen
 DefaultDependencies=no
 RequiresMountsFor=/run
-RequiresMountsFor=/boot
 
 [Service]
 Type=notify
 ExecStart=/opt/bin/psplash-rotation
-ExecStop=/bin/sh -c 'echo QUIT > /run/psplash_fifo 2>/dev/null'
+ExecStop=/opt/bin/psplash-stop
 RemainAfterExit=yes
 
 [Install]

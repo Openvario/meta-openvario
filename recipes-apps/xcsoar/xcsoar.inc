@@ -43,7 +43,6 @@ PACKAGES:remove = "${PN}-locale"
 
 BOOST_FILE = "boost_${@'${BOOST_VERSION}'.replace('.','_')}.tar.bz2"
 SRC_URI += " \
-	file://0007-Disable-touch-screen-auto-detection.patch \
 	https://archives.boost.io/release/${BOOST_VERSION}/source/${BOOST_FILE};sha256sum=${BOOST_SHA256HASH};unpack=0 \
 "
 

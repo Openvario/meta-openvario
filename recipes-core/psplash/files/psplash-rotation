@@ -2,18 +2,33 @@
 
 # convert fbcon/rotate to degrees
 
-case "$(sed -n 's/^rotation=//p' /boot/config.uEnv | tr -d '"')" in
-	"3")
-		rotation=90
-		;;
-	"2")
-		rotation=180
-		;;
-	"1")
-		rotation=270
-		;;
-	*)
-		rotation=0
-		;;
-esac
+rotation=0
+
+# Keep psplash startup fast: avoid triggering /boot automount this early.
+if mountpoint -q /boot && [ -r /boot/config.uEnv ]; then
+	case "$(sed -n 's/^rotation=//p' /boot/config.uEnv | tr -d '"')" in
+		"3")
+			rotation=90
+			;;
+		"2")
+			rotation=180
+			;;
+		"1")
+			rotation=270
+			;;
+	esac
+elif grep -q 'fbcon=rotate:[0-3]' /proc/cmdline 2>/dev/null; then
+	case "$(grep -o 'fbcon=rotate:[0-3]' /proc/cmdline | sed 's/.*://')" in
+		"3")
+			rotation=90
+			;;
+		"2")
+			rotation=180
+			;;
+		"1")
+			rotation=270
+			;;
+	esac
+fi
+
 exec /usr/bin/psplash --angle "${rotation}"
