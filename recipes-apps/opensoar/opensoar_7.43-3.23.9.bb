@@ -5,7 +5,7 @@ PR="r23.9"
 
 require openvario.inc
 
-SRC_URI = "git://github.com/OpenSoaring/OpenSoar.git;protocol=https;branch=master " 
+SRC_URI = "git://github.com/Blaubart/OpenSoar.git;protocol=https;branch=master " 
 # OpenSoar Tag: v7.43-3.23.9
 SRCREV = "${AUTOREV}"
 
