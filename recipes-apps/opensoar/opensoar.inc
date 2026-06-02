@@ -69,7 +69,6 @@ BOOST_HASH = "${BOOST_SHA256HASH}"
 BOOST_FILE = "boost_${@'${BOOST_VERSION}'.replace('.','_')}.tar.bz2"
 SRC_URI += " \
 	file://0007-Disable-touch-screen-auto-detection.patch \
-	file://more_alternates.patch \
 	${BOOST_URL};sha256sum=${BOOST_HASH};unpack=0 \
 	${NETCDF_URL};sha256sum=${NETCDF_HASH};unpack=0 \
 	${NETCDF_CXX_URL};sha256sum=${NETCDF_CXX_HASH};unpack=0 \
