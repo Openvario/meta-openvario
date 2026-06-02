@@ -47,6 +47,10 @@ S = "${WORKDIR}/git"
 
 LC_LOCALE_PATH = "${datadir}/locale"
 
+# Keep .mo locale files in the main package instead of splitting into opensoar-locale-* sub-packages
+PACKAGE_NO_LOCALE = "1"
+PACKAGES:remove = "${PN}-locale"
+
 # LIBTIFF_URL = "http://download.osgeo.org/libtiff/tiff-4.6.0.tar.xz"
 # LIBTIFF_HASH="e178649607d1e22b51cf361dd20a3753f244f022eefab1f2f218fc62ebaf87d2"
 # PROJ_URL = "http://download.osgeo.org/proj/proj-9.3.1.tar.gz"
@@ -65,6 +69,7 @@ BOOST_HASH = "${BOOST_SHA256HASH}"
 BOOST_FILE = "boost_${@'${BOOST_VERSION}'.replace('.','_')}.tar.bz2"
 SRC_URI += " \
 	file://0007-Disable-touch-screen-auto-detection.patch \
+	file://more_alternates.patch \
 	${BOOST_URL};sha256sum=${BOOST_HASH};unpack=0 \
 	${NETCDF_URL};sha256sum=${NETCDF_HASH};unpack=0 \
 	${NETCDF_CXX_URL};sha256sum=${NETCDF_CXX_HASH};unpack=0 \
