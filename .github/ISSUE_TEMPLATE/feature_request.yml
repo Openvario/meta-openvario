@@ -1,0 +1,66 @@
+name: "🚀 Feature request"
+description: Suggest a feature that will improve OpenVario
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for taking the time to fill out this feature request.
+        Please describe the proposed change clearly so it can be evaluated for feasibility and priority.
+  - type: dropdown
+    id: feature-area
+    attributes:
+      label: Feature area
+      description: Select the area that best matches your proposal.
+      options:
+        - Hardware
+        - Firmware / Embedded
+        - Software / App
+        - Documentation
+      default: 1
+    validations:
+      required: true
+  - type: textarea
+    id: feature-description
+    attributes:
+      label: Describe the feature
+      description: A clear and concise description of the proposed improvement, including the use case and alternatives you have considered. If you already have a prototype or mock-up, please include it.
+      placeholder: Feature description
+    validations:
+      required: true
+  - type: textarea
+    id: motivation
+    attributes:
+      label: Motivation and use case
+      description: Explain why this feature would be useful and who would benefit from it.
+      placeholder: Motivation and use case
+    validations:
+      required: true
+  - type: textarea
+    id: implementation-notes
+    attributes:
+      label: Implementation notes
+      description: If relevant, add notes about hardware requirements, firmware changes, software impact, or compatibility concerns.
+      placeholder: Implementation notes
+  - type: textarea
+    id: related-issues
+    attributes:
+      label: Related issues (optional)
+      description: Link any related issues, pull requests, or discussion threads, if available.
+      placeholder: #123, #456
+  - type: checkboxes
+    id: additional-info
+    attributes:
+      label: Additional information
+      description: Additional information that helps us decide how to proceed.
+      options:
+        - label: Would you be willing to help implement this feature?
+        - label: Does this require both hardware and software changes?
+  - type: checkboxes
+    id: required-info
+    attributes:
+      label: Final checks
+      description: Before submitting, please make sure you do the following.
+      options:
+        - label: Check existing [issues](https://github.com/Openvario/meta-openvario/issues) and [discussions](https://github.com/Openvario/meta-openvario/discussions) for similar proposals.
+          required: true

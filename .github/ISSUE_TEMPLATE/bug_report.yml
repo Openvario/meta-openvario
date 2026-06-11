@@ -1,0 +1,79 @@
+name: "\U0001F41E Bug report"
+description: Create a report to help us improve OpenVario
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for helping improve OpenVario.
+        Please provide as much detail as possible so the issue can be triaged quickly.
+  - type: dropdown
+    id: issue-area
+    attributes:
+      label: Issue area
+      description: Select the area that best matches your report.
+      options:
+        - Hardware
+        - Firmware / Embedded
+        - Software / App
+        - Documentation
+      default: 1
+    validations:
+      required: true
+  - type: textarea
+    id: device
+    attributes:
+      label: Device / hardware version
+      description: Model, machine, connected hardware / peripherals, or other relevant identifiers.
+      placeholder: e.g. OpenVario, ov-cb-ch70, external GPS, sensor module
+    validations:
+      required: true
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: Include firmware version, software/app (e.g. XCSoar) version
+      placeholder: Firmware version, app version
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Steps to reproduce
+      description: List the exact steps to reproduce the issue.
+      placeholder: 1. Start the device...
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+      description: What did you expect to happen?
+      placeholder: Expected behavior
+    validations:
+      required: true
+  - type: textarea
+    id: bug-description
+    attributes:
+      label: Describe the bug
+      description: A clear and concise description of what the bug is. What happened instead? Include errors, symptoms, or unexpected outputs.
+      placeholder: Bug description
+    validations:
+      required: true
+  - type: textarea
+    id: additional
+    attributes:
+      label: Additional context
+      description: Add any pictures, wiring details, logs, or other useful context.
+  - type: textarea
+    id: related-issues
+    attributes:
+      label: Related issues
+      description: Link any related issues, pull requests, or discussion threads, if available.
+      placeholder: #123, #456
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs or output
+      description: Optional if possbile paste relevant logs, serial output, error messages, or stack traces.
+      render: shell-script
