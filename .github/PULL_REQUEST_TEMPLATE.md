@@ -1,4 +1,4 @@
-Thank you for contributing to Openvario!
+<!-- Thank you for contributing to Openvario!
 
 We truly appreciate your time and effort in making Openvario better. We know
 that contributing to an open-source project can be challenging, and we're
@@ -6,7 +6,7 @@ grateful that you've chosen to help.
 
 This checklist is here to help guide you through the submission process.
 Don't worry if you're not sure about something—feel free to ask questions
-or submit your PR, and we'll work together to get it ready.
+or submit your PR, and we'll work together to get it ready. -->
 
 ## Pre-Submission Checklist
 
