@@ -23,6 +23,11 @@ PREFERRED_PROVIDER_virtual/kernel = "linux-ov-rpi"
 
 SERIAL_CONSOLES ?= "115200;ttyS0"
 
+# Hold the CPU at turbo briefly during early boot to reduce startup latency.
+RPI_EXTRA_CONFIG:append = " \n\
+initial_turbo=5 \n\
+"
+
 #Enable u-boot
 RPI_USE_U_BOOT = "1"
 ENABLE_UART = "1"
