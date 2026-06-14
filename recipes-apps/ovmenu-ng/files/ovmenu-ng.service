@@ -40,7 +40,7 @@ ExecStartPre=-/bin/systemctl stop psplash-start
 # Run startup preparation after psplash and before ovmenu-ng takes tty1.
 ExecStartPre=/usr/bin/ov-system-init.sh
 ExecStart=/usr/bin/ovmenu-ng.sh
-Type=simple
+Type=idle
 Restart=always
 RestartSec=0
 
