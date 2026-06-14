@@ -9,7 +9,7 @@ SECTION = "base/app"
 S = "${WORKDIR}"
 require ov-revision.inc
 
-inherit allarch systemd
+inherit systemd
 
 SYSTEMD_AUTO_ENABLE = "disable"
 
@@ -36,6 +36,13 @@ do_install() {
 	install -m 0755 ${S}/create_datapart.sh ${D}${bindir}
 	install -d ${D}${systemd_unitdir}/system
 	install -m 0644 ${WORKDIR}/ov-system-init.service ${D}${systemd_unitdir}/system
+}
+
+do_install:append:cubieboard2() {
+	sed -i '2i\
+\
+# Cubieboard2 handover settle delay\
+sleep 1' ${D}${bindir}/ov-system-init.sh
 }
 
 SYSTEMD_SERVICE:${PN} = "ov-system-init.service"
