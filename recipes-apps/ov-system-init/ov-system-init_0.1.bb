@@ -11,6 +11,8 @@ require ov-revision.inc
 
 inherit allarch systemd
 
+SYSTEMD_AUTO_ENABLE = "disable"
+
 RDEPENDS:${PN} = " \
 	bash \
 	e2fsprogs-mke2fs \

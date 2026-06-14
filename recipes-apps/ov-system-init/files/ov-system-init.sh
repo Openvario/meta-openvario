@@ -1,23 +1,30 @@
 #!/bin/bash
-# ov-system-init.sh - One-shot system initialization for OpenVario
+# ov-system-init.sh - Startup preparation after psplash and before menu
 #
 # Sets display brightness, restores configuration after firmware upgrade,
 # and ensures the data partition (mmcblk0p3) is created and mounted.
 #
 # All operations are idempotent - safe to run if the system is already
 # initialized.
+# Keep this script free of extra file logging because it runs during the
+# psplash-to-menu handover on Cubieboard2.
 
 HOME=/home/root
 DATADIR=$HOME/data
+DEBUG_LOG=$HOME/start-debug.log
 RECOVER_DIR=$HOME/recover_data
+USB_DEBUG_HOOK=/usb/usbstick/openvario/ov-debug-hook.sh
 BOOT_CONFIG=/boot/config.uEnv
 
-# --- Logging: keep previous boot's log, start fresh ---
-OV_LOGFILE="$HOME/ov-system-init.log"
-cp -f "$OV_LOGFILE" "${OV_LOGFILE}.prev" 2>/dev/null
-exec > >(while IFS= read -r line; do
-	printf '%(%H:%M:%S)T %s\n' -1 "$line"
-done | tee "$OV_LOGFILE") 2>&1
+# --- USB debug hook for field diagnostics ---
+# Source a script from a USB stick if present. This allows in-field
+# debugging on an embedded device where SSH / serial is unavailable.
+# The script is sourced (not copied), so nothing persists after USB removal.
+if [ -f "$USB_DEBUG_HOOK" ]; then
+	echo "WARNING: executing USB debug hook from $USB_DEBUG_HOOK"
+	# shellcheck source=/dev/null
+	source "$USB_DEBUG_HOOK"
+fi
 
 # --- Load boot configuration ---
 if [ -f "$BOOT_CONFIG" ]; then
@@ -26,20 +33,21 @@ if [ -f "$BOOT_CONFIG" ]; then
 fi
 
 # --- Set display brightness ---
-brightness="${brightness:-10}"
 if [ -w /sys/class/backlight/lcd/brightness ]; then
-	echo "$brightness" > /sys/class/backlight/lcd/brightness
-	echo "Brightness set to $brightness"
+	echo "${brightness:-10}" > /sys/class/backlight/lcd/brightness
 fi
+
+cd "$HOME"
 
 # --- Post-upgrade config restore ---
 if [ -f "$RECOVER_DIR/upgrade.cfg" ]; then
-	echo "Restoring system configuration after upgrade"
-	# update-system-config.sh uses DATADIR without defining it
-	export HOME DATADIR
-	/usr/bin/update-system-config.sh
+	echo "Update system config"
+	export HOME DEBUG_LOG
+	DATADIR="$DATADIR" /usr/bin/update-system-config.sh
 elif [ ! -f "$RECOVER_DIR/_upgrade.cfg" ]; then
-	echo "No upgrade configuration found"
+	echo "upgrade.cfg not found"
+else
+	echo "only backup config found"
 fi
 
 # --- Create data partition if it does not exist ---
@@ -67,20 +75,7 @@ if ! mountpoint -q "$DATADIR"; then
 fi
 
 if mountpoint -q "$DATADIR"; then
-	echo "Data partition mounted at $DATADIR"
 	mkdir -p "$DATADIR/OpenSoarData" "$DATADIR/XCSoarData"
-else
-	echo "WARNING: Data partition could not be mounted" >&2
 fi
 
-# --- USB debug hook for field diagnostics ---
-# Source a script from a USB stick if present.  This allows in-field
-# debugging on an embedded device where SSH / serial is unavailable.
-# The script is sourced (not copied), so nothing persists after USB removal.
-USB_DEBUG_HOOK="/usb/usbstick/openvario/ov-debug-hook.sh"
-if [ -f "$USB_DEBUG_HOOK" ]; then
-	echo "WARNING: executing USB debug hook from $USB_DEBUG_HOOK"
-	source "$USB_DEBUG_HOOK"
-fi
-
-echo "System initialization complete"
+exit 0
