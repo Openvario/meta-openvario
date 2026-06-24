@@ -8,56 +8,60 @@ INPUT=/tmp/menu.sh.$$
 trap "rm $INPUT;rm /tmp/tail.$$; exit" SIGHUP SIGINT SIGTERM
 
 main_menu () {
-while true
-do
+    while true
+    do
 	### display main menu ###
 	dialog --clear --nocancel --backtitle "OpenVario" \
 	--title "[ M A I N - M E N U ]" \
 	--begin 3 4 \
 	--menu "You can use the UP/DOWN arrow keys" 15 50 6 \
-	XCSoar   "Start XCSoar" \
-	File   "Copys file to and from OpenVario" \
-	System   "Update, Settings, ..." \
-	Exit   "Exit to the shell" \
-	Restart "Restart" \
+	XCSoar    "Start XCSoar" \
+	File      "Copys file to and from OpenVario" \
+	System    "Update, Settings, ..." \
+	Exit      "Exit to the shell" \
+	Restart   "Restart" \
 	Power_OFF "Power OFF" 2>"${INPUT}"
 
 	menuitem=$(<"${INPUT}")
 
 	# make decsion
-case $menuitem in
-	XCSoar) start_xcsoar;;
-	File) submenu_file;;
-	System) submenu_system;;
-	Exit) yesno_exit;;
-	Restart) yesno_restart;;
+	case $menuitem in
+	XCSoar)    start_xcsoar;;
+	File)      submenu_file;;
+	System)    submenu_system;;
+	Exit)      yesno_exit;;
+	Restart)   yesno_restart;;
 	Power_OFF) yesno_power_off;;
-esac
-
-done
+	esac
+    done
 }
 
 function submenu_file() {
-
 	### display file menu ###
 	dialog --nocancel --backtitle "OpenVario" \
 	--title "[ F I L E ]" \
 	--begin 3 4 \
 	--menu "You can use the UP/DOWN arrow keys" 15 50 4 \
 	Download_IGC   "Download XCSoar IGC files to USB" \
-	Download   "Download XCSoar to USB" \
-	Upload   "Upload files from USB to XCSoar" \
-	Back   "Back to Main" 2>"${INPUT}"
+	Update_Maps    "Update Maps" \
+	Upload_XCSoar  "Update or upload XCSoar files" \
+	Backup         "Backup XCSoar and OV settings" \
+	Restore        "Restore XCSoar and OV settings" \
+	Restore_XCSoar "Restore only XCSoar settings" \
+	Back           "Back to Main" 2>"${INPUT}"
 
 	menuitem=$(<"${INPUT}")
 
 	# make decsion
 	case $menuitem in
-		Download_IGC) download_igc_files;;
-		Download) download_files;;
-		Upload) upload_files;;
-		Exit) ;;
-esac
+		Download_IGC)   download_igc_files;;
+		Update_Maps)    update_maps_files;;
+		Upload_XCSoar)  upload_xcsoar_files;;
+		Backup)         backup_files;;
+		Restore)        restore_files;;
+		Restore_XCSoar) restore_xcsoar_files;;
+		Back) ;;
+	esac
 }
 
 function submenu_system() {
@@ -66,13 +70,12 @@ function submenu_system() {
 	--title "[ S Y S T E M ]" \
 	--begin 3 4 \
 	--menu "You can use the UP/DOWN arrow keys" 15 50 6 \
-	Update_System   "Update system software" \
-	Update_Maps   "Update Maps files" \
-	Calibrate_Sensors   "Calibrate Sensors" \
+	Update_System     "Update system software" \
+	Calibrate_Sensors "Calibrate Sensors" \
 	Calibrate_Touch   "Calibrate Touch" \
-	Settings   "System Settings" \
-	Information "System Info" \
-	Back   "Back to Main" 2>"${INPUT}"
+	Settings          "System Settings" \
+	Information       "System Info" \
+	Back              "Back to Main" 2>"${INPUT}"
 
 	menuitem=$(<"${INPUT}")
 
@@ -80,9 +83,6 @@ function submenu_system() {
 	case $menuitem in
 		Update_System)
 			update_system
-			;;
-		Update_Maps)
-			update_maps
 			;;
 		Calibrate_Sensors)
 			calibrate_sensors
@@ -96,34 +96,13 @@ function submenu_system() {
 		Information)
 			show_info
 			;;
-		Exit) ;;
+		Back) ;;
 	esac
 }
 
-function show_info() {
-	### collect info of system
-	XCSOAR_VERSION=$(opkg list-installed xcsoar | awk -F' ' '{print $3}')
-	XCSOAR_MAPS_VERSION=$(opkg list-installed | grep "xcsoar-maps-" | awk -F' ' '{print $3}')
-	IMAGE_VERSION=$(cat /etc/os-release | grep VERSION_ID | awk -F'=' -F'"' '{print $2}')
-	SENSORD_VERSION=$(opkg list-installed sensord* | awk -F' ' '{print $3}')
-	VARIOD_VERSION=$(opkg list-installed variod* | awk -F' ' '{print $3}')
-	IP_ETH0=$(/sbin/ifconfig eth0 | grep 'inet addr:' | cut -d: -f2 | awk '{ print $1}')
-	IP_WLAN=$(/sbin/ifconfig wlan0 | grep 'inet addr:' | cut -d: -f2 | awk '{ print $1}')
-
-	dialog --backtitle "OpenVario" \
-	--title "[ S Y S T E M I N F O ]" \
-	--begin 3 4 \
-	--msgbox " \
-	\n \
-	Image: $IMAGE_VERSION\n \
-	XCSoar: $XCSOAR_VERSION\n \
-	Maps: $XCSOAR_MAPS_VERSION\n \
-	sensord: $SENSORD_VERSION\n \
-	variod: $VARIOD_VERSION\n \
-	IP eth0: $IP_ETH0\n \
-	IP wlan0: $IP_WLAN\n \
-	" 15 50
-
+function show_info() { 
+	/usr/bin/system-info.sh > /tmp/tail.$$ &
+	dialog --backtitle "OpenVario" --title "Result" --tailbox /tmp/tail.$$ 30 50
 }
 
 function submenu_settings() {
@@ -132,11 +111,11 @@ function submenu_settings() {
 	--title "[ S Y S T E M ]" \
 	--begin 3 4 \
 	--menu "You can use the UP/DOWN arrow keys" 15 50 5 \
-	Display_Rotation 	"Set rotation of the display" \
-	LCD_Brightness		"Set display brightness" \
-	XCSoar_Language 	"Set language used for XCSoar" \
-	SSH			"Enable or disable SSH" \
-	Back   "Back to Main" 2>"${INPUT}"
+	Display_Rotation "Set rotation of the display" \
+	LCD_Brightness   "Set display brightness" \
+	XCSoar_Language  "Set language used for XCSoar" \
+	SSH              "Enable or disable SSH" \
+	Back             "Back to Main" 2>"${INPUT}"
 
 	menuitem=$(<"${INPUT}")
 
@@ -206,9 +185,9 @@ function submenu_ssh() {
 		--begin 3 4 \
 		--default-item "${state}" \
 		--menu "SSH access is currently ${state}." 15 50 4 \
-		enabled "Enable SSH permanently" \
+		enabled   "Enable SSH permanently" \
 		temporary "Enable SSH temporarily (until reboot)" \
-		disabled "Disable SSH" \
+		disabled  "Disable SSH" \
 		2>"${INPUT}"
 	menuitem=$(<"${INPUT}")
 
@@ -225,8 +204,8 @@ function submenu_ssh() {
 }
 
 function submenu_lcd_brightness() {
-while [ $? -eq 0 ]
-do
+     while [ $? -eq 0 ]
+     do
 	menuitem=$(</sys/class/backlight/lcd/brightness)
 	dialog --backtitle "OpenVario" \
 	--title "LCD brightness" \
@@ -246,8 +225,8 @@ do
 	9 "" \
 	10 "Bright" \
 	2>/sys/class/backlight/lcd/brightness
-done
-	submenu_settings
+     done
+     submenu_settings
 }
 
 function submenu_rotation() {
@@ -279,7 +258,6 @@ function submenu_rotation() {
 }
 
 function update_system() {
-
 	echo "Updating System ..." > /tmp/tail.$$
 	opkg update &>/dev/null
 	OPKG_UPDATE=$(opkg list-upgradable)
@@ -291,7 +269,7 @@ function update_system() {
 
 	response=$?
 	case $response in
-		0) opkg upgrade &>/tmp/tail.$$
+		0) opkg upgrade &>/tmp/tail.$$ # TODO shouldn't it be "&>>" ?
 		sync
 		dialog --backtitle "OpenVario" --title "Result" --tailbox /tmp/tail.$$ 30 50
 		;;
@@ -299,7 +277,6 @@ function update_system() {
 }
 
 function calibrate_sensors() {
-
 	dialog --backtitle "Openvario" \
 	--begin 3 4 \
 	--defaultno \
@@ -311,9 +288,9 @@ function calibrate_sensors() {
 		*) return 0
 	esac
 
-	echo "Calibrating Sensors ..." >> /tmp/tail.$$
+	echo "Calibrating Sensors ..." >> /tmp/tail.$$ # TODO shouldn't it be ">" ?
 	systemctl stop variod.service sensord.socket 'sensord@*.service'
-	/opt/bin/sensorcal -c > /tmp/tail.$$
+	/opt/bin/sensorcal -c > /tmp/tail.$$ # TODO shouldn't it be ">>" ?
 
 	if [ $? -eq 2 ]
 	then
@@ -325,10 +302,10 @@ function calibrate_sensors() {
 
 		response=$?
 		case $response in
-			0) /opt/bin/sensorcal -i > /tmp/tail.$$
+			0) /opt/bin/sensorcal -i > /tmp/tail.$$ # TODO shouldn't it be ">>" ?
 			;;
 		esac
-		echo "Please run sensorcal again !!!" > /tmp/tail.$$
+		echo "Please run sensorcal again !!!" > /tmp/tail.$$ # TODO shouldn't it be ">>" ?
 	fi
 	sync
 	dialog --backtitle "OpenVario" --title "Result" --tailbox /tmp/tail.$$ 30 50
@@ -336,23 +313,16 @@ function calibrate_sensors() {
 }
 
 function calibrate_touch() {
-	echo "Calibrating Touch ..." >> /tmp/tail.$$
+	echo "Calibrating Touch ..." >> /tmp/tail.$$ # TODO shouldn't it be ">" ?
 	/usr/bin/ov-calibrate-ts.sh >> /tmp/tail.$$
 	dialog --msgbox "Calibration OK!" 10 50
 }
 
 # Copy /usb/usbstick/openvario/maps to /home/root/.xcsoar
 # Copy only xcsoar-maps*.ipk and *.xcm files
-function update_maps() {
+function update_maps_files() {
 	echo "Updating Maps ..." > /tmp/tail.$$
 	/usr/bin/update-maps.sh >> /tmp/tail.$$ 2>/dev/null &
-	dialog --backtitle "OpenVario" --title "Result" --tailbox /tmp/tail.$$ 30 50
-}
-
-# Copy /home/root/.xcsoar to /usb/usbstick/openvario/download/xcsoar
-function download_files() {
-	echo "Downloading files ..." > /tmp/tail.$$
-	/usr/bin/download-all.sh >> /tmp/tail.$$ &
 	dialog --backtitle "OpenVario" --title "Result" --tailbox /tmp/tail.$$ 30 50
 }
 
@@ -362,10 +332,27 @@ function download_igc_files() {
 	/usr/bin/download-igc.sh
 }
 
-# Copy /usb/usbstick/openvario/upload to /home/root/.xcsoar
-function upload_files(){
-	echo "Uploading files ..." > /tmp/tail.$$
-	/usr/bin/upload-xcsoar.sh >> /tmp/tail.$$ &
+# Copy XCSoar and OpenVario settings to /usb/usbstick/openvario/backup/<MAC address of eth0>
+function backup_files() { 
+	/usr/bin/backup-system.sh > /tmp/tail.$$ &
+	dialog --backtitle "OpenVario" --title "Result" --tailbox /tmp/tail.$$ 30 50
+}
+
+# Copy /usb/usbstick/openvario/upload/xcsoar to /home/root/.xcsoar
+function upload_xcsoar_files() { 
+	/usr/bin/upload-xcsoar.sh > /tmp/tail.$$ &
+	dialog --backtitle "OpenVario" --title "Result" --tailbox /tmp/tail.$$ 30 50
+}
+
+# Copy XCSoar and OpenVario settings from /usb/usbstick/openvario/backup/<MAC address of eth0>
+function restore_files(){
+	/usr/bin/restore-system.sh > /tmp/tail.$$ &
+	dialog --backtitle "OpenVario" --title "Result" --tailbox /tmp/tail.$$ 30 50
+}
+
+# Copy /usb/usbstick/openvario/backup/<MAC address of eth0>/home/root/.xcsoar to /home/root/.xcsoar
+function restore_xcsoar_files(){
+	/usr/bin/restore-xcsoar.sh > /tmp/tail.$$ &
 	dialog --backtitle "OpenVario" --title "Result" --tailbox /tmp/tail.$$ 30 50
 }
 

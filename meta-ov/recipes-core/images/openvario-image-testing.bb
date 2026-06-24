@@ -8,7 +8,7 @@ IMAGE_INSTALL += "\
     xcsoar-menu \
     xcsoar-profiles \
     xcsoar-maps-default \
-    sensord-testing\
+    sensord-testing \
     variod-testing \
     ovmenu-ng \
 "
