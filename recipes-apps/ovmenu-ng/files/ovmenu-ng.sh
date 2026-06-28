@@ -59,11 +59,7 @@ function start_app() {
             return 1
             ;;
     esac
-    local rc=$?
-    # Reclaim text console after framebuffer app exits or crashes
-    chvt 2; chvt 1
-    dd if=/dev/fb0 of=/dev/fb0 bs=4096 count=375 conv=notrunc 2>/dev/null
-    return $rc
+    return $?
 }
 
 # App selector dialog - lets the user pick an app or drop to a shell.
