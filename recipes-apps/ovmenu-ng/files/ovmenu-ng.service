@@ -4,8 +4,8 @@ Description=OVMenu Next-Generation
 # No getty on tty1
 Conflicts=getty@tty1.service
 
-Wants=systemd-vconsole-setup.service
-After=systemd-vconsole-setup.service
+Wants=systemd-vconsole-setup.service ov-system-init.service
+After=systemd-vconsole-setup.service ov-system-init.service
 
 # Wait for psplash so the stop command below doesn't race it.
 After=psplash-start.service
@@ -37,8 +37,6 @@ After=boot.automount
 [Service]
 # Stop psplash before starting the menu.
 ExecStartPre=-/bin/systemctl stop psplash-start
-# Run startup preparation after psplash and before ovmenu-ng takes tty1.
-ExecStartPre=/usr/bin/ov-system-init.sh
 ExecStart=/usr/bin/ovmenu-ng.sh
 Type=idle
 Restart=always
