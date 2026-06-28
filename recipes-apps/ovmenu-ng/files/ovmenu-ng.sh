@@ -67,15 +67,15 @@ function start_app() {
 function select_app() {
     clear
 
-    # On first boot, give a 60s countdown defaulting to OpenSoar.
+    # On first boot, give a 60s countdown defaulting to XCSoar.
     # Users without a touchscreen cannot interact with the menu.
     if [ -z "$main_app" ]; then
         dialog --nook --nocancel --backtitle "OpenVario" \
-                --pause "Starting OpenSoar in 60 seconds...\n\nPress [ESC] to select a different application." \
+                --pause "Starting XCSoar in 60 seconds...\n\nPress [ESC] to select a different application." \
         12 50 60 2>&1
         if [ $? -eq 0 ]; then
-            # Timeout expired — default to OpenSoar
-            main_app="OpenSoar"
+            # Timeout expired — default to XCSoar
+            main_app="xcsoar"
             echo "main_app=$main_app" >> /boot/config.uEnv
             exec /usr/bin/ovmenu-ng.sh
         fi
