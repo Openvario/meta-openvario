@@ -37,6 +37,8 @@ After=boot.automount
 [Service]
 # Stop psplash before starting the menu.
 ExecStartPre=-/bin/systemctl stop psplash-start
+# Ensure ovmenu-ng starts on the dedicated local console.
+ExecStartPre=-/usr/bin/chvt 1
 ExecStart=/usr/bin/ovmenu-ng.sh
 Type=idle
 Restart=always
@@ -52,6 +54,7 @@ IgnoreSIGPIPE=no
 SendSIGHUP=yes
 
 StandardInput=tty
+StandardOutput=tty
 StandardError=journal
 
 Slice=user.slice
