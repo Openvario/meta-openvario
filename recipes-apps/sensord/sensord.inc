@@ -13,7 +13,10 @@ inherit systemd
 
 SRC_URI += " \
 	file://sensord.service \
+	file://sensord-hw-present.sh \
 "
+
+RDEPENDS:${PN} += "i2c-tools"
 
 do_compile() {
 	oe_runmake
@@ -26,6 +29,9 @@ do_install() {
 	install -m 0755 ${S}/sensorcal ${D}/opt/bin
 	install -m 0755 ${S}/sensord.conf ${D}/opt/conf/sensord.conf
 
+	install -d ${D}${bindir}
+	install -m 0755 ${WORKDIR}/sensord-hw-present.sh ${D}${bindir}/sensord-hw-present.sh
+
 	install -d ${D}${systemd_unitdir}/system
 	install -m 0644 ${WORKDIR}/sensord.service ${D}${systemd_unitdir}/system
 }
@@ -37,6 +43,7 @@ FILES:${PN} = "\
         /opt/bin/sensord \
         /opt/bin/sensorcal \
         /opt/conf/sensord.conf \
+        ${bindir}/sensord-hw-present.sh \
         ${systemd_unitdir}/system/sensord.service \
 "
 

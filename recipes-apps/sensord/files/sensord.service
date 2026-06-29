@@ -2,6 +2,7 @@
 Description=Sensor Daemon for Openvario Sensorboard
 
 [Service]
+ExecCondition=/usr/bin/sensord-hw-present.sh
 ExecStart=/opt/bin/sensord -f -c /opt/conf/sensord.conf
 Restart=on-abort
 
