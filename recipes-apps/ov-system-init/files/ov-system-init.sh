@@ -15,12 +15,20 @@ DEBUG_LOG=$HOME/start-debug.log
 RECOVER_DIR=$HOME/recover_data
 USB_DEBUG_HOOK=/usb/usbstick/openvario/ov-debug-hook.sh
 BOOT_CONFIG=/boot/config.uEnv
+USB_MOUNTPOINT=/usb/usbstick
+
+is_path_mounted() {
+	awk -v target="$1" '
+		$2 == target && $3 != "autofs" { mounted = 1 }
+		END { exit !mounted }
+	' /proc/self/mounts
+}
 
 # --- USB debug hook for field diagnostics ---
 # Source a script from a USB stick if present. This allows in-field
 # debugging on an embedded device where SSH / serial is unavailable.
 # The script is sourced (not copied), so nothing persists after USB removal.
-if [ -f "$USB_DEBUG_HOOK" ]; then
+if is_path_mounted "$USB_MOUNTPOINT" && [ -f "$USB_DEBUG_HOOK" ]; then
 	echo "WARNING: executing USB debug hook from $USB_DEBUG_HOOK"
 	# shellcheck source=/dev/null
 	source "$USB_DEBUG_HOOK"
