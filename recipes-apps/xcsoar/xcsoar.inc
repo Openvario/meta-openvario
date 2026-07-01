@@ -17,6 +17,8 @@ DEPENDS = "	\
 		jpeg \
 		freetype \
 		libpng \
+		tiff \
+		libgeotiff \
 		glm \
 		virtual/egl \
 		virtual/mesa \
@@ -64,7 +66,6 @@ EXTRA_OEMAKE = " \
 	\
 	DEBUG=n DEBUG_GLIBCXX=n \
 	ENABLE_MESA_KMS=y GLES2=y \
-	GEOTIFF=n \
 "
 
 do_configure() {
