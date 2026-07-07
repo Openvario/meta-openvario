@@ -284,10 +284,10 @@ function yesno_power_off(){
 	esac
 }
 
-DIALOG_CANCEL=1 dialog --nook --nocancel --pause "Starting XCSoar ... \\n Press [ESC] for menu" 10 30 $TIMEOUT 2>&1
+DIALOG_ESC=42 dialog --nook --nocancel --pause "Starting XCSoar ... \\n Press [ESC] for menu" 10 30 $TIMEOUT 2>&1
 
 case $? in
-	0) start_app; sync;;
-	*) main_menu;;
+	42) main_menu;;
+	*) start_app; sync;;
 esac
 main_menu
