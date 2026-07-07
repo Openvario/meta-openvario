@@ -16,6 +16,7 @@ RDEPENDS:${PN} = " \
 	e2fsprogs-mke2fs \
 	e2fsprogs-resize2fs \
 	ovmenu-ng-skripts \
+	ov-system-settings-sync \
 "
 
 SRC_URI = " \

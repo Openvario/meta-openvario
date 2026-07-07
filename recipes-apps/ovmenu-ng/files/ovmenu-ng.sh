@@ -59,7 +59,13 @@ function start_app() {
             return 1
             ;;
     esac
-    return $?
+
+    local rc=$?
+    case "$main_app" in
+        "xcsoar"|"XCSoar") clear ;;
+    esac
+    /usr/bin/sync-display-config.sh 2>/dev/null || true
+    return "$rc"
 }
 
 # App selector dialog - lets the user pick an app or drop to a shell.
