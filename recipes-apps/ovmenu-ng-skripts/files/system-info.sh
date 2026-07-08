@@ -7,11 +7,15 @@
 # Changed by August2111,      2023-11-07
 #
 
+pkg_version() {
+	opkg list-installed "$1" 2>/dev/null | cut -d ' - ' -f 3
+}
+
 # collect info of system and more installed packages
 IMAGE_VERSION=$(cat /etc/os-release | grep VERSION_ID | cut -d '=' -f 2)
 KERNEL_VERSION=$(uname -r)
-# aug deletet XCSOAR_MAPS_VERSION=$(opkg list-installed xcsoar-maps* | cut -d '-' -f 4)
-XCSOAR_MENU=$(opkg list-installed xcsoar-menu* | cut -d '-' -f 3)
+# aug deletet XCSOAR_MAPS_VERSION=$(pkg_version xcsoar-maps*)
+XCSOAR_MENU=$(pkg_version xcsoar-menu)
 IP_ETH0=$(ip route | grep eth0 | head -n 1 | cut -d ' ' -f 8)
 MAC=`ip li|grep -A 1 eth0|tail -n 1|cut -d ' ' -f 6`
 HOSTNAME=$(cat /etc/hostname)
@@ -47,33 +51,33 @@ echo ' Image: '$IMAGE_VERSION
 echo ' Kernel: '$KERNEL_VERSION
 
 # collect info of installed packages, depending of testing or stable version is used
-if [ -n "$(opkg list-installed xcsoar-testing)" ]
+if [ -n "$(pkg_version opensoar-testing)" ]
 then
-	OPENSOAR_VERSION=$(opkg list-installed opensoar-testing | cut -d ' - ' -f 3)
+	OPENSOAR_VERSION=$(pkg_version opensoar-testing)
 	echo " OpenSoar: '$OPENSOAR_VERSION' (testing)"
 else
-	OPENSOAR_VERSION=$(opkg list-installed opensoar         | cut -d '-'   -f 2)
+	OPENSOAR_VERSION=$(pkg_version opensoar)
 	echo " OpenSoar: '$OPENSOAR_VERSION'"
 fi
 
-if [ -n "$(opkg list-installed xcsoar-testing)" ]
+if [ -n "$(pkg_version xcsoar-testing)" ]
 then
-	XCSOAR_VERSION=$(opkg list-installed xcsoar-testing | cut -d ' - ' -f 3)
+	XCSOAR_VERSION=$(pkg_version xcsoar-testing)
 	echo " XCSoar: '$XCSOAR_VERSION' (testing)"
 else
-	XCSOAR_VERSION=$(opkg list-installed xcsoar         | cut -d '-'   -f 2)
+	XCSOAR_VERSION=$(pkg_version xcsoar)
 	echo " XCSoar: '$XCSOAR_VERSION'"
 fi
 
 # echo ' Maps:'$XCSOAR_MAPS_VERSION
 echo ' Menu:'$XCSOAR_MENU
 
-if [ -n "$(opkg list-installed sensord-testing)" ] 
+if [ -n "$(pkg_version sensord-testing)" ]
 then
-	SENSORD_VERSION=$(opkg list-installed sensord-testing | cut -d ' - ' -f 3)
+	SENSORD_VERSION=$(pkg_version sensord-testing)
 	echo ' sensord-testing: '$SENSORD_VERSION
 else
-	SENSORD_VERSION=$(opkg list-installed sensord         | cut -d '-'   -f 2)
+	SENSORD_VERSION=$(pkg_version sensord)
 	echo ' sensord:'$SENSORD_VERSION
 fi
 
