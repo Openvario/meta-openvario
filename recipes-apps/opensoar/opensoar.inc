@@ -41,6 +41,7 @@ DEPENDS_RESERVE = " \
 
 RDEPENDS:${PN} = "\
         ttf-dejavu-sans-condensed \
+        variod \
 "
 
 S = "${WORKDIR}/git"

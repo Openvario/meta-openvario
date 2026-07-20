@@ -11,7 +11,6 @@ IMAGE_INSTALL += "\
     xcsoar-maps-default \
     caltool \
     sensord \
-    variod \
     ovmenu-ng \
     tslib-tests \
 "
