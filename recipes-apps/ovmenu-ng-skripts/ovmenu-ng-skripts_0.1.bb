@@ -8,7 +8,7 @@ LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/${LICENSE};md5=c79ff39f19dfec6d
 SECTION = "base/app"
 
 S = "${WORKDIR}"
-PR = "r11"
+PR = "r12"
 
 inherit allarch
 
@@ -19,10 +19,8 @@ RDEPENDS:${PN} = " \
 "
 
 SRC_URI = "\
-	file://download-igc.sh \
 	file://transfers.sh \
 	file://transfer-system.sh \
-	file://transfer-xcsoar.sh \
 	file://logbook.sh \
 	file://ov-calibrate-ts.sh \
 	file://system-info.sh \
@@ -42,10 +40,8 @@ do_install() {
 	echo "Installing ..."
 	install -d ${D}${bindir}
 	install -m 0755 \
-		${S}/download-igc.sh \
 		${S}/transfers.sh \
 		${S}/transfer-system.sh \
-		${S}/transfer-xcsoar.sh \
 		${S}/logbook.sh \
 		${S}/ov-calibrate-ts.sh \
 		${S}/system-info.sh \
@@ -53,10 +49,6 @@ do_install() {
 		${S}/update-system-config.sh \
 		${S}/image_backup.sh \
 		${D}${bindir}/
-	cd ${D}${bindir}
-	ln -s -r transfer-xcsoar.sh download-all.sh
-	ln -s -r transfer-xcsoar.sh upload-xcsoar.sh
-	ln -s -r transfer-xcsoar.sh upload-all.sh
 }
 
 FILES:${PN} = " \

@@ -36,7 +36,7 @@ do
 	# make decsion
 case $menuitem in
 	XCSoar) start_app; sync;;
-	File) submenu_file;;
+	File) managed_in_xcsoar;;
 	System) submenu_system;;
 	Exit) yesno_exit;;
 	Restart) yesno_restart;;
@@ -46,27 +46,10 @@ esac
 done
 }
 
-function submenu_file() {
-
-	### display file menu ###
-	dialog --nocancel --backtitle "OpenVario" \
-	--title "[ F I L E ]" \
-	--begin 3 4 \
-	--menu "You can use the UP/DOWN arrow keys" 15 50 4 \
-	Download_IGC   "Download XCSoar IGC files to USB" \
-	Download   "Download XCSoar to USB" \
-	Upload   "Upload files from USB to XCSoar" \
-	Back   "Back to Main" 2>"${INPUT}"
-
-	menuitem=$(<"${INPUT}")
-
-	# make decsion
-	case $menuitem in
-		Download_IGC) download_igc_files;;
-		Download) download_files;;
-		Upload) upload_files;;
-		Exit) ;;
-esac
+function managed_in_xcsoar() {
+	dialog --backtitle "OpenVario" \
+		--title "[ X C S O A R ]" \
+		--msgbox "This function is now managed in XCSoar." 8 50
 }
 
 function submenu_system() {
@@ -122,13 +105,13 @@ function submenu_settings() {
 	# make decsion
 	case $menuitem in
 		Display_Rotation)
-			submenu_rotation
+			managed_in_xcsoar
 			;;
 		LCD_Brightness)
-			submenu_lcd_brightness
+			managed_in_xcsoar
 			;;
 		XCSoar_Language)
-			submenu_xcsoar_lang
+			managed_in_xcsoar
 			;;
 		SSH)
 			submenu_ssh
@@ -162,40 +145,6 @@ function show_info() {
 	" 15 50
 }
 
-function submenu_xcsoar_lang() {
-	if test -n "$LANG"; then
-		XCSOAR_LANG="$LANG"
-	else
-		XCSOAR_LANG="system"
-	fi
-
-	dialog --nocancel --backtitle "OpenVario" \
-		--title "[ S Y S T E M ]" \
-		--begin 3 4 \
-		--menu "Actual Setting is $XCSOAR_LANG \nSelect Language:" 15 50 12 \
-		 system "Default system" \
-		 de_DE.UTF-8 "German" \
-		 fr_FR.UTF-8 "France" \
-		 it_IT.UTF-8 "Italian" \
-		 hu_HU.UTF-8 "Hungary" \
-		 pl_PL.UTF-8 "Poland" \
-		 cs_CZ.UTF-8 "Czech" \
-		 sk_SK.UTF-8 "Slowak" \
-		 lt_LT.UTF-8 "Lithuanian" \
-		 ru_RU.UTF-8 "Russian" \
-		 es_ES.UTF-8 "Espanol" \
-		 nl_NL.UTF-8 "Dutch" \
-		 2>"${INPUT}"
-
-	menuitem=$(<"${INPUT}")
-
-	# update config
-	localectl set-locale "$menuitem"
-	sync
-
-	export LANG="$menuitem"
-}
-
 function submenu_ssh() {
 	if /bin/systemctl --quiet is-enabled dropbear.socket; then
 		local state=enabled
@@ -226,107 +175,6 @@ function submenu_ssh() {
 			/bin/systemctl disable --now dropbear.socket
 		fi
 	fi
-}
-
-function submenu_lcd_brightness() {
-while [ $? -eq 0 ]
-do
-	menuitem=$(</sys/class/backlight/lcd/brightness)
-	dialog --backtitle "OpenVario" \
-	--title "LCD brightness" \
-	--cancel-label Back \
-	--ok-label Set \
-	--default-item "${menuitem}" \
-	--menu "Brightness value" \
-	17 50 10 \
-	1 "Dark" \
-	2 "" \
-	3 "" \
-	4 "" \
-	5 "Medium" \
-	6 "" \
-	7 "" \
-	8 "" \
-	9 "" \
-	10 "Bright" \
-	2>/sys/class/backlight/lcd/brightness
-done
-	submenu_settings
-}
-
-function submenu_rotation() {
-	UENV=/boot/config.uEnv
-	CMDLINE=/boot/cmdline.txt
-
-	# prefer sysfs rotate_all then rotate
-	if [ -w /sys/class/graphics/fbcon/rotate_all ]; then
-		SYS_ROT=/sys/class/graphics/fbcon/rotate_all
-	elif [ -w /sys/class/graphics/fbcon/rotate ]; then
-		SYS_ROT=/sys/class/graphics/fbcon/rotate
-	else
-		SYS_ROT=""
-	fi
-
-	# detect primary persistent config: prefer file that already has a rotation setting
-	PRIMARY=""
-	if [ -f "$UENV" ] && grep -q '^rotation=' "$UENV"; then
-		PRIMARY="$UENV"
-	elif [ -f "$CMDLINE" ] && grep -q 'fbcon=rotate:' "$CMDLINE"; then
-		PRIMARY="$CMDLINE"
-	elif [ -f "$UENV" ]; then
-		PRIMARY="$UENV"
-	elif [ -f "$CMDLINE" ]; then
-		PRIMARY="$CMDLINE"
-	fi
-
-	# read current rotation
-	current=0
-	if [ -n "$PRIMARY" ]; then
-		if [ "$PRIMARY" = "$UENV" ]; then
-			current=$(sed -n 's/^rotation=//p' "$UENV" | tr -d '"' 2>/dev/null || echo 0)
-		else
-			current=$(grep -o 'fbcon=rotate:[0-3]' "$CMDLINE" 2>/dev/null | sed 's/.*://' || echo 0)
-		fi
-	elif [ -n "$SYS_ROT" ] && [ -r "$SYS_ROT" ]; then
-		current=$(cat "$SYS_ROT" 2>/dev/null || echo 0)
-	fi
-	case "$current" in [0-3]) ;; *) current=0 ;; esac
-
-	dialog --nocancel --backtitle "OpenVario" \
-		--title "[ S Y S T E M ]" \
-		--default-item "${current}" \
-		--menu "Select Rotation:" 15 50 4 \
-		 0 "Landscape 0 deg" \
-		 1 "Portrait 90 deg" \
-		 2 "Landscape 180 deg" \
-		 3 "Portrait 270 deg" 2>"${INPUT}"
-
-	menuitem=$(<"${INPUT}")
-	[ -z "$menuitem" ] && return 0
-
-	# persist to the detected primary config
-	if [ -n "$PRIMARY" ]; then
-		if [ "$PRIMARY" = "$UENV" ]; then
-			if grep -q '^rotation=' "$UENV"; then
-				sed -i 's/^rotation=.*/rotation='"$menuitem"'/' "$UENV"
-			else
-				echo "rotation=$menuitem" >> "$UENV"
-			fi
-		else
-			if grep -q 'fbcon=rotate:' "$CMDLINE"; then
-				sed -i 's/fbcon=rotate:[0-3]/fbcon=rotate:'"$menuitem"'/g' "$CMDLINE"
-			else
-				sed -i '1s/$/ fbcon=rotate:'"$menuitem"'/' "$CMDLINE"
-			fi
-		fi
-	fi
-
-	# apply live via sysfs
-	if [ -n "$SYS_ROT" ]; then
-		echo "$menuitem" > "$SYS_ROT" 2>/dev/null || true
-	fi
-
-	dialog --msgbox "New Setting saved !!\nTouch recalibration required !!" 10 50
 }
 
 function update_system() {
@@ -397,28 +245,6 @@ function calibrate_touch() {
 	echo "Calibrating Touch ..." >> /tmp/tail.$$
 	/usr/bin/ov-calibrate-ts.sh >> /tmp/tail.$$
 	dialog --msgbox "Calibration OK!" 10 50
-}
-
-# Copy /home/root/.xcsoar to /usb/usbstick/openvario/download/xcsoar
-function download_files() {
-	echo "Downloading files ..." > /tmp/tail.$$
-	/usr/bin/download-all.sh >> /tmp/tail.$$ 2>&1 &
-	dialog --backtitle "OpenVario" --title "Result" --tailbox /tmp/tail.$$ 30 50
-}
-
-# Copy /home/root/.xcsoar/logs to /usb/usbstick/openvario/igc
-# Copy only *.igc files
-function download_igc_files() {
-	echo "Downloading IGC files ..." > /tmp/tail.$$
-	/usr/bin/download-igc.sh download-igc xcsoar >> /tmp/tail.$$ 2>&1 &
-	dialog --backtitle "OpenVario" --title "Result" --tailbox /tmp/tail.$$ 30 50
-}
-
-# Copy /usb/usbstick/openvario/upload to /home/root/.xcsoar
-function upload_files(){
-	echo "Uploading files ..." > /tmp/tail.$$
-	/usr/bin/upload-xcsoar.sh >> /tmp/tail.$$ 2>&1 &
-	dialog --backtitle "OpenVario" --title "Result" --tailbox /tmp/tail.$$ 30 50
 }
 
 function yesno_exit(){

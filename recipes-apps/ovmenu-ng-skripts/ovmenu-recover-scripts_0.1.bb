@@ -8,7 +8,7 @@ LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/${LICENSE};md5=c79ff39f19dfec6d
 SECTION = "base/app"
 
 S = "${WORKDIR}"
-PR = "r11"
+PR = "r12"
 
 inherit allarch
 
@@ -19,7 +19,6 @@ RDEPENDS:${PN} = " \
 "
 
 SRC_URI = "\
-	file://download-igc.sh \
 	file://logbook.sh \
 	file://ov-calibrate-ts.sh \
 	file://system-info.sh \
@@ -40,7 +39,6 @@ do_install() {
 	echo "Installing ..."
 	install -d ${D}${bindir}
 	install -m 0755 \
-		${S}/download-igc.sh \
 		${S}/logbook.sh \
 		${S}/ov-calibrate-ts.sh \
 		${S}/system-info.sh \
