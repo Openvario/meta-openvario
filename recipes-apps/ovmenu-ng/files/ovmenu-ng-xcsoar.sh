@@ -362,6 +362,11 @@ function calibrate_sensors() {
 		*) return 0
 	esac
 
+	local restart_variod=false
+	if systemctl --quiet is-active variod.service; then
+		restart_variod=true
+	fi
+
 	echo "Calibrating Sensors ..." >> /tmp/tail.$$
 	systemctl stop variod.service sensord.socket 'sensord@*.service'
 	/opt/bin/sensorcal -c > /tmp/tail.$$
@@ -383,7 +388,9 @@ function calibrate_sensors() {
 	fi
 	sync
 	dialog --backtitle "OpenVario" --title "Result" --tailbox /tmp/tail.$$ 30 50
-	systemctl restart variod.service
+	if $restart_variod; then
+		systemctl restart variod.service
+	fi
 }
 
 function calibrate_touch() {

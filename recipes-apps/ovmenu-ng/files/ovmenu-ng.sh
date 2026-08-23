@@ -68,6 +68,18 @@ function start_app() {
     return "$rc"
 }
 
+# Update variod only when the user changes the selected application.
+function configure_variod_for_app() {
+    case "$1" in
+        "OpenSoar")
+            systemctl enable --now variod.service 2>/dev/null || true
+            ;;
+        "xcsoar"|"XCSoar")
+            systemctl disable --now variod.service 2>/dev/null || true
+            ;;
+    esac
+}
+
 # App selector dialog - lets the user pick an app or drop to a shell.
 # If a new app is selected, persist it and re-exec the dispatcher.
 function select_app() {
@@ -83,6 +95,7 @@ function select_app() {
             # Timeout expired — default to XCSoar
             main_app="xcsoar"
             echo "main_app=$main_app" >> /boot/config.uEnv
+            configure_variod_for_app "$main_app"
             exec /usr/bin/ovmenu-ng.sh
         fi
     fi
@@ -110,6 +123,7 @@ function select_app() {
         else
             echo "main_app=$new_app" >> /boot/config.uEnv
         fi
+        configure_variod_for_app "$new_app"
     fi
 
     # Re-exec the dispatcher with the new selection
