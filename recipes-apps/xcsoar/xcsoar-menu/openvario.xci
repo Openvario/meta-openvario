@@ -21,10 +21,9 @@ event=Setup Alternates
 event=Mode default
 
 # -------------
-# Quickmenu: Vario menu and OpenVario system buttons
-# Vario at location=18 replaces standalone MacCready,
+# Quickmenu: Vario menu
+# Vario at location=19 replaces upstream MacCready,
 # which is still accessible inside the Vario_menu
-# Quit/Reboot/Shutdown use locations 61-63 (beyond default.xci range)
 # -------------
 
 mode=RemoteStick
@@ -32,33 +31,7 @@ type=key
 data=0
 event=Mode Vario_menu
 label=Vario
-location=18
-
-# OpenVario only:
-mode=RemoteStick
-type=key
-data=0
-event=Shutdown reboot
-event=Mode default
-label=Reboot
-location=61
-
-# OpenVario only:
-mode=RemoteStick
-type=key
-data=0
-event=Shutdown shutdown
-event=Mode default
-label=Shutdown
-location=62
-
-mode=RemoteStick
-type=key
-data=0
-event=Exit system
-event=Mode default
-label=Quit
-location=63
+location=19
 
 
 # -------------

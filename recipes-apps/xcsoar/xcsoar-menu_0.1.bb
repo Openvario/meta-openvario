@@ -8,7 +8,7 @@ LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/${LICENSE};md5=c79ff39f19dfec6d
 SECTION = "base/app"
 
 S = "${WORKDIR}"
-PR = "r6"
+PR = "r7"
 
 SRC_URI =      "\
 	file://openvario.xci \
@@ -26,4 +26,3 @@ do_install() {
 }
 
 FILES:${PN} = "${ROOT_HOME}/.xcsoar/*"
-
