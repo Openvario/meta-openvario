@@ -1,0 +1,10 @@
+[Match]
+Type=wlan
+
+[Link]
+# ConnMan reacts to RTM_NEWLINK before udev's predictable-name rename.  Keeping
+# the kernel name avoids racing wpa_supplicant interface creation against a
+# wlan0 -> wlu* rename when a USB Wi-Fi adapter is hotplugged.
+NamePolicy=
+AlternativeNamesPolicy=
+MACAddressPolicy=none

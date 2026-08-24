@@ -37,6 +37,7 @@ IMAGE_INSTALL = " \
     tslib-calibrate \
     touch-udev-rules \
     ts-uinput-service \
+    openvario-wifi-link \
     ${COMMON_WIFI_FIRMWARE_PACKAGES} \
     ${LOCALE_PACKAGES} \
 	e2fsprogs-mke2fs \
