@@ -1,0 +1,8 @@
+[Unit]
+Description=Sync OpenVario display settings to /boot/config.uEnv
+After=boot.automount
+Wants=boot.automount
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/sync-display-config.sh

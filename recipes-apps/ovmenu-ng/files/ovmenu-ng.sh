@@ -59,7 +59,25 @@ function start_app() {
             return 1
             ;;
     esac
-    return $?
+
+    local rc=$?
+    case "$main_app" in
+        "xcsoar"|"XCSoar") clear ;;
+    esac
+    /usr/bin/sync-display-config.sh 2>/dev/null || true
+    return "$rc"
+}
+
+# Update variod only when the user changes the selected application.
+function configure_variod_for_app() {
+    case "$1" in
+        "OpenSoar")
+            systemctl enable --now variod.service 2>/dev/null || true
+            ;;
+        "xcsoar"|"XCSoar")
+            systemctl disable --now variod.service 2>/dev/null || true
+            ;;
+    esac
 }
 
 # App selector dialog - lets the user pick an app or drop to a shell.
@@ -67,16 +85,17 @@ function start_app() {
 function select_app() {
     clear
 
-    # On first boot, give a 60s countdown defaulting to OpenSoar.
+    # On first boot, give a 60s countdown defaulting to XCSoar.
     # Users without a touchscreen cannot interact with the menu.
     if [ -z "$main_app" ]; then
         dialog --nook --nocancel --backtitle "OpenVario" \
-                --pause "Starting OpenSoar in 60 seconds...\n\nPress [ESC] to select a different application." \
+                --pause "Starting XCSoar in 60 seconds...\n\nPress [ESC] to select a different application." \
         12 50 60 2>&1
         if [ $? -eq 0 ]; then
-            # Timeout expired — default to OpenSoar
-            main_app="OpenSoar"
+            # Timeout expired — default to XCSoar
+            main_app="xcsoar"
             echo "main_app=$main_app" >> /boot/config.uEnv
+            configure_variod_for_app "$main_app"
             exec /usr/bin/ovmenu-ng.sh
         fi
     fi
@@ -104,6 +123,7 @@ function select_app() {
         else
             echo "main_app=$new_app" >> /boot/config.uEnv
         fi
+        configure_variod_for_app "$new_app"
     fi
 
     # Re-exec the dispatcher with the new selection

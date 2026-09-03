@@ -21,18 +21,9 @@ COMMON_WIFI_FIRMWARE_PACKAGES = " \
     linux-firmware-rtl8821 \
 "
 
+# Keep only the English glibc locale backend in the base image.
 LOCALE_PACKAGES = " \
     locale-base-en-us \
-    locale-base-de-de \
-    locale-base-es-es \
-    locale-base-fr-fr \
-    locale-base-it-it \
-    locale-base-hu-hu \
-    locale-base-pl-pl \
-    locale-base-cs-cz \
-    locale-base-sk-sk \
-    locale-base-ru-ru \
-    locale-base-lt-lt \
 "
 
 IMAGE_INSTALL = " \
@@ -46,6 +37,7 @@ IMAGE_INSTALL = " \
     tslib-calibrate \
     touch-udev-rules \
     ts-uinput-service \
+    openvario-wifi-link \
     ${COMMON_WIFI_FIRMWARE_PACKAGES} \
     ${LOCALE_PACKAGES} \
 	e2fsprogs-mke2fs \

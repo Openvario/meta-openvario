@@ -4,10 +4,26 @@
 # -------------
 
 # -------------
-# Quickmenu: Vario menu and OpenVario system buttons
-# Vario at location=18 replaces standalone MacCready,
+# Preserve the OpenVario remote firmware bindings.
+# F5 opens the waypoint chooser; F6 opens Alternates.
+# -------------
+
+mode=default
+type=key
+data=F5
+event=GotoLookup
+event=Mode default
+
+mode=default
+type=key
+data=F6
+event=Setup Alternates
+event=Mode default
+
+# -------------
+# Quickmenu: Vario menu
+# Vario at location=19 replaces upstream MacCready,
 # which is still accessible inside the Vario_menu
-# Quit/Reboot/Shutdown use locations 61-63 (beyond default.xci range)
 # -------------
 
 mode=RemoteStick
@@ -15,74 +31,47 @@ type=key
 data=0
 event=Mode Vario_menu
 label=Vario
-location=18
-
-# OpenVario only:
-mode=RemoteStick
-type=key
-data=0
-event=Shutdown reboot
-event=Mode default
-label=Reboot
-location=61
-
-# OpenVario only:
-mode=RemoteStick
-type=key
-data=0
-event=Shutdown shutdown
-event=Mode default
-label=Shutdown
-location=62
-
-mode=RemoteStick
-type=key
-data=0
-event=Exit system
-event=Mode default
-label=Quit
-location=63
+location=19
 
 
 # -------------
-# Vario_menu: POV vario control
-# Vario app must be connected as device A
+# Vario_menu: XCSoar audio vario control
 # -------------
 
 mode=Vario_menu
 type=key
 data=UP
-event=SendNMEAPort1 POV,C,VU
+event=VarioVolume up
 label=VOLUME+ (UP)
 location=1
 
 mode=Vario_menu
 type=key
 data=DOWN
-event=SendNMEAPort1 POV,C,VD
+event=VarioVolume down
 label=VOLUME- (DOWN)
 location=2
 
 mode=Vario_menu
 type=key
 data=RETURN
-event=SendNMEAPort1 POV,C,VM
+event=VarioVolume mute
 label=VOLUME ON/OFF (ENT)
 location=3
 
 mode=Vario_menu
 type=key
 data=S
-event=SendNMEAPort1 POV,C,STF
-event=StatusMessage Speed to Fly Mode
+event=VarioAudioMode show
+event=VarioAudioMode stf
 label=STF
 location=5
 
 mode=Vario_menu
 type=key
 data=V
-event=SendNMEAPort1 POV,C,VAR
-event=StatusMessage Vario Mode
+event=VarioAudioMode show
+event=VarioAudioMode vario
 label=VARIO
 location=6
 
@@ -109,22 +98,10 @@ location=9
 
 
 # -------------
-# Automatic vario / speed to fly switch
-# Uncomment the following lines if you want to use automatic switching
-# Vario app must be connected as device A
+# Automatic vario / speed to fly switching is available by selecting
+# "Auto" in XCSoar's Audio Vario settings. It can also be selected from
+# an input binding with the event "VarioAudioMode auto".
 # -------------
-
-# mode=default
-# type=gce
-# data=FLIGHTMODE_CLIMB
-# event=SendNMEAPort1 POV,C,VAR
-# event=StatusMessage Vario Mode
-
-# mode=default
-# type=gce
-# data=FLIGHTMODE_CRUISE
-# event=SendNMEAPort1 POV,C,STF
-# event=StatusMessage Speed to Fly Mode
 
 # -------------
 # Vario / speed to fly with switch on remote stick
@@ -134,14 +111,14 @@ location=9
 mode=default
 type=key
 data=V
-event=SendNMEAPort1 POV,C,VAR
-event=StatusMessage Vario Mode
+event=VarioAudioMode show
+event=VarioAudioMode vario
 
 mode=default
 type=key
 data=S
-event=SendNMEAPort1 POV,C,STF
-event=StatusMessage Speed to Fly Mode
+event=VarioAudioMode show
+event=VarioAudioMode stf
 
 mode=default RemoteStick
 type=key

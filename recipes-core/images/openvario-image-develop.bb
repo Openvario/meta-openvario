@@ -9,7 +9,6 @@ IMAGE_INSTALL += "\
     xcsoar-maps-default \
     caltool \
     sensord \
-    variod \
     ovmenu-ng \
     dtc \
     i2c-tools \

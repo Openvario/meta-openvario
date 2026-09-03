@@ -19,6 +19,7 @@ DEPENDS = "	\
 		libpng \
 		tiff \
 		libgeotiff \
+		libnetcdf \
 		glm \
 		virtual/egl \
 		virtual/mesa \

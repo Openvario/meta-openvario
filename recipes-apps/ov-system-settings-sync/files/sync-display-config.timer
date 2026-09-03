@@ -1,0 +1,11 @@
+[Unit]
+Description=Periodically sync OpenVario display settings
+
+[Timer]
+OnBootSec=5min
+OnUnitActiveSec=5min
+AccuracySec=30s
+Unit=sync-display-config.service
+
+[Install]
+WantedBy=timers.target
