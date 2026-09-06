@@ -3,9 +3,19 @@ python () {
     import os.path
 
     try:
-        parentRepo = os.path.dirname(d.getVar("COREBASE", True))
-        version = subprocess.check_output(["git", "describe", "--tags", "--dirty"], cwd = parentRepo, stderr = subprocess.DEVNULL).strip().decode('UTF-8')
+        # Get the path to the meta-openvario layer
+        layerdir = d.getVar('LAYERDIR_meta-openvario')
+        
+        # Get the Git revision from the meta-openvario layer
+        version = subprocess.check_output(
+            ["git", "describe", "--tags", "--dirty"],
+            cwd=layerdir,
+            stderr=subprocess.DEVNULL
+        ).strip().decode("utf-8")
+
+        # Set the IMAGE_VERSION_SUFFIX variable to the Git revision
         d.setVar("IMAGE_VERSION_SUFFIX", version)
-    except:
-        bb.warn("Could not get Git revision, image will have default version.")
+        
+    except Exception as e:
+        bb.warn("Could not get Git revision from meta-openvario: %s" % e)
 }
