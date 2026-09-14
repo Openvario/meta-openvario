@@ -1,0 +1,25 @@
+From: OpenVario maintainers <maintainers@openvario.org>
+Subject: [PATCH] Fix array deallocation in NcGroup
+
+NcGroup::getName() allocates charName with new[], so release it with delete[]
+to avoid undefined behaviour.
+
+Upstream-Status: Pending
+
+---
+ cxx4/ncGroup.cpp | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/cxx4/ncGroup.cpp b/cxx4/ncGroup.cpp
+index 1680129..2b7e94e 100644
+--- a/cxx4/ncGroup.cpp
++++ b/cxx4/ncGroup.cpp
+@@ -104,7 +104,7 @@ string NcGroup::getName(bool fullName) const {
+     char* charName= new char[lenp+1];
+     ncCheck(nc_inq_grpname_full(myId,&lenp,charName),__FILE__,__LINE__);
+     groupName = charName;
+-    delete charName;
++    delete[] charName;
+   }
+   else {
+     // return the (local) name of this group.
