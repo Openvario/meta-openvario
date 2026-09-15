@@ -25,6 +25,7 @@ DEPENDS = "	\
 		virtual/libgles2 \
 		alsa-lib \
 		libsodium \
+		sqlite3 \
 		c-ares \
 		fmt \
 		dbus \
