@@ -12,9 +12,9 @@ SRC_URI = "git://github.com/XCSoar/XCSoar.git;protocol=https;branch=master \
 
 inherit systemd
 
-# dev branch is: boost 1.90:
-BOOST_VERSION = "1.90.0"
-BOOST_SHA256HASH = "49551aff3b22cbc5c5a9ed3dbc92f0e23ea50a0f7325b0d198b705e8ee3fc305"
+# XCSoar master requires Boost 1.92:
+BOOST_VERSION = "1.92.0"
+BOOST_SHA256HASH = "5c1d40cb8e19adbf740a4ec2da35b3e58f3f5804b1dce44deb53df72193cbc6c"
 
 require xcsoar.inc
 
