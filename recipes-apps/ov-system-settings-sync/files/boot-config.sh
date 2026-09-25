@@ -8,12 +8,14 @@ SETTINGS_COMMON=${SETTINGS_COMMON:-/usr/libexec/openvario/settings-common.sh}
 
 
 render_boot_config() {
-  awk -F= -v brightness="$brightness" -v rotation="$rotation" '
+  awk -F= -v brightness="$brightness" -v rotation="$rotation" -v main_app="$main_app" '
       BEGIN {
         keys[1] = "brightness"
         values["brightness"] = brightness
         keys[2] = "rotation"
         values["rotation"] = rotation
+        keys[3] = "main_app"
+        values["main_app"] = main_app
       }
       ($1 in values) && values[$1] != "" {
         if (!seen[$1]) print $1 "=" values[$1]
@@ -22,7 +24,7 @@ render_boot_config() {
       }
       { print }
       END {
-        for (i = 1; i <= 2; i++)
+        for (i = 1; i <= 3; i++)
           if (values[keys[i]] != "" && !seen[keys[i]])
             print keys[i] "=" values[keys[i]]
       }
@@ -34,6 +36,7 @@ project_boot_config() {
 
   brightness=
   rotation=
+  main_app=
 
   if [ -e "$BRIGHTNESS_FILE" ]; then
     brightness=$(ov_read_unsigned_file "$BRIGHTNESS_FILE") || {
@@ -49,9 +52,16 @@ project_boot_config() {
     }
   fi
 
+  if [ -e "$MAIN_APP_FILE" ]; then
+    main_app=$(ov_read_application_file "$MAIN_APP_FILE") || {
+      echo "Persistent application selection is invalid." >&2
+      return 1
+    }
+  fi
 
   [ -n "$brightness" ] ||
-    [ -n "$rotation" ] || return 0
+    [ -n "$rotation" ] ||
+    [ -n "$main_app" ] || return 0
 
   input=/dev/null
   [ -f "$BOOT_CONFIG_FILE" ] && input=$BOOT_CONFIG_FILE

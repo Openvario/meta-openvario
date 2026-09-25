@@ -58,4 +58,8 @@ if ! /usr/bin/restore-display-config.sh; then
   echo "Persistent display settings could not be restored." >&2
 fi
 
+if ! /usr/bin/main-app-config.sh restore; then
+  echo "Persistent application selection could not be restored." >&2
+fi
+
 exit 0

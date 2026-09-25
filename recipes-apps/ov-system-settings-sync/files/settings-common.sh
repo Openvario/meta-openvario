@@ -35,6 +35,19 @@ ov_read_rotation_file() {
   esac
 }
 
+ov_normalize_application() {
+  case $1 in
+    OpenSoar) printf '%s\n' OpenSoar ;;
+    xcsoar|XCSoar) printf '%s\n' xcsoar ;;
+    *) return 1 ;;
+  esac
+}
+
+ov_read_application_file() {
+  value=$(ov_read_trimmed_file "$1") || return 1
+  ov_normalize_application "$value"
+}
+
 ov_write_state() {
   destination=$1
   value=$2

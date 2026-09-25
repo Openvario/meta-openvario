@@ -41,4 +41,12 @@ for rotation in 4 01 -1 invalid; do
     printf '%s\n' "$rotation" > "$workspace/value"
     if ov_read_rotation_file "$workspace/value"; then exit 1; fi
 done
+test "$(ov_normalize_application XCSoar)" = xcsoar
+test "$(ov_normalize_application xcsoar)" = xcsoar
+test "$(ov_normalize_application OpenSoar)" = OpenSoar
+printf ' OpenSoar \n' > "$workspace/value"
+test "$(ov_read_application_file "$workspace/value")" = OpenSoar
+if ov_normalize_application unknown; then exit 1; fi
+printf 'unknown\n' > "$workspace/value"
+if ov_read_application_file "$workspace/value"; then exit 1; fi
 printf '%s\n' 'Shared settings reader: zero, whitespace, invalid and missing values passed.'
