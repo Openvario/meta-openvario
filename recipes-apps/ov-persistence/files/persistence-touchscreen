@@ -1,0 +1,37 @@
+#!/bin/sh
+# SPDX-License-Identifier: GPL-3.0-only
+
+set -eu
+
+# shellcheck source=/dev/null
+. "${OV_PATHS:-/usr/libexec/openvario/paths.sh}" || exit 1
+MOUNTPOINT_CMD=${OV_MOUNTPOINT:-/bin/mountpoint}
+UDEVADM_CMD=${OV_UDEVADM:-/usr/bin/udevadm}
+
+if ! "$MOUNTPOINT_CMD" -q "$DATA_DIR"; then
+  echo "Persistent data is not mounted at $DATA_DIR." >&2
+  exit 1
+fi
+
+POINTERCAL_LINK=${POINTERCAL_LINK:-/etc/pointercal}
+LIBINPUT_RULE_LINK=${LIBINPUT_RULE_LINK:-/etc/udev/rules.d/libinput-ts.rules}
+
+mkdir -p "$TOUCHSCREEN_DIR" "$(dirname "$LIBINPUT_RULE_LINK")" || exit 1
+chmod 0700 "$TOUCHSCREEN_DIR" || exit 1
+ln -sfn "$POINTERCAL_FILE" "$POINTERCAL_LINK" || exit 1
+ln -sfn "$LIBINPUT_RULE_FILE" "$LIBINPUT_RULE_LINK" || exit 1
+
+if ! "$UDEVADM_CMD" control --reload; then
+  echo "Could not reload udev touchscreen rules." >&2
+  exit 1
+fi
+# Devices may have been enumerated before the data partition was mounted.
+if [ -s "$LIBINPUT_RULE_FILE" ]; then
+  if ! "$UDEVADM_CMD" trigger --subsystem-match=input --action=change ||
+    ! "$UDEVADM_CMD" settle; then
+    echo "Could not apply persistent touchscreen rules." >&2
+    exit 1
+  fi
+fi
+
+echo "Touchscreen calibration is persistent at $TOUCHSCREEN_DIR."
