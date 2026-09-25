@@ -48,6 +48,12 @@ mkdir -p "$DATA_DIR/OpenSoarData" "$DATA_DIR/XCSoarData" ||
     exit 1
   }
 
+# fbcon rotation only applies to text consoles, after psplash releases its VT.
+if [ -e /dev/tty0 ]; then
+  /bin/systemctl stop psplash-start.service || exit 1
+  /usr/bin/chvt 1 || exit 1
+fi
+
 if ! /usr/bin/restore-display-config.sh; then
   echo "Persistent display settings could not be restored." >&2
 fi
