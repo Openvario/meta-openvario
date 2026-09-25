@@ -62,6 +62,10 @@ fi
 if [ ! -e /dev/mmcblk0p3 ]; then
 	echo "Creating data partition (mmcblk0p3)"
 	/usr/bin/create_datapart.sh
+	# Re-reading the complete table usually fails while the root partition is
+	# mounted. Ask the kernel to add only the new partition first.
+	/usr/sbin/partx --add --nr 3 /dev/mmcblk0 2>/dev/null || true
+	/usr/bin/udevadm settle --exit-if-exists=/dev/mmcblk0p3 --timeout=30 2>/dev/null || true
 
 	if [ ! -e /dev/mmcblk0p3 ]; then
 		echo "Partition not yet visible, rebooting for kernel to pick up new table"
