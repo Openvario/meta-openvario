@@ -1,0 +1,28 @@
+#!/bin/sh
+# SPDX-License-Identifier: GPL-3.0-only
+
+set -eu
+
+# shellcheck source=/dev/null
+. "${OV_PATHS:-/usr/libexec/openvario/paths.sh}" || exit 1
+MOUNTPOINT_CMD=${OV_MOUNTPOINT:-/bin/mountpoint}
+MOUNT_CMD=${OV_MOUNT:-/bin/mount}
+LIVE_DIR=${DROPBEAR_LIVE_DIR:-/etc/dropbear}
+
+if ! "$MOUNTPOINT_CMD" -q "$DATA_DIR"; then
+  echo "Persistent data is not mounted at $DATA_DIR." >&2
+  exit 1
+fi
+
+if "$MOUNTPOINT_CMD" -q "$LIVE_DIR"; then
+  exit 0
+fi
+
+mkdir -p "$LIVE_DIR" "$DROPBEAR_DIR" || exit 1
+chmod 0700 "$DROPBEAR_DIR" || exit 1
+if ! "$MOUNT_CMD" --bind "$DROPBEAR_DIR" "$LIVE_DIR"; then
+  echo "Could not bind persistent dropbear state." >&2
+  exit 1
+fi
+
+echo "dropbear state is persistent at $DROPBEAR_DIR."
