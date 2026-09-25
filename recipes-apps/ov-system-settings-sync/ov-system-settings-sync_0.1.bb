@@ -17,6 +17,7 @@ SRC_URI = " \
 	file://settings-common.sh \
 	file://boot-config.sh \
 	file://restore-display-config.sh \
+	file://main-app-config.sh \
 	file://sync-display-config.sh \
 	file://sync-display-config.service \
 	file://sync-display-config.timer \
@@ -35,6 +36,7 @@ do_install() {
 		${D}${libexecdir}/openvario/boot-config
 	install -d ${D}${bindir}
 	install -m 0755 ${S}/restore-display-config.sh ${D}${bindir}
+	install -m 0755 ${S}/main-app-config.sh ${D}${bindir}
 	install -m 0755 ${S}/sync-display-config.sh ${D}${bindir}
 	install -d ${D}${systemd_unitdir}/system
 	install -m 0644 ${WORKDIR}/sync-display-config.service ${D}${systemd_unitdir}/system
@@ -48,6 +50,7 @@ FILES:${PN} = " \
 	${libexecdir}/openvario/settings-common.sh \
 	${libexecdir}/openvario/boot-config \
 	${bindir}/restore-display-config.sh \
+	${bindir}/main-app-config.sh \
 	${bindir}/sync-display-config.sh \
 	${systemd_unitdir}/system/sync-display-config.service \
 	${systemd_unitdir}/system/sync-display-config.timer \
