@@ -6,6 +6,13 @@
 MOUNTPOINT_CMD=${OV_MOUNTPOINT:-/bin/mountpoint}
 
 
+ov_require_data_mount() {
+  if ! "$MOUNTPOINT_CMD" -q "$DATA_DIR"; then
+    echo "Persistent data is not mounted at $DATA_DIR." >&2
+    return 1
+  fi
+}
+
 ov_read_trimmed_file() {
   [ -r "$1" ] || return 1
   tr -d '[:space:]' < "$1"
@@ -17,4 +24,27 @@ ov_read_unsigned_file() {
     ''|*[!0-9]*) return 1 ;;
   esac
   printf '%s\n' "$value"
+}
+
+ov_write_state() {
+  destination=$1
+  value=$2
+  directory=$(dirname "$destination")
+  settings_directory=$SETTINGS_DIR
+
+  mkdir -p "$directory" || return 1
+  chmod 0700 "$settings_directory" "$directory" || return 1
+
+  if [ -r "$destination" ] &&
+     [ "$(ov_read_trimmed_file "$destination")" = "$value" ]; then
+    return 0
+  fi
+
+  temporary=$(mktemp "${destination}.tmp.XXXXXX") || return 1
+  if ! printf '%s\n' "$value" > "$temporary" ||
+     ! chmod 0600 "$temporary" ||
+     ! mv "$temporary" "$destination"; then
+    rm -f "$temporary"
+    return 1
+  fi
 }

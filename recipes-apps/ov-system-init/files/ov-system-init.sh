@@ -48,4 +48,8 @@ mkdir -p "$DATA_DIR/OpenSoarData" "$DATA_DIR/XCSoarData" ||
     exit 1
   }
 
+if ! /usr/bin/restore-display-config.sh; then
+  echo "Persistent display settings could not be restored." >&2
+fi
+
 exit 0

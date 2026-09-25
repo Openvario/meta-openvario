@@ -34,6 +34,10 @@ fi
 
 [ -n "$brightness" ] || [ -n "$rotation" ] || exit 0
 
+if [ -n "$brightness" ] && "$MOUNTPOINT_CMD" -q "$DATA_DIR"; then
+  ov_write_state "$BRIGHTNESS_FILE" "$brightness" || exit 1
+fi
+
 input=/dev/null
 [ -f "$BOOT_CONFIG_FILE" ] && input=$BOOT_CONFIG_FILE
 
