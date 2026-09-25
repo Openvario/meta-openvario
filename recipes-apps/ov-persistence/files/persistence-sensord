@@ -1,0 +1,36 @@
+#!/bin/sh
+# SPDX-License-Identifier: GPL-3.0-only
+
+set -eu
+
+# shellcheck source=/dev/null
+. "${OV_PATHS:-/usr/libexec/openvario/paths.sh}" || exit 1
+MOUNTPOINT_CMD=${OV_MOUNTPOINT:-/bin/mountpoint}
+CONFIG_FILE=${SENSORD_CONFIG_FILE:-/opt/conf/sensord.conf}
+DEFAULT_FILE=${SENSORD_DEFAULT_FILE:-/opt/conf/default/sensord.conf}
+
+if ! "$MOUNTPOINT_CMD" -q "$DATA_DIR"; then
+  echo "Persistent data is not mounted at $DATA_DIR." >&2
+  exit 1
+fi
+
+mkdir -p "$SENSORD_DIR" "$(dirname "$CONFIG_FILE")" || exit 1
+chmod 0700 "$SENSORD_DIR" || exit 1
+
+if [ ! -s "$SENSORD_FILE" ]; then
+  if [ ! -s "$DEFAULT_FILE" ]; then
+    echo "The default sensord configuration is unavailable." >&2
+    exit 1
+  fi
+
+  temporary=$(mktemp "${SENSORD_FILE}.tmp.XXXXXX") || exit 1
+  if ! cp "$DEFAULT_FILE" "$temporary" ||
+    ! chmod 0600 "$temporary" ||
+    ! mv "$temporary" "$SENSORD_FILE"; then
+    rm -f "$temporary"
+    exit 1
+  fi
+fi
+
+ln -sfn "$SENSORD_FILE" "$CONFIG_FILE" || exit 1
+echo "sensord configuration is persistent at $SENSORD_FILE."
