@@ -1,0 +1,14 @@
+[Unit]
+Description=Restore persistent OpenVario service policy
+Requires=ov-system-init.service
+After=ov-system-init.service
+Before=dropbear.socket sensord.service variod.service
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/usr/bin/service-policy.sh restore
+ExecStartPost=/usr/bin/service-policy.sh capture
+
+[Install]
+WantedBy=multi-user.target
