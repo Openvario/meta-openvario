@@ -15,6 +15,7 @@ RDEPENDS:${PN} = "busybox ov-data-storage"
 
 SRC_URI = " \
 	file://settings-common.sh \
+	file://boot-config.sh \
 	file://restore-display-config.sh \
 	file://sync-display-config.sh \
 	file://sync-display-config.service \
@@ -30,6 +31,8 @@ do_install() {
 	install -d ${D}${libexecdir}/openvario
 	install -m 0644 ${S}/settings-common.sh \
 		${D}${libexecdir}/openvario/settings-common.sh
+	install -m 0755 ${S}/boot-config.sh \
+		${D}${libexecdir}/openvario/boot-config
 	install -d ${D}${bindir}
 	install -m 0755 ${S}/restore-display-config.sh ${D}${bindir}
 	install -m 0755 ${S}/sync-display-config.sh ${D}${bindir}
@@ -43,6 +46,7 @@ SYSTEMD_SERVICE:${PN} = "sync-display-config.timer save-display-config.service"
 
 FILES:${PN} = " \
 	${libexecdir}/openvario/settings-common.sh \
+	${libexecdir}/openvario/boot-config \
 	${bindir}/restore-display-config.sh \
 	${bindir}/sync-display-config.sh \
 	${systemd_unitdir}/system/sync-display-config.service \

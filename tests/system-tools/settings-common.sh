@@ -33,4 +33,12 @@ for value in '' -1 invalid; do
     if ov_read_unsigned_file "$workspace/value"; then exit 1; fi
 done
 if ov_read_unsigned_file "$workspace/absent"; then exit 1; fi
+for rotation in 0 1 2 3; do
+    printf '%s\n' "$rotation" > "$workspace/value"
+    test "$(ov_read_rotation_file "$workspace/value")" = "$rotation"
+done
+for rotation in 4 01 -1 invalid; do
+    printf '%s\n' "$rotation" > "$workspace/value"
+    if ov_read_rotation_file "$workspace/value"; then exit 1; fi
+done
 printf '%s\n' 'Shared settings reader: zero, whitespace, invalid and missing values passed.'

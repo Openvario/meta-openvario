@@ -25,51 +25,22 @@ brightness=$(ov_read_unsigned_file "$BRIGHTNESS_SYSFS_FILE" 2>/dev/null || true)
 # An unbound fbcon can report zero instead of the configured rotation.
 rotation=
 if framebuffer_bound; then
-  rotation=$(ov_read_unsigned_file "$ROTATION_SYSFS_FILE" 2>/dev/null || true)
-  case "$rotation" in
-    0|1|2|3) ;;
-    *) rotation= ;;
-  esac
+  rotation=$(ov_read_rotation_file "$ROTATION_SYSFS_FILE" 2>/dev/null || true)
 fi
 
 [ -n "$brightness" ] || [ -n "$rotation" ] || exit 0
 
-if [ -n "$brightness" ] && "$MOUNTPOINT_CMD" -q "$DATA_DIR"; then
+ov_require_data_mount || exit 1
+
+if [ -n "$brightness" ]; then
   ov_write_state "$BRIGHTNESS_FILE" "$brightness" || exit 1
 fi
-
-input=/dev/null
-[ -f "$BOOT_CONFIG_FILE" ] && input=$BOOT_CONFIG_FILE
-
-render_config() {
-awk -F= -v brightness="$brightness" -v rotation="$rotation" '
-  BEGIN {
-    keys[1] = "brightness"
-    keys[2] = "rotation"
-    values["brightness"] = brightness
-    values["rotation"] = rotation
-  }
-  index($0, "=") && ($1 in values) && values[$1] != "" {
-    print $1 "=" values[$1]
-    seen[$1] = 1
-    next
-  }
-  { print }
-  END {
-    for (i = 1; i <= 2; i++)
-      if (values[keys[i]] != "" && !seen[keys[i]])
-        print keys[i] "=" values[keys[i]]
-  }
-' "$input"
-}
-
-# Compare before creating a temporary file on the boot partition.
-if [ -f "$BOOT_CONFIG_FILE" ] && render_config | cmp -s "$BOOT_CONFIG_FILE" -; then
-  exit 0
+if [ -n "$rotation" ]; then
+  ov_write_state "$ROTATION_FILE" "$rotation" || exit 1
 fi
 
-tmp=$(mktemp "${BOOT_CONFIG_FILE}.tmp.XXXXXX") || exit 1
-trap 'rm -f "$tmp"' 0 HUP INT TERM
-render_config > "$tmp" || exit 1
-
-mv "$tmp" "$BOOT_CONFIG_FILE"
+printf '%s\n' 'Saving display settings...'
+DATA_DIR="$DATA_DIR" OV_MOUNTPOINT="$MOUNTPOINT_CMD" \
+BRIGHTNESS_FILE="$BRIGHTNESS_FILE" ROTATION_FILE="$ROTATION_FILE" \
+BOOT_CONFIG_FILE="$BOOT_CONFIG_FILE" \
+SETTINGS_COMMON="$SETTINGS_COMMON" "$BOOT_CONFIG_CMD" project

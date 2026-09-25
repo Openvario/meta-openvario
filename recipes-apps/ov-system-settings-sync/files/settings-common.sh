@@ -5,6 +5,7 @@
 . "${OV_PATHS:-/usr/libexec/openvario/paths.sh}" || return 1
 MOUNTPOINT_CMD=${OV_MOUNTPOINT:-/bin/mountpoint}
 
+: "${BOOT_CONFIG_CMD:=/usr/libexec/openvario/boot-config}"
 
 ov_require_data_mount() {
   if ! "$MOUNTPOINT_CMD" -q "$DATA_DIR"; then
@@ -24,6 +25,14 @@ ov_read_unsigned_file() {
     ''|*[!0-9]*) return 1 ;;
   esac
   printf '%s\n' "$value"
+}
+
+ov_read_rotation_file() {
+  value=$(ov_read_unsigned_file "$1") || return 1
+  case $value in
+    0|1|2|3) printf '%s\n' "$value" ;;
+    *) return 1 ;;
+  esac
 }
 
 ov_write_state() {
