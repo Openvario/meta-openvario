@@ -1,0 +1,9 @@
+[Unit]
+Description=Prepare persistent OpenVario state for %i
+Requires=ov-data-storage.service
+After=ov-data-storage.service
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/usr/libexec/openvario/persistence-%i

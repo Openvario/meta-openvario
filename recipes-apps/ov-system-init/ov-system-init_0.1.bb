@@ -15,6 +15,7 @@ RDEPENDS:${PN} = " \
 	bash \
 	ov-data-storage \
 	ovmenu-ng-skripts \
+	ov-persistence \
 	ov-system-settings-sync \
 "
 
