@@ -4,6 +4,7 @@
 set -eu
 
 repo=$(cd "$(dirname "$0")/../.." && pwd)
+export OV_PATHS="$repo/recipes-apps/ov-data-storage/files/paths.sh"
 bash "$repo/tests/system-tools/settings-common.sh"
 bash "$repo/tests/system-tools/system-info.sh"
 bash "$repo/tests/system-tools/seeding.sh"
@@ -25,17 +26,18 @@ export OV_TERMINATE_GRACE_SECONDS=1
 
 new_case() {
 	export CASE_DIRECTORY
+	export DATA_DIR="$workspace/data"
 	CASE_DIRECTORY=$(mktemp -d "$workspace/case.XXXXXX")
-	export OV_RUNTIME_DIRECTORY="$CASE_DIRECTORY"
-	export OV_TOUCH_DEVICE="$CASE_DIRECTORY/touch"
-	export OV_ROTATE_PATH="$CASE_DIRECTORY/rotation"
-	export OV_POINTERCAL_PATH="$CASE_DIRECTORY/pointercal"
-	export OV_LIBINPUT_RULE_PATH="$CASE_DIRECTORY/rule"
-	printf '3\n' > "$OV_ROTATE_PATH"
-	printf 'original calibration\n' > "$OV_POINTERCAL_PATH"
-	printf 'original rule\n' > "$OV_LIBINPUT_RULE_PATH"
+	export RUNTIME_DIR="$CASE_DIRECTORY"
+	export TOUCH_DEVICE_FILE="$CASE_DIRECTORY/touch"
+	export ROTATION_SYSFS_FILE="$CASE_DIRECTORY/rotation"
+	export POINTERCAL_FILE="$CASE_DIRECTORY/pointercal"
+	export LIBINPUT_RULE_FILE="$CASE_DIRECTORY/rule"
+	printf '3\n' > "$ROTATION_SYSFS_FILE"
+	printf 'original calibration\n' > "$POINTERCAL_FILE"
+	printf 'original rule\n' > "$LIBINPUT_RULE_FILE"
 	printf 'active\n' > "$CASE_DIRECTORY/service"
-	touch "$OV_TOUCH_DEVICE"
+	touch "$TOUCH_DEVICE_FILE"
 }
 
 calibrate() {
@@ -45,14 +47,16 @@ calibrate() {
 
 new_case
 calibrate
-grep -q '^new calibration$' "$OV_POINTERCAL_PATH"
+grep -q '^new calibration$' "$POINTERCAL_FILE"
+test "$(stat -c %a "$POINTERCAL_FILE")" = 600
+test "$(stat -c %a "$LIBINPUT_RULE_FILE")" = 600
 grep -q '^active$' "$CASE_DIRECTORY/service"
 test -z "$(find "$CASE_DIRECTORY" -name '*.backup' -print)"
 
 new_case
 if FAIL_APPLY=1 calibrate; then exit 1; fi
-grep -q '^original calibration$' "$OV_POINTERCAL_PATH"
-grep -q '^original rule$' "$OV_LIBINPUT_RULE_PATH"
+grep -q '^original calibration$' "$POINTERCAL_FILE"
+grep -q '^original rule$' "$LIBINPUT_RULE_FILE"
 grep -q '^active$' "$CASE_DIRECTORY/service"
 
 new_case
@@ -66,9 +70,9 @@ grep -q '^active$' "$CASE_DIRECTORY/service"
 new_case
 if CALIBRATION_BLOCKS=1 OV_CALIBRATION_TIMEOUT_SECONDS=1 calibrate; then exit 1; fi
 grep -q 'timed out' "$CASE_DIRECTORY/output"
-grep -q '^original calibration$' "$OV_POINTERCAL_PATH"
+grep -q '^original calibration$' "$POINTERCAL_FILE"
 grep -q '^active$' "$CASE_DIRECTORY/service"
-! kill -0 "$(cat "$CASE_DIRECTORY/child-pid")" 2>/dev/null
+if kill -0 "$(cat "$CASE_DIRECTORY/child-pid")" 2>/dev/null; then exit 1; fi
 
 new_case
 CALIBRATION_BLOCKS=1 sh "$repo/recipes-apps/ov-system-tools/files/touchscreen-calibration" \
@@ -82,9 +86,9 @@ test -e "$CASE_DIRECTORY/child-pid"
 kill -TERM "$worker"
 if wait "$worker"; then exit 1; fi
 grep -q 'cancelled' "$CASE_DIRECTORY/output"
-grep -q '^original calibration$' "$OV_POINTERCAL_PATH"
+grep -q '^original calibration$' "$POINTERCAL_FILE"
 grep -q '^active$' "$CASE_DIRECTORY/service"
-! kill -0 "$(cat "$CASE_DIRECTORY/child-pid")" 2>/dev/null
+if kill -0 "$(cat "$CASE_DIRECTORY/child-pid")" 2>/dev/null; then exit 1; fi
 
 printf '%s\n' 'Touchscreen apply, rollback, recovery, timeout and cancellation passed.'
 
@@ -173,5 +177,5 @@ kill -TERM "$worker"
 if wait "$worker"; then exit 1; fi
 test "$(sed -n '2p' "$handoff/result")" = failure
 grep -q 'cancelled' "$handoff/result"
-! kill -0 "$(cat "$CASE_DIRECTORY/child-pid")" 2>/dev/null
+if kill -0 "$(cat "$CASE_DIRECTORY/child-pid")" 2>/dev/null; then exit 1; fi
 printf '%s\n' 'Handoff status, publication failures, bounds, no replay and cancellation passed.'

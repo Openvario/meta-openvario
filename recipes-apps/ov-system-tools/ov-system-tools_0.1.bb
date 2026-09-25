@@ -14,6 +14,7 @@ inherit allarch
 
 RDEPENDS:${PN} = " \
 	busybox \
+	ov-data-storage-paths \
 	opkg \
 	systemd \
 	systemd-extra-utils \
