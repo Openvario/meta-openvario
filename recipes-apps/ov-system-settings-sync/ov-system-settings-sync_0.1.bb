@@ -15,6 +15,7 @@ SRC_URI = " \
 	file://sync-display-config.sh \
 	file://sync-display-config.service \
 	file://sync-display-config.timer \
+	file://save-display-config.service \
 "
 
 do_compile() {
@@ -27,12 +28,14 @@ do_install() {
 	install -d ${D}${systemd_unitdir}/system
 	install -m 0644 ${WORKDIR}/sync-display-config.service ${D}${systemd_unitdir}/system
 	install -m 0644 ${WORKDIR}/sync-display-config.timer ${D}${systemd_unitdir}/system
+	install -m 0644 ${WORKDIR}/save-display-config.service ${D}${systemd_unitdir}/system
 }
 
-SYSTEMD_SERVICE:${PN} = "sync-display-config.timer"
+SYSTEMD_SERVICE:${PN} = "sync-display-config.timer save-display-config.service"
 
 FILES:${PN} = " \
 	${bindir}/sync-display-config.sh \
 	${systemd_unitdir}/system/sync-display-config.service \
 	${systemd_unitdir}/system/sync-display-config.timer \
+	${systemd_unitdir}/system/save-display-config.service \
 "

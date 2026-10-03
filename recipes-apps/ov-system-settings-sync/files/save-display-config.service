@@ -1,0 +1,18 @@
+[Unit]
+Description=Save OpenVario display settings at shutdown
+Requires=ov-system-init.service
+Wants=boot.automount
+After=ov-system-init.service boot.automount boot.mount home-root-data.mount sync-display-config.service
+Before=ovmenu-ng.service
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/bin/true
+ExecStop=/usr/bin/sync-display-config.sh
+StandardOutput=tty
+TTYPath=/dev/tty1
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target
