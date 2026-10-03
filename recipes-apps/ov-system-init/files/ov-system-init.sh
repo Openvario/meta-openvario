@@ -17,6 +17,8 @@ USB_DEBUG_HOOK=/usb/usbstick/openvario/ov-debug-hook.sh
 BOOT_CONFIG=/boot/config.uEnv
 USB_MOUNTPOINT=/usb/usbstick
 
+/usr/bin/psplash-message "Preparing OpenVario..." 2>/dev/null || true
+
 is_path_mounted() {
 	awk -v target="$1" '
 		$2 == target && $3 != "autofs" { mounted = 1 }
@@ -49,6 +51,7 @@ cd "$HOME"
 
 # --- Post-upgrade config restore ---
 if [ -f "$RECOVER_DIR/upgrade.cfg" ]; then
+	/usr/bin/psplash-message "Restoring configuration..." 2>/dev/null || true
 	echo "Update system config"
 	export HOME DEBUG_LOG
 	DATADIR="$DATADIR" /usr/bin/update-system-config.sh
@@ -60,6 +63,7 @@ fi
 
 # --- Create data partition if it does not exist ---
 if [ ! -e /dev/mmcblk0p3 ]; then
+	/usr/bin/psplash-message "Preparing data storage..." 2>/dev/null || true
 	echo "Creating data partition (mmcblk0p3)"
 	/usr/bin/create_datapart.sh
 	# Re-reading the complete table usually fails while the root partition is
@@ -68,6 +72,7 @@ if [ ! -e /dev/mmcblk0p3 ]; then
 	/usr/bin/udevadm settle --exit-if-exists=/dev/mmcblk0p3 --timeout=30 2>/dev/null || true
 
 	if [ ! -e /dev/mmcblk0p3 ]; then
+		/usr/bin/psplash-message "Restarting to finish setup..." 2>/dev/null || true
 		echo "Partition not yet visible, rebooting for kernel to pick up new table"
 		sync
 		reboot
@@ -79,10 +84,18 @@ fi
 mkdir -p "$DATADIR"
 
 if ! mountpoint -q "$DATADIR"; then
+	/usr/bin/psplash-message "Opening data storage..." 2>/dev/null || true
 	if ! mount /dev/mmcblk0p3 "$DATADIR"; then
+		/usr/bin/psplash-message "Formatting data storage..." 2>/dev/null || true
 		echo "Mount failed, formatting partition" >&2
-		mkfs.ext4 -F /dev/mmcblk0p3 || echo "Failed to format mmcblk0p3" >&2
-		mount /dev/mmcblk0p3 "$DATADIR" || echo "Failed to mount mmcblk0p3" >&2
+		mkfs.ext4 -F /dev/mmcblk0p3 || {
+			/usr/bin/psplash-message "Data storage setup failed" 2>/dev/null || true
+			echo "Failed to format mmcblk0p3" >&2
+		}
+		mount /dev/mmcblk0p3 "$DATADIR" || {
+			/usr/bin/psplash-message "Data storage setup failed" 2>/dev/null || true
+			echo "Failed to mount mmcblk0p3" >&2
+		}
 	fi
 fi
 

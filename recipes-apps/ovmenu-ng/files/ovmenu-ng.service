@@ -35,6 +35,7 @@ Wants=boot.automount
 After=boot.automount
 
 [Service]
+ExecStartPre=-/usr/bin/psplash-message "Starting application..."
 # Stop psplash before starting the menu.
 ExecStartPre=-/bin/systemctl stop psplash-start
 # Ensure ovmenu-ng starts on the dedicated local console.
