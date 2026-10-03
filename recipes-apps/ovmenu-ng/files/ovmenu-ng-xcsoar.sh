@@ -4,16 +4,22 @@
 # Config
 TIMEOUT=3
 
-# Seed XCSoar data directory from ~/.xcsoar/ (one-shot via mv).
+# Seed XCSoar data directory from ~/.xcsoar/.
 # Packages install defaults to ~/.xcsoar/, but XCSoar runs with
 # -datapath=data/XCSoarData on the data partition.
+# Copy first and flush the destination before deleting the source. A power
+# cut during copying leaves the packaged defaults available for the next boot.
+# Existing destination files may contain user settings and must be preserved.
 XCSOAR_DATADIR=$HOME/data/XCSoarData
+# Defaults setup must not prevent application startup. Keep the packaged
+# source for retry unless copying and flushing the destination both succeed.
 if [ -d "$XCSOAR_DATADIR" ] && [ -d "$HOME/.xcsoar" ]; then
-    for f in "$HOME/.xcsoar/"*; do
-        echo "Seeding ${f##*/} -> XCSoarData/"
-        mv "$f" "$XCSOAR_DATADIR/"
-    done
-    rmdir "$HOME/.xcsoar" 2>/dev/null
+    if rsync -a --ignore-existing "$HOME/.xcsoar/" "$XCSOAR_DATADIR/" && sync; then
+        rm -rf "$HOME/.xcsoar"
+        sync
+    else
+        echo "XCSoar defaults could not be saved; retaining source for retry." >&2
+    fi
 fi
 
 main_menu () {
