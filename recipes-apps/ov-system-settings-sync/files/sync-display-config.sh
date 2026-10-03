@@ -27,12 +27,10 @@ esac
 
 [ -n "$brightness" ] || [ -n "$rotation" ] || exit 0
 
-tmp=$(mktemp "${BOOT_CONFIG}.tmp.XXXXXX") || exit 1
-trap 'rm -f "$tmp"' 0 HUP INT TERM
-
 input=/dev/null
 [ -f "$BOOT_CONFIG" ] && input=$BOOT_CONFIG
 
+render_config() {
 awk -F= -v brightness="$brightness" -v rotation="$rotation" '
   BEGIN {
     keys[1] = "brightness"
@@ -51,7 +49,17 @@ awk -F= -v brightness="$brightness" -v rotation="$rotation" '
       if (values[keys[i]] != "" && !seen[keys[i]])
         print keys[i] "=" values[keys[i]]
   }
-' "$input" > "$tmp" || exit 1
+' "$input"
+}
+
+# Compare before creating a temporary file on the boot partition.
+if [ -f "$BOOT_CONFIG" ] && render_config | cmp -s "$BOOT_CONFIG" -; then
+  exit 0
+fi
+
+tmp=$(mktemp "${BOOT_CONFIG}.tmp.XXXXXX") || exit 1
+trap 'rm -f "$tmp"' 0 HUP INT TERM
+render_config > "$tmp" || exit 1
 
 printf '%s\n' 'Saving display settings...'
 mv "$tmp" "$BOOT_CONFIG"
