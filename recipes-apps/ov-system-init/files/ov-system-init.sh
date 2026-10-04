@@ -61,11 +61,22 @@ else
 	echo "only backup config found"
 fi
 
+storage_failed() {
+	/usr/bin/psplash-message "Data storage setup failed" 2>/dev/null || true
+	echo "$1" >&2
+	exit 1
+}
+
 # --- Create data partition if it does not exist ---
 if [ ! -e /dev/mmcblk0p3 ]; then
 	/usr/bin/psplash-message "Preparing data storage..." 2>/dev/null || true
 	echo "Creating data partition (mmcblk0p3)"
-	/usr/bin/create_datapart.sh
+	# A missing device node does not prove the partition is absent on disk.
+	partitions=$(/usr/sbin/partx --raw --noheadings --output NR /dev/mmcblk0) ||
+		storage_failed "Cannot read the data partition table"
+	if ! printf '%s\n' "$partitions" | grep -qx '3'; then
+		/usr/bin/create_datapart.sh
+	fi
 	# Re-reading the complete table usually fails while the root partition is
 	# mounted. Ask the kernel to add only the new partition first.
 	/usr/sbin/partx --add --nr 3 /dev/mmcblk0 2>/dev/null || true
@@ -77,6 +88,7 @@ if [ ! -e /dev/mmcblk0p3 ]; then
 		sync
 		reboot
 		sleep 60
+		storage_failed "Data partition still unavailable after requesting reboot"
 	fi
 fi
 
@@ -86,21 +98,25 @@ mkdir -p "$DATADIR"
 if ! mountpoint -q "$DATADIR"; then
 	/usr/bin/psplash-message "Opening data storage..." 2>/dev/null || true
 	if ! mount /dev/mmcblk0p3 "$DATADIR"; then
-		/usr/bin/psplash-message "Formatting data storage..." 2>/dev/null || true
-		echo "Mount failed, formatting partition" >&2
-		mkfs.ext4 -F /dev/mmcblk0p3 || {
-			/usr/bin/psplash-message "Data storage setup failed" 2>/dev/null || true
-			echo "Failed to format mmcblk0p3" >&2
-		}
-		mount /dev/mmcblk0p3 "$DATADIR" || {
-			/usr/bin/psplash-message "Data storage setup failed" 2>/dev/null || true
-			echo "Failed to mount mmcblk0p3" >&2
-		}
+		# Try the repair tool when already installed; do not add a package
+		# solely for this temporary startup recovery policy.
+		if command -v e2fsck >/dev/null 2>&1; then
+			/usr/bin/psplash-message "Repairing data storage..." 2>/dev/null || true
+			e2fsck -p /dev/mmcblk0p3 || true
+		fi
+		if ! mount /dev/mmcblk0p3 "$DATADIR"; then
+			# Availability takes priority here. A failed repair/mount can
+			# erase existing data; backups must live outside this partition.
+			/usr/bin/psplash-message "Formatting data storage..." 2>/dev/null || true
+			echo "Cannot mount data storage; formatting mmcblk0p3" >&2
+			mkfs.ext4 -F /dev/mmcblk0p3 || storage_failed "Failed to format mmcblk0p3"
+			mount /dev/mmcblk0p3 "$DATADIR" || storage_failed "Failed to mount mmcblk0p3"
+		fi
 	fi
 fi
 
-if mountpoint -q "$DATADIR"; then
-	mkdir -p "$DATADIR/OpenSoarData" "$DATADIR/XCSoarData"
-fi
+# Prepare application data directories after storage recovery.
+mkdir -p "$DATADIR/OpenSoarData" "$DATADIR/XCSoarData" ||
+    storage_failed "Cannot initialize application data directories"
 
 exit 0
