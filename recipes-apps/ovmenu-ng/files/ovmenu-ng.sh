@@ -5,12 +5,13 @@
 # sources the appropriate app-specific menu script.
 
 DEBUG_STOP=No
+APP_TTY_STATE=
 
 INPUT=/tmp/menu.sh.$$
 
 cd "$HOME"
 
-trap "rm -f $INPUT /tmp/tail.$$; exit" SIGHUP SIGINT SIGTERM
+trap "restore_app_tty; rm -f $INPUT /tmp/tail.$$; exit" SIGHUP SIGINT SIGTERM
 
 # Load boot config for main_app selection
 source /boot/config.uEnv
@@ -18,6 +19,13 @@ source /boot/config.uEnv
 #==============================================================================
 # Shared helpers (available to all sourced scripts)
 #==============================================================================
+
+function restore_app_tty() {
+    if [ -n "$APP_TTY_STATE" ]; then
+        stty "$APP_TTY_STATE" 2>/dev/null || true
+        APP_TTY_STATE=
+    fi
+}
 
 function error_stop() {
   echo "Error-Stop: $1"
@@ -52,6 +60,15 @@ function start_app() {
             /usr/bin/OpenSoar -fly -datapath=data/OpenSoarData
             ;;
         "xcsoar"|"XCSoar")
+            # XCSoar reads input devices directly. Suppress the terminal's
+            # independent echo so key presses cannot fill the console.
+            APP_TTY_STATE=$(stty -g 2>/dev/null) || APP_TTY_STATE=
+            if [ -n "$APP_TTY_STATE" ]; then
+                stty -echo -echonl 2>/dev/null || true
+            fi
+            # Blank the underlying console before graphics mode starts,
+            # so releasing it cannot briefly reveal the previous dialog.
+            clear
             /usr/bin/xcsoar -fly -touchscreen -datapath=data/XCSoarData
             ;;
         *)
@@ -62,7 +79,7 @@ function start_app() {
 
     local rc=$?
     case "$main_app" in
-        "xcsoar"|"XCSoar") clear ;;
+        "xcsoar"|"XCSoar") clear; restore_app_tty ;;
     esac
     /usr/bin/sync-display-config.sh 2>/dev/null || true
     return "$rc"

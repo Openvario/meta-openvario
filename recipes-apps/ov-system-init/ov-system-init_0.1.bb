@@ -15,6 +15,8 @@ RDEPENDS:${PN} = " \
 	bash \
 	e2fsprogs-mke2fs \
 	e2fsprogs-resize2fs \
+	util-linux-partx \
+	udev \
 	ovmenu-ng-skripts \
 	ov-system-settings-sync \
 "

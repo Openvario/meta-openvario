@@ -19,12 +19,15 @@ DEPENDS = "	\
 		libpng \
 		tiff \
 		libgeotiff \
+		libnetcdf \
+		netcdf-cxx4 \
 		glm \
 		virtual/egl \
 		virtual/mesa \
 		virtual/libgles2 \
 		alsa-lib \
 		libsodium \
+		sqlite3 \
 		c-ares \
 		fmt \
 		dbus \
@@ -44,19 +47,12 @@ LC_LOCALE_PATH = "${datadir}/locale"
 PACKAGE_NO_LOCALE = "1"
 PACKAGES:remove = "${PN}-locale"
 
-NETCDF_URL ?= "https://storage.googleapis.com/lazyrasp.com/xcsoar/netcdf-c-4.6.2.tar.gz"
-NETCDF_HASH ?= "eda1be377fce86e5d91b30a00b15bb7ea9c97f5c5ef007901145549786781710"
-NETCDF_CXX_URL ?= "https://storage.googleapis.com/lazyrasp.com/xcsoar/netcdf-cxx-4.2.tar.gz"
-NETCDF_CXX_HASH ?= "95ed6ab49a0ee001255eac4e44aacb5ca4ea96ba850c08337a3e4c9a0872ccd1"
-
 BOOST_URL = "https://archives.boost.io/release/${BOOST_VERSION}/source/${BOOST_FILE}"
 BOOST_HASH = "${BOOST_SHA256HASH}"
 BOOST_FILE = "boost_${@'${BOOST_VERSION}'.replace('.','_')}.tar.bz2"
 SRC_URI += " \
 	file://0007-Disable-touch-screen-auto-detection.patch \
 	${BOOST_URL};sha256sum=${BOOST_HASH};unpack=0 \
-	${NETCDF_URL};sha256sum=${NETCDF_HASH};unpack=0 \
-	${NETCDF_CXX_URL};sha256sum=${NETCDF_CXX_HASH};unpack=0 \
 "
 
 inherit pkgconfig
@@ -111,4 +107,3 @@ FILES:${PN} = " \
 
 # ${bindir}/OpenVarioBaseMenu 
 # this is in xcsoar-package:	${bindir}/vali-xcs 
-

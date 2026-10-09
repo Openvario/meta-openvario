@@ -8,6 +8,8 @@ screen controls. Larger control size is more preferrable for Openvario
 even on machines with no touch screen is installed: it is easier to
 click larger controls with the stick control and labels acually fit the
 buttons with the larger font sizes.
+
+Upstream-Status: Inappropriate [OpenVario specific]
 ---
  src/ui/event/poll/libinput/LibInputHandler.hpp | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
@@ -16,7 +18,7 @@ diff --git a/src/ui/event/poll/libinput/LibInputHandler.hpp b/src/ui/event/poll/
 index 0ca1d8f512..b9eeb3e724 100644
 --- a/src/ui/event/poll/libinput/LibInputHandler.hpp
 +++ b/src/ui/event/poll/libinput/LibInputHandler.hpp
-@@ -57,7 +57,7 @@ class LibInputHandler final {
+@@ -43,7 +43,7 @@
    /**
     * The number of pointer input devices, touch screens ans keyboards.
     */

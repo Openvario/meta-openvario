@@ -1,0 +1,22 @@
+#!/bin/sh
+# Best-effort boot status: psplash-message "Preparing data storage..."
+# Use the existing psplash writer, which opens and writes the FIFO nonblocking.
+
+LC_ALL=C
+export LC_ALL
+
+# Keep each command short and on one line (well below PIPE_BUF and psplash's
+# command buffer). Missing/invalid messages are harmless no-ops.
+[ "$#" -eq 1 ] || exit 0
+[ -n "$1" ] && [ "${#1}" -le 120 ] || exit 0
+case "$1" in
+  *'
+'*) exit 0 ;;
+esac
+
+fifo_dir=${PSPLASH_FIFO_DIR:-/run}
+[ -d "$fifo_dir" ] && [ -p "$fifo_dir/psplash_fifo" ] || exit 0
+
+# No waiting, retries or logging: splash absence/failure must not affect boot.
+{ PSPLASH_FIFO_DIR="$fifo_dir" psplash-write "MSG $1"; } >/dev/null 2>&1 || :
+exit 0

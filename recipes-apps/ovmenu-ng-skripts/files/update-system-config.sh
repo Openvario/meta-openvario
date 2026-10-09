@@ -44,6 +44,7 @@ if [ -e "$HOME/recover_data/upgrade.cfg" ]; then
       fi
       file_count=$(find $HOME/.xcsoar -maxdepth 1 -type f | wc -l)
       if (( $file_count > 6 )); then
+        /usr/bin/psplash-message "Restoring flight data..." 2>/dev/null || true
         rsync -ruvtcE --progress $HOME/.xcsoar/* $DATADIR/OpenSoarData/ \
                     --delete --exclude cache  --exclude logs
         echo "rsync from .xcsoar to $DATADIR/OpenSoarData"  >> $DEBUG_LOG
@@ -55,6 +56,7 @@ if [ -e "$HOME/recover_data/upgrade.cfg" ]; then
       fi
       rm -rvf $HOME/.xcsoar/*
       if [ -d $HOME/.glider_club ]; then
+        /usr/bin/psplash-message "Restoring flight data..." 2>/dev/null || true
         mkdir -p $DATADIR/.glider_club
         rsync -ruvtcE --progress $HOME/.glider_club/* $DATADIR/.glider_club/
         sync

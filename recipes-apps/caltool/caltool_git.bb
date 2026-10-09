@@ -16,8 +16,7 @@ S = "${WORKDIR}/git"
 
 #  old uri: SRC_URI = "git://git-ro.openvario.org/ovmenu.git;protocol=http;branch=master;rev=master"
 SRC_URI = "git://github.com/Openvario/caltool.git;protocol=https;branch=master " 
-SRCREV = "${AUTOREV}"
-
+SRCREV = "52f71abe0363c6ede49c8f0ecca66fec45bcd43d"
 
 do_compile() {
 	oe_runmake
