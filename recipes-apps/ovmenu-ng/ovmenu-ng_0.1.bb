@@ -35,7 +35,6 @@ RCONFLICTS:${PN} = " \
 SRC_URI = "\
 	file://ovmenu-ng.sh \
 	file://ovmenu-ng-opensoar.sh \
-	file://ovmenu-ng-xcsoar.sh \
 	file://xcsoar-exclusive-handoff \
 	file://openvario.rc \
 	file://${BPN}.service \
@@ -52,7 +51,6 @@ do_install() {
 	install -d ${D}${bindir}
 	install -m 0755 ${S}/ovmenu-ng.sh ${D}${bindir}/ovmenu-ng.sh
 	install -m 0755 ${S}/ovmenu-ng-opensoar.sh ${D}${bindir}/ovmenu-ng-opensoar.sh
-	install -m 0755 ${S}/ovmenu-ng-xcsoar.sh ${D}${bindir}/ovmenu-ng-xcsoar.sh
 	install -d ${D}${libexecdir}/openvario
 	install -m 0755 ${S}/xcsoar-exclusive-handoff \
 		${D}${libexecdir}/openvario/xcsoar-exclusive-handoff
@@ -74,7 +72,6 @@ SYSTEMD_SERVICE:${PN} = "${PN}.service"
 FILES:${PN} = " \
 	${bindir}/ovmenu-ng.sh \
 	${bindir}/ovmenu-ng-opensoar.sh \
-	${bindir}/ovmenu-ng-xcsoar.sh \
 	${libexecdir}/openvario/xcsoar-exclusive-handoff \
 	${ROOT_HOME}/.dialogrc \
 	${systemd_unitdir}/system-preset/50-disable_dropbear.preset \

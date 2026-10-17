@@ -1,17 +1,16 @@
 #!/bin/bash
 # ovmenu-ng.sh - OpenVario application launcher dispatcher
 #
-# Thin entry point that loads config, sets up shared state, then
-# sources the appropriate app-specific menu script.
+# Loads config and prepares shared state, then starts the selected application.
+# OpenSoar retains its compatibility menu.
 
-DEBUG_STOP=No
 APP_TTY_STATE=
 
 INPUT=/tmp/menu.sh.$$
 
 cd "$HOME"
 
-trap "restore_app_tty; rm -f $INPUT /tmp/tail.$$; exit" SIGHUP SIGINT SIGTERM
+trap "restore_app_tty; rm -f $INPUT; exit" SIGHUP SIGINT SIGTERM
 
 # Load boot config for main_app selection
 source /boot/config.uEnv
@@ -30,13 +29,6 @@ function restore_app_tty() {
 function error_stop() {
   echo "Error-Stop: $1"
   read -p "Press enter to continue"
-}
-
-function debug_stop() {
-    if [ "$DEBUG_STOP" = "Yes" ]; then
-      echo "Debug-Stop: $1"
-      read -p "Press enter to continue"
-    fi
 }
 
 function do_shell() {
@@ -204,7 +196,7 @@ function select_app() {
 }
 
 #==============================================================================
-# Dispatch to app-specific script
+# Start the selected application
 #==============================================================================
 
 # First-boot selector: if main_app is not set, force a choice
@@ -218,7 +210,12 @@ case "$main_app" in
         ;;
     "xcsoar"|"XCSoar")
         seed_xcsoar_data
-        source /usr/bin/ovmenu-ng-xcsoar.sh
+        start_app || echo "XCSoar exited unsuccessfully; returning to application selection." >&2
+        sync
+        # Ordinary Quit returns to application selection.
+        while true; do
+            select_app
+        done
         ;;
     *)
         echo "Unknown main_app '$main_app' in /boot/config.uEnv" >&2
