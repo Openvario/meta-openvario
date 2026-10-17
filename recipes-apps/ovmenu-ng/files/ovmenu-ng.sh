@@ -96,9 +96,8 @@ function start_app_once() {
             if [ -n "$APP_TTY_STATE" ]; then
                 stty -echo -echonl 2>/dev/null || true
             fi
-            # Blank the underlying console before graphics mode starts,
-            # so releasing it cannot briefly reveal the previous dialog.
-            clear
+            # Clear tty1 before graphics mode so Quit cannot reveal an old dialog.
+            printf '\033[2J\033[H'
             /usr/bin/xcsoar -fly -touchscreen -datapath=data/XCSoarData
             ;;
         *)
