@@ -17,6 +17,7 @@ inherit allarch systemd
 RDEPENDS:${PN} = " \
 	bash \
 	dialog \
+	rsync \
 	ovmenu-ng-skripts \
 	ov-system-init \
 	autofs-config \

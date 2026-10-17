@@ -54,6 +54,43 @@ function do_shell() {
     fi
 }
 
+function copy_xcsoar_defaults() {
+    local defaults="$1" datadir="$2"
+    local mapping extension subdir file basename
+
+    rsync -a --ignore-existing --exclude='/*.prf' --exclude='/*.xcm' \
+        --exclude='/*.xci' "$defaults/" "$datadir/" || return 1
+
+    for mapping in prf:profiles xcm:maps xci:input; do
+        extension=${mapping%%:*}
+        subdir=${mapping#*:}
+        for file in "$defaults/"*."$extension"; do
+            [ -f "$file" ] || continue
+            basename=${file##*/}
+            # Let XCSoar migrate existing root files instead of blocking them.
+            if [ -e "$datadir/$basename" ] || [ -L "$datadir/$basename" ]; then
+                continue
+            fi
+            mkdir -p "$datadir/$subdir" && \
+                rsync -a --ignore-existing "$file" "$datadir/$subdir/" || return 1
+        done
+    done
+    return 0
+}
+
+# Seed partition 3 without replacing user files; retain defaults on failure.
+function seed_xcsoar_data() {
+    local datadir="$HOME/data/XCSoarData"
+    if [ -d "$datadir" ] && [ -d "$HOME/.xcsoar" ]; then
+        if copy_xcsoar_defaults "$HOME/.xcsoar" "$datadir" && sync; then
+            rm -rf "$HOME/.xcsoar"
+            sync
+        else
+            echo "XCSoar defaults could not be saved; retaining source for retry." >&2
+        fi
+    fi
+}
+
 function start_app_once() {
     case "$main_app" in
         "OpenSoar")
@@ -179,6 +216,7 @@ case "$main_app" in
         source /usr/bin/ovmenu-ng-opensoar.sh
         ;;
     "xcsoar"|"XCSoar")
+        seed_xcsoar_data
         source /usr/bin/ovmenu-ng-xcsoar.sh
         ;;
     *)
