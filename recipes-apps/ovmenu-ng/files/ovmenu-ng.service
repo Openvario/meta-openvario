@@ -43,7 +43,7 @@ ExecStartPre=-/bin/systemctl stop psplash-start
 ExecStartPre=-/usr/bin/chvt 1
 ExecStartPre=/usr/libexec/openvario/xcsoar-exclusive-handoff prepare /run/xcsoar-exclusive-handoff
 ExecStart=/usr/bin/ovmenu-ng.sh
-Type=idle
+Type=simple
 Restart=always
 RestartSec=0
 

@@ -40,6 +40,7 @@ function debug_stop() {
 }
 
 function do_shell() {
+    printf '\033[?25h'
     clear
     cd
 
@@ -116,7 +117,7 @@ function start_app_once() {
 
     local rc=$?
     case "$main_app" in
-        "xcsoar"|"XCSoar") clear; restore_app_tty ;;
+        "xcsoar"|"XCSoar") restore_app_tty ;;
     esac
     /usr/bin/sync-display-config.sh 2>/dev/null || true
     return "$rc"
