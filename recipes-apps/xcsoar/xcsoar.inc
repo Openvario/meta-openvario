@@ -30,13 +30,17 @@ DEPENDS = "	\
 		fmt \
 		dbus \
 		sqlite3 \
+		zxing-cpp \
 "
 
 RDEPENDS:${PN} = "\
         ttf-dejavu-sans-condensed \
+        xcsoar-system-tools \
 "
 
 S = "${WORKDIR}/git"
+
+SRC_URI += "file://0001-zxing-use-system-library-on-linux.patch"
 
 LC_LOCALE_PATH = "${datadir}/locale"
 
@@ -44,6 +48,8 @@ LC_LOCALE_PATH = "${datadir}/locale"
 PACKAGE_NO_LOCALE = "1"
 PACKAGES:remove = "${PN}-locale"
 
+BOOST_VERSION = "1.92.0"
+BOOST_SHA256HASH = "5c1d40cb8e19adbf740a4ec2da35b3e58f3f5804b1dce44deb53df72193cbc6c"
 BOOST_FILE = "boost_${@'${BOOST_VERSION}'.replace('.','_')}.tar.bz2"
 SRC_URI += " \
 	https://archives.boost.io/release/${BOOST_VERSION}/source/${BOOST_FILE};sha256sum=${BOOST_SHA256HASH};unpack=0 \
