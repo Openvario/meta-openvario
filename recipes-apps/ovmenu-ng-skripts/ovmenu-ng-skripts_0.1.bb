@@ -22,12 +22,10 @@ RDEPENDS:${PN} = " \
 SRC_URI = "\
 	file://transfers.sh \
 	file://transfer-system.sh \
-	file://logbook.sh \
 	file://ov-calibrate-ts.sh \
 	file://system-info.sh \
 	file://fw-upgrade.sh \
 	file://update-system-config.sh \
-	file://image_backup.sh \
 "
 
 
@@ -43,12 +41,10 @@ do_install() {
 	install -m 0755 \
 		${S}/transfers.sh \
 		${S}/transfer-system.sh \
-		${S}/logbook.sh \
 		${S}/ov-calibrate-ts.sh \
 		${S}/system-info.sh \
 		${S}/fw-upgrade.sh \
 		${S}/update-system-config.sh \
-		${S}/image_backup.sh \
 		${D}${bindir}/
 }
 
