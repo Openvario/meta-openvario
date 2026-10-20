@@ -6,6 +6,7 @@ SETTINGS_COMMON=${SETTINGS_COMMON:-/usr/libexec/openvario/settings-common.sh}
 # shellcheck source=/dev/null
 . "$SETTINGS_COMMON" || exit 1
 
+BOOT_CONFIG_LOCK=${BOOT_CONFIG_LOCK:-/run/openvario-boot-config.lock}
 
 render_boot_config() {
   awk -F= -v brightness="$brightness" -v rotation="$rotation" -v main_app="$main_app" '
@@ -33,6 +34,10 @@ render_boot_config() {
 
 project_boot_config() {
   ov_require_data_mount || return 1
+
+  # Read settings under the lock so an older snapshot cannot win a later rename.
+  exec 9>"$BOOT_CONFIG_LOCK" || return 1
+  flock -x 9 || return 1
 
   brightness=
   rotation=
