@@ -9,6 +9,7 @@ bash "$repo/tests/system-tools/settings-common.sh"
 bash "$repo/tests/system-tools/system-info.sh"
 bash "$repo/tests/system-tools/seeding.sh"
 bash "$repo/tests/system-tools/persistence.sh"
+bash "$repo/tests/system-tools/legacy-system-restore.sh"
 workspace=$(mktemp -d /tmp/ov-system-tools-test.XXXXXX)
 trap 'rm -rf -- "$workspace"' EXIT
 mkdir "$workspace/bin"
