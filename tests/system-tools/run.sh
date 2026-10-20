@@ -8,6 +8,7 @@ export OV_PATHS="$repo/recipes-apps/ov-data-storage/files/paths.sh"
 bash "$repo/tests/system-tools/settings-common.sh"
 bash "$repo/tests/system-tools/system-info.sh"
 bash "$repo/tests/system-tools/seeding.sh"
+bash "$repo/tests/system-tools/persistence.sh"
 workspace=$(mktemp -d /tmp/ov-system-tools-test.XXXXXX)
 trap 'rm -rf -- "$workspace"' EXIT
 mkdir "$workspace/bin"
@@ -22,6 +23,7 @@ export OV_UDEVADM="$workspace/bin/udevadm"
 export OV_TS_CALIBRATE="$workspace/bin/ts_calibrate"
 export OV_PIDOF="$workspace/bin/pidof"
 export OV_SYSTEMD_CAT="$workspace/bin/systemd-cat"
+export OV_MOUNTPOINT=/bin/true
 export OV_TERMINATE_GRACE_SECONDS=1
 
 new_case() {
@@ -44,6 +46,12 @@ calibrate() {
 	sh "$repo/recipes-apps/ov-system-tools/files/touchscreen-calibration" \
 		> "$CASE_DIRECTORY/output" 2>&1
 }
+
+new_case
+if OV_MOUNTPOINT=/bin/false calibrate; then exit 1; fi
+grep -q 'Persistent data is unavailable' "$CASE_DIRECTORY/output"
+grep -q '^original calibration$' "$POINTERCAL_FILE"
+grep -q '^active$' "$CASE_DIRECTORY/service"
 
 new_case
 calibrate
