@@ -77,6 +77,7 @@ printf '%s\n' 'Native persistence: mount failures, retained state, seeding and t
 
 export SETTINGS_COMMON="$settings/settings-common.sh"
 export BOOT_CONFIG_CMD="$settings/boot-config.sh" BOOT_CONFIG_FILE="$workspace/config.uEnv"
+export BOOT_CONFIG_LOCK="$workspace/boot-config.lock"
 export BRIGHTNESS_SYSFS_FILE="$workspace/brightness" ROTATION_SYSFS_FILE="$workspace/rotation"
 export ROTATION_ALL_SYSFS_FILE="$workspace/rotation" VTCONSOLE_PATH="$workspace/vtconsole"
 export SYNC_DISPLAY_CONFIG="$settings/sync-display-config.sh"
@@ -97,6 +98,8 @@ grep -q '^brightness=42$' "$BOOT_CONFIG_FILE"
 grep -q '^other=retained$' "$BOOT_CONFIG_FILE"
 inode=$(stat -c %i "$BOOT_CONFIG_FILE")
 sh "$SYNC_DISPLAY_CONFIG"
+test "$(stat -c %i "$BOOT_CONFIG_FILE")" = "$inode"
+if BOOT_CONFIG_LOCK="$workspace/absent/lock" sh "$BOOT_CONFIG_CMD" project; then exit 1; fi
 test "$(stat -c %i "$BOOT_CONFIG_FILE")" = "$inode"
 
 printf '1\n' > "$VTCONSOLE_PATH/vtcon1/bind"
