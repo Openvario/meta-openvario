@@ -18,7 +18,16 @@ do_deploy:append () {
         echo "# Enable 57 LVDS" >> $CONFIG
         echo "dtoverlay=ov-cm4-ch57" >> $CONFIG
     fi
-
+    
+     # Openvario 70 LVDS
+    if [ "${MACHINE}" = "ov-cm4-ch70" ]; then
+        # Use the machine specific device tree overlay
+        echo "# Enable 70 LVDS" >> $CONFIG
+        echo "dtoverlay=ov-cm4-ch70" >> $CONFIG
+   		echo "dtoverlay=ads7846,cs=0,penirq=24,penirq_pull=2,speed=50000,keep_vref_on=1,invy=1,swapxy=0,pmin=7,pmax=255,xohms=120" >> $CONFIG
+        echo "dtparam=xmin=200,xmax=3900,ymin=200,ymax=3900" >> $CONFIG
+        echo "dtparam=ant2" >> $CONFIG
+    fi
     # Openvario 7 PQ070
     if [ "${MACHINE}" = "ov-cm4-pq70" ]; then
         # Use the machine specific device tree overlay
