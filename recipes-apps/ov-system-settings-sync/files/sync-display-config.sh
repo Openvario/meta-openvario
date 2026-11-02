@@ -3,6 +3,7 @@
 BOOT_CONFIG=${BOOT_CONFIG:-/boot/config.uEnv}
 BRIGHTNESS_PATH=${BRIGHTNESS_PATH:-/sys/class/backlight/lcd/brightness}
 ROTATE_PATH=${ROTATE_PATH:-/sys/class/graphics/fbcon/rotate}
+VTCONSOLE_PATH=${VTCONSOLE_PATH:-/sys/class/vtconsole}
 
 read_unsigned_file() {
   [ -r "$1" ] || return 1
@@ -17,13 +18,28 @@ read_unsigned_file() {
   printf '%s\n' "$value"
 }
 
+framebuffer_bound() {
+  for console in "$VTCONSOLE_PATH"/vtcon*; do
+    [ -r "$console/name" ] && [ -r "$console/bind" ] || continue
+    case "$(cat "$console/name")" in
+      *'frame buffer device'*)
+        [ "$(cat "$console/bind")" = 1 ] && return 0
+        ;;
+    esac
+  done
+  return 1
+}
+
 brightness=$(read_unsigned_file "$BRIGHTNESS_PATH" 2>/dev/null || true)
-# rotate_all is write-only; rotate reports the active console's state.
-rotation=$(read_unsigned_file "$ROTATE_PATH" 2>/dev/null || true)
-case "$rotation" in
-  0|1|2|3) ;;
-  *) rotation= ;;
-esac
+# An unbound fbcon can report zero instead of the configured rotation.
+rotation=
+if framebuffer_bound; then
+  rotation=$(read_unsigned_file "$ROTATE_PATH" 2>/dev/null || true)
+  case "$rotation" in
+    0|1|2|3) ;;
+    *) rotation= ;;
+  esac
+fi
 
 [ -n "$brightness" ] || [ -n "$rotation" ] || exit 0
 
@@ -61,5 +77,4 @@ tmp=$(mktemp "${BOOT_CONFIG}.tmp.XXXXXX") || exit 1
 trap 'rm -f "$tmp"' 0 HUP INT TERM
 render_config > "$tmp" || exit 1
 
-printf '%s\n' 'Saving display settings...'
 mv "$tmp" "$BOOT_CONFIG"

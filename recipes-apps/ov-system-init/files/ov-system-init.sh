@@ -115,6 +115,9 @@ if ! mountpoint -q "$DATADIR"; then
 	fi
 fi
 
+# Personal tool discovery requires a safe parent directory.
+chmod 0755 "$DATADIR" || storage_failed "Cannot set data directory permissions"
+
 # Prepare application data directories after storage recovery.
 mkdir -p "$DATADIR/OpenSoarData" "$DATADIR/XCSoarData" ||
     storage_failed "Cannot initialize application data directories"

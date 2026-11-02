@@ -4,7 +4,8 @@ Description=OVMenu Next-Generation
 # No getty on tty1
 Conflicts=getty@tty1.service
 
-Wants=systemd-vconsole-setup.service ov-system-init.service
+Requires=ov-system-init.service
+Wants=systemd-vconsole-setup.service
 After=systemd-vconsole-setup.service ov-system-init.service
 
 # Wait for psplash so the stop command below doesn't race it.
@@ -36,16 +37,22 @@ After=boot.automount
 
 [Service]
 ExecStartPre=-/usr/bin/psplash-message "Starting application..."
-# Stop psplash before starting the menu.
+# Stop psplash before starting the application.
 ExecStartPre=-/bin/systemctl stop psplash-start
 # Ensure ovmenu-ng starts on the dedicated local console.
 ExecStartPre=-/usr/bin/chvt 1
+ExecStartPre=/usr/libexec/openvario/xcsoar-exclusive-handoff prepare /run/xcsoar-exclusive-handoff
 ExecStart=/usr/bin/ovmenu-ng.sh
-Type=idle
+Type=simple
 Restart=always
 RestartSec=0
 
+RuntimeDirectory=xcsoar-exclusive-handoff
+RuntimeDirectoryMode=0700
+RuntimeDirectoryPreserve=restart
+
 Environment=HOME=/home/root
+Environment=XCSOAR_EXCLUSIVE_HANDOFF_DIR=/run/xcsoar-exclusive-handoff
 
 TTYPath=/dev/tty1
 TTYReset=yes
