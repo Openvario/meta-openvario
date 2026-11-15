@@ -1,8 +1,8 @@
 #!/bin/sh
 
-BOOT_CONFIG=${BOOT_CONFIG:-/boot/config.uEnv}
-BRIGHTNESS_PATH=${BRIGHTNESS_PATH:-/sys/class/backlight/lcd/brightness}
-ROTATE_PATH=${ROTATE_PATH:-/sys/class/graphics/fbcon/rotate}
+BOOT_CONFIG_FILE=${BOOT_CONFIG_FILE:-/boot/config.uEnv}
+BRIGHTNESS_SYSFS_FILE=${BRIGHTNESS_SYSFS_FILE:-/sys/class/backlight/lcd/brightness}
+ROTATION_SYSFS_FILE=${ROTATION_SYSFS_FILE:-/sys/class/graphics/fbcon/rotate}
 VTCONSOLE_PATH=${VTCONSOLE_PATH:-/sys/class/vtconsole}
 
 read_unsigned_file() {
@@ -30,11 +30,11 @@ framebuffer_bound() {
   return 1
 }
 
-brightness=$(read_unsigned_file "$BRIGHTNESS_PATH" 2>/dev/null || true)
+brightness=$(read_unsigned_file "$BRIGHTNESS_SYSFS_FILE" 2>/dev/null || true)
 # An unbound fbcon can report zero instead of the configured rotation.
 rotation=
 if framebuffer_bound; then
-  rotation=$(read_unsigned_file "$ROTATE_PATH" 2>/dev/null || true)
+  rotation=$(read_unsigned_file "$ROTATION_SYSFS_FILE" 2>/dev/null || true)
   case "$rotation" in
     0|1|2|3) ;;
     *) rotation= ;;
@@ -44,7 +44,7 @@ fi
 [ -n "$brightness" ] || [ -n "$rotation" ] || exit 0
 
 input=/dev/null
-[ -f "$BOOT_CONFIG" ] && input=$BOOT_CONFIG
+[ -f "$BOOT_CONFIG_FILE" ] && input=$BOOT_CONFIG_FILE
 
 render_config() {
 awk -F= -v brightness="$brightness" -v rotation="$rotation" '
@@ -69,12 +69,12 @@ awk -F= -v brightness="$brightness" -v rotation="$rotation" '
 }
 
 # Compare before creating a temporary file on the boot partition.
-if [ -f "$BOOT_CONFIG" ] && render_config | cmp -s "$BOOT_CONFIG" -; then
+if [ -f "$BOOT_CONFIG_FILE" ] && render_config | cmp -s "$BOOT_CONFIG_FILE" -; then
   exit 0
 fi
 
-tmp=$(mktemp "${BOOT_CONFIG}.tmp.XXXXXX") || exit 1
+tmp=$(mktemp "${BOOT_CONFIG_FILE}.tmp.XXXXXX") || exit 1
 trap 'rm -f "$tmp"' 0 HUP INT TERM
 render_config > "$tmp" || exit 1
 
-mv "$tmp" "$BOOT_CONFIG"
+mv "$tmp" "$BOOT_CONFIG_FILE"

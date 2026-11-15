@@ -1,6 +1,7 @@
 [Unit]
 Description=OpenVario System Initialization
-After=local-fs.target boot.automount psplash-start.service
+Requires=ov-data-storage.service
+After=ov-data-storage.service boot.automount psplash-start.service
 Wants=boot.automount
 
 [Service]
