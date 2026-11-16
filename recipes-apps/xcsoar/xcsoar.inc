@@ -34,6 +34,7 @@ DEPENDS = "	\
 
 RDEPENDS:${PN} = "\
         ttf-dejavu-sans-condensed \
+        ttf-dejavu-sans-mono \
 "
 
 S = "${WORKDIR}/git"
