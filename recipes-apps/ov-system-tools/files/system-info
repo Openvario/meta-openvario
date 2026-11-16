@@ -1,0 +1,56 @@
+#!/bin/sh
+# SPDX-License-Identifier: MIT
+
+binary_package_version() {
+	opkg search "$1" 2>/dev/null |
+		awk '$2 == "-" { printf "%s: %s\n", $1, $3 }'
+}
+
+service_policy() {
+	if systemctl --quiet is-enabled "$1" 2>/dev/null; then
+		printf '%s\n' enabled
+	else
+		printf '%s\n' disabled
+	fi
+}
+
+interface_address() {
+	ip -o -4 address show dev "$1" 2>/dev/null |
+		awk 'NR == 1 { sub(/\/.*/, "", $4); print $4 }'
+}
+
+interface_mac() {
+	if [ -r "/sys/class/net/$1/address" ]; then
+		tr -d '\n' < "/sys/class/net/$1/address"
+	fi
+}
+
+os_version=unknown
+if [ -r /etc/os-release ]; then
+	os_version=$(sed -n 's/^VERSION_ID=//p' /etc/os-release | tr -d '"')
+	[ -n "$os_version" ] || os_version=unknown
+fi
+
+printf 'Image: %s\n' "$os_version"
+printf 'Kernel: %s\n' "$(uname -r)"
+printf 'Hostname: %s\n' "$(cat /proc/sys/kernel/hostname)"
+
+for binary in /usr/bin/OpenSoar /usr/bin/xcsoar /opt/bin/sensord /opt/bin/variod; do
+	binary_package_version "$binary"
+done
+
+for package in xcsoar-menu 'xcsoar-maps-*'; do
+	opkg list-installed "$package" 2>/dev/null |
+		awk '$2 == "-" { printf "%s: %s\n", $1, $3 }'
+done
+
+for interface in eth0 wlan0; do
+	address=$(interface_address "$interface")
+	mac=$(interface_mac "$interface")
+	[ -n "$address" ] && printf '%s IPv4: %s\n' "$interface" "$address"
+	[ -n "$mac" ] && printf '%s MAC: %s\n' "$interface" "$mac"
+done
+
+printf 'SSH: %s\n' "$(service_policy dropbear.socket)"
+printf 'variod: %s\n' "$(service_policy variod.service)"
+printf 'sensord: %s\n' "$(service_policy sensord.service)"

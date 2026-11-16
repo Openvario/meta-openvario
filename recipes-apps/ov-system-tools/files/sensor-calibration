@@ -1,0 +1,223 @@
+#!/bin/sh
+# SPDX-License-Identifier: MIT
+
+SYSTEMCTL=${OV_SYSTEMCTL:-/bin/systemctl}
+SYSTEMD_CAT=${OV_SYSTEMD_CAT:-/usr/bin/systemd-cat}
+SENSORCAL=${OV_SENSORCAL:-/opt/bin/sensorcal}
+HARDWARE_PROBE=${OV_HARDWARE_PROBE:-/usr/bin/sensord-hw-present.sh}
+RUNTIME_DIRECTORY=${OV_RUNTIME_DIRECTORY:-/run}
+TERMINATE_GRACE_SECONDS=3
+
+case ${1:-} in
+	'')
+		sensorcal_option=-c
+		action='Sensor calibration'
+		;;
+	--initialize)
+		sensorcal_option=-i
+		action='Sensor board initialization'
+		;;
+	*)
+		printf '%s\n' 'Usage: sensor-calibration [--initialize]' >&2
+		exit 2
+		;;
+esac
+[ "$#" -le 1 ] || exit 2
+
+diagnostic_log=
+calibration_pid=
+services_restored=false
+variod_was_active=false
+sensord_was_active=false
+socket_was_active=false
+socket_mask_created=false
+active_instances=
+
+unit_exists() {
+	load_state=$($SYSTEMCTL show --property=LoadState --value "$1" 2>/dev/null) ||
+		return 1
+	[ "$load_state" != "not-found" ]
+}
+
+unit_is_active() {
+	$SYSTEMCTL --quiet is-active "$1" 2>/dev/null
+}
+
+record_active_services() {
+	unit_is_active variod.service && variod_was_active=true
+	unit_is_active sensord.service && sensord_was_active=true
+	unit_is_active sensord.socket && socket_was_active=true
+
+	active_instances=$($SYSTEMCTL list-units \
+		--type=service --state=active --plain --no-legend \
+		'sensord@*.service' 2>>"$diagnostic_log" |
+		awk '{ print $1 }')
+}
+
+stop_services() {
+	if $variod_was_active; then
+		$SYSTEMCTL stop variod.service >>"$diagnostic_log" 2>&1 || return 1
+	fi
+
+	if unit_exists sensord.socket; then
+		if $socket_was_active; then
+			$SYSTEMCTL stop sensord.socket >>"$diagnostic_log" 2>&1 || return 1
+		fi
+
+		case $($SYSTEMCTL is-enabled sensord.socket 2>/dev/null) in
+			masked|masked-runtime)
+				;;
+			*)
+				$SYSTEMCTL mask --runtime sensord.socket \
+					>>"$diagnostic_log" 2>&1 || return 1
+				socket_mask_created=true
+				;;
+		esac
+	fi
+
+	for unit in $active_instances; do
+		$SYSTEMCTL stop "$unit" >>"$diagnostic_log" 2>&1 || return 1
+	done
+
+	if $sensord_was_active; then
+		$SYSTEMCTL stop sensord.service >>"$diagnostic_log" 2>&1 || return 1
+	fi
+}
+
+restore_services() {
+	$services_restored && return 0
+	services_restored=true
+	restore_status=0
+
+	if $socket_mask_created; then
+		$SYSTEMCTL unmask --runtime sensord.socket \
+			>>"$diagnostic_log" 2>&1 || restore_status=1
+	fi
+
+	if $sensord_was_active; then
+		$SYSTEMCTL start sensord.service \
+			>>"$diagnostic_log" 2>&1 || restore_status=1
+	fi
+
+	if $socket_was_active; then
+		$SYSTEMCTL start sensord.socket \
+			>>"$diagnostic_log" 2>&1 || restore_status=1
+	fi
+
+	if $variod_was_active; then
+		$SYSTEMCTL start variod.service \
+			>>"$diagnostic_log" 2>&1 || restore_status=1
+	fi
+
+	return "$restore_status"
+}
+
+write_diagnostics() {
+	[ -n "$diagnostic_log" ] && [ -s "$diagnostic_log" ] || return 0
+	$SYSTEMD_CAT --identifier=ov-sensor-calibration \
+		< "$diagnostic_log" 2>/dev/null || true
+}
+
+remove_diagnostics() {
+	[ -n "$diagnostic_log" ] && rm -f "$diagnostic_log"
+}
+
+terminate_calibration() {
+	[ -n "$calibration_pid" ] || return 0
+
+	kill "$calibration_pid" 2>/dev/null || true
+	remaining=$TERMINATE_GRACE_SECONDS
+	while kill -0 "$calibration_pid" 2>/dev/null && [ "$remaining" -gt 0 ]; do
+		state=$(awk '{ print $3 }' "/proc/$calibration_pid/stat" 2>/dev/null || true)
+		[ "$state" = Z ] && break
+		sleep 1
+		remaining=$((remaining - 1))
+	done
+
+	kill -KILL "$calibration_pid" 2>/dev/null || true
+	wait "$calibration_pid" 2>/dev/null || true
+	calibration_pid=
+}
+
+handle_signal() {
+	signal_status=$1
+	trap - HUP INT TERM EXIT
+
+	# Finish child termination before XCSoar's ten-second cleanup deadline.
+	terminate_calibration
+
+	restore_services || true
+	write_diagnostics
+	remove_diagnostics
+	printf '%s cancelled.\n' "$action"
+	exit "$signal_status"
+}
+
+diagnostic_log=$(mktemp "$RUNTIME_DIRECTORY/ov-sensor-calibration.XXXXXX") || {
+	printf 'Could not prepare %s.\n' "$action"
+	exit 1
+}
+
+trap 'handle_signal 129' HUP
+trap 'handle_signal 130' INT
+trap 'handle_signal 143' TERM
+trap 'restore_services || true; write_diagnostics; remove_diagnostics' EXIT
+
+printf '%s\n' 'Checking the sensor board...'
+
+if [ ! -x "$SENSORCAL" ] || [ ! -x "$HARDWARE_PROBE" ]; then
+	printf '%s is not installed on this device.\n' "$action"
+	exit 1
+fi
+
+if ! "$HARDWARE_PROBE" >>"$diagnostic_log" 2>&1; then
+	printf '%s\n' 'No OpenVario sensor board was detected.'
+	exit 1
+fi
+
+record_active_services
+
+printf '%s\n' 'Stopping sensor services...'
+if ! stop_services; then
+	printf '%s\n' 'Could not stop the sensor services.'
+	exit 1
+fi
+
+if [ "$sensorcal_option" = -i ]; then
+	printf '%s\n' 'Resetting and initializing the sensor board. Do not interrupt power.'
+else
+	printf '%s\n' 'Calibrating sensors. Keep the device still and prevent airflow at the pressure ports.'
+fi
+"$SENSORCAL" "$sensorcal_option" >>"$diagnostic_log" 2>&1 &
+calibration_pid=$!
+wait "$calibration_pid"
+calibration_status=$?
+calibration_pid=
+
+if ! restore_services; then
+	printf '%s finished, but the sensor services could not be restored.\n' "$action"
+	exit 1
+fi
+
+case $calibration_status in
+	0)
+		if [ "$sensorcal_option" = -i ]; then
+			printf '%s\n' 'Initialization command finished. Run Sensor calibration to check the board.'
+		else
+			printf '%s\n' 'Calibration command finished. Check sensor operation before use.'
+		fi
+		# Legacy sensorcal may return zero after failed measurements or writes.
+		printf '%s\n' 'The installed sensor utility cannot reliably confirm that settings were saved.'
+		;;
+	2)
+		printf '%s\n' 'Could not validate sensor-board data. See the journal.' \
+			'Reset / initialize sensor board erases the serial number and calibration; use it only if a reset is intended.'
+		exit 1
+		;;
+	*)
+		printf '%s failed. See the system journal for diagnostics.\n' "$action"
+		exit 1
+		;;
+esac
+
+exit 0

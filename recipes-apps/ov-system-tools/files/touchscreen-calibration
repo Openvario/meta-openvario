@@ -1,0 +1,305 @@
+#!/bin/sh
+# SPDX-License-Identifier: MIT
+
+SYSTEMCTL=${OV_SYSTEMCTL:-/bin/systemctl}
+SYSTEMD_CAT=${OV_SYSTEMD_CAT:-/usr/bin/systemd-cat}
+UDEVADM=${OV_UDEVADM:-/bin/udevadm}
+TS_CALIBRATE=${OV_TS_CALIBRATE:-/usr/bin/ts_calibrate}
+PIDOF=${OV_PIDOF:-/bin/pidof}
+TOUCH_DEVICE=${OV_TOUCH_DEVICE:-/dev/input/touchscreen0}
+ROTATE_PATH=${OV_ROTATE_PATH:-/sys/class/graphics/fbcon/rotate}
+POINTERCAL_PATH=${OV_POINTERCAL_PATH:-/etc/pointercal}
+LIBINPUT_RULE_PATH=${OV_LIBINPUT_RULE_PATH:-/etc/udev/rules.d/libinput-ts.rules}
+RUNTIME_DIRECTORY=${OV_RUNTIME_DIRECTORY:-/run}
+CALIBRATION_TIMEOUT_SECONDS=${OV_CALIBRATION_TIMEOUT_SECONDS:-120}
+TERMINATE_GRACE_SECONDS=${OV_TERMINATE_GRACE_SECONDS:-5}
+
+work_directory=
+diagnostic_log=
+calibration_pid=
+timeout_pid=
+calibration_timed_out=false
+input_was_active=false
+input_state_recorded=false
+input_restored=false
+rollback_needed=false
+
+is_positive_integer() {
+	case $1 in
+		''|*[!0-9]*|0) return 1 ;;
+		*) return 0 ;;
+	esac
+}
+
+stop_timeout() {
+	[ -n "$timeout_pid" ] || return 0
+	kill "$timeout_pid" 2>/dev/null || true
+	wait "$timeout_pid" 2>/dev/null || true
+	timeout_pid=
+}
+
+terminate_calibration() {
+	[ -n "$calibration_pid" ] || return 0
+
+	kill "$calibration_pid" 2>/dev/null || true
+	remaining=$TERMINATE_GRACE_SECONDS
+	while kill -0 "$calibration_pid" 2>/dev/null && [ "$remaining" -gt 0 ]; do
+		state=$(awk '{ print $3 }' "/proc/$calibration_pid/stat" 2>/dev/null || true)
+		[ "$state" = Z ] && break
+		sleep 1
+		remaining=$((remaining - 1))
+	done
+
+	if kill -0 "$calibration_pid" 2>/dev/null; then
+		kill -KILL "$calibration_pid" 2>/dev/null || true
+	fi
+	wait "$calibration_pid" 2>/dev/null || true
+	calibration_pid=
+}
+
+handle_timeout() {
+	calibration_timed_out=true
+	terminate_calibration
+}
+
+unit_is_active() {
+	"$SYSTEMCTL" --quiet is-active ts_uinput.service 2>/dev/null
+}
+
+write_diagnostics() {
+	[ -n "$diagnostic_log" ] && [ -s "$diagnostic_log" ] || return 0
+	"$SYSTEMD_CAT" --identifier=ov-touchscreen-calibration \
+		< "$diagnostic_log" 2>/dev/null || true
+}
+
+atomic_copy() {
+	source=$1
+	destination=$2
+	destination_directory=$(dirname "$destination")
+
+	mkdir -p "$destination_directory" || return 1
+	temporary=$(mktemp "${destination}.tmp.XXXXXX") || return 1
+	if ! cp "$source" "$temporary" ||
+	   ! chmod 0644 "$temporary" ||
+	   ! mv "$temporary" "$destination"; then
+		rm -f "$temporary"
+		return 1
+	fi
+}
+
+back_up_file() {
+	path=$1
+	name=$2
+
+	if [ -e "$path" ]; then
+		cp -p "$path" "$work_directory/$name.backup" || return 1
+		: > "$work_directory/$name.existed"
+	fi
+}
+
+restore_file() {
+	path=$1
+	name=$2
+
+	if [ -e "$work_directory/$name.existed" ]; then
+		atomic_copy "$work_directory/$name.backup" "$path"
+	else
+		rm -f "$path"
+	fi
+}
+
+reload_input_rules() {
+	"$UDEVADM" control --reload >>"$diagnostic_log" 2>&1 &&
+		"$UDEVADM" trigger >>"$diagnostic_log" 2>&1 &&
+		"$UDEVADM" settle >>"$diagnostic_log" 2>&1
+}
+
+roll_back_files() {
+	$rollback_needed || return 0
+
+	rollback_status=0
+	restore_file "$POINTERCAL_PATH" pointercal || rollback_status=1
+	restore_file "$LIBINPUT_RULE_PATH" libinput-rule || rollback_status=1
+	reload_input_rules || rollback_status=1
+	rollback_needed=false
+	return "$rollback_status"
+}
+
+restore_input_service() {
+	$input_restored && return 0
+	input_restored=true
+	$input_state_recorded || return 0
+
+	if $input_was_active; then
+		"$SYSTEMCTL" start ts_uinput.service >>"$diagnostic_log" 2>&1
+	else
+		# Undo activation by udev.
+		"$SYSTEMCTL" stop ts_uinput.service >>"$diagnostic_log" 2>&1
+	fi
+}
+
+cleanup() {
+	status=$?
+	keep_recovery_files=false
+	trap - HUP INT TERM USR1 EXIT
+	stop_timeout
+	terminate_calibration
+
+	if ! roll_back_files; then
+		printf '%s\n' 'The previous touchscreen calibration could not be fully restored.'
+		printf 'Recovery files: %s (lost on reboot).\n' "$work_directory"
+		status=1
+		keep_recovery_files=true
+	fi
+
+	if ! restore_input_service; then
+		printf '%s\n' 'The touchscreen input service could not be restored.'
+		status=1
+	fi
+
+	write_diagnostics
+	if ! $keep_recovery_files && [ -n "$work_directory" ]; then
+		rm -rf "$work_directory"
+	fi
+	exit "$status"
+}
+
+handle_signal() {
+	signal_status=$1
+	stop_timeout
+	terminate_calibration
+	printf '%s\n' 'Touchscreen calibration cancelled.'
+	exit "$signal_status"
+}
+
+trap 'handle_signal 129' HUP
+trap 'handle_signal 130' INT
+trap 'handle_signal 143' TERM
+trap handle_timeout USR1
+trap cleanup EXIT
+
+printf '%s\n' 'Checking touchscreen calibration requirements...'
+
+if [ -x "$PIDOF" ] && "$PIDOF" xcsoar >/dev/null 2>&1; then
+	printf '%s\n' 'Exit XCSoar before calibrating the touchscreen.'
+	exit 1
+fi
+
+if [ ! -e "$TOUCH_DEVICE" ]; then
+	printf '%s\n' 'No touchscreen was detected.'
+	exit 1
+fi
+
+if [ ! -x "$TS_CALIBRATE" ] || [ ! -x "$UDEVADM" ]; then
+	printf '%s\n' 'Touchscreen calibration is not installed on this device.'
+	exit 1
+fi
+
+if ! is_positive_integer "$CALIBRATION_TIMEOUT_SECONDS" ||
+   ! is_positive_integer "$TERMINATE_GRACE_SECONDS"; then
+	printf '%s\n' 'The touchscreen calibration timeout is invalid.'
+	exit 1
+fi
+
+rotation=$(tr -d '[:space:]' < "$ROTATE_PATH" 2>/dev/null || true)
+case $rotation in
+	0) rotation_matrix='1 0 0 0 1 0' ;;
+	1) rotation_matrix='0 1 0 -1 0 1' ;;
+	2) rotation_matrix='-1 0 1 0 -1 1' ;;
+	3) rotation_matrix='0 -1 1 1 0 0' ;;
+	*)
+		printf '%s\n' 'The current display rotation is unavailable.'
+		exit 1
+		;;
+esac
+
+work_directory=$(mktemp -d "$RUNTIME_DIRECTORY/ov-touchscreen-calibration.XXXXXX") || {
+	printf '%s\n' 'Could not prepare touchscreen calibration.'
+	exit 1
+}
+diagnostic_log=$work_directory/diagnostics.log
+: > "$diagnostic_log"
+
+back_up_file "$POINTERCAL_PATH" pointercal || {
+	printf '%s\n' 'Could not preserve the current touchscreen calibration.'
+	exit 1
+}
+back_up_file "$LIBINPUT_RULE_PATH" libinput-rule || {
+	printf '%s\n' 'Could not preserve the current touchscreen configuration.'
+	exit 1
+}
+
+unit_is_active && input_was_active=true
+input_state_recorded=true
+if $input_was_active; then
+	printf '%s\n' 'Stopping the touchscreen input service...'
+	if ! "$SYSTEMCTL" stop ts_uinput.service >>"$diagnostic_log" 2>&1; then
+		printf '%s\n' 'Could not stop the touchscreen input service.'
+		exit 1
+	fi
+fi
+
+printf 'Touch each calibration target when it appears. Calibration stops after %s seconds.\n' \
+	"$CALIBRATION_TIMEOUT_SECONDS"
+TSLIB_TSDEVICE="$TOUCH_DEVICE" \
+TSLIB_CALIBFILE="$work_directory/pointercal" \
+	"$TS_CALIBRATE" -r "$rotation" >>"$diagnostic_log" 2>&1 &
+calibration_pid=$!
+
+parent_pid=$$
+parent_start=$(awk '{ print $22 }' "/proc/$parent_pid/stat" 2>/dev/null || true)
+(
+	watchdog_sleep_pid=
+	trap '
+		[ -n "$watchdog_sleep_pid" ] && kill "$watchdog_sleep_pid" 2>/dev/null
+		[ -n "$watchdog_sleep_pid" ] && wait "$watchdog_sleep_pid" 2>/dev/null
+		exit 0
+	' HUP INT TERM
+	sleep "$CALIBRATION_TIMEOUT_SECONDS" &
+	watchdog_sleep_pid=$!
+	wait "$watchdog_sleep_pid" || exit 0
+	watchdog_sleep_pid=
+	[ -n "$parent_start" ] || exit 0
+	current_start=$(awk '{ print $22 }' "/proc/$parent_pid/stat" 2>/dev/null || true)
+	[ "$current_start" = "$parent_start" ] || exit 0
+	kill -USR1 "$parent_pid" 2>/dev/null || true
+) &
+timeout_pid=$!
+
+wait "$calibration_pid"
+calibration_status=$?
+calibration_pid=
+stop_timeout
+
+if $calibration_timed_out; then
+	printf '%s\n' 'Touchscreen calibration timed out. The previous calibration is unchanged.'
+	exit 1
+fi
+
+if [ "$calibration_status" -ne 0 ] ||
+   [ ! -s "$work_directory/pointercal" ]; then
+	printf '%s\n' 'Touchscreen calibration failed. The previous calibration is unchanged.'
+	exit 1
+fi
+
+printf 'ENV{LIBINPUT_CALIBRATION_MATRIX}="%s"\n' "$rotation_matrix" \
+	> "$work_directory/libinput-ts.rules"
+
+rollback_needed=true
+if ! atomic_copy "$work_directory/pointercal" "$POINTERCAL_PATH" ||
+   ! atomic_copy "$work_directory/libinput-ts.rules" "$LIBINPUT_RULE_PATH" ||
+   ! reload_input_rules; then
+	printf '%s\n' 'Could not apply touchscreen calibration. Restoring the previous calibration.'
+	exit 1
+fi
+
+rollback_needed=false
+sync
+
+if ! restore_input_service; then
+	printf '%s\n' 'Calibration was saved, but the touchscreen input service could not be restarted.'
+	exit 1
+fi
+
+printf '%s\n' 'Touchscreen calibration was saved.'
+exit 0

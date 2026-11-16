@@ -6,6 +6,7 @@ IMAGE_ROOTFS_SIZE ?= "475136"
 IMAGE_INSTALL += "\
     opensoar-testing \
     xcsoar-testing \
+    xcsoar-tools-examples \
     xcsoar-menu \
     xcsoar-profiles \
     xcsoar-maps-default \

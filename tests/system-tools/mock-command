@@ -1,0 +1,63 @@
+#!/bin/sh
+# SPDX-License-Identifier: MIT
+set -eu
+
+case ${0##*/} in
+	systemctl)
+		case $1 in
+			--quiet) [ "$(cat "$CASE_DIRECTORY/service")" = active ] ;;
+			stop) printf 'inactive\n' > "$CASE_DIRECTORY/service" ;;
+			start) printf 'active\n' > "$CASE_DIRECTORY/service" ;;
+			*) exit 1 ;;
+		esac
+		;;
+	udevadm)
+		if [ "${FAIL_APPLY:-0}" = 1 ] && [ ! -e "$CASE_DIRECTORY/reload-failed" ]; then
+			touch "$CASE_DIRECTORY/reload-failed"
+			exit 1
+		fi
+		;;
+	ts_calibrate)
+		if [ "${CALIBRATION_BLOCKS:-0}" = 1 ]; then
+			printf '%s\n' "$$" > "$CASE_DIRECTORY/child-pid"
+			exec sleep 60
+		fi
+		printf 'new calibration\n' > "$TSLIB_CALIBFILE"
+		;;
+	cp)
+		case $1 in
+			*.backup) [ "${FAIL_ROLLBACK:-0}" != 1 ] || exit 1 ;;
+		esac
+		exec /bin/cp "$@"
+		;;
+	mktemp)
+		case $1 in
+			*/.result.*) [ "${FAIL_PUBLISH:-}" != create ] || exit 1 ;;
+			*/.output.*) [ "${FAIL_PUBLISH:-}" != output ] || exit 1 ;;
+		esac
+		exec /usr/bin/mktemp "$@"
+		;;
+	mv)
+		for destination do :; done
+		case $destination in
+			*/result) [ "${FAIL_PUBLISH:-}" != rename ] || exit 1 ;;
+		esac
+		exec /bin/mv "$@"
+		;;
+	touchscreen-calibration)
+		printf 'run\n' >> "$CASE_DIRECTORY/invocations"
+		if [ "${TOOL_BLOCKS:-0}" = 1 ]; then
+			printf '%s\n' "$$" > "$CASE_DIRECTORY/child-pid"
+			exec sleep 60
+		fi
+		if [ "${TOOL_LARGE_OUTPUT:-0}" = 1 ]; then
+			dd if=/dev/zero bs=9000 count=1 2>/dev/null | tr '\000' x
+		else
+			printf 'Calibration test output.\n'
+		fi
+		exit "${TOOL_STATUS:-0}"
+		;;
+	pidof) exit 1 ;;
+	systemd-cat) cat >/dev/null ;;
+	*) exit 1 ;;
+esac

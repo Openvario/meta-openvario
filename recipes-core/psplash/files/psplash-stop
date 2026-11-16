@@ -5,21 +5,18 @@ fifo=/run/psplash_fifo
 timeout_steps=10
 psplash_pid=$(systemctl show --property=MainPID --value "$unit" 2>/dev/null || true)
 
-if [ ! -e "$fifo" ]; then
+if [ ! -p "$fifo" ]; then
 	exit 0
 fi
 
-echo QUIT > "$fifo" 2>/dev/null || exit 0
+# The writer opens the FIFO nonblocking, including when its reader has exited.
+PSPLASH_FIFO_DIR=/run /usr/bin/psplash-write QUIT >/dev/null 2>&1 || exit 0
 
 case "$psplash_pid" in
 	""|0)
 		exit 0
 		;;
 esac
-
-if [ -z "$psplash_pid" ]; then
-	exit 0
-fi
 
 while kill -0 "$psplash_pid" 2>/dev/null; do
 	timeout_steps=$((timeout_steps - 1))

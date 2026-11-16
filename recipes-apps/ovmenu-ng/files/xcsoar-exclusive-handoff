@@ -1,0 +1,185 @@
+#!/bin/sh
+# SPDX-License-Identifier: GPL-3.0-only
+
+umask 077
+
+HANDOFF_DIRECTORY=${2:-${XCSOAR_EXCLUSIVE_HANDOFF_DIR:-}}
+SYSTEM_TOOL_DIRECTORY=${OV_XCSOAR_SYSTEM_TOOL_DIR:-/usr/libexec/xcsoar/system-tools}
+MAX_RESULT_SIZE=8192
+
+REQUEST=$HANDOFF_DIRECTORY/request
+IN_PROGRESS=$HANDOFF_DIRECTORY/request.in-progress
+RESULT=$HANDOFF_DIRECTORY/result
+
+output=
+helper_pid=
+tool_id=
+
+directory_is_private() {
+	[ -n "$HANDOFF_DIRECTORY" ] &&
+		[ "${HANDOFF_DIRECTORY#/}" != "$HANDOFF_DIRECTORY" ] &&
+		[ -d "$HANDOFF_DIRECTORY" ] &&
+		[ ! -L "$HANDOFF_DIRECTORY" ] &&
+		[ "$(stat -c %u "$HANDOFF_DIRECTORY" 2>/dev/null)" = "$(id -u)" ] &&
+		[ "$(stat -c %a "$HANDOFF_DIRECTORY" 2>/dev/null)" = 700 ]
+}
+
+write_result() {
+	tool_id=$1
+	tool_status=$2
+	tool_output=$3
+	result_temporary=$(mktemp "$HANDOFF_DIRECTORY/.result.XXXXXX") || return 1
+	chmod 0600 "$result_temporary" || {
+		rm -f "$result_temporary"
+		return 1
+	}
+
+	header_size=$((${#tool_id} + ${#tool_status} + 2))
+	output_size=$(wc -c < "$tool_output") || {
+		rm -f "$result_temporary"
+		return 1
+	}
+	{
+		printf '%s\n%s\n' "$tool_id" "$tool_status" &&
+		if [ "$output_size" -gt $((MAX_RESULT_SIZE - header_size)) ]; then
+			printf '%s\n' 'The system tool produced too much output.'
+		else
+			cat "$tool_output"
+		fi
+	} > "$result_temporary" || {
+		rm -f "$result_temporary"
+		return 1
+	}
+
+	if ! mv -f "$result_temporary" "$RESULT"; then
+		rm -f "$result_temporary"
+		return 1
+	fi
+}
+
+publish_result() {
+	if write_result "$@"; then
+		rm -f "$output"
+		output=
+	else
+		printf 'Could not publish exclusive tool result. Output retained at %s\n' \
+			"$output" >&2
+		cat "$output" >&2
+	fi
+}
+
+handle_signal() {
+	signal_status=$1
+	trap - HUP INT TERM
+
+	if [ -n "$helper_pid" ]; then
+		kill "$helper_pid" 2>/dev/null || true
+		wait "$helper_pid" 2>/dev/null || true
+		helper_pid=
+	fi
+
+	if directory_is_private; then
+		if [ -n "$output" ] && [ -n "$tool_id" ]; then
+			printf '%s\n' 'The exclusive system tool was cancelled.' >> "$output"
+			publish_result "$tool_id" failure "$output"
+		fi
+
+		rm -f "$IN_PROGRESS"
+	fi
+	exit "$signal_status"
+}
+
+prepare_handoff() {
+	directory_is_private || return 1
+	# Discard stale requests at service startup.
+	rm -f "$REQUEST" "$IN_PROGRESS" \
+		"$HANDOFF_DIRECTORY"/.result.* "$HANDOFF_DIRECTORY"/.output.*
+}
+
+consume_request() {
+	directory_is_private || return 1
+	[ -e "$REQUEST" ] || return 1
+
+	# Discard interrupted or duplicate requests.
+	if [ -e "$IN_PROGRESS" ]; then
+		rm -f "$REQUEST" "$IN_PROGRESS"
+		return 0
+	fi
+
+	if ! mv "$REQUEST" "$IN_PROGRESS"; then
+		return 0
+	fi
+
+	output=$(mktemp "$HANDOFF_DIRECTORY/.output.XXXXXX") || {
+		printf '%s\n' 'Could not prepare exclusive tool output; action was not run.' >&2
+		rm -f "$IN_PROGRESS"
+		return 0
+	}
+	chmod 0600 "$output"
+
+	if [ ! -f "$IN_PROGRESS" ] || [ -L "$IN_PROGRESS" ]; then
+		printf '%s\n' 'The exclusive system-tool request was invalid.' > "$output"
+		publish_result invalid-request failure "$output"
+		rm -f "$IN_PROGRESS"
+		return 0
+	fi
+
+	IFS= read -r tool_id < "$IN_PROGRESS" || tool_id=
+	request_size=$(wc -c < "$IN_PROGRESS")
+	if [ -z "$tool_id" ] ||
+	   [ "$request_size" -ne $((${#tool_id} + 1)) ]; then
+		printf '%s\n' 'The exclusive system-tool request was invalid.' > "$output"
+		publish_result invalid-request failure "$output"
+		rm -f "$IN_PROGRESS"
+		return 0
+	fi
+
+	case $tool_id in
+		touchscreen-calibration)
+			helper=$SYSTEM_TOOL_DIRECTORY/touchscreen-calibration
+			;;
+		*)
+			printf 'Unknown exclusive system tool: %s\n' "$tool_id" > "$output"
+			publish_result "$tool_id" failure "$output"
+			rm -f "$IN_PROGRESS"
+			return 0
+			;;
+	esac
+
+	# Consume before execution so a restart cannot repeat the action.
+	rm -f "$IN_PROGRESS"
+
+	if [ ! -f "$helper" ] || [ -L "$helper" ] || [ ! -x "$helper" ]; then
+		printf '%s\n' 'The requested system tool is not installed.' > "$output"
+		tool_status=failure
+	else
+		"$helper" </dev/null > "$output" 2>&1 &
+		helper_pid=$!
+		if wait "$helper_pid"; then
+			tool_status=success
+		else
+			tool_status=failure
+		fi
+		helper_pid=
+	fi
+
+	publish_result "$tool_id" "$tool_status" "$output"
+	return 0
+}
+
+trap 'handle_signal 129' HUP
+trap 'handle_signal 130' INT
+trap 'handle_signal 143' TERM
+
+case ${1:-} in
+	prepare)
+		prepare_handoff
+		;;
+	run)
+		consume_request
+		;;
+	*)
+		echo "Usage: $0 {prepare|run} HANDOFF_DIRECTORY" >&2
+		exit 2
+		;;
+esac

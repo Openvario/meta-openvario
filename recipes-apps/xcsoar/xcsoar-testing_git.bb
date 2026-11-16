@@ -12,10 +12,6 @@ SRC_URI = "git://github.com/XCSoar/XCSoar.git;protocol=https;branch=master \
 
 inherit systemd
 
-# XCSoar master requires Boost 1.92:
-BOOST_VERSION = "1.92.0"
-BOOST_SHA256HASH = "5c1d40cb8e19adbf740a4ec2da35b3e58f3f5804b1dce44deb53df72193cbc6c"
-
 require xcsoar.inc
 
 PACKAGES += "ovmenu-x"

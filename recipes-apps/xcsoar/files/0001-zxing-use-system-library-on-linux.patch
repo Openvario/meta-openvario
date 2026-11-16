@@ -1,0 +1,18 @@
+From: OpenVario developers <info@openvario.org>
+Subject: [PATCH] build/zxing: use the system library on Linux
+
+Use pkg-config to find the ZXing library supplied by the Yocto sysroot
+instead of downloading and building another copy during do_compile.
+
+Upstream-Status: Inappropriate [OpenVario uses Yocto-provided libraries]
+
+diff --git a/build/zxing.mk b/build/zxing.mk
+--- a/build/zxing.mk
++++ b/build/zxing.mk
+@@ -16,5 +16,5 @@ ifeq ($(ZXING),y)
+ TARGET_CPPFLAGS += -DHAVE_ZXING
+
+-ifeq ($(USE_THIRDPARTY_LIBS),y)
++ifneq ($(filter y,$(USE_THIRDPARTY_LIBS) $(TARGET_IS_LINUX)),)
+
+ $(eval $(call pkg-config-library,ZXING,zxing))

@@ -1,17 +1,16 @@
 #!/bin/bash
 # ovmenu-ng.sh - OpenVario application launcher dispatcher
 #
-# Thin entry point that loads config, sets up shared state, then
-# sources the appropriate app-specific menu script.
+# Loads config and prepares shared state, then starts the selected application.
+# OpenSoar retains its compatibility menu.
 
-DEBUG_STOP=No
 APP_TTY_STATE=
 
 INPUT=/tmp/menu.sh.$$
 
 cd "$HOME"
 
-trap "restore_app_tty; rm -f $INPUT /tmp/tail.$$; exit" SIGHUP SIGINT SIGTERM
+trap "restore_app_tty; rm -f $INPUT; exit" SIGHUP SIGINT SIGTERM
 
 # Load boot config for main_app selection
 source /boot/config.uEnv
@@ -32,14 +31,8 @@ function error_stop() {
   read -p "Press enter to continue"
 }
 
-function debug_stop() {
-    if [ "$DEBUG_STOP" = "Yes" ]; then
-      echo "Debug-Stop: $1"
-      read -p "Press enter to continue"
-    fi
-}
-
 function do_shell() {
+    printf '\033[?25h'
     clear
     cd
 
@@ -54,7 +47,44 @@ function do_shell() {
     fi
 }
 
-function start_app() {
+function copy_xcsoar_defaults() {
+    local defaults="$1" datadir="$2"
+    local mapping extension subdir file basename
+
+    rsync -a --ignore-existing --exclude='/*.prf' --exclude='/*.xcm' \
+        --exclude='/*.xci' "$defaults/" "$datadir/" || return 1
+
+    for mapping in prf:profiles xcm:maps xci:input; do
+        extension=${mapping%%:*}
+        subdir=${mapping#*:}
+        for file in "$defaults/"*."$extension"; do
+            [ -f "$file" ] || continue
+            basename=${file##*/}
+            # Let XCSoar migrate existing root files instead of blocking them.
+            if [ -e "$datadir/$basename" ] || [ -L "$datadir/$basename" ]; then
+                continue
+            fi
+            mkdir -p "$datadir/$subdir" && \
+                rsync -a --ignore-existing "$file" "$datadir/$subdir/" || return 1
+        done
+    done
+    return 0
+}
+
+# Seed partition 3 without replacing user files; retain defaults on failure.
+function seed_xcsoar_data() {
+    local datadir="$HOME/data/XCSoarData"
+    if [ -d "$datadir" ] && [ -d "$HOME/.xcsoar" ]; then
+        if copy_xcsoar_defaults "$HOME/.xcsoar" "$datadir" && sync; then
+            rm -rf "$HOME/.xcsoar"
+            sync
+        else
+            echo "XCSoar defaults could not be saved; retaining source for retry." >&2
+        fi
+    fi
+}
+
+function start_app_once() {
     case "$main_app" in
         "OpenSoar")
             /usr/bin/OpenSoar -fly -datapath=data/OpenSoarData
@@ -66,9 +96,8 @@ function start_app() {
             if [ -n "$APP_TTY_STATE" ]; then
                 stty -echo -echonl 2>/dev/null || true
             fi
-            # Blank the underlying console before graphics mode starts,
-            # so releasing it cannot briefly reveal the previous dialog.
-            clear
+            # Clear tty1 before graphics mode so Quit cannot reveal an old dialog.
+            printf '\033[2J\033[H'
             /usr/bin/xcsoar -fly -touchscreen -datapath=data/XCSoarData
             ;;
         *)
@@ -79,10 +108,28 @@ function start_app() {
 
     local rc=$?
     case "$main_app" in
-        "xcsoar"|"XCSoar") clear; restore_app_tty ;;
+        "xcsoar"|"XCSoar") restore_app_tty ;;
     esac
     /usr/bin/sync-display-config.sh 2>/dev/null || true
     return "$rc"
+}
+
+function start_app() {
+    while true; do
+        start_app_once
+        local rc=$?
+
+        # Restart only after consuming an exclusive XCSoar request.
+        case "$main_app" in
+            "xcsoar"|"XCSoar")
+                if /usr/libexec/openvario/xcsoar-exclusive-handoff run \
+                    "$XCSOAR_EXCLUSIVE_HANDOFF_DIR"; then
+                    continue
+                fi
+                ;;
+        esac
+        return "$rc"
+    done
 }
 
 # Update variod only when the user changes the selected application.
@@ -148,7 +195,7 @@ function select_app() {
 }
 
 #==============================================================================
-# Dispatch to app-specific script
+# Start the selected application
 #==============================================================================
 
 # First-boot selector: if main_app is not set, force a choice
@@ -161,7 +208,13 @@ case "$main_app" in
         source /usr/bin/ovmenu-ng-opensoar.sh
         ;;
     "xcsoar"|"XCSoar")
-        source /usr/bin/ovmenu-ng-xcsoar.sh
+        seed_xcsoar_data
+        start_app || echo "XCSoar exited unsuccessfully; returning to application selection." >&2
+        sync
+        # Ordinary Quit returns to application selection.
+        while true; do
+            select_app
+        done
         ;;
     *)
         echo "Unknown main_app '$main_app' in /boot/config.uEnv" >&2
