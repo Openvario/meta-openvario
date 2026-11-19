@@ -13,7 +13,11 @@ python () {
         if not layerdir:
             raise RuntimeError("OPENVARIO_LAYERDIR is not set")
         
-        # Get the Git revision from the meta-openvario layer
+        # Tags are 5.<sequential>.<fix> and contain no dash: 5 is
+        # Scarthgap, the second number the release, the third the
+        # bugfix. A pre-release uses an underscore (5.0.9_PRE1).
+        # git describe is copied into IMAGE_NAME, and fw-upgrade.sh
+        # splits that name on "-CB2-".
         version = subprocess.check_output(
             ["git", "describe", "--tags", "--dirty", "--always"],
             cwd=layerdir,
