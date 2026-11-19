@@ -16,7 +16,8 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.x"
-      - run: pip install pre-commit==4.7.0
-      # shortcut: lint the diff only. Existing scripts still fail shellcheck;
-      # switch to `pre-commit run --all-files` once they are clean.
-      - run: pre-commit run --show-diff-on-failure --from-ref ${{ github.event.pull_request.base.sha }} --to-ref ${{ github.event.pull_request.head.sha }}
+      - uses: pre-commit/action@v3.0.1
+        with:
+          # shortcut: lint the diff only. Existing scripts still fail shellcheck;
+          # drop extra_args once they are clean (the action default is --all-files).
+          extra_args: --from-ref ${{ github.event.pull_request.base.sha }} --to-ref ${{ github.event.pull_request.head.sha }}
