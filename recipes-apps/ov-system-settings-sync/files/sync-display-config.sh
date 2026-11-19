@@ -1,22 +1,13 @@
 #!/bin/sh
 
-BOOT_CONFIG_FILE=${BOOT_CONFIG_FILE:-/boot/config.uEnv}
+SETTINGS_COMMON=${SETTINGS_COMMON:-/usr/libexec/openvario/settings-common.sh}
+
+# shellcheck source=/dev/null
+. "$SETTINGS_COMMON" || exit 1
+
 BRIGHTNESS_SYSFS_FILE=${BRIGHTNESS_SYSFS_FILE:-/sys/class/backlight/lcd/brightness}
 ROTATION_SYSFS_FILE=${ROTATION_SYSFS_FILE:-/sys/class/graphics/fbcon/rotate}
 VTCONSOLE_PATH=${VTCONSOLE_PATH:-/sys/class/vtconsole}
-
-read_unsigned_file() {
-  [ -r "$1" ] || return 1
-
-  value=$(tr -d '[:space:]' < "$1")
-  case "$value" in
-    ''|*[!0-9]*)
-      return 1
-      ;;
-  esac
-
-  printf '%s\n' "$value"
-}
 
 framebuffer_bound() {
   for console in "$VTCONSOLE_PATH"/vtcon*; do
@@ -30,11 +21,11 @@ framebuffer_bound() {
   return 1
 }
 
-brightness=$(read_unsigned_file "$BRIGHTNESS_SYSFS_FILE" 2>/dev/null || true)
+brightness=$(ov_read_unsigned_file "$BRIGHTNESS_SYSFS_FILE" 2>/dev/null || true)
 # An unbound fbcon can report zero instead of the configured rotation.
 rotation=
 if framebuffer_bound; then
-  rotation=$(read_unsigned_file "$ROTATION_SYSFS_FILE" 2>/dev/null || true)
+  rotation=$(ov_read_unsigned_file "$ROTATION_SYSFS_FILE" 2>/dev/null || true)
   case "$rotation" in
     0|1|2|3) ;;
     *) rotation= ;;
