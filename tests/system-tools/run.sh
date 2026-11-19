@@ -4,6 +4,7 @@
 set -eu
 
 repo=$(cd "$(dirname "$0")/../.." && pwd)
+bash "$repo/tests/system-tools/settings-common.sh"
 bash "$repo/tests/system-tools/system-info.sh"
 bash "$repo/tests/system-tools/seeding.sh"
 workspace=$(mktemp -d /tmp/ov-system-tools-test.XXXXXX)
