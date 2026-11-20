@@ -1,22 +1,13 @@
 #!/bin/sh
 
-BOOT_CONFIG=${BOOT_CONFIG:-/boot/config.uEnv}
-BRIGHTNESS_PATH=${BRIGHTNESS_PATH:-/sys/class/backlight/lcd/brightness}
-ROTATE_PATH=${ROTATE_PATH:-/sys/class/graphics/fbcon/rotate}
+SETTINGS_COMMON=${SETTINGS_COMMON:-/usr/libexec/openvario/settings-common.sh}
+
+# shellcheck source=/dev/null
+. "$SETTINGS_COMMON" || exit 1
+
+BRIGHTNESS_SYSFS_FILE=${BRIGHTNESS_SYSFS_FILE:-/sys/class/backlight/lcd/brightness}
+ROTATION_SYSFS_FILE=${ROTATION_SYSFS_FILE:-/sys/class/graphics/fbcon/rotate}
 VTCONSOLE_PATH=${VTCONSOLE_PATH:-/sys/class/vtconsole}
-
-read_unsigned_file() {
-  [ -r "$1" ] || return 1
-
-  value=$(tr -d '[:space:]' < "$1")
-  case "$value" in
-    ''|*[!0-9]*)
-      return 1
-      ;;
-  esac
-
-  printf '%s\n' "$value"
-}
 
 framebuffer_bound() {
   for console in "$VTCONSOLE_PATH"/vtcon*; do
@@ -30,51 +21,26 @@ framebuffer_bound() {
   return 1
 }
 
-brightness=$(read_unsigned_file "$BRIGHTNESS_PATH" 2>/dev/null || true)
+brightness=$(ov_read_unsigned_file "$BRIGHTNESS_SYSFS_FILE" 2>/dev/null || true)
 # An unbound fbcon can report zero instead of the configured rotation.
 rotation=
 if framebuffer_bound; then
-  rotation=$(read_unsigned_file "$ROTATE_PATH" 2>/dev/null || true)
-  case "$rotation" in
-    0|1|2|3) ;;
-    *) rotation= ;;
-  esac
+  rotation=$(ov_read_rotation_file "$ROTATION_SYSFS_FILE" 2>/dev/null || true)
 fi
 
 [ -n "$brightness" ] || [ -n "$rotation" ] || exit 0
 
-input=/dev/null
-[ -f "$BOOT_CONFIG" ] && input=$BOOT_CONFIG
+ov_require_data_mount || exit 1
 
-render_config() {
-awk -F= -v brightness="$brightness" -v rotation="$rotation" '
-  BEGIN {
-    keys[1] = "brightness"
-    keys[2] = "rotation"
-    values["brightness"] = brightness
-    values["rotation"] = rotation
-  }
-  index($0, "=") && ($1 in values) && values[$1] != "" {
-    print $1 "=" values[$1]
-    seen[$1] = 1
-    next
-  }
-  { print }
-  END {
-    for (i = 1; i <= 2; i++)
-      if (values[keys[i]] != "" && !seen[keys[i]])
-        print keys[i] "=" values[keys[i]]
-  }
-' "$input"
-}
-
-# Compare before creating a temporary file on the boot partition.
-if [ -f "$BOOT_CONFIG" ] && render_config | cmp -s "$BOOT_CONFIG" -; then
-  exit 0
+if [ -n "$brightness" ]; then
+  ov_write_state "$BRIGHTNESS_FILE" "$brightness" || exit 1
+fi
+if [ -n "$rotation" ]; then
+  ov_write_state "$ROTATION_FILE" "$rotation" || exit 1
 fi
 
-tmp=$(mktemp "${BOOT_CONFIG}.tmp.XXXXXX") || exit 1
-trap 'rm -f "$tmp"' 0 HUP INT TERM
-render_config > "$tmp" || exit 1
-
-mv "$tmp" "$BOOT_CONFIG"
+printf '%s\n' 'Saving display settings...'
+DATA_DIR="$DATA_DIR" OV_MOUNTPOINT="$MOUNTPOINT_CMD" \
+BRIGHTNESS_FILE="$BRIGHTNESS_FILE" ROTATION_FILE="$ROTATION_FILE" \
+BOOT_CONFIG_FILE="$BOOT_CONFIG_FILE" \
+SETTINGS_COMMON="$SETTINGS_COMMON" "$BOOT_CONFIG_CMD" project

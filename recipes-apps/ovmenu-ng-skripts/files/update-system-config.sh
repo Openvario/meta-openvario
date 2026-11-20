@@ -20,11 +20,13 @@ if [ -e "$HOME/recover_data/upgrade.cfg" ]; then
         variod)          d_state="$variod";;
       esac
       case $d_state in
-        enabled)  /bin/systemctl  enable --quiet --now $daemon
-                  /bin/systemctl   start --quiet --now $daemon
+        # Initialization is still running; persistent consumers wait for it.
+        # Queue their jobs rather than waiting for ourselves to finish.
+        enabled)  /bin/systemctl --no-block enable --quiet --now $daemon
+                  /bin/systemctl --no-block start --quiet --now $daemon
                   echo " [#####=====] $daemon has been enabled."
                   ;;
-        disabled) /bin/systemctl disable --quiet --now $daemon
+        disabled) /bin/systemctl --no-block disable --quiet --now $daemon
                   echo " [#####=====] $daemon has been disabled."
                   ;;
       esac
@@ -66,4 +68,3 @@ if [ -e "$HOME/recover_data/upgrade.cfg" ]; then
     # ==================== End ===============================
     mv $HOME/recover_data/upgrade.cfg $HOME/recover_data/_upgrade.cfg
 fi
-

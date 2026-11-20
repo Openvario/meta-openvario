@@ -144,6 +144,15 @@ function configure_variod_for_app() {
     esac
 }
 
+function persist_main_app() {
+    local new_app=$1
+
+    if ! /usr/bin/main-app-config.sh set "$new_app"; then
+        echo "Could not save application selection '$new_app'." >&2
+        return 1
+    fi
+}
+
 # App selector dialog - lets the user pick an app or drop to a shell.
 # If a new app is selected, persist it and re-exec the dispatcher.
 function select_app() {
@@ -158,7 +167,7 @@ function select_app() {
         if [ $? -eq 0 ]; then
             # Timeout expired — default to XCSoar
             main_app="xcsoar"
-            echo "main_app=$main_app" >> /boot/config.uEnv
+            persist_main_app "$main_app" || return
             configure_variod_for_app "$main_app"
             exec /usr/bin/ovmenu-ng.sh
         fi
@@ -182,11 +191,7 @@ function select_app() {
     esac
 
     if [ "$new_app" != "$main_app" ]; then
-        if grep -q '^main_app=' /boot/config.uEnv 2>/dev/null; then
-            sed -i "s/^main_app=.*/main_app=$new_app/" /boot/config.uEnv
-        else
-            echo "main_app=$new_app" >> /boot/config.uEnv
-        fi
+        persist_main_app "$new_app" || return
         configure_variod_for_app "$new_app"
     fi
 
