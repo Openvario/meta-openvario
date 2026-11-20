@@ -7,8 +7,12 @@ require ov-revision.inc
 
 inherit allarch systemd
 
+PACKAGES =+ "${PN}-paths"
+FILES:${PN}-paths = "${libexecdir}/openvario/paths.sh"
+
 RDEPENDS:${PN} = " \
 	bash \
+	${PN}-paths \
 	busybox \
 	e2fsprogs-mke2fs \
 	e2fsprogs-resize2fs \
@@ -36,7 +40,6 @@ do_install() {
 SYSTEMD_SERVICE:${PN} = "ov-data-storage.service"
 
 FILES:${PN} = " \
-	${libexecdir}/openvario/paths.sh \
 	${bindir}/ov-data-storage.sh \
 	${bindir}/create_datapart.sh \
 	${systemd_unitdir}/system/ov-data-storage.service \
