@@ -1,0 +1,3 @@
+# Match https://www.shellcheck.net: every severity, no optional checks.
+# SCRIPTDIR resolves `source` of a neighbor the same way the device does.
+source-path=SCRIPTDIR
