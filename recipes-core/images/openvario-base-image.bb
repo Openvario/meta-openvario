@@ -21,9 +21,10 @@ COMMON_WIFI_FIRMWARE_PACKAGES = " \
     linux-firmware-rtl8821 \
 "
 
-# Keep only the English glibc locale backend in the base image.
+# Keep only the English glibc locale backend in the base image #added German as german.mo has no effect in xcsoar without the locale.
 LOCALE_PACKAGES = " \
     locale-base-en-us \
+	locale-base-de-de \
 "
 
 IMAGE_INSTALL = " \
