@@ -1,0 +1,17 @@
+[Unit]
+Description=Watch OpenVario service enablement
+# Policy restoration runs after basic.target. Keep this watcher out of the
+# early paths.target ordering, otherwise its After= creates a boot cycle.
+DefaultDependencies=no
+Requires=restore-service-policy.service
+After=restore-service-policy.service
+Conflicts=shutdown.target
+Before=shutdown.target
+
+[Path]
+PathChanged=/etc/systemd/system/sockets.target.wants
+PathChanged=/etc/systemd/system/multi-user.target.wants
+Unit=sync-service-policy.service
+
+[Install]
+WantedBy=multi-user.target

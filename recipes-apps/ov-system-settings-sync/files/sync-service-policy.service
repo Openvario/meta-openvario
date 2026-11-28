@@ -1,0 +1,7 @@
+[Unit]
+Description=Save OpenVario service policy
+After=ov-system-init.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/service-policy.sh capture

@@ -25,9 +25,11 @@ do_compile() {
 do_install() {
 	install -d ${D}/opt/bin
 	install -d ${D}/opt/conf
+	install -d ${D}/opt/conf/default
 	install -m 0755 ${S}/sensord ${D}/opt/bin
 	install -m 0755 ${S}/sensorcal ${D}/opt/bin
 	install -m 0755 ${S}/sensord.conf ${D}/opt/conf/sensord.conf
+	install -m 0644 ${S}/sensord.conf ${D}/opt/conf/default/sensord.conf
 
 	install -d ${D}${bindir}
 	install -m 0755 ${WORKDIR}/sensord-hw-present.sh ${D}${bindir}/sensord-hw-present.sh
@@ -42,6 +44,7 @@ INHIBIT_PACKAGE_DEBUG_SPLIT = '1'
 FILES:${PN} = "\
         /opt/bin/sensord \
         /opt/bin/sensorcal \
+		/opt/conf/default/sensord.conf \
         /opt/conf/sensord.conf \
         ${bindir}/sensord-hw-present.sh \
         ${systemd_unitdir}/system/sensord.service \

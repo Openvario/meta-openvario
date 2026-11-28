@@ -1,0 +1,12 @@
+[Unit]
+Description=Prepare OpenVario data storage
+After=local-fs.target psplash-start.service
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/usr/bin/ov-data-storage.sh
+Environment=HOME=/home/root
+
+[Install]
+WantedBy=multi-user.target
